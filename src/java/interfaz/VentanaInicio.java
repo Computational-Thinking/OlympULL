@@ -64,7 +64,6 @@ public class VentanaInicio extends JFrame {
         loginPanel.add(loginButton);
         add(loginPanel);
 
-        // Realizar la consulta SQL para comprobar la existencia del usuario
         // Valores para conexión a MV remota
         String sshHost = "10.6.130.204";
         String sshUser = "usuario";
@@ -78,6 +77,7 @@ public class VentanaInicio extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 // Lógica para comprobar la existencia de un usuario
                 if (userField.getText() != null && passwordField.getText() != null) {
                     try {
@@ -115,11 +115,16 @@ public class VentanaInicio extends JFrame {
                             rs = stmt.executeQuery(sql2);
                             if (rs.next()) {
                                 System.out.println("Contraseña correcta. Iniciando sesión...");
+                                JOptionPane.showMessageDialog(null, "Contraseña correcta. Iniciando sesión...");
+                                VentanaAdministrador ventena = new VentanaAdministrador();
                             } else {
                                 System.out.println("Contraseña incorrecta. Pruebe otra vez.");
+                                JOptionPane.showMessageDialog(null, "Contraseña incorrecta. Pruebe otra vez.");
+
                             }
                         } else {
-                            System.out.println("No existe el usuario");
+                            System.out.println("No existe el usuario " + userField.getText() + ". Para darse de alta, póngase en contacto con un administrador.");
+                            JOptionPane.showMessageDialog(null, "No existe el usuario " + userField.getText() + ". Para darse de alta, póngase en contacto con un administrador.");
                         }
 
                         conn.close();
