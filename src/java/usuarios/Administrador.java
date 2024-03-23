@@ -3,7 +3,6 @@ package usuarios;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import interfaz.VentanaAdministrador;
 
 import javax.swing.*;
 import java.sql.*;

@@ -3,6 +3,7 @@ package interfaz;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import interfaz.administrador.VentanaAdministrador;
 
 import javax.swing.*;
 import java.awt.*;

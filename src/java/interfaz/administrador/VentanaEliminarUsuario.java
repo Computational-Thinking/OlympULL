@@ -1,4 +1,4 @@
-package interfaz;
+package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
 import usuarios.Administrador;
@@ -16,33 +16,33 @@ public class VentanaEliminarUsuario extends JFrame {
     JTextField userNameField;
     JTextField adminPasswordField;
     JButton deleteUserButton;
+    JPanel inputsPanel;
+    JPanel buttonPanel;
 
     public VentanaEliminarUsuario() {
         Administrador currentAdmin = new Administrador();
-        setSize(500, 250);
-        getContentPane().setLayout(new GridLayout(2, 2));
-        this.setTitle("Nuevo usuario");
+        setSize(500, 200);
+        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        this.setTitle("Eliminar usuario");
         this.setVisible(true);
 
         userNameLabel = new JLabel("Nombre de usuario");
-        adminPasswordLabel = new JLabel("Contraseña");
 
         userNameField = new JTextField();
-        adminPasswordField = new JTextField();
 
         deleteUserButton = new JButton("Eliminar usuario");
 
-        add(userNameLabel);
-        add(userNameField);
-        add(adminPasswordLabel);
-        add(adminPasswordField);
+        inputsPanel = new JPanel();
+        inputsPanel.setLayout(new GridLayout(1, 2));
+        inputsPanel.add(userNameLabel);
+        inputsPanel.add(userNameField);
+
+        add(inputsPanel);
         add(deleteUserButton);
 
         deleteUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = userNameField.getText();
-                String password = adminPasswordField.getText();
                 try {
                     int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro de que quiere eliminar al usuario " + userNameField.getText() + "?");
                     if (JOptionPane.OK_OPTION == confirm)

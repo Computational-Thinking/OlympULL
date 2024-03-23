@@ -1,4 +1,4 @@
-package interfaz;
+package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
 import usuarios.Administrador;
@@ -16,12 +16,13 @@ public class VentanaNuevoUsuario extends JFrame {
     JTextField userNameField;
     JTextField userPasswordField;
     JComboBox userTypeComboBox;
-
     JButton createUserButton;
+    JPanel inputPanel;
+
     public VentanaNuevoUsuario() {
         Administrador currentAdmin = new Administrador();
         setSize(500, 250);
-        getContentPane().setLayout(new GridLayout(2, 2));
+        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         this.setTitle("Nuevo usuario");
         this.setVisible(true);
 
@@ -36,12 +37,17 @@ public class VentanaNuevoUsuario extends JFrame {
 
         createUserButton = new JButton("Crear usuario");
 
-        add(userNameLabel);
-        add(userNameField);
-        add(userPasswordLabel);
-        add(userPasswordField);
-        add(userTypeLabel);
-        add(userTypeComboBox);
+        inputPanel = new JPanel();
+        inputPanel.setLayout(new GridLayout(3, 2));
+
+        inputPanel.add(userNameLabel);
+        inputPanel.add(userNameField);
+        inputPanel.add(userPasswordLabel);
+        inputPanel.add(userPasswordField);
+        inputPanel.add(userTypeLabel);
+        inputPanel.add(userTypeComboBox);
+
+        add(inputPanel);
         add(createUserButton);
 
         createUserButton.addActionListener(new ActionListener() {
