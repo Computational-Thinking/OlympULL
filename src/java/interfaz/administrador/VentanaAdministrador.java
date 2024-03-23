@@ -40,19 +40,34 @@ public class VentanaAdministrador extends JFrame {
         add(welcomeLabel, BorderLayout.NORTH);
         add(buttonsPanel, BorderLayout.CENTER);
 
+        createOlympiad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new VentanaNuevaOlimpiada();
+            }
+        });
+
+        createExercise.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new VentanaNuevoEjercicio();
+            }
+        });
+
         createUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaNuevoUsuario ventana = new VentanaNuevoUsuario();
+                new VentanaNuevoUsuario();
             }
         });
 
         deleteUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaEliminarUsuario ventana = new VentanaEliminarUsuario();
+                new VentanaEliminarUsuario();
             }
         });
+
         this.setVisible(true);
     }
 }

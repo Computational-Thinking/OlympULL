@@ -42,13 +42,13 @@ public class Administrador extends Usuario {
         Statement stmt = conn.createStatement();
 
         // Consulta para añadir la nueva olimpiada
-        String sql = "INSERT INTO T_OLIMPIADAS VALUES (" + title + ", " + description + ", " + year + ", " + nPluggedMentions + ", " + nPluggedTeams + "," + nUnpluggedMentions + ", " + nUnpluggedTeams + ")";
+        String sql = "INSERT INTO T_OLIMPIADAS VALUES ('" + title + "', '" + description + "', " + year + ", " + nPluggedMentions + ", " + nPluggedTeams + "," + nUnpluggedMentions + ", " + nUnpluggedTeams + ")";
         int rowsAffected = stmt.executeUpdate(sql);
 
         if (rowsAffected > 0) {
-            System.out.println("Se ha creado la olimpiada " + title + ".");
+            JOptionPane.showMessageDialog(null, "Se ha creado la olimpiada " + title + ".");
         } else {
-            System.out.println("No se ha podido crear la olimpiada " + title + ".");
+            JOptionPane.showMessageDialog(null, "ERROR. No se ha podido crear la olimpiada " + title + ".");
         }
 
         conn.close();
@@ -89,13 +89,13 @@ public class Administrador extends Usuario {
         Statement stmt = conn.createStatement();
 
         // Ejecutar consulta para añadir nuevo ejercicio
-        String sql = "INSERT INTO T_OLIMPIADAS VALUES (" + code + "," + title + ", " + category + ", " + resources + ", " + type + "," + material + "," + year + ")";
+        String sql = "INSERT INTO T_EJERCICIOS VALUES ('" + code + "', '" + title + "', '" + category + "', '" + resources + "', '" + type + "', '" + material + "'," + year + ")";
         int rowsAffected = stmt.executeUpdate(sql);
 
         if (rowsAffected > 0) {
-            System.out.println("Se ha creado el usuario.");
+            JOptionPane.showMessageDialog(null, "Se ha creado el ejercicio.");
         } else {
-            System.out.println("No se ha podido crear el usuario.");
+            JOptionPane.showMessageDialog(null, "No se ha podido crear el ejercicio.");
         }
 
         conn.close();
