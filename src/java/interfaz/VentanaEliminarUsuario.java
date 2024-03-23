@@ -8,17 +8,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Objects;
 
-public class VentanaNuevoUsuario extends JFrame {
+public class VentanaEliminarUsuario extends JFrame {
     JLabel userNameLabel;
-    JLabel userPasswordLabel;
-    JLabel userTypeLabel;
+    JLabel adminPasswordLabel;
     JTextField userNameField;
-    JTextField userPasswordField;
-    JComboBox userTypeComboBox;
+    JTextField adminPasswordField;
+    JButton deleteUserButton;
 
-    JButton createUserButton;
-    public VentanaNuevoUsuario() {
+    public VentanaEliminarUsuario() {
         Administrador currentAdmin = new Administrador();
         setSize(500, 250);
         getContentPane().setLayout(new GridLayout(2, 2));
@@ -26,32 +25,30 @@ public class VentanaNuevoUsuario extends JFrame {
         this.setVisible(true);
 
         userNameLabel = new JLabel("Nombre de usuario");
-        userPasswordLabel = new JLabel("Contraseña");
-        userTypeLabel = new JLabel("Tipo de usuario");
+        adminPasswordLabel = new JLabel("Contraseña");
 
         userNameField = new JTextField();
-        userPasswordField = new JTextField();
-        String[] userTypes = {"ADMINISTRADOR", "ORGANIZADOR", "MONITOR"};
-        userTypeComboBox = new JComboBox<>(userTypes);
+        adminPasswordField = new JTextField();
 
-        createUserButton = new JButton("Crear usuario");
+        deleteUserButton = new JButton("Eliminar usuario");
 
         add(userNameLabel);
         add(userNameField);
-        add(userPasswordLabel);
-        add(userPasswordField);
-        add(userTypeLabel);
-        add(userTypeComboBox);
-        add(createUserButton);
+        add(adminPasswordLabel);
+        add(adminPasswordField);
+        add(deleteUserButton);
 
-        createUserButton.addActionListener(new ActionListener() {
+        deleteUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = userNameField.getText();
-                String password = userPasswordField.getText();
-                String type = String.valueOf(userTypeComboBox.getSelectedItem());
+                String password = adminPasswordField.getText();
                 try {
-                    currentAdmin.createUser(name, password, type);
+                    int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro de que quiere eliminar al usuario " + userNameField.getText() + "?");
+                    if (JOptionPane.OK_OPTION == confirm)
+                        currentAdmin.deleteUser(userNameField.getText());
+                    else
+                        JOptionPane.showMessageDialog(null, "Usuario no eliminado.");
                 } catch (JSchException ex) {
                     throw new RuntimeException(ex);
                 } catch (SQLException ex) {
