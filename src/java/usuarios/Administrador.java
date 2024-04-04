@@ -8,6 +8,12 @@ import javax.swing.*;
 import java.sql.*;
 
 public class Administrador extends Usuario {
+    public Administrador(String nombre, String password) {
+        this.userName = nombre;
+        this.password = password;
+        this.userType = "admin";
+    }
+
     public void createOlympiad(String title, String description, int year, int nUnpluggedMentions, int nUnpluggedTeams, int nPluggedMentions, int nPluggedTeams) throws JSchException, SQLException {
         // Valores para conexión a MV remota
         String sshHost = "10.6.130.204";

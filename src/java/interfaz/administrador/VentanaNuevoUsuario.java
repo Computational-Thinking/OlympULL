@@ -19,8 +19,7 @@ public class VentanaNuevoUsuario extends JFrame {
     JButton createUserButton;
     JPanel inputPanel;
 
-    public VentanaNuevoUsuario() {
-        Administrador currentAdmin = new Administrador();
+    public VentanaNuevoUsuario(Administrador administrador) {
         setSize(500, 250);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         this.setTitle("Nuevo usuario");
@@ -57,7 +56,7 @@ public class VentanaNuevoUsuario extends JFrame {
                 String password = userPasswordField.getText();
                 String type = String.valueOf(userTypeComboBox.getSelectedItem());
                 try {
-                    currentAdmin.createUser(name, password, type);
+                    administrador.createUser(name, password, type);
                 } catch (JSchException ex) {
                     throw new RuntimeException(ex);
                 } catch (SQLException ex) {

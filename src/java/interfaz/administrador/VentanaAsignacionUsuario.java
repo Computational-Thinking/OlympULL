@@ -24,8 +24,7 @@ public class VentanaAsignacionUsuario extends JFrame {
     JPanel yearSelectionPanel;
     JPanel inputPanel;
 
-    VentanaAsignacionUsuario() throws JSchException, SQLException {
-        Administrador currentAdmin = new Administrador();
+    public VentanaAsignacionUsuario(Administrador administrador) {
         setSize(500, 250);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         this.setTitle("Asignar ejercicio a monitor");
@@ -55,23 +54,40 @@ public class VentanaAsignacionUsuario extends JFrame {
 
         // Conexión SSH a la MV remota
         JSch jsch = new JSch();
-        Session session = jsch.getSession(sshUser, sshHost, sshPort);
+        Session session = null;
+        try {
+            session = jsch.getSession(sshUser, sshHost, sshPort);
+        } catch (JSchException e) {
+            throw new RuntimeException(e);
+        }
         session.setPassword(sshPassword);
         session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
+        try {
+            session.connect();
+        } catch (JSchException e) {
+            throw new RuntimeException(e);
+        }
 
         // Debugger
         System.out.println("Conexión con la máquina establecida");
 
         // Abrir un túnel SSH al puerto MySQL en la máquina remota
-        session.setPortForwardingL(localPort, remoteHost, remotePort);
+        try {
+            session.setPortForwardingL(localPort, remoteHost, remotePort);
+        } catch (JSchException e) {
+            throw new RuntimeException(e);
+        }
 
         // Conexión a MySQL a través del túnel SSH
         String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
         String dbUser = "root";
         String dbPassword = "root";
         Connection conn;
-        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        try {
+            conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         // Ejecutar consulta para añadir nuevo ejercicio
         String sql = "SELECT YEAR FROM T_OLIMPIADAS";
@@ -94,7 +110,11 @@ public class VentanaAsignacionUsuario extends JFrame {
             e.printStackTrace();
         }
 
-        conn.close();
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         session.disconnect();
 
         yearSelectionPanel.add(yearLabel);

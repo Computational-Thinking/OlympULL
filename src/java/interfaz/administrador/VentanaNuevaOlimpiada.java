@@ -28,8 +28,7 @@ public class VentanaNuevaOlimpiada extends JFrame {
     JButton createOlympButton;
     JPanel inputPanel;
 
-    public VentanaNuevaOlimpiada() {
-        Administrador currentAdmin = new Administrador();
+    public VentanaNuevaOlimpiada(Administrador administrador) {
         setSize(500, 250);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         this.setTitle("Nueva olimpiada");
@@ -85,7 +84,7 @@ public class VentanaNuevaOlimpiada extends JFrame {
                 int desMentions = Integer.parseInt(olympDesMentionsField.getText());
                 int desTeams = Integer.parseInt(olympDesTeamsField.getText());
                 try {
-                    currentAdmin.createOlympiad(name, desc, year, desMentions, desTeams, enMentions, enTeams);
+                    administrador.createOlympiad(name, desc, year, desMentions, desTeams, enMentions, enTeams);
                     setVisible(false);
                     dispose();
                 } catch (JSchException ex) {

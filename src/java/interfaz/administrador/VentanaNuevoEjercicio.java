@@ -27,8 +27,7 @@ public class VentanaNuevoEjercicio extends JFrame {
     JButton createExerButton;
     JPanel inputPanel;
 
-    public VentanaNuevoEjercicio() {
-        Administrador currentAdmin = new Administrador();
+    public VentanaNuevoEjercicio(Administrador administrador) {
         setSize(500, 250);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         this.setTitle("Nuevo ejercicio olímpico");
@@ -92,7 +91,7 @@ public class VentanaNuevoEjercicio extends JFrame {
                 String material = String.valueOf(exerMaterialField.getSelectedItem());
                 int year = Integer.parseInt(exerYearField.getText());
                 try {
-                    currentAdmin.createExercise(code, name, category, resources, type, material, year);
+                    administrador.createExercise(code, name, category, resources, type, material, year);
                     setVisible(false);
                     dispose();
                 } catch (JSchException ex) {

@@ -4,6 +4,10 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import interfaz.administrador.VentanaAdministrador;
+import interfaz.administrador.VentanaMonitor;
+import usuarios.Administrador;
+import usuarios.Monitor;
+import usuarios.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +16,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.Objects;
 import javax.swing.ImageIcon;
 
 public class VentanaInicio extends JFrame {
@@ -110,21 +115,26 @@ public class VentanaInicio extends JFrame {
                         ResultSet rs = stmt.executeQuery(sql);
 
                         if (rs.next()) {
-                            System.out.println("Existe el usuario");
                             String id = rs.getString("NOMBRE_USUARIO");
-                            String sql2 = "SELECT PASSWORD FROM T_USUARIOS WHERE NOMBRE_USUARIO = " + "'" + id + "' AND PASSWORD = " + "'" + passwordField.getText() + "'";
+                            String sql2 = "SELECT * FROM T_USUARIOS WHERE NOMBRE_USUARIO = " + "'" + id + "' AND PASSWORD = " + "'" + passwordField.getText() + "'";
                             rs = stmt.executeQuery(sql2);
                             if (rs.next()) {
-                                System.out.println("Contraseña correcta. Iniciando sesión...");
                                 JOptionPane.showMessageDialog(null, "Contraseña correcta. Iniciando sesión...");
-                                VentanaAdministrador ventena = new VentanaAdministrador();
+                                if (rs.getString("TIPO_USUARIO").equals("ADMINISTRADOR")) {
+                                    Administrador usuario = new Administrador(rs.getString("NOMBRE_USUARIO"), rs.getString("PASSWORD"));
+                                    System.out.println(usuario.getUserName() + ", " + usuario.getPassword() + ", " + usuario.getUserType());
+                                    VentanaAdministrador ventana = new VentanaAdministrador(usuario);
+                                } else if (rs.getString("TIPO_USUARIO").equals("MONITOR")) {
+                                    Monitor usuario = new Monitor(rs.getString("NOMBRE_USUARIO"), rs.getString("PASSWORD"));
+                                    VentanaMonitor ventana = new VentanaMonitor(usuario);
+                                }
+                                // VentanaAdministrador ventana = new VentanaAdministrador();
                             } else {
                                 System.out.println("Contraseña incorrecta. Pruebe otra vez.");
                                 JOptionPane.showMessageDialog(null, "Contraseña incorrecta. Pruebe otra vez.");
 
                             }
                         } else {
-                            System.out.println("No existe el usuario " + userField.getText() + ". Para darse de alta, póngase en contacto con un administrador.");
                             JOptionPane.showMessageDialog(null, "No existe el usuario " + userField.getText() + ". Para darse de alta, póngase en contacto con un administrador.");
                         }
 

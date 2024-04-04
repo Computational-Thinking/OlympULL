@@ -19,8 +19,7 @@ public class VentanaEliminarUsuario extends JFrame {
     JPanel inputsPanel;
     JPanel buttonPanel;
 
-    public VentanaEliminarUsuario() {
-        Administrador currentAdmin = new Administrador();
+    public VentanaEliminarUsuario(Administrador administrador) {
         setSize(500, 200);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         this.setTitle("Eliminar usuario");
@@ -46,7 +45,7 @@ public class VentanaEliminarUsuario extends JFrame {
                 try {
                     int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro de que quiere eliminar al usuario " + userNameField.getText() + "?");
                     if (JOptionPane.OK_OPTION == confirm)
-                        currentAdmin.deleteUser(userNameField.getText());
+                        administrador.deleteUser(userNameField.getText());
                     else
                         JOptionPane.showMessageDialog(null, "Usuario no eliminado.");
                 } catch (JSchException ex) {

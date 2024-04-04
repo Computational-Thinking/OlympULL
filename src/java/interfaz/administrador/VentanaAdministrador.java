@@ -1,6 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
+import usuarios.Administrador;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class VentanaAdministrador extends JFrame {
     JLabel welcomeLabel;
     JPanel buttonsPanel;
 
-    public VentanaAdministrador() {
+    public VentanaAdministrador(Administrador administrador) {
         setSize(500, 250);
         getContentPane().setLayout(new BorderLayout(5, 5));
         this.setTitle("Menú Administrador");
@@ -51,41 +52,35 @@ public class VentanaAdministrador extends JFrame {
         createOlympiad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new VentanaNuevaOlimpiada();
+                new VentanaNuevaOlimpiada(administrador);
             }
         });
 
         createExercise.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new VentanaNuevoEjercicio();
+                new VentanaNuevoEjercicio(administrador);
             }
         });
 
         createUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new VentanaNuevoUsuario();
+                new VentanaNuevoUsuario(administrador);
             }
         });
 
         deleteUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new VentanaEliminarUsuario();
+                new VentanaEliminarUsuario(administrador);
             }
         });
 
         assignExerciseToUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaAsignacionUsuario();
-                } catch (JSchException ex) {
-                    throw new RuntimeException(ex);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
+                new VentanaAsignacionUsuario(administrador);
             }
         });
 
