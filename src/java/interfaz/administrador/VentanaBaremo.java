@@ -1,11 +1,13 @@
 package interfaz.administrador;
 
+import com.jcraft.jsch.JSchException;
 import usuarios.Monitor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 
 public class VentanaBaremo extends JFrame {
@@ -95,9 +97,10 @@ public class VentanaBaremo extends JFrame {
                     newFields.add(newMark);
                     extensibleScalePanel.add(newMark);
                     nScales += 1;
-                    repaint();
+                    extensibleScalePanel.revalidate();
+                    extensibleScalePanel.repaint();
                 } else {
-                    JOptionPane.showMessageDialog(null, "No es posible añadir más escalas");
+                    JOptionPane.showMessageDialog(null, "No es posible añadir más filas");
                 }
 
             }
@@ -106,7 +109,55 @@ public class VentanaBaremo extends JFrame {
         deletePunctuationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                newFields.remove(newFields.size() - 1);
+                Component[] components = extensibleScalePanel.getComponents();
+                if (components.length > 0) {
+                    Component lastComponent = components[components.length - 1];
+                    extensibleScalePanel.remove(lastComponent);
+                    extensibleScalePanel.revalidate();
+                    extensibleScalePanel.repaint();
+                    nScales -= 1;
+                } else {
+                    JOptionPane.showMessageDialog(null, "No hay registros que borrar");
+                }
+            }
+        });
+
+        stablishScaleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int[] scalePoints = new int[nScales];
+                String[] scaleTags = new String[nScales];
+
+                scalePoints[0] = Integer.parseInt(minPunctuationField.getText());
+                scaleTags[0] = minPunctuationTagField.getText();
+
+                Component[] registers = extensibleScalePanel.getComponents();
+                int counter = 1;
+
+                if (registers.length > 0) {
+                    for (int i = 0; i < registers.length; ++i) {
+                        JPanel dummy = (JPanel) registers[i];
+                        Component[] textFields = dummy.getComponents();
+                        JTextField value = (JTextField) textFields[0];
+                        JTextField tag = (JTextField) textFields[1];
+
+                        scalePoints[counter] = Integer.parseInt(value.getText());
+                        scaleTags[counter] = (tag.getText());
+
+                        ++counter;
+                    }
+                }
+
+                scalePoints[scalePoints.length - 1] = Integer.parseInt(maxPunctuationField.getText());
+                scaleTags[scaleTags.length - 1] = maxPunctuationTagField.getText();
+
+                try {
+                    monitor.stablishScale(scalePoints, scaleTags);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (JSchException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
