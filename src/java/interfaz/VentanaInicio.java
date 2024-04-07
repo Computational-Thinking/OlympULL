@@ -30,6 +30,8 @@ public class VentanaInicio extends JFrame {
     JPasswordField passwordField;
     JButton loginButton;
 
+    JButton verRanking;
+
     public VentanaInicio() {
         setSize(500, 250);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -128,7 +130,8 @@ public class VentanaInicio extends JFrame {
                                     Monitor usuario = new Monitor(rs.getString("NOMBRE_USUARIO"), rs.getString("PASSWORD"));
                                     VentanaMonitor ventana = new VentanaMonitor(usuario);
                                 }
-                                // VentanaAdministrador ventana = new VentanaAdministrador();
+                                userField.setText(null);
+                                passwordField.setText(null);
                             } else {
                                 System.out.println("Contraseña incorrecta. Pruebe otra vez.");
                                 JOptionPane.showMessageDialog(null, "Contraseña incorrecta. Pruebe otra vez.");

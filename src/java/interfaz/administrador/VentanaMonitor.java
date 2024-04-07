@@ -12,13 +12,14 @@ public class VentanaMonitor extends JFrame {
     JButton botonEstablecerBaremo;
     JButton botonPuntuar;
     JButton botonDesconectar;
+    JButton botonCambioContrasena;
     JPanel buttonsPanel;
     JLabel welcomeLabel;
 
     public VentanaMonitor(Monitor monitor) {
         setSize(500, 250);
         getContentPane().setLayout(new BorderLayout(5, 5));
-        this.setTitle("Menú Administrador");
+        this.setTitle("Menú Monitor");
 
         botonEstablecerBaremo = new JButton("Establecer baremo de ejercicio");
         botonEstablecerBaremo.setPreferredSize(new Dimension(200, 30));
@@ -26,11 +27,14 @@ public class VentanaMonitor extends JFrame {
         botonPuntuar.setPreferredSize(new Dimension(200, 30));
         botonDesconectar = new JButton("Desconectar");
         botonEstablecerBaremo.setPreferredSize(new Dimension(200, 30));
+        botonCambioContrasena = new JButton("Cambiar contraseña");
 
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(4, 1));
+
         buttonsPanel.add(botonEstablecerBaremo);
         buttonsPanel.add(botonPuntuar);
+        buttonsPanel.add(botonCambioContrasena);
         buttonsPanel.add(botonDesconectar);
 
         welcomeLabel = new JLabel("¡Bienvenido al panel de monitor de OlympULL!");
@@ -42,12 +46,21 @@ public class VentanaMonitor extends JFrame {
         botonEstablecerBaremo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                VentanaBaremo ventana = new VentanaBaremo(monitor);
             }
         });
 
         botonPuntuar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        botonCambioContrasena.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                VentanaCambioContrasea ventana = new VentanaCambioContrasea(monitor);
             }
         });
 
