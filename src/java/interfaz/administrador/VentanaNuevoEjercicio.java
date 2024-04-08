@@ -43,7 +43,7 @@ public class VentanaNuevoEjercicio extends JFrame {
 
         exerCodeField = new JTextField();
         exerNameField = new JTextField();
-        String[] exerCategories = {"Bucles", "Condicionales", "Funciones", "IA", "Matrices", "Secuencias", "Secuencias y bubles", "Variables"};
+        String[] exerCategories = {"Bucles", "Condicionales", "Funciones", "IA", "Matrices", "Secuencias", "Secuencias y bucles", "Variables"};
         exerCategoryField = new JComboBox<>(exerCategories);
 
         String[] exerResource = {"INICIAL", "INTERMEDIO"};

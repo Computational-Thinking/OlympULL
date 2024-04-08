@@ -127,7 +127,15 @@ public class VentanaInicio extends JFrame {
                                     System.out.println(usuario.getUserName() + ", " + usuario.getPassword() + ", " + usuario.getUserType());
                                     VentanaAdministrador ventana = new VentanaAdministrador(usuario);
                                 } else if (rs.getString("TIPO_USUARIO").equals("MONITOR")) {
-                                    Monitor usuario = new Monitor(rs.getString("NOMBRE_USUARIO"), rs.getString("PASSWORD"));
+                                    String name = rs.getString("NOMBRE_USUARIO");
+                                    String password = rs.getString("PASSWORD");
+                                    String sql3 =  "SELECT CODIGO_EJERCICIO FROM T_MONITORES WHERE NOMBRE='" + rs.getString("NOMBRE_USUARIO") + "';";
+                                    rs = stmt.executeQuery(sql3);
+                                    int codigoEjercicio = -1;
+                                    if (rs.next()) {
+                                        codigoEjercicio = rs.getInt("CODIGO_EJERCICIO");
+                                    }
+                                    Monitor usuario = new Monitor(name, password, codigoEjercicio);
                                     VentanaMonitor ventana = new VentanaMonitor(usuario);
                                 }
                                 userField.setText(null);

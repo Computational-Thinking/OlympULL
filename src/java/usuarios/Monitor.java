@@ -6,16 +6,20 @@ import com.jcraft.jsch.Session;
 
 import javax.swing.*;
 import java.sql.*;
+import java.util.Arrays;
 
 public class Monitor extends Usuario {
-    int exerciseCode;
+    int exerciseCode; // Código del ejercicio asociado a este monitor
 
-    public Monitor(String nombreUsuario, String password) {
+    public Monitor(String nombreUsuario, String password, int exerciseCode) {
         this.userName = nombreUsuario;
         this.password = password;
         this.userType = "monitor";
+        this.exerciseCode = exerciseCode;
+    }
 
-        this.exerciseCode = 1;
+    public int getExerciseCode() {
+        return this.exerciseCode;
     }
 
     public void stablishScale(int[] points, String[] tags) throws SQLException, JSchException {
@@ -50,9 +54,12 @@ public class Monitor extends Usuario {
 
         // Debugger
         Statement stmt = conn.createStatement();
+        System.out.println(Arrays.toString(tags));
+        System.out.println(Arrays.toString(points));
+        System.out.println(exerciseCode);
 
         // Ejecutar la consulta SQL
-        String sql1 = "INSERT INTO T_BAREMOS VALUES(" + exerciseCode + ", '" + tags + "', '" + points + "');";
+        String sql1 = "INSERT INTO T_BAREMOS VALUES(" + exerciseCode + ", '" + Arrays.toString(tags) + "', '" + Arrays.toString(points) + "');";
         int rowsAffected = stmt.executeUpdate(sql1);
 
         if (rowsAffected > 0) {
