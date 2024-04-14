@@ -16,6 +16,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import javax.swing.ImageIcon;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.SoftBevelBorder;
 
 public class VentanaInicio extends JFrame {
     JPanel logoPanel;
@@ -30,10 +33,17 @@ public class VentanaInicio extends JFrame {
     JButton verRanking;
 
     public VentanaInicio() {
-        setSize(500, 250);
+        setSize(500, 300);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Inicio");
+        setLocationRelativeTo(null);
+
+        Border borde = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+
+        Font fuenteNegrita1 = new Font("Argentum Sans Light", Font.PLAIN, 12);
+        Font fuenteNegrita3 = new Font("Argentum Sans Bold", Font.PLAIN, 12);
+
         logoPanel = new JPanel();
         logoPanel.setBackground(new Color(255, 255, 255));
 
@@ -51,27 +61,40 @@ public class VentanaInicio extends JFrame {
 
         // Configure credentials panel
         userTag = new JLabel("Usuario");
+        userTag.setFont(fuenteNegrita3);
+
         passwordTag = new JLabel("Contraseña");
+        passwordTag.setFont(fuenteNegrita3);
+
 
         userField = new JTextField();
+        userField.setFont(fuenteNegrita1);
         passwordField = new JPasswordField();
+        passwordField.setFont(fuenteNegrita3);
 
         credentialsPanel = new JPanel();
         credentialsPanel.setBackground(new Color(255, 255, 255));
-        credentialsPanel.setLayout(new GridLayout(2, 2));
+        credentialsPanel.setLayout(new GridLayout(2, 2, 10, 10));
+
         credentialsPanel.add(userTag);
         credentialsPanel.add(userField);
         credentialsPanel.add(passwordTag);
         credentialsPanel.add(passwordField);
 
+        credentialsPanel.setBorder(borde);
+
         add(credentialsPanel);
 
         verRanking = new JButton("Ver ranking");
+        verRanking.setFont(fuenteNegrita3);
 
         loginPanel = new JPanel();
         loginPanel.setBackground(new Color(255, 255, 255));
         loginButton = new JButton("Iniciar sesión");
+        loginButton.setFont(fuenteNegrita3);
+
         loginPanel.add(loginButton);
+
         add(loginPanel);
         add(verRanking);
 

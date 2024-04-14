@@ -5,6 +5,7 @@ import interfaz.VentanaInicio;
 import usuarios.Administrador;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,72 +24,133 @@ public class VentanaAdministrador extends JFrame {
     JButton consultarUsuarios;
     JButton deleteUser;
     JButton assignExerciseToUser;
+    JButton asignarItinerarioAOrganizador;
     JLabel welcomeLabel;
-    JPanel buttonsPanel;
+    JPanel olimpiadaButtonsPanel;
+    JPanel usuariosButtonsPanel;
     JButton goBackButton;
     JPanel upperBar;
-    JPanel upperBarWelcomeLabel;
+    JPanel gestionOlimpiada;
+    JPanel gestionUsuarios;
 
     public VentanaAdministrador(Administrador administrador) {
-        setSize(500, 250);
+        setSize(750, 470);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Menú Administrador");
+        this.setTitle("Panel Administrador");
+        setLocationRelativeTo(null);
+
+
+        Border borde = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+        Font fuenteNegrita1 = new Font("Argentum Sans Bold", Font.PLAIN, 20);
+        Font fuenteNegrita2 = new Font("Argentum Sans Bold", Font.PLAIN, 18);
+        Font fuenteNegrita3 = new Font("Argentum Sans Bold", Font.PLAIN, 12);
 
         goBackButton = new JButton("< Volver");
+        goBackButton.setFont(fuenteNegrita3);
+        goBackButton.setPreferredSize(new Dimension(90, 20));
 
         createOlympiad = new JButton("Crear nueva olimpiada");
         createOlympiad.setPreferredSize(new Dimension(200, 30));
+        createOlympiad.setFont(fuenteNegrita3);
+
         consultarOlimpiadas = new JButton("Consultar olimpiadas");
         consultarOlimpiadas.setPreferredSize(new Dimension(200, 30));
+        consultarOlimpiadas.setFont(fuenteNegrita3);
+
         crearItinerario = new JButton("Crear nuevo itinerario");
         crearItinerario.setPreferredSize(new Dimension(200, 30));
+        crearItinerario.setFont(fuenteNegrita3);
+
         consultarItinerario = new JButton("Consultar itinerarios");
         consultarItinerario.setPreferredSize(new Dimension(200, 30));
+        consultarItinerario.setFont(fuenteNegrita3);
+
         createExercise = new JButton("Crear nuevo ejercicio");
         createExercise.setPreferredSize(new Dimension(200, 30));
+        createExercise.setFont(fuenteNegrita3);
+
         consultarEjercicios = new JButton("Consultar ejercicios");
         consultarEjercicios.setPreferredSize(new Dimension(200, 30));
+        consultarEjercicios.setFont(fuenteNegrita3);
+
         crearEquipo = new JButton("Crear nuevo equipo");
         crearEquipo.setPreferredSize(new Dimension(200, 30));
+        crearEquipo.setFont(fuenteNegrita3);
+
         consultarEquipos = new JButton("Crear nuevo equipo");
         consultarEquipos.setPreferredSize(new Dimension(200, 30));
+        consultarEquipos.setFont(fuenteNegrita3);
+
         createUser = new JButton("Crear nuevo usuario");
         createUser.setPreferredSize(new Dimension(200, 30));
+        createUser.setFont(fuenteNegrita3);
+
         consultarUsuarios = new JButton("Consultar usuarios");
         consultarUsuarios.setPreferredSize(new Dimension(200, 30));
+        consultarUsuarios.setFont(fuenteNegrita3);
 
         assignExerciseToUser = new JButton("Asignar ejercicio a monitor");
         assignExerciseToUser.setPreferredSize(new Dimension(200, 30));
+        assignExerciseToUser.setFont(fuenteNegrita3);
+
+        asignarItinerarioAOrganizador = new JButton("Asignar itinerario a organizador");
+        asignarItinerarioAOrganizador.setPreferredSize(new Dimension(200, 30));
+        asignarItinerarioAOrganizador.setFont(fuenteNegrita3);
 
         upperBar = new JPanel();
         upperBar.setLayout(new BorderLayout(5, 5));
-        upperBar.add(goBackButton);
+        upperBar.setBorder(borde);
+        upperBar.add(goBackButton, BorderLayout.EAST);
 
-        buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new GridLayout(6, 2));
-        buttonsPanel.add(createOlympiad);
-        buttonsPanel.add(consultarOlimpiadas);
-        buttonsPanel.add(crearItinerario);
-        buttonsPanel.add(consultarItinerario);
-        buttonsPanel.add(createExercise);
-        buttonsPanel.add(consultarEjercicios);
-        buttonsPanel.add(crearEquipo);
-        buttonsPanel.add(consultarEquipos);
-        buttonsPanel.add(createUser);
-        buttonsPanel.add(consultarUsuarios);
-        buttonsPanel.add(assignExerciseToUser);
+        olimpiadaButtonsPanel = new JPanel();
+        olimpiadaButtonsPanel.setLayout(new GridLayout(4, 2, 10, 10));
+        olimpiadaButtonsPanel.add(createOlympiad);
+        olimpiadaButtonsPanel.add(consultarOlimpiadas);
+        olimpiadaButtonsPanel.add(crearItinerario);
+        olimpiadaButtonsPanel.add(consultarItinerario);
+        olimpiadaButtonsPanel.add(createExercise);
+        olimpiadaButtonsPanel.add(consultarEjercicios);
+        olimpiadaButtonsPanel.add(crearEquipo);
+        olimpiadaButtonsPanel.add(consultarEquipos);
+
+        usuariosButtonsPanel = new JPanel();
+        usuariosButtonsPanel.setLayout(new GridLayout(2, 2, 10, 10));
+        usuariosButtonsPanel.add(createUser);
+        usuariosButtonsPanel.add(consultarUsuarios);
+        usuariosButtonsPanel.add(assignExerciseToUser);
+        usuariosButtonsPanel.add(asignarItinerarioAOrganizador);
+
+        JLabel gestionOlimpiadaLabel = new JLabel("Gestión de olimpiadas");
+        gestionOlimpiadaLabel.setFont(fuenteNegrita2);
+        gestionOlimpiadaLabel.setBorder(borde);
+
+
+        JLabel gestionUsuariosLabel = new JLabel("Gestión de usuarios");
+        gestionUsuariosLabel.setFont(fuenteNegrita2);
+        gestionUsuariosLabel.setBorder(borde);
+
+        gestionOlimpiada = new JPanel();
+        gestionOlimpiada.setLayout(new BorderLayout());
+        gestionOlimpiada.setBorder(borde);
+
+        gestionOlimpiada.add(gestionOlimpiadaLabel, BorderLayout.NORTH);
+        gestionOlimpiada.add(olimpiadaButtonsPanel, BorderLayout.CENTER);
+
+        gestionUsuarios = new JPanel();
+        gestionUsuarios.setLayout(new BorderLayout());
+        gestionUsuarios.setBorder(borde);
+        gestionUsuarios.add(gestionUsuariosLabel, BorderLayout.NORTH);
+        gestionUsuarios.add(usuariosButtonsPanel, BorderLayout.CENTER);
 
         welcomeLabel = new JLabel("¡Bienvenido al panel de administrador de OlympULL!");
+        welcomeLabel.setFont(fuenteNegrita1);
         welcomeLabel.setPreferredSize(new Dimension(200, 50));
+        upperBar.add(welcomeLabel, BorderLayout.CENTER);
 
-        upperBarWelcomeLabel = new JPanel();
-        upperBarWelcomeLabel.setLayout(new GridLayout(2, 1));
-        upperBarWelcomeLabel.add(welcomeLabel);
-        upperBarWelcomeLabel.add(upperBar);
-
-        add(upperBarWelcomeLabel, BorderLayout.NORTH);
-        add(buttonsPanel, BorderLayout.CENTER);
+        add(upperBar, BorderLayout.NORTH);
+        add(gestionOlimpiada, BorderLayout.CENTER);
+        add(gestionUsuarios, BorderLayout.SOUTH);
 
         goBackButton.addActionListener(new ActionListener() {
             @Override
