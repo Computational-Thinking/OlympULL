@@ -34,12 +34,14 @@ public class VentanaAdministrador extends JFrame {
     JPanel gestionUsuarios;
 
     public VentanaAdministrador(Administrador administrador) {
-        setSize(750, 470);
+        setSize(750, 465);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Panel Administrador");
         setLocationRelativeTo(null);
 
+        Image icon = new ImageIcon("images/icono-ull-original.png").getImage();
+        setIconImage(icon);
 
         Border borde = BorderFactory.createEmptyBorder(10, 10, 10, 10);
         Font fuenteNegrita1 = new Font("Argentum Sans Bold", Font.PLAIN, 20);
@@ -48,7 +50,7 @@ public class VentanaAdministrador extends JFrame {
 
         goBackButton = new JButton("< Volver");
         goBackButton.setFont(fuenteNegrita3);
-        goBackButton.setPreferredSize(new Dimension(90, 20));
+        goBackButton.setPreferredSize(new Dimension(90, 30));
 
         createOlympiad = new JButton("Crear nueva olimpiada");
         createOlympiad.setPreferredSize(new Dimension(200, 30));
@@ -145,7 +147,7 @@ public class VentanaAdministrador extends JFrame {
 
         welcomeLabel = new JLabel("¡Bienvenido al panel de administrador de OlympULL!");
         welcomeLabel.setFont(fuenteNegrita1);
-        welcomeLabel.setPreferredSize(new Dimension(200, 50));
+        //welcomeLabel.setPreferredSize(new Dimension(200, 50));
         upperBar.add(welcomeLabel, BorderLayout.CENTER);
 
         add(upperBar, BorderLayout.NORTH);
@@ -164,6 +166,7 @@ public class VentanaAdministrador extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new VentanaNuevaOlimpiada(administrador);
+                dispose();
             }
         });
 
