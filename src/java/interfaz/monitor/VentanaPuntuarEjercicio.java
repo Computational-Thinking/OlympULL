@@ -1,4 +1,4 @@
-package interfaz.administrador;
+package interfaz.monitor;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;

@@ -4,10 +4,9 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import interfaz.administrador.VentanaAdministrador;
-import interfaz.administrador.VentanaMonitor;
+import interfaz.monitor.VentanaMonitor;
 import usuarios.Administrador;
 import usuarios.Monitor;
-import usuarios.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +15,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.Objects;
 import javax.swing.ImageIcon;
 
 public class VentanaInicio extends JFrame {
@@ -29,25 +27,27 @@ public class VentanaInicio extends JFrame {
     JTextField userField;
     JPasswordField passwordField;
     JButton loginButton;
-
     JButton verRanking;
 
     public VentanaInicio() {
         setSize(500, 250);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Bienvenido a OlympULL");
+        this.setTitle("Inicio");
         logoPanel = new JPanel();
-        logoPanel.setBackground(new Color(249, 233, 93));
+        logoPanel.setBackground(new Color(255, 255, 255));
 
         // Add logo to the label that will be on the top of the window
-        ImageIcon logo = new ImageIcon("images/logo olympull.png");
+        ImageIcon logo = new ImageIcon("images/logo olympull v2.png");
         Image originalIcon = logo.getImage();
-        Image escalatedLogo = originalIcon.getScaledInstance(268, 56, Image.SCALE_SMOOTH);
+        Image escalatedLogo = originalIcon.getScaledInstance(268, 65, Image.SCALE_SMOOTH);
         logo = new ImageIcon(escalatedLogo);
         olympullLogo = new JLabel(logo);
         logoPanel.add(olympullLogo);
         add(logoPanel, BorderLayout.NORTH);
+
+        Image icon = new ImageIcon("images/icono-ull-original.png").getImage();
+        setIconImage(icon);
 
         // Configure credentials panel
         userTag = new JLabel("Usuario");
@@ -57,7 +57,7 @@ public class VentanaInicio extends JFrame {
         passwordField = new JPasswordField();
 
         credentialsPanel = new JPanel();
-        credentialsPanel.setBackground(new Color(249, 233, 93));
+        credentialsPanel.setBackground(new Color(255, 255, 255));
         credentialsPanel.setLayout(new GridLayout(2, 2));
         credentialsPanel.add(userTag);
         credentialsPanel.add(userField);
@@ -66,11 +66,14 @@ public class VentanaInicio extends JFrame {
 
         add(credentialsPanel);
 
+        verRanking = new JButton("Ver ranking");
+
         loginPanel = new JPanel();
-        loginPanel.setBackground(new Color(249, 233, 93));
+        loginPanel.setBackground(new Color(255, 255, 255));
         loginButton = new JButton("Iniciar sesión");
         loginPanel.add(loginButton);
         add(loginPanel);
+        add(verRanking);
 
         // Valores para conexión a MV remota
         String sshHost = "10.6.130.204";
@@ -126,6 +129,8 @@ public class VentanaInicio extends JFrame {
                                     Administrador usuario = new Administrador(rs.getString("NOMBRE_USUARIO"), rs.getString("PASSWORD"));
                                     System.out.println(usuario.getUserName() + ", " + usuario.getPassword() + ", " + usuario.getUserType());
                                     VentanaAdministrador ventana = new VentanaAdministrador(usuario);
+                                    dispose();
+
                                 } else if (rs.getString("TIPO_USUARIO").equals("MONITOR")) {
                                     String name = rs.getString("NOMBRE_USUARIO");
                                     String password = rs.getString("PASSWORD");
@@ -137,13 +142,13 @@ public class VentanaInicio extends JFrame {
                                     }
                                     Monitor usuario = new Monitor(name, password, codigoEjercicio);
                                     VentanaMonitor ventana = new VentanaMonitor(usuario);
+                                    dispose();
                                 }
                                 userField.setText(null);
                                 passwordField.setText(null);
                             } else {
                                 System.out.println("Contraseña incorrecta. Pruebe otra vez.");
                                 JOptionPane.showMessageDialog(null, "Contraseña incorrecta. Pruebe otra vez.");
-
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "No existe el usuario " + userField.getText() + ". Para darse de alta, póngase en contacto con un administrador.");
@@ -155,6 +160,13 @@ public class VentanaInicio extends JFrame {
                         i.printStackTrace();
                     }
                 }
+            }
+        });
+
+        verRanking.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
         this.setVisible(true);

@@ -1,6 +1,8 @@
-package interfaz.administrador;
+package interfaz.monitor;
 
-import usuarios.Administrador;
+import interfaz.administrador.VentanaBaremo;
+import interfaz.administrador.VentanaCambioContrasea;
+import interfaz.monitor.VentanaPuntuarEjercicio;
 import usuarios.Monitor;
 
 import javax.swing.*;
