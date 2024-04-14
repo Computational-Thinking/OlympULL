@@ -62,6 +62,18 @@ public class Administrador extends Usuario {
         session.disconnect();
     }
 
+    public void modifyOlympiad() {
+
+    }
+
+    public void duplicateOlympiad() {
+
+    }
+
+    public void deleteOlympiad() {
+
+    }
+
     public void createExercise(String code, String title, String category, String resources, String type, String material, int year) throws JSchException, SQLException {
         // Valores para conexión a MV remota
         String sshHost = "10.6.130.204";
