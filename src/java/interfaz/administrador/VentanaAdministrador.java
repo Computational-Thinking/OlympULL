@@ -170,6 +170,20 @@ public class VentanaAdministrador extends JFrame {
             }
         });
 
+        consultarOlimpiadas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    VentanaConsultaOlimpiadas ventana = new VentanaConsultaOlimpiadas(administrador);
+
+                } catch (SQLException | JSchException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
+                dispose();
+            }
+        });
+
         createExercise.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

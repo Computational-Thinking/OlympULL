@@ -14,7 +14,7 @@ public class Administrador extends Usuario {
         this.userType = "admin";
     }
 
-    public void createOlympiad(String title, String description, int year, int nUnpluggedMentions, int nUnpluggedTeams, int nPluggedMentions, int nPluggedTeams) throws JSchException, SQLException {
+    public void createOlympiad(String code, String title, String description, int year) throws JSchException, SQLException {
         // Valores para conexión a MV remota
         String sshHost = "10.6.130.204";
         String sshUser = "usuario";
@@ -48,7 +48,7 @@ public class Administrador extends Usuario {
         Statement stmt = conn.createStatement();
 
         // Consulta para añadir la nueva olimpiada
-        String sql = "INSERT INTO T_OLIMPIADAS VALUES ('" + title + "', '" + description + "', " + year + ", " + nPluggedMentions + ", " + nPluggedTeams + "," + nUnpluggedMentions + ", " + nUnpluggedTeams + ")";
+        String sql = "INSERT INTO T_OLIMPIADAS VALUES ('" + code + "', '" + title + "', '" + description + "', " + year + ")";
         int rowsAffected = stmt.executeUpdate(sql);
 
         if (rowsAffected > 0) {
@@ -57,6 +57,7 @@ public class Administrador extends Usuario {
             JOptionPane.showMessageDialog(null, "ERROR. No se ha podido crear la olimpiada " + title + ".");
         }
 
+        stmt.close();
         conn.close();
         session.disconnect();
     }

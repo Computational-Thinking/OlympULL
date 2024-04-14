@@ -23,10 +23,6 @@ public class VentanaNuevaOlimpiada extends JFrame {
     JTextField olympNameField;
     JTextField olympDescField;
     JTextField olympYearField;
-    JTextField olympEnMentionsField;
-    JTextField olympEnTeamsField;
-    JTextField olympDesMentionsField;
-    JTextField olympDesTeamsField;
     JButton createOlympButton;
     JPanel upperPanel;
     JPanel inputPanel;
@@ -114,16 +110,13 @@ public class VentanaNuevaOlimpiada extends JFrame {
         createOlympButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String code = olympCodeField.getText();
                 String name = olympNameField.getText();
                 String desc = olympDescField.getText();
                 int year = Integer.parseInt(olympYearField.getText());
-                int enMentions = Integer.parseInt(olympEnMentionsField.getText());
-                int enTeams = Integer.parseInt(olympEnTeamsField.getText());
-                int desMentions = Integer.parseInt(olympDesMentionsField.getText());
-                int desTeams = Integer.parseInt(olympDesTeamsField.getText());
                 try {
-                    administrador.createOlympiad(name, desc, year, desMentions, desTeams, enMentions, enTeams);
-                    setVisible(false);
+                    administrador.createOlympiad(code, name, desc, year);
+                    VentanaAdministrador ventana = new VentanaAdministrador(administrador);
                     dispose();
                 } catch (JSchException ex) {
                     throw new RuntimeException(ex);
