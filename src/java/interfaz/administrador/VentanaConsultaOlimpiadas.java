@@ -211,7 +211,17 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
             VentanaEditarOlimpiada ventana = new VentanaEditarOlimpiada(administrador, codigo, titulo, descripcion, year);
             dispose();
         } else if (columna == tabla.getColumnCount() - 2) {
-            JOptionPane.showMessageDialog(null, "Duplicar fila");
+            String codigo = "Copia de " + modeloTabla.getValueAt(row, 0);
+            String titulo = (String) modeloTabla.getValueAt(row, 1);
+            String descripcion = (String) modeloTabla.getValueAt(row, 2);
+            int year = (int) modeloTabla.getValueAt(row, 3);
+            try {
+                administrador.createOlympiad(codigo, titulo, descripcion, year);
+                VentanaConsultaOlimpiadas ventana = new VentanaConsultaOlimpiadas(administrador);
+                dispose();
+            } catch (JSchException | SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
                 administrador.deleteOlympiad((String) modeloTabla.getValueAt(row, 0));
