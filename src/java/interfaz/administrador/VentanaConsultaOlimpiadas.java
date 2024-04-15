@@ -32,6 +32,7 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
     DefaultTableModel modeloTabla;
     // Tabla
     JTable tabla;
+    Administrador administrador;
 
     // Constructor
     public VentanaConsultaOlimpiadas(Administrador administrador) throws JSchException, SQLException {
@@ -41,6 +42,8 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Consulta de olimpiadas");
         setLocationRelativeTo(null);
+
+        this.administrador = administrador;
 
         Image icon = new ImageIcon("images/icono-ull-original.png").getImage();
         setIconImage(icon);
@@ -121,7 +124,9 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
             modeloTabla.addColumn(metaData.getColumnName(i));
         }
 
-        modeloTabla.addColumn(""); // Columna de acciones
+        modeloTabla.addColumn(""); // Columna de editar
+        modeloTabla.addColumn(""); // Columna de duplicar
+        modeloTabla.addColumn(""); // Columna de eliminar
 
         while (rs.next()) {
             Object[] fila = new Object[numeroColumnas];
@@ -155,16 +160,27 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
         }
 
         // Altura de la fila
-        tabla.setRowHeight(30);
+        tabla.setRowHeight(35);
 
         // Esto es para que se pueda pulsar los botones
         tabla.addMouseListener(this);
 
         // Esto es para insertar los botones en la última columna de la tabla (cambiar por tres columnas distintas)
-        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new ButtonPanelRenderer());
+        // Columna de editar
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 3).setCellRenderer(new ButtonPanelRenderer(3));
+        // Columna de duplicar
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new ButtonPanelRenderer(2));
+        // Columna de eliminar
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new ButtonPanelRenderer(1));
 
-        //tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMinWidth(150);
-        //tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMaxWidth(150);
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 3).setMinWidth(30);
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 3).setMaxWidth(30);
+
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMinWidth(30);
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMaxWidth(30);
+
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMinWidth(30);
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMaxWidth(30);
 
         add(upperPanel, BorderLayout.NORTH);
         add(tablaScrollPane, BorderLayout.CENTER);
@@ -187,8 +203,20 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
         int row = tabla.rowAtPoint(e.getPoint());
         int columna = tabla.columnAtPoint(e.getPoint());
 
-        if (columna == tabla.getColumnCount() - 1) {
-            JOptionPane.showMessageDialog(null, "Prueba");
+        if (columna == tabla.getColumnCount() - 3) {
+            JOptionPane.showMessageDialog(null, "Editar fila");
+        } else if (columna == tabla.getColumnCount() - 2) {
+            JOptionPane.showMessageDialog(null, "Duplicar fila");
+        } else if (columna == tabla.getColumnCount() - 1) {
+            try {
+                administrador.deleteOlympiad((String) modeloTabla.getValueAt(row, 0));
+                VentanaConsultaOlimpiadas ventana = new VentanaConsultaOlimpiadas(administrador);
+                dispose();
+            } catch (JSchException ex) {
+                throw new RuntimeException(ex);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -214,59 +242,34 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
 
     // Esto es para añadir los botones a la última columna de la tabla (no necesario y creo que ni siquiera hace falta hacerlo tan complicado)
     class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
-        private JButton duplicateButton;
-        private JButton editButton;
-        private JButton deleteButton;
+        private JButton actionButton;
+        private Image image;
+        private ImageIcon buttonIcon;
 
-        public ButtonPanelRenderer() {
+        public ButtonPanelRenderer(int columna) {
             setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-            Image editarIcon = new ImageIcon("images/edit icon.png").getImage();
-            editarIcon = editarIcon.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
-            ImageIcon editarScalatedIcon = new ImageIcon(editarIcon);
+            switch(columna) {
+                case 3:
+                    image = new ImageIcon("images/edit icon.png").getImage();
+                    break;
+                case 2:
+                    image = new ImageIcon("images/duplicate icon.png").getImage();
+                    break;
+                case 1:
+                    image = new ImageIcon("images/delete icon.png").getImage();
+                    break;
+                default:
+                    break;
+            }
 
-            Image duplicarIcon = new ImageIcon("images/duplicate icon.png").getImage();
-            duplicarIcon = duplicarIcon.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
-            ImageIcon duplicarScalatedIcon = new ImageIcon(duplicarIcon);
-
-            Image eliminarIcon = new ImageIcon("images/delete icon.png").getImage();
-            eliminarIcon = eliminarIcon.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
-            ImageIcon eliminarScalatedIcon = new ImageIcon(eliminarIcon);
-
-            editButton = new JButton(editarScalatedIcon);
-            editButton.setPreferredSize(new Dimension(20, 20));
-            duplicateButton = new JButton(duplicarScalatedIcon);
-            duplicateButton.setPreferredSize(new Dimension(20, 20));
-            deleteButton = new JButton(eliminarScalatedIcon);
-            deleteButton.setPreferredSize(new Dimension(20, 20));
-
-            // Se añaden las acciones que realiza cada botón
-            editButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Se abre ventana para crear olimpiada, pero con los datos precargados
-                }
-            });
-
-            duplicateButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Se crea una nueva olimpiada con los mismos valores de la olimpiada seleccionada, pero con la cadena "Copia de" al comienzo del código
-                }
-            });
-
-            deleteButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // JOptionPane para solicitar confirmación de eliminar olimpiada
-                    JOptionPane.showConfirmDialog(null, "¿Está seguro de querer eliminar esta olimpiada?");
-                }
-            });
+            image = image.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            buttonIcon = new ImageIcon(image);
+            actionButton = new JButton(buttonIcon);
+            actionButton.setPreferredSize(new Dimension(25, 25));
 
             // Se añaden estos botones al modelo de tabla
-            add(editButton);
-            add(duplicateButton);
-            add(deleteButton);
+            add(actionButton);
         }
 
         @Override
