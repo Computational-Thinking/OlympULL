@@ -62,8 +62,63 @@ public class Administrador extends Usuario {
         session.disconnect();
     }
 
-    public void modifyOlympiad() {
+    public void modifyOlympiad(String oldCode, String code, String title, String desc, int year) throws JSchException, SQLException {
+        // Valores para conexión a MV remota
+        String sshHost = "10.6.130.204";
+        String sshUser = "usuario";
+        String sshPassword = "Usuario";
+        int sshPort = 22; // Puerto SSH por defecto
+        int localPort = 3307; // Puerto local para el túnel SSH
+        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
+        int remotePort = 3306; // Puerto MySQL en la máquina remota
 
+        // Conexión SSH a la MV remota
+        JSch jsch = new JSch();
+        Session session = jsch.getSession(sshUser, sshHost, sshPort);
+        session.setPassword(sshPassword);
+        session.setConfig("StrictHostKeyChecking", "no");
+        session.connect();
+
+        // Debugger
+        System.out.println("Conexión con la máquina establecida");
+
+        // Abrir un túnel SSH al puerto MySQL en la máquina remota
+        session.setPortForwardingL(localPort, remoteHost, remotePort);
+
+        // Conexión a MySQL a través del túnel SSH
+        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+        String dbUser = "root";
+        String dbPassword = "root";
+        Connection conn;
+        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+        // Debugger
+        Statement stmt = conn.createStatement();
+
+        // Ejecutar la consulta SQL
+        String sql1 = "SELECT * FROM T_OLIMPIADAS WHERE CODIGO= " + "'" + oldCode + "'";
+        ResultSet rs = stmt.executeQuery(sql1);
+
+        if (rs.next()) {
+            String sql2 = "UPDATE T_OLIMPIADAS " +
+                    "SET CODIGO='" + code + "', " +
+                        "TITULO='" + title + "', " +
+                        "DESCRIPCION='" + desc + "', " +
+                        "YEAR=" + year + " WHERE CODIGO='" + oldCode + "';";
+            int rowsAffected = stmt.executeUpdate(sql2);
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Olimpiada modificada con éxito.");
+
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR. No se ha podido modificar la olimpiada.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR. No existe la olimpiada.");
+        }
+
+        conn.close();
+        session.disconnect();
     }
 
     public void duplicateOlympiad() {
