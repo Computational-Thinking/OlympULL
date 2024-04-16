@@ -184,10 +184,33 @@ public class VentanaAdministrador extends JFrame {
             }
         });
 
+        crearItinerario.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new VentanaNuevoItinerario(administrador);
+                dispose();
+            }
+        });
+
+        consultarItinerario.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    VentanaConsultaItinerarios ventana = new VentanaConsultaItinerarios(administrador);
+
+                } catch (SQLException | JSchException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
+                dispose();
+            }
+        });
+
         createExercise.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new VentanaNuevoEjercicio(administrador);
+                dispose();
             }
         });
 
@@ -197,15 +220,6 @@ public class VentanaAdministrador extends JFrame {
                 new VentanaNuevoUsuario(administrador);
             }
         });
-
-        /**
-        deleteUser.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VentanaEliminarUsuario(administrador);
-            }
-        });
-         */
 
         assignExerciseToUser.addActionListener(new ActionListener() {
             @Override

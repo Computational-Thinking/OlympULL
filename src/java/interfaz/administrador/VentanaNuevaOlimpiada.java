@@ -56,13 +56,13 @@ public class VentanaNuevaOlimpiada extends JFrame {
         upperPanel.add(goBackButton, BorderLayout.EAST);
         upperPanel.setBorder(borde);
 
-        olympCode = new JLabel("Código");
+        olympCode = new JLabel("Código (*)");
         olympCode.setFont(fuenteNegrita3);
-        olympName = new JLabel("Nombre");
+        olympName = new JLabel("Nombre (*)");
         olympName.setFont(fuenteNegrita3);
         olympDesc = new JLabel("Descripción");
         olympDesc.setFont(fuenteNegrita3);
-        olympYear = new JLabel("Año");
+        olympYear = new JLabel("Año (*)");
         olympYear.setFont(fuenteNegrita3);
 
         olympCodeField = new JTextField();
@@ -125,6 +125,7 @@ public class VentanaNuevaOlimpiada extends JFrame {
                 }
             }
         });
+
     }
 
 }

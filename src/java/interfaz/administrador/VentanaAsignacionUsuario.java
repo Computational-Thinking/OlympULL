@@ -116,6 +116,7 @@ public class VentanaAsignacionUsuario extends JFrame {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
         session.disconnect();
 
         yearSelectionPanel.add(yearLabel);
