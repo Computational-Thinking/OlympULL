@@ -1,4 +1,3 @@
-import com.jcraft.jsch.*;
 import interfaz.VentanaInicio;
 
 import java.sql.*;

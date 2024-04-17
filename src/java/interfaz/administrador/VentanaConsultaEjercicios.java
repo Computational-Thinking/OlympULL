@@ -19,7 +19,7 @@ import java.awt.event.MouseListener;
 import java.security.DigestException;
 import java.sql.*;
 
-public class VentanaConsultaItinerarios extends JFrame implements MouseListener {
+public class VentanaConsultaEjercicios extends JFrame implements MouseListener {
     // Panel superior (título y botón de volver)
     JPanel upperPanel;
     // Panel de tabla
@@ -35,12 +35,12 @@ public class VentanaConsultaItinerarios extends JFrame implements MouseListener 
     Administrador administrador;
 
     // Constructor
-    public VentanaConsultaItinerarios(Administrador administrador) throws JSchException, SQLException {
+    public VentanaConsultaEjercicios(Administrador administrador) throws JSchException, SQLException {
         // Configuración de ventana
-        setSize(750, 465);
+        setSize(850, 465);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Consulta de itinerarios");
+        this.setTitle("Consulta de ejercicios");
         setLocationRelativeTo(null);
 
         this.administrador = administrador;
@@ -60,7 +60,7 @@ public class VentanaConsultaItinerarios extends JFrame implements MouseListener 
         goBackButton.setPreferredSize(new Dimension(90, 30));
 
         // Definición de etiqueta de título
-        consultaItinerarios = new JLabel("Consulta de tabla T_ITINERARIOS");
+        consultaItinerarios = new JLabel("Consulta de tabla T_EJERCICIOS");
         consultaItinerarios.setFont(fuenteNegrita2);
 
         // Configuración de panel superior
@@ -112,7 +112,7 @@ public class VentanaConsultaItinerarios extends JFrame implements MouseListener 
         Connection conn;
         conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-        String consulta = "SELECT * FROM T_ITINERARIOS ORDER BY CODIGO ASC;";
+        String consulta = "SELECT * FROM T_EJERCICIOS ORDER BY CODIGO ASC;";
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(consulta);
 
@@ -203,21 +203,23 @@ public class VentanaConsultaItinerarios extends JFrame implements MouseListener 
         int row = tabla.rowAtPoint(e.getPoint());
         int columna = tabla.columnAtPoint(e.getPoint());
 
+        String codigo = (String) modeloTabla.getValueAt(row, 0);
+        String titulo = (String) modeloTabla.getValueAt(row, 1);
+        String descripcion = (String) modeloTabla.getValueAt(row, 2);
+        String concepto = (String) modeloTabla.getValueAt(row, 3);
+        String recursos = (String) modeloTabla.getValueAt(row, 4);
+        String tipo = (String) modeloTabla.getValueAt(row, 5);
+
+        System.out.println(concepto + " - " + recursos + " - " + tipo);
+
         if (columna == tabla.getColumnCount() - 3) {
-            String codigo = (String) modeloTabla.getValueAt(row, 0);
-            String titulo = (String) modeloTabla.getValueAt(row, 1);
-            String descripcion = (String) modeloTabla.getValueAt(row, 2);
-            String olimpiada = (String) modeloTabla.getValueAt(row, 3);
-            VentanaEditarItinerario ventana = new VentanaEditarItinerario(administrador, codigo, titulo, descripcion, olimpiada);
+            VentanaEditarEjercicio ventana = new VentanaEditarEjercicio(administrador, codigo, titulo, descripcion, concepto, recursos, tipo);
             dispose();
         } else if (columna == tabla.getColumnCount() - 2) {
-            String codigo = "Copia de " + modeloTabla.getValueAt(row, 0);
-            String titulo = (String) modeloTabla.getValueAt(row, 1);
-            String descripcion = (String) modeloTabla.getValueAt(row, 2);
-            String olimpiada = (String) modeloTabla.getValueAt(row, 3);
+            codigo = "Copia de " + modeloTabla.getValueAt(row, 0);
             try {
-                administrador.createItinerario(codigo, titulo, descripcion, olimpiada);
-                VentanaConsultaItinerarios ventana = new VentanaConsultaItinerarios(administrador);
+                administrador.createExercise(codigo, titulo, descripcion, concepto, recursos, tipo);
+                VentanaConsultaEjercicios ventana = new VentanaConsultaEjercicios(administrador);
                 dispose();
             } catch (JSchException | SQLException ex) {
                 throw new RuntimeException(ex);

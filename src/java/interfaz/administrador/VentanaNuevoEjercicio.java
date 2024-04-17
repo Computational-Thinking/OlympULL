@@ -22,16 +22,12 @@ public class VentanaNuevoEjercicio extends JFrame {
     JLabel exerConcept;
     JLabel exerResources;
     JLabel exerType;
-    JLabel exerOlymp;
-    JLabel exerItinerario;
     JTextField exerCodeField;
     JTextField exerNameField;
     JTextField exerDescField;
     JComboBox<String> exerConceptField;
     JComboBox<String> exerResourcesField;
     JComboBox<String> exerTypeField;
-    JComboBox<String> exerOlympField;
-    JComboBox<String> exerItinerarioField;
     JButton createExerButton;
     JPanel inputPanel;
     JPanel upperPanel;
@@ -83,13 +79,6 @@ public class VentanaNuevoEjercicio extends JFrame {
         exerType = new JLabel("Tipo (*)");
         exerType.setFont(fuenteNegrita3);
 
-        exerOlymp = new JLabel("Olimpiada (*)");
-        exerOlymp.setFont(fuenteNegrita3);
-
-        exerItinerario = new JLabel("Itinerario (*)");
-        exerItinerario.setFont(fuenteNegrita3);
-
-
         exerCodeField = new JTextField();
         exerCodeField.setFont(fuenteNegrita2);
 
@@ -109,15 +98,14 @@ public class VentanaNuevoEjercicio extends JFrame {
         exerResourcesField = new JComboBox<>(exerResource);
         exerResourcesField.setFont(fuenteNegrita2);
 
-        String[] exerTypes = {"Enchufada", "Desenchufada"};
+        String[] exerTypes = {"Desenchufada", "Enchufada"};
         exerTypeField = new JComboBox<>(exerTypes);
         exerTypeField.setFont(fuenteNegrita2);
 
-        exerOlympField = new JComboBox<>();
-        exerOlympField.setFont(fuenteNegrita2);
 
         ArrayList<String> olimpiadas = new ArrayList<>();
 
+        /**
         // Valores para conexión a MV remota
         String sshHost = "10.6.130.204";
         String sshUser = "usuario";
@@ -192,8 +180,11 @@ public class VentanaNuevoEjercicio extends JFrame {
 
         session.disconnect();
 
+
         exerItinerarioField = new JComboBox<>();
         exerItinerarioField.setFont(fuenteNegrita2);
+
+         */
 
         createExerButton = new JButton("Crear ejercicio olímpico");
         createExerButton.setPreferredSize(new Dimension(200, 30));
@@ -205,7 +196,7 @@ public class VentanaNuevoEjercicio extends JFrame {
 
         inputPanel = new JPanel();
         inputPanel.setBorder(borde);
-        inputPanel.setLayout(new GridLayout(8, 2));
+        inputPanel.setLayout(new GridLayout(6, 2, 10, 10));
 
         inputPanel.add(exerCode);
         inputPanel.add(exerCodeField);
@@ -219,10 +210,6 @@ public class VentanaNuevoEjercicio extends JFrame {
         inputPanel.add(exerResourcesField);
         inputPanel.add(exerType);
         inputPanel.add(exerTypeField);
-        inputPanel.add(exerOlymp);
-        inputPanel.add(exerOlympField);
-        inputPanel.add(exerItinerario);
-        inputPanel.add(exerItinerarioField);
 
         add(upperPanel, BorderLayout.NORTH);
         add(inputPanel, BorderLayout.CENTER);
@@ -236,7 +223,7 @@ public class VentanaNuevoEjercicio extends JFrame {
             }
         });
 
-
+/**
         exerOlympField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -318,6 +305,7 @@ public class VentanaNuevoEjercicio extends JFrame {
                 session.disconnect();
             }
         });
+ */
 
         createExerButton.addActionListener(new ActionListener() {
             @Override
@@ -328,11 +316,9 @@ public class VentanaNuevoEjercicio extends JFrame {
                 String concept = String.valueOf(exerConceptField.getSelectedItem());
                 String resources = String.valueOf(exerResourcesField.getSelectedItem());
                 String type = String.valueOf(exerTypeField.getSelectedItem());
-                String olymp = String.valueOf(exerOlympField.getSelectedItem());
-                String itinerario = String.valueOf(exerItinerarioField.getSelectedItem());
 
                 try {
-                    administrador.createExercise(code, name, desc, concept, resources, type, olymp, itinerario);
+                    administrador.createExercise(code, name, desc, concept, resources, type);
                     VentanaAdministrador ventana = new VentanaAdministrador(administrador);
                     dispose();
                 } catch (JSchException | SQLException ex) {

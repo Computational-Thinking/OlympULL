@@ -22,7 +22,6 @@ public class VentanaAdministrador extends JFrame {
     JButton consultarEquipos;
     JButton createUser;
     JButton consultarUsuarios;
-    JButton deleteUser;
     JButton assignExerciseToUser;
     JButton asignarItinerarioAOrganizador;
     JLabel welcomeLabel;
@@ -34,7 +33,7 @@ public class VentanaAdministrador extends JFrame {
     JPanel gestionUsuarios;
 
     public VentanaAdministrador(Administrador administrador) {
-        setSize(750, 465);
+        setSize(750, 510);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Panel Administrador");
@@ -106,7 +105,8 @@ public class VentanaAdministrador extends JFrame {
         upperBar.add(goBackButton, BorderLayout.EAST);
 
         olimpiadaButtonsPanel = new JPanel();
-        olimpiadaButtonsPanel.setLayout(new GridLayout(4, 2, 10, 10));
+        olimpiadaButtonsPanel.setBorder(borde);
+        olimpiadaButtonsPanel.setLayout(new GridLayout(4, 2, 15, 15));
         olimpiadaButtonsPanel.add(createOlympiad);
         olimpiadaButtonsPanel.add(consultarOlimpiadas);
         olimpiadaButtonsPanel.add(crearItinerario);
@@ -117,7 +117,8 @@ public class VentanaAdministrador extends JFrame {
         olimpiadaButtonsPanel.add(consultarEquipos);
 
         usuariosButtonsPanel = new JPanel();
-        usuariosButtonsPanel.setLayout(new GridLayout(2, 2, 10, 10));
+        usuariosButtonsPanel.setBorder(borde);
+        usuariosButtonsPanel.setLayout(new GridLayout(2, 2, 15, 15));
         usuariosButtonsPanel.add(createUser);
         usuariosButtonsPanel.add(consultarUsuarios);
         usuariosButtonsPanel.add(assignExerciseToUser);
@@ -210,6 +211,19 @@ public class VentanaAdministrador extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new VentanaNuevoEjercicio(administrador);
+                dispose();
+            }
+        });
+
+        consultarEjercicios.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    VentanaConsultaEjercicios ventana = new VentanaConsultaEjercicios(administrador);
+                } catch (SQLException | JSchException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
                 dispose();
             }
         });
