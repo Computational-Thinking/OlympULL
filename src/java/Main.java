@@ -6,7 +6,7 @@ public class Main {
     public static Connection conn;
     public static void main(String[] args) {
         // Abrir ventana principal
-        VentanaInicio ventana = new VentanaInicio();
+        new VentanaInicio();
 
     }
 }

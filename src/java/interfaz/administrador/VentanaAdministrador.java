@@ -79,7 +79,7 @@ public class VentanaAdministrador extends JFrame {
         crearEquipo.setPreferredSize(new Dimension(200, 30));
         crearEquipo.setFont(fuenteNegrita3);
 
-        consultarEquipos = new JButton("Crear nuevo equipo");
+        consultarEquipos = new JButton("Consultar equipo");
         consultarEquipos.setPreferredSize(new Dimension(200, 30));
         consultarEquipos.setFont(fuenteNegrita3);
 
@@ -224,6 +224,29 @@ public class VentanaAdministrador extends JFrame {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error");
                 }
+                dispose();
+            }
+        });
+
+        crearEquipo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //new VentanaNuevoEquipo(administrador);
+                dispose();
+            }
+        });
+
+        crearEquipo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                /**
+                try {
+                    //VentanaConsultaEjercicios ventana = new VentanaConsultaEjercicios(administrador);
+                } catch (SQLException | JSchException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
+                 */
                 dispose();
             }
         });

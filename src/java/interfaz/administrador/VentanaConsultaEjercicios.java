@@ -37,7 +37,7 @@ public class VentanaConsultaEjercicios extends JFrame implements MouseListener {
     // Constructor
     public VentanaConsultaEjercicios(Administrador administrador) throws JSchException, SQLException {
         // Configuración de ventana
-        setSize(850, 465);
+        setSize(950, 465);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Consulta de ejercicios");
@@ -209,6 +209,7 @@ public class VentanaConsultaEjercicios extends JFrame implements MouseListener {
         String concepto = (String) modeloTabla.getValueAt(row, 3);
         String recursos = (String) modeloTabla.getValueAt(row, 4);
         String tipo = (String) modeloTabla.getValueAt(row, 5);
+        String rubrica = (String) modeloTabla.getValueAt(row, 6);
 
         System.out.println(concepto + " - " + recursos + " - " + tipo);
 
@@ -218,7 +219,7 @@ public class VentanaConsultaEjercicios extends JFrame implements MouseListener {
         } else if (columna == tabla.getColumnCount() - 2) {
             codigo = "Copia de " + modeloTabla.getValueAt(row, 0);
             try {
-                administrador.createExercise(codigo, titulo, descripcion, concepto, recursos, tipo);
+                administrador.createExercise(codigo, titulo, descripcion, concepto, recursos, tipo, rubrica);
                 VentanaConsultaEjercicios ventana = new VentanaConsultaEjercicios(administrador);
                 dispose();
             } catch (JSchException | SQLException ex) {
@@ -226,12 +227,10 @@ public class VentanaConsultaEjercicios extends JFrame implements MouseListener {
             }
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
-                administrador.deleteItinerario((String) modeloTabla.getValueAt(row, 0));
-                VentanaConsultaItinerarios ventana = new VentanaConsultaItinerarios(administrador);
+                administrador.deleteEjercicio((String) modeloTabla.getValueAt(row, 0));
+                VentanaConsultaEjercicios ventana = new VentanaConsultaEjercicios(administrador);
                 dispose();
-            } catch (JSchException ex) {
-                throw new RuntimeException(ex);
-            } catch (SQLException ex) {
+            } catch (JSchException | SQLException ex) {
                 throw new RuntimeException(ex);
             }
         }

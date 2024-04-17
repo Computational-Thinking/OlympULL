@@ -338,7 +338,7 @@ public class Administrador extends Usuario {
         session.disconnect();
     }
 
-    public void createExercise(String code, String title, String desc, String concept, String resources, String type) throws JSchException, SQLException {
+    public void createExercise(String code, String title, String desc, String concept, String resources, String type, String rubrica) throws JSchException, SQLException {
         // Valores para conexión a MV remota
         String sshHost = "10.6.130.204";
         String sshUser = "usuario";
@@ -372,7 +372,7 @@ public class Administrador extends Usuario {
         Statement stmt = conn.createStatement();
 
         // Ejecutar consulta para añadir nuevo ejercicio
-        String sql = "INSERT INTO T_EJERCICIOS VALUES ('" + code + "', '" + title + "', '" + desc + "', '" + concept + "', '" + resources + "', '" + type + "');";
+        String sql = "INSERT INTO T_EJERCICIOS VALUES ('" + code + "', '" + title + "', '" + desc + "', '" + concept + "', '" + resources + "', '" + type + "', '" + rubrica + "');";
         int rowsAffected = stmt.executeUpdate(sql);
 
         if (rowsAffected > 0) {
@@ -385,7 +385,7 @@ public class Administrador extends Usuario {
         session.disconnect();
     }
 
-    public void modifyExercise(String oldCode, String code, String title, String desc, String concepto, String recurso, String tipo) throws JSchException, SQLException {
+    public void modifyExercise(String oldCode, String code, String title, String desc, String concepto, String recurso, String tipo, String rubrica) throws JSchException, SQLException {
         // Valores para conexión a MV remota
         String sshHost = "10.6.130.204";
         String sshUser = "usuario";
@@ -429,7 +429,8 @@ public class Administrador extends Usuario {
                     "DESCRIPCION='" + desc + "', " +
                     "CONCEPTO='" + concepto + "', " +
                     "RECURSOS='" + recurso + "', " +
-                    "TIPO='" + tipo + "' WHERE CODIGO='" + oldCode + "';";
+                    "TIPO='" + tipo + "', " +
+                    "RUBRICA='" + rubrica + "' WHERE CODIGO='" + oldCode + "';";
             int rowsAffected = stmt.executeUpdate(sql2);
 
             if (rowsAffected > 0) {
@@ -437,6 +438,61 @@ public class Administrador extends Usuario {
 
             } else {
                 JOptionPane.showMessageDialog(null, "ERROR. No se ha podido modificar el ejercicio.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR. No existe el ejercicio.");
+        }
+
+        conn.close();
+        session.disconnect();
+    }
+
+    public void deleteEjercicio(String codigoEjercicio) throws JSchException, SQLException {
+        // Valores para conexión a MV remota
+        String sshHost = "10.6.130.204";
+        String sshUser = "usuario";
+        String sshPassword = "Usuario";
+        int sshPort = 22; // Puerto SSH por defecto
+        int localPort = 3307; // Puerto local para el túnel SSH
+        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
+        int remotePort = 3306; // Puerto MySQL en la máquina remota
+
+        // Conexión SSH a la MV remota
+        JSch jsch = new JSch();
+        Session session = jsch.getSession(sshUser, sshHost, sshPort);
+        session.setPassword(sshPassword);
+        session.setConfig("StrictHostKeyChecking", "no");
+        session.connect();
+
+        // Debugger
+        System.out.println("Conexión con la máquina establecida");
+
+        // Abrir un túnel SSH al puerto MySQL en la máquina remota
+        session.setPortForwardingL(localPort, remoteHost, remotePort);
+
+        // Conexión a MySQL a través del túnel SSH
+        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+        String dbUser = "root";
+        String dbPassword = "root";
+        Connection conn;
+        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+        // Debugger
+        Statement stmt = conn.createStatement();
+
+        // Ejecutar la consulta SQL
+        String sql1 = "SELECT CODIGO FROM T_EJERCICIOS WHERE CODIGO = " + "'" + codigoEjercicio + "'";
+        ResultSet rs = stmt.executeQuery(sql1);
+
+        if (rs.next()) {
+            String sql2 = "DELETE FROM T_EJERCICIOS WHERE CODIGO = '" + codigoEjercicio + "';";
+            int rowsAffected = stmt.executeUpdate(sql2);
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Ejercicio eliminado con éxito.");
+
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR. No se ha podido eliminar el ejercicio.");
             }
         } else {
             JOptionPane.showMessageDialog(null, "ERROR. No existe el ejercicio.");
