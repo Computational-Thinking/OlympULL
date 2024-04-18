@@ -18,6 +18,8 @@ public class VentanaAdministrador extends JFrame {
     JButton consultarItinerario;
     JButton createExercise;
     JButton consultarEjercicios;
+    JButton crearRubrica;
+    JButton consultarRubricas;
     JButton crearEquipo;
     JButton consultarEquipos;
     JButton createUser;
@@ -33,7 +35,7 @@ public class VentanaAdministrador extends JFrame {
     JPanel gestionUsuarios;
 
     public VentanaAdministrador(Administrador administrador) {
-        setSize(750, 510);
+        setSize(750, 560);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Panel Administrador");
@@ -79,9 +81,17 @@ public class VentanaAdministrador extends JFrame {
         crearEquipo.setPreferredSize(new Dimension(200, 30));
         crearEquipo.setFont(fuenteNegrita3);
 
-        consultarEquipos = new JButton("Consultar equipo");
+        consultarEquipos = new JButton("Consultar equipos");
         consultarEquipos.setPreferredSize(new Dimension(200, 30));
         consultarEquipos.setFont(fuenteNegrita3);
+
+        crearRubrica = new JButton("Crear nueva rúbrica");
+        crearRubrica.setPreferredSize(new Dimension(200, 30));
+        crearRubrica.setFont(fuenteNegrita3);
+
+        consultarRubricas = new JButton("Consultar rúbricas");
+        consultarRubricas.setPreferredSize(new Dimension(200, 30));
+        consultarRubricas.setFont(fuenteNegrita3);
 
         createUser = new JButton("Crear nuevo usuario");
         createUser.setPreferredSize(new Dimension(200, 30));
@@ -106,13 +116,15 @@ public class VentanaAdministrador extends JFrame {
 
         olimpiadaButtonsPanel = new JPanel();
         olimpiadaButtonsPanel.setBorder(borde);
-        olimpiadaButtonsPanel.setLayout(new GridLayout(4, 2, 15, 15));
+        olimpiadaButtonsPanel.setLayout(new GridLayout(5, 2, 15, 15));
         olimpiadaButtonsPanel.add(createOlympiad);
         olimpiadaButtonsPanel.add(consultarOlimpiadas);
         olimpiadaButtonsPanel.add(crearItinerario);
         olimpiadaButtonsPanel.add(consultarItinerario);
         olimpiadaButtonsPanel.add(createExercise);
         olimpiadaButtonsPanel.add(consultarEjercicios);
+        olimpiadaButtonsPanel.add(crearRubrica);
+        olimpiadaButtonsPanel.add(consultarRubricas);
         olimpiadaButtonsPanel.add(crearEquipo);
         olimpiadaButtonsPanel.add(consultarEquipos);
 
@@ -220,6 +232,27 @@ public class VentanaAdministrador extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     VentanaConsultaEjercicios ventana = new VentanaConsultaEjercicios(administrador);
+                } catch (SQLException | JSchException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
+                dispose();
+            }
+        });
+
+        crearRubrica.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new VentanaNuevaRubrica(administrador);
+                dispose();
+            }
+        });
+
+        consultarRubricas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new VentanaConsultaRubricas(administrador);
                 } catch (SQLException | JSchException ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error");

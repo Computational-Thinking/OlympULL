@@ -6,6 +6,7 @@ import com.jcraft.jsch.Session;
 
 import javax.swing.*;
 import java.sql.*;
+import java.util.Arrays;
 
 public class Administrador extends Usuario {
     public Administrador(String nombre, String password) {
@@ -496,6 +497,168 @@ public class Administrador extends Usuario {
             }
         } else {
             JOptionPane.showMessageDialog(null, "ERROR. No existe el ejercicio.");
+        }
+
+        conn.close();
+        session.disconnect();
+    }
+
+    public void createRubric(String code, String nombre, String descripcion, String tags, String values) throws JSchException, SQLException {
+        // Valores para conexión a MV remota
+        String sshHost = "10.6.130.204";
+        String sshUser = "usuario";
+        String sshPassword = "Usuario";
+        int sshPort = 22; // Puerto SSH por defecto
+        int localPort = 3307; // Puerto local para el túnel SSH
+        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
+        int remotePort = 3306; // Puerto MySQL en la máquina remota
+
+        // Conexión SSH a la MV remota
+        JSch jsch = new JSch();
+        Session session = jsch.getSession(sshUser, sshHost, sshPort);
+        session.setPassword(sshPassword);
+        session.setConfig("StrictHostKeyChecking", "no");
+        session.connect();
+
+        // Debugger
+        System.out.println("Conexión con la máquina establecida");
+
+        // Abrir un túnel SSH al puerto MySQL en la máquina remota
+        session.setPortForwardingL(localPort, remoteHost, remotePort);
+
+        // Conexión a MySQL a través del túnel SSH
+        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+        String dbUser = "root";
+        String dbPassword = "root";
+        Connection conn;
+        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+        // Debugger
+        Statement stmt = conn.createStatement();
+
+        // Ejecutar consulta para añadir nuevo ejercicio
+        String sql = "INSERT INTO T_RUBRICAS VALUES ('" + code + "', '" + nombre + "', '" + descripcion + "', '" + tags + "', '" + values + "');";
+        int rowsAffected = stmt.executeUpdate(sql);
+
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(null, "Se ha creado la rúbrica.");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha podido crear la rúbrica.");
+        }
+
+        conn.close();
+        session.disconnect();
+    }
+
+    public void modifyRubric(String oldCode, String code, String title, String desc, String tags, String values) throws JSchException, SQLException {
+        // Valores para conexión a MV remota
+        String sshHost = "10.6.130.204";
+        String sshUser = "usuario";
+        String sshPassword = "Usuario";
+        int sshPort = 22; // Puerto SSH por defecto
+        int localPort = 3307; // Puerto local para el túnel SSH
+        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
+        int remotePort = 3306; // Puerto MySQL en la máquina remota
+
+        // Conexión SSH a la MV remota
+        JSch jsch = new JSch();
+        Session session = jsch.getSession(sshUser, sshHost, sshPort);
+        session.setPassword(sshPassword);
+        session.setConfig("StrictHostKeyChecking", "no");
+        session.connect();
+
+        // Debugger
+        System.out.println("Conexión con la máquina establecida");
+
+        // Abrir un túnel SSH al puerto MySQL en la máquina remota
+        session.setPortForwardingL(localPort, remoteHost, remotePort);
+
+        // Conexión a MySQL a través del túnel SSH
+        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+        String dbUser = "root";
+        String dbPassword = "root";
+        Connection conn;
+        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+        // Debugger
+        Statement stmt = conn.createStatement();
+
+        // Ejecutar la consulta SQL
+        String sql1 = "SELECT * FROM T_RUBRICAS WHERE CODIGO= " + "'" + oldCode + "'";
+        ResultSet rs = stmt.executeQuery(sql1);
+
+        if (rs.next()) {
+            String sql2 = "UPDATE T_RUBRICAS " +
+                    "SET CODIGO='" + code + "', " +
+                    "NOMBRE='" + title + "', " +
+                    "DESCRIPCION='" + desc + "', " +
+                    "ETIQUETAS_BAREMO='" + tags + "', " +
+                    "VALORES_BAREMO='" + values + "' WHERE CODIGO='" + oldCode + "';";
+            int rowsAffected = stmt.executeUpdate(sql2);
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Rúbrica modificada con éxito.");
+
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR. No se ha podido modificar la rúbrica.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR. No existe la rúbrica.");
+        }
+
+        conn.close();
+        session.disconnect();
+    }
+
+    public void deleteRubric(String codigoRubrica) throws JSchException, SQLException {
+        // Valores para conexión a MV remota
+        String sshHost = "10.6.130.204";
+        String sshUser = "usuario";
+        String sshPassword = "Usuario";
+        int sshPort = 22; // Puerto SSH por defecto
+        int localPort = 3307; // Puerto local para el túnel SSH
+        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
+        int remotePort = 3306; // Puerto MySQL en la máquina remota
+
+        // Conexión SSH a la MV remota
+        JSch jsch = new JSch();
+        Session session = jsch.getSession(sshUser, sshHost, sshPort);
+        session.setPassword(sshPassword);
+        session.setConfig("StrictHostKeyChecking", "no");
+        session.connect();
+
+        // Debugger
+        System.out.println("Conexión con la máquina establecida");
+
+        // Abrir un túnel SSH al puerto MySQL en la máquina remota
+        session.setPortForwardingL(localPort, remoteHost, remotePort);
+
+        // Conexión a MySQL a través del túnel SSH
+        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+        String dbUser = "root";
+        String dbPassword = "root";
+        Connection conn;
+        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+        // Debugger
+        Statement stmt = conn.createStatement();
+
+        // Ejecutar la consulta SQL
+        String sql1 = "SELECT CODIGO FROM T_RUBRICAS WHERE CODIGO = " + "'" + codigoRubrica + "'";
+        ResultSet rs = stmt.executeQuery(sql1);
+
+        if (rs.next()) {
+            String sql2 = "DELETE FROM T_RUBRICAS WHERE CODIGO = '" + codigoRubrica + "';";
+            int rowsAffected = stmt.executeUpdate(sql2);
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Rúbrica eliminada con éxito.");
+
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR. No se ha podido eliminar la rúbrica.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR. No existe la rúbrica.");
         }
 
         conn.close();

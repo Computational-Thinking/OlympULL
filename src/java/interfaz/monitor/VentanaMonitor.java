@@ -1,8 +1,7 @@
 package interfaz.monitor;
 
-import interfaz.administrador.VentanaBaremo;
+import interfaz.administrador.VentanaNuevaRubrica;
 import interfaz.administrador.VentanaCambioContrasea;
-import interfaz.monitor.VentanaPuntuarEjercicio;
 import usuarios.Monitor;
 
 import javax.swing.*;
@@ -44,13 +43,6 @@ public class VentanaMonitor extends JFrame {
 
         add(welcomeLabel, BorderLayout.NORTH);
         add(buttonsPanel, BorderLayout.CENTER);
-
-        botonEstablecerBaremo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                VentanaBaremo ventana = new VentanaBaremo(monitor);
-            }
-        });
 
         botonPuntuar.addActionListener(new ActionListener() {
             @Override
