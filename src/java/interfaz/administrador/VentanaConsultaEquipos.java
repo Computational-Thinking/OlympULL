@@ -18,7 +18,7 @@ import java.awt.event.MouseListener;
 import java.sql.*;
 import java.util.Arrays;
 
-public class VentanaConsultaRubricas extends JFrame implements MouseListener {
+public class VentanaConsultaEquipos extends JFrame implements MouseListener {
     // Panel superior (título y botón de volver)
     JPanel upperPanel;
     // Panel de tabla
@@ -34,12 +34,12 @@ public class VentanaConsultaRubricas extends JFrame implements MouseListener {
     Administrador administrador;
 
     // Constructor
-    public VentanaConsultaRubricas(Administrador administrador) throws JSchException, SQLException {
+    public VentanaConsultaEquipos(Administrador administrador) throws JSchException, SQLException {
         // Configuración de ventana
         setSize(750, 465);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Consulta de rúbricas");
+        this.setTitle("Consulta de equipos");
         setLocationRelativeTo(null);
 
         this.administrador = administrador;
@@ -59,7 +59,7 @@ public class VentanaConsultaRubricas extends JFrame implements MouseListener {
         goBackButton.setPreferredSize(new Dimension(90, 30));
 
         // Definición de etiqueta de título
-        consultaRubricas = new JLabel("Consulta de tabla T_RUBRICAS");
+        consultaRubricas = new JLabel("Consulta de tabla T_EQUIPOS");
         consultaRubricas.setFont(fuenteNegrita2);
 
         // Configuración de panel superior
@@ -111,7 +111,7 @@ public class VentanaConsultaRubricas extends JFrame implements MouseListener {
         Connection conn;
         conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-        String consulta = "SELECT * FROM T_RUBRICAS ORDER BY CODIGO ASC;";
+        String consulta = "SELECT * FROM T_EQUIPOS ORDER BY CODIGO ASC;";
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(consulta);
 
@@ -188,7 +188,7 @@ public class VentanaConsultaRubricas extends JFrame implements MouseListener {
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaAdministrador ventana = new VentanaAdministrador(administrador);
+                new VentanaAdministrador(administrador);
                 dispose();
             }
         });
@@ -203,42 +203,27 @@ public class VentanaConsultaRubricas extends JFrame implements MouseListener {
         int columna = tabla.columnAtPoint(e.getPoint());
 
         String codigo = (String) modeloTabla.getValueAt(row, 0);
-        String titulo = (String) modeloTabla.getValueAt(row, 1);
-        String descripcion = (String) modeloTabla.getValueAt(row, 2);
-        String values = (String) modeloTabla.getValueAt(row, 3);
-        String tags = (String) modeloTabla.getValueAt(row, 4);
-
-        String[] separatedTags = tags.split(",");
-        int[] separatedValuesInt = new int[separatedTags.length];
-        String[] separatedValues = values.split(",");
-
-        // Convertir cada elemento del array de Strings a un entero y almacenarlo en el array de enteros
-        for (int i = 0; i < separatedValues.length; i++) {
-            if (i == 0) {
-                separatedValuesInt[i] = Integer.parseInt(separatedValues[i].substring(1));
-            } else if (i == separatedTags.length - 1) {
-                separatedValuesInt[i] = Integer.parseInt(separatedValues[i].substring(1, separatedValues[i].length() - 1));
-            } else {
-                separatedValuesInt[i] = Integer.parseInt(separatedValues[i].substring(1));
-            }
-        }
+        String name = (String) modeloTabla.getValueAt(row, 1);
+        String school = (String) modeloTabla.getValueAt(row, 2);
+        String itinerario = (String) modeloTabla.getValueAt(row, 3);
 
         if (columna == tabla.getColumnCount() - 3) {
-            new VentanaEditarRubrica(administrador, codigo, titulo, descripcion, separatedValuesInt, separatedTags);
+            new VentanaEditarEquipo(administrador, codigo, name, school, itinerario);
             dispose();
         } else if (columna == tabla.getColumnCount() - 2) {
             codigo = "Copia de " + modeloTabla.getValueAt(row, 0);
+            name = "Copia de " + modeloTabla.getValueAt(row, 1);
             try {
-                administrador.createRubric(codigo, titulo, descripcion, values, tags);
-                new VentanaConsultaRubricas(administrador);
+                administrador.createTeam(codigo, name, school, itinerario);
+                new VentanaConsultaEquipos(administrador);
                 dispose();
             } catch (JSchException | SQLException ex) {
                 throw new RuntimeException(ex);
             }
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
-                administrador.deleteRubric(codigo);
-                new VentanaConsultaRubricas(administrador);
+                administrador.deleteTeam(codigo);
+                new VentanaConsultaEquipos(administrador);
                 dispose();
             } catch (JSchException ex) {
                 throw new RuntimeException(ex);

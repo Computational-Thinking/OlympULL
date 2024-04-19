@@ -264,22 +264,20 @@ public class VentanaAdministrador extends JFrame {
         crearEquipo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //new VentanaNuevoEquipo(administrador);
+                new VentanaNuevoEquipo(administrador);
                 dispose();
             }
         });
 
-        crearEquipo.addActionListener(new ActionListener() {
+        consultarEquipos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /**
                 try {
-                    //VentanaConsultaEjercicios ventana = new VentanaConsultaEjercicios(administrador);
+                    new VentanaConsultaEquipos(administrador);
                 } catch (SQLException | JSchException ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error");
                 }
-                 */
                 dispose();
             }
         });
