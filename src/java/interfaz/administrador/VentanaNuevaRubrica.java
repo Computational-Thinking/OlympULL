@@ -209,7 +209,7 @@ public class VentanaNuevaRubrica extends JFrame {
         addNewPunctuationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (nScales < 10) {
+                if (nScales < 11) {
                     JPanel newMark = new JPanel();
                     newMark.setLayout(new GridLayout(1, 2, 5, 5));
 
@@ -279,18 +279,16 @@ public class VentanaNuevaRubrica extends JFrame {
                 Component[] registers = customValuesPanel.getComponents();
                 int counter = 1;
 
-                if (registers.length > 0) {
-                    for (Component register : registers) {
-                        JPanel dummy = (JPanel) register;
-                        Component[] textFields = dummy.getComponents();
-                        JTextField value = (JTextField) textFields[0];
-                        JTextField tag = (JTextField) textFields[1];
+                for (Component register : registers) {
+                    JPanel dummy = (JPanel) register;
+                    Component[] textFields = dummy.getComponents();
+                    JTextField value = (JTextField) textFields[0];
+                    JTextField tag = (JTextField) textFields[1];
 
-                        scalePoints[counter] = Integer.parseInt(value.getText());
-                        scaleTags[counter] = (tag.getText());
+                    scalePoints[counter] = Integer.parseInt(value.getText());
+                    scaleTags[counter] = (tag.getText());
 
-                        ++counter;
-                    }
+                    ++counter;
                 }
 
                 scalePoints[scalePoints.length - 1] = Integer.parseInt(maxPunctuation.getText());
@@ -304,6 +302,7 @@ public class VentanaNuevaRubrica extends JFrame {
                     throw new RuntimeException(ex);
                 }
                 new VentanaAdministrador(administrador);
+                dispose();
             }
         });
 

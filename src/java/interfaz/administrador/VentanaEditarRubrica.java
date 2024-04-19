@@ -70,7 +70,7 @@ public class VentanaEditarRubrica extends JFrame {
         Font fuenteTitulo = new Font("Argentum Sans Bold", Font.PLAIN, 18);
         Font fuenteEtiquetasBotones = new Font("Argentum Sans Bold", Font.PLAIN, 12);
 
-        nScales = points.length + 2;
+        nScales = points.length;
 
         // Botón de volver
         goBackButton = new JButton("< Volver");
@@ -140,13 +140,12 @@ public class VentanaEditarRubrica extends JFrame {
             newMark.setLayout(new GridLayout(1, 2, 5, 5));
 
             // Campo de puntos
-            System.out.println(points[i]);
-            JTextField newPunctuation = new JTextField(points[i]);
+            JTextField newPunctuation = new JTextField(String.valueOf(points[i]));
             newPunctuation.setPreferredSize(new Dimension(200, 30));
             newPunctuation.setFont(fuenteCamposTexto);
 
             // Campo de etiqueta de puntos
-            JTextField newTag = new JTextField(tags[i]);
+            JTextField newTag = new JTextField(tags[i].substring(1));
             newTag.setPreferredSize(new Dimension(200, 30));
             newTag.setFont(fuenteCamposTexto);
 
@@ -159,16 +158,13 @@ public class VentanaEditarRubrica extends JFrame {
 
             // Se añade el panel al panel de campos personalizados
             customValuesPanel.add(newMark);
-
-            // Valor de seguridad
-            nScales += 1;
         }
 
         // Valor máximo por defecto (Panel 6.2)
         maxPunctuation = new JLabel("10");
         maxPunctuation.setFont(fuenteEtiquetasBotones);
         maxPunctuation.setPreferredSize(new Dimension(200, 30));
-        maxPunctuationTagField = new JTextField(tags[points.length - 1].substring(0, tags[points.length - 1].length() - 1));
+        maxPunctuationTagField = new JTextField(tags[points.length - 1].substring(1, tags[points.length - 1].length() - 1));
         maxPunctuationTagField.setFont(fuenteCamposTexto);
         maxPunctuationTagField.setPreferredSize(new Dimension(200, 30));
 
@@ -243,7 +239,7 @@ public class VentanaEditarRubrica extends JFrame {
         addNewPunctuationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (nScales < 10) {
+                if (nScales < 11) {
                     JPanel newMark = new JPanel();
                     newMark.setLayout(new GridLayout(1, 2, 5, 5));
 
@@ -317,6 +313,7 @@ public class VentanaEditarRubrica extends JFrame {
                     JPanel dummy = (JPanel) register;
                     Component[] textFields = dummy.getComponents();
                     JTextField value = (JTextField) textFields[0];
+                    System.out.println(value.getText());
                     JTextField tag = (JTextField) textFields[1];
 
                     scalePoints[counter] = Integer.parseInt(value.getText());
@@ -330,13 +327,12 @@ public class VentanaEditarRubrica extends JFrame {
 
                 try {
                     administrador.modifyRubric(code, codeField.getText(), nameField.getText(), descriptionField.getText(), Arrays.toString(scalePoints), Arrays.toString(scaleTags));
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                } catch (JSchException ex) {
+                } catch (SQLException | JSchException ex) {
                     throw new RuntimeException(ex);
                 }
                 try {
                     new VentanaConsultaRubricas(administrador);
+                    dispose();
                 } catch (JSchException | SQLException ex) {
                     throw new RuntimeException(ex);
                 }

@@ -550,7 +550,7 @@ public class Administrador extends Usuario {
         session.disconnect();
     }
 
-    public void modifyRubric(String oldCode, String code, String title, String desc, String tags, String values) throws JSchException, SQLException {
+    public void modifyRubric(String oldCode, String code, String title, String desc, String values, String tags) throws JSchException, SQLException {
         // Valores para conexión a MV remota
         String sshHost = "10.6.130.204";
         String sshUser = "usuario";
@@ -592,8 +592,8 @@ public class Administrador extends Usuario {
                     "SET CODIGO='" + code + "', " +
                     "NOMBRE='" + title + "', " +
                     "DESCRIPCION='" + desc + "', " +
-                    "PUNTOS_RUBRICA='" + tags + "', " +
-                    "ETIQUETAS_RUBRICA='" + values + "' WHERE CODIGO='" + oldCode + "';";
+                    "PUNTOS_RUBRICA='" + values + "', " +
+                    "ETIQUETAS_RUBRICA='" + tags + "' WHERE CODIGO='" + oldCode + "';";
             int rowsAffected = stmt.executeUpdate(sql2);
 
             if (rowsAffected > 0) {
