@@ -503,7 +503,7 @@ public class Administrador extends Usuario {
         session.disconnect();
     }
 
-    public void createRubric(String code, String nombre, String descripcion, String tags, String values) throws JSchException, SQLException {
+    public void createRubric(String code, String nombre, String descripcion, String values, String tags) throws JSchException, SQLException {
         // Valores para conexión a MV remota
         String sshHost = "10.6.130.204";
         String sshUser = "usuario";
@@ -537,7 +537,7 @@ public class Administrador extends Usuario {
         Statement stmt = conn.createStatement();
 
         // Ejecutar consulta para añadir nuevo ejercicio
-        String sql = "INSERT INTO T_RUBRICAS VALUES ('" + code + "', '" + nombre + "', '" + descripcion + "', '" + tags + "', '" + values + "');";
+        String sql = "INSERT INTO T_RUBRICAS VALUES ('" + code + "', '" + nombre + "', '" + descripcion + "', '" + values + "', '" + tags + "');";
         int rowsAffected = stmt.executeUpdate(sql);
 
         if (rowsAffected > 0) {
@@ -592,8 +592,8 @@ public class Administrador extends Usuario {
                     "SET CODIGO='" + code + "', " +
                     "NOMBRE='" + title + "', " +
                     "DESCRIPCION='" + desc + "', " +
-                    "ETIQUETAS_BAREMO='" + tags + "', " +
-                    "VALORES_BAREMO='" + values + "' WHERE CODIGO='" + oldCode + "';";
+                    "PUNTOS_RUBRICA='" + tags + "', " +
+                    "ETIQUETAS_RUBRICA='" + values + "' WHERE CODIGO='" + oldCode + "';";
             int rowsAffected = stmt.executeUpdate(sql2);
 
             if (rowsAffected > 0) {

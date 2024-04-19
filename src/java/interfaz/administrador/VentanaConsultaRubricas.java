@@ -205,8 +205,8 @@ public class VentanaConsultaRubricas extends JFrame implements MouseListener {
         String codigo = (String) modeloTabla.getValueAt(row, 0);
         String titulo = (String) modeloTabla.getValueAt(row, 1);
         String descripcion = (String) modeloTabla.getValueAt(row, 2);
-        String tags = (String) modeloTabla.getValueAt(row, 3);
-        String values = (String) modeloTabla.getValueAt(row, 4);
+        String values = (String) modeloTabla.getValueAt(row, 3);
+        String tags = (String) modeloTabla.getValueAt(row, 4);
 
         String[] separatedTags = tags.split(",");
         int[] separatedValuesInt = new int[separatedTags.length];
@@ -224,12 +224,12 @@ public class VentanaConsultaRubricas extends JFrame implements MouseListener {
         }
 
         if (columna == tabla.getColumnCount() - 3) {
-            //new VentanaEditarRubrica(administrador, codigo, titulo, descripcion, separatedTagsInt, values);
-            //dispose();
+            new VentanaEditarRubrica(administrador, codigo, titulo, descripcion, separatedValuesInt, separatedTags);
+            dispose();
         } else if (columna == tabla.getColumnCount() - 2) {
             codigo = "Copia de " + modeloTabla.getValueAt(row, 0);
             try {
-                administrador.createRubric(codigo, titulo, descripcion, tags, values);
+                administrador.createRubric(codigo, titulo, descripcion, values, tags);
                 new VentanaConsultaRubricas(administrador);
                 dispose();
             } catch (JSchException | SQLException ex) {
