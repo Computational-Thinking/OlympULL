@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class VentanaAdministrador extends JFrame {
+    // Botones
     JButton createOlympiad;
     JButton consultarOlimpiadas;
     JButton crearItinerario;
@@ -22,20 +23,27 @@ public class VentanaAdministrador extends JFrame {
     JButton consultarRubricas;
     JButton crearEquipo;
     JButton consultarEquipos;
+    JButton assignExerciseToOlympiad;
+    JButton consultarAsignacionEjercicios;
     JButton createUser;
     JButton consultarUsuarios;
     JButton assignExerciseToUser;
     JButton asignarItinerarioAOrganizador;
+    JButton goBackButton;
+
+
+    // Etiquetas
     JLabel welcomeLabel;
+
+    // Paneles
     JPanel olimpiadaButtonsPanel;
     JPanel usuariosButtonsPanel;
-    JButton goBackButton;
     JPanel upperBar;
     JPanel gestionOlimpiada;
     JPanel gestionUsuarios;
 
     public VentanaAdministrador(Administrador administrador) {
-        setSize(750, 560);
+        setSize(750, 600);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Panel Administrador");
@@ -49,9 +57,9 @@ public class VentanaAdministrador extends JFrame {
         Font fuenteNegrita2 = new Font("Argentum Sans Bold", Font.PLAIN, 18);
         Font fuenteNegrita3 = new Font("Argentum Sans Bold", Font.PLAIN, 12);
 
-        goBackButton = new JButton("< Volver");
+        goBackButton = new JButton("< Desconectar");
         goBackButton.setFont(fuenteNegrita3);
-        goBackButton.setPreferredSize(new Dimension(90, 30));
+        goBackButton.setPreferredSize(new Dimension(120, 30));
 
         createOlympiad = new JButton("Crear nueva olimpiada");
         createOlympiad.setPreferredSize(new Dimension(200, 30));
@@ -93,6 +101,14 @@ public class VentanaAdministrador extends JFrame {
         consultarRubricas.setPreferredSize(new Dimension(200, 30));
         consultarRubricas.setFont(fuenteNegrita3);
 
+        assignExerciseToOlympiad = new JButton("Asignar ejercicio a olimpiada");
+        assignExerciseToOlympiad.setPreferredSize(new Dimension(200, 30));
+        assignExerciseToOlympiad.setFont(fuenteNegrita3);
+
+        consultarAsignacionEjercicios = new JButton("Consultar asignaciones de ejercicios");
+        consultarAsignacionEjercicios.setPreferredSize(new Dimension(200, 30));
+        consultarAsignacionEjercicios.setFont(fuenteNegrita3);
+
         createUser = new JButton("Crear nuevo usuario");
         createUser.setPreferredSize(new Dimension(200, 30));
         createUser.setFont(fuenteNegrita3);
@@ -116,7 +132,7 @@ public class VentanaAdministrador extends JFrame {
 
         olimpiadaButtonsPanel = new JPanel();
         olimpiadaButtonsPanel.setBorder(borde);
-        olimpiadaButtonsPanel.setLayout(new GridLayout(5, 2, 15, 15));
+        olimpiadaButtonsPanel.setLayout(new GridLayout(6, 2, 15, 15));
         olimpiadaButtonsPanel.add(createOlympiad);
         olimpiadaButtonsPanel.add(consultarOlimpiadas);
         olimpiadaButtonsPanel.add(crearItinerario);
@@ -127,6 +143,8 @@ public class VentanaAdministrador extends JFrame {
         olimpiadaButtonsPanel.add(consultarRubricas);
         olimpiadaButtonsPanel.add(crearEquipo);
         olimpiadaButtonsPanel.add(consultarEquipos);
+        olimpiadaButtonsPanel.add(assignExerciseToOlympiad);
+        olimpiadaButtonsPanel.add(consultarAsignacionEjercicios);
 
         usuariosButtonsPanel = new JPanel();
         usuariosButtonsPanel.setBorder(borde);
@@ -274,6 +292,27 @@ public class VentanaAdministrador extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     new VentanaConsultaEquipos(administrador);
+                } catch (SQLException | JSchException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
+                dispose();
+            }
+        });
+
+        assignExerciseToOlympiad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new VentanaNuevaAsignacionEjOlimp(administrador);
+                dispose();
+            }
+        });
+
+        consultarAsignacionEjercicios.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new VentanaConsultaAsignacionEjOlimp(administrador);
                 } catch (SQLException | JSchException ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error");

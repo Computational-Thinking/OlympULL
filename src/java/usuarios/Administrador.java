@@ -755,25 +755,18 @@ public class Administrador extends Usuario {
         Statement stmt = conn.createStatement();
 
         // Ejecutar la consulta SQL
-        String sql1 = "SELECT * FROM T_EQUIPOS WHERE CODIGO= " + "'" + oldCode + "'";
-        ResultSet rs = stmt.executeQuery(sql1);
+        String sql2 = "UPDATE T_EQUIPOS " +
+                "SET CODIGO='" + code + "', " +
+                "NOMBRE='" + name + "', " +
+                "CENTRO_EDUCATIVO='" + school + "', " +
+                "ITINERARIO='" + itinerario + "' WHERE CODIGO='" + oldCode + "';";
+        int rowsAffected = stmt.executeUpdate(sql2);
 
-        if (rs.next()) {
-            String sql2 = "UPDATE T_EQUIPOS " +
-                    "SET CODIGO='" + code + "', " +
-                    "NOMBRE='" + name + "', " +
-                    "CENTRO_EDUCATIVO='" + school + "', " +
-                    "ITINERARIO='" + itinerario + "' WHERE CODIGO='" + oldCode + "';";
-            int rowsAffected = stmt.executeUpdate(sql2);
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(null, "Equipo modificado con éxito.");
 
-            if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, "Equipo modificado con éxito.");
-
-            } else {
-                JOptionPane.showMessageDialog(null, "ERROR. No se ha podido modificar el equipo.");
-            }
         } else {
-            JOptionPane.showMessageDialog(null, "ERROR. No existe el equipo.");
+            JOptionPane.showMessageDialog(null, "ERROR. No se ha podido modificar el equipo.");
         }
 
         conn.close();
@@ -829,6 +822,192 @@ public class Administrador extends Usuario {
             }
         } else {
             JOptionPane.showMessageDialog(null, "ERROR. No existe el equipo.");
+        }
+
+        conn.close();
+        session.disconnect();
+    }
+
+    public void assignExerciseToOlympiad(String exercise, String olympiad, String itinerario) {
+        // Valores para conexión a MV remota
+        String sshHost = "10.6.130.204";
+        String sshUser = "usuario";
+        String sshPassword = "Usuario";
+        int sshPort = 22; // Puerto SSH por defecto
+        int localPort = 3307; // Puerto local para el túnel SSH
+        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
+        int remotePort = 3306; // Puerto MySQL en la máquina remota
+
+        // Conexión SSH a la MV remota
+        JSch jsch = new JSch();
+        Session session = null;
+        try {
+            session = jsch.getSession(sshUser, sshHost, sshPort);
+        } catch (JSchException ex) {
+            throw new RuntimeException(ex);
+        }
+        session.setPassword(sshPassword);
+        session.setConfig("StrictHostKeyChecking", "no");
+        try {
+            session.connect();
+        } catch (JSchException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        // Debugger
+        System.out.println("Conexión con la máquina establecida");
+
+        // Abrir un túnel SSH al puerto MySQL en la máquina remota
+        try {
+            session.setPortForwardingL(localPort, remoteHost, remotePort);
+        } catch (JSchException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        // Conexión a MySQL a través del túnel SSH
+        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+        String dbUser = "root";
+        String dbPassword = "root";
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        // Ejecutar consulta para añadir nuevo ejercicio
+        String sql = "INSERT INTO T_EJERCICIOS_OLIMPIADA_ITINERARIO VALUES('" + exercise + "', '" + olympiad + "', '" + itinerario + "');";
+
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        int rowsAffected = 0;
+        try {
+            rowsAffected = stmt.executeUpdate(sql);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(null, "Se ha asignado el ejercicio.");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha podido asignar el ejercicio.");
+        }
+
+
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        session.disconnect();
+    }
+
+    public void modifyAssignationExOlymp(String oldEx, String oldOlymp, String oldIt, String exercise, String olymp, String it) throws JSchException, SQLException {
+        assignExerciseToOlympiad(exercise, olymp, it);
+        // Valores para conexión a MV remota
+        String sshHost = "10.6.130.204";
+        String sshUser = "usuario";
+        String sshPassword = "Usuario";
+        int sshPort = 22; // Puerto SSH por defecto
+        int localPort = 3307; // Puerto local para el túnel SSH
+        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
+        int remotePort = 3306; // Puerto MySQL en la máquina remota
+
+        // Conexión SSH a la MV remota
+        JSch jsch = new JSch();
+        Session session = jsch.getSession(sshUser, sshHost, sshPort);
+        session.setPassword(sshPassword);
+        session.setConfig("StrictHostKeyChecking", "no");
+        session.connect();
+
+        // Debugger
+        System.out.println("Conexión con la máquina establecida");
+
+        // Abrir un túnel SSH al puerto MySQL en la máquina remota
+        session.setPortForwardingL(localPort, remoteHost, remotePort);
+
+        // Conexión a MySQL a través del túnel SSH
+        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+        String dbUser = "root";
+        String dbPassword = "root";
+        Connection conn;
+        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+        // Debugger
+        Statement stmt = conn.createStatement();
+
+        // Ejecutar la consulta SQL
+        String sql1 = "SELECT EJERCICIO FROM T_EJERCICIOS_OLIMPIADA_ITINERARIO WHERE EJERCICIO = " + "'" + oldEx + "'";
+        ResultSet rs = stmt.executeQuery(sql1);
+
+        if (rs.next()) {
+            String sql2 = "DELETE FROM T_EJERCICIOS_OLIMPIADA_ITINERARIO WHERE EJERCICIO = '" + oldEx + "' AND OLIMPIADA='" + oldOlymp + "' AND ITINERARIO='" + oldIt + "';";
+            int rowsAffected = stmt.executeUpdate(sql2);
+
+            if (!(rowsAffected > 0)) {
+                JOptionPane.showMessageDialog(null, "ERROR. No se ha podido eliminar la asignación.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR. No existe la fila.");
+        }
+
+        conn.close();
+        session.disconnect();
+    }
+
+    public void deleteAssignationEjOlimp(String codigo) throws JSchException, SQLException {
+        // Valores para conexión a MV remota
+        String sshHost = "10.6.130.204";
+        String sshUser = "usuario";
+        String sshPassword = "Usuario";
+        int sshPort = 22; // Puerto SSH por defecto
+        int localPort = 3307; // Puerto local para el túnel SSH
+        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
+        int remotePort = 3306; // Puerto MySQL en la máquina remota
+
+        // Conexión SSH a la MV remota
+        JSch jsch = new JSch();
+        Session session = jsch.getSession(sshUser, sshHost, sshPort);
+        session.setPassword(sshPassword);
+        session.setConfig("StrictHostKeyChecking", "no");
+        session.connect();
+
+        // Debugger
+        System.out.println("Conexión con la máquina establecida");
+
+        // Abrir un túnel SSH al puerto MySQL en la máquina remota
+        session.setPortForwardingL(localPort, remoteHost, remotePort);
+
+        // Conexión a MySQL a través del túnel SSH
+        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+        String dbUser = "root";
+        String dbPassword = "root";
+        Connection conn;
+        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+        // Debugger
+        Statement stmt = conn.createStatement();
+
+        // Ejecutar la consulta SQL
+        String sql1 = "SELECT EJERCICIO FROM T_EJERCICIOS_OLIMPIADA_ITINERARIO WHERE EJERCICIO = " + "'" + codigo + "'";
+        ResultSet rs = stmt.executeQuery(sql1);
+
+        if (rs.next()) {
+            String sql2 = "DELETE FROM T_EJERCICIOS_OLIMPIADA_ITINERARIO WHERE EJERCICIO = '" + codigo + "';";
+            int rowsAffected = stmt.executeUpdate(sql2);
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Asignación eliminada con éxito.");
+
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR. No se ha podido eliminar la asignación.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR. No existe la fila.");
         }
 
         conn.close();
