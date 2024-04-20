@@ -8,7 +8,6 @@ import interfaz.OperacionesBD;
 
 import javax.swing.*;
 import java.sql.*;
-import java.util.Arrays;
 
 public class Administrador extends Usuario implements OperacionesBD {
     public Administrador(String nombre, String password) {
@@ -17,12 +16,18 @@ public class Administrador extends Usuario implements OperacionesBD {
         this.userType = "admin";
     }
 
-    public void createOlympiad(String code, String title, String desc, int year) throws JSchException, SQLException {
+    // Operaciones con olimpiadas
+    public int createOlympiad(String code, String title, String desc, int year) throws JSchException, SQLException {
         String table = "T_OLIMPIADAS";
         String data = "'" + code + "', '" + title + "', '" + desc + "', " + Integer.toString(year);
+        String safeInsertClause = "WHERE CODIGO='" + code + "';";
 
-        insert(table, data);
-        new CustomJOptionPane("Se ha creado la olimpiada");
+        if (insert(table, data, safeInsertClause) == 0) {
+            new CustomJOptionPane("Se ha creado la olimpiada");
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     public void modifyOlympiad(String oldCode, String code, String title, String desc, int year) throws JSchException, SQLException {
@@ -42,111 +47,27 @@ public class Administrador extends Usuario implements OperacionesBD {
         new CustomJOptionPane("Se ha eliminado la olimpiada");
     }
 
-    public void createItinerario(String codigo, String titulo, String descripcion, String olymp) throws JSchException, SQLException {
-        // Valores para conexión a MV remota
-        String sshHost = "10.6.130.204";
-        String sshUser = "usuario";
-        String sshPassword = "Usuario";
-        int sshPort = 22; // Puerto SSH por defecto
-        int localPort = 3307; // Puerto local para el túnel SSH
-        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
-        int remotePort = 3306; // Puerto MySQL en la máquina remota
+    // Operaciones itinerario
+    public int createItinerario(String code, String title, String desc, String olymp) throws JSchException, SQLException {
+        String table = "T_ITINERARIOS";
+        String data = "'" + code + "', '" + title + "', '" + desc + "', '" + olymp + "'";
+        String safeInsertClause = "";
 
-        // Conexión SSH a la MV remota
-        JSch jsch = new JSch();
-        Session session = jsch.getSession(sshUser, sshHost, sshPort);
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
-
-        // Debugger
-        System.out.println("Conexión con la máquina establecida");
-
-        // Abrir un túnel SSH al puerto MySQL en la máquina remota
-        session.setPortForwardingL(localPort, remoteHost, remotePort);
-
-        // Conexión a MySQL a través del túnel SSH
-        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
-        String dbUser = "root";
-        String dbPassword = "root";
-        Connection conn;
-        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
-        // Debugger
-        Statement stmt = conn.createStatement();
-
-        // Consulta para añadir la nueva olimpiada
-        String sql = "INSERT INTO T_ITINERARIOS VALUES ('" + codigo + "', '" + titulo + "', '" + descripcion + "', '" + olymp + "')";
-        int rowsAffected = stmt.executeUpdate(sql);
-
-        if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(null, "Se ha creado el itinerario " + titulo + ".");
+        if (insert(table, data, safeInsertClause) == 0) {
+            new CustomJOptionPane("Se ha creado el itinerario");
+            return 0;
         } else {
-            JOptionPane.showMessageDialog(null, "ERROR. No se ha podido crear el itinerario " + titulo + ".");
+            return 1;
         }
-
-        stmt.close();
-        conn.close();
-        session.disconnect();
     }
 
     public void modifyItinerario(String oldCode, String code, String title, String desc, String olymp) throws JSchException, SQLException {
-        // Valores para conexión a MV remota
-        String sshHost = "10.6.130.204";
-        String sshUser = "usuario";
-        String sshPassword = "Usuario";
-        int sshPort = 22; // Puerto SSH por defecto
-        int localPort = 3307; // Puerto local para el túnel SSH
-        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
-        int remotePort = 3306; // Puerto MySQL en la máquina remota
+        String table = "T_ITINERARIOS";
+        String setClause = "SET CODIGO='" + code + "', TITULO='" + title + "', DESCRIPCION='" + desc + "', OLIMPIADA='" + olymp + "'";
+        String whereClause = "WHERE CODIGO='" + oldCode + "';";
 
-        // Conexión SSH a la MV remota
-        JSch jsch = new JSch();
-        Session session = jsch.getSession(sshUser, sshHost, sshPort);
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
-
-        // Debugger
-        System.out.println("Conexión con la máquina establecida");
-
-        // Abrir un túnel SSH al puerto MySQL en la máquina remota
-        session.setPortForwardingL(localPort, remoteHost, remotePort);
-
-        // Conexión a MySQL a través del túnel SSH
-        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
-        String dbUser = "root";
-        String dbPassword = "root";
-        Connection conn;
-        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
-        // Debugger
-        Statement stmt = conn.createStatement();
-
-        // Ejecutar la consulta SQL
-        String sql1 = "SELECT * FROM T_ITINERARIOS WHERE CODIGO= " + "'" + oldCode + "'";
-        ResultSet rs = stmt.executeQuery(sql1);
-
-        if (rs.next()) {
-            String sql2 = "UPDATE T_ITINERARIOS " +
-                    "SET CODIGO='" + code + "', " +
-                    "TITULO='" + title + "', " +
-                    "DESCRIPCION='" + desc + "', " +
-                    "OLIMPIADA='" + olymp + "' WHERE CODIGO='" + oldCode + "';";
-            int rowsAffected = stmt.executeUpdate(sql2);
-
-            if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, "Itinerario modificado con éxito.");
-
-            } else {
-                JOptionPane.showMessageDialog(null, "ERROR. No se ha podido modificar el itinerario.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "ERROR. No existe el itinerario.");
-        }
-
-        conn.close();
-        session.disconnect();
+        update(table, setClause, whereClause);
+        new CustomJOptionPane("Se ha modificado el itinerario");
     }
 
     public void deleteItinerario(String codigoItinerario) throws JSchException, SQLException {

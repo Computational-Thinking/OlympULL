@@ -5,10 +5,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public interface OperacionesBD {
     // Conexión a MV remota
@@ -26,8 +23,38 @@ public interface OperacionesBD {
     String dbUser = "root";
     String dbPassword = "root";
 
+    // Método para obtener filas de tabla
+    default ResultSet selectRows(String table, String orderColumn) throws JSchException, SQLException {
+        // Conexión SSH a la MV remota
+        Session session = jsch.getSession(sshUser, sshHost, sshPort);
+        session.setPassword(sshPassword);
+        session.setConfig("StrictHostKeyChecking", "no");
+        session.connect();
+
+        // Abrir un túnel SSH al puerto MySQL en la máquina remota
+        session.setPortForwardingL(localPort, remoteHost, remotePort);
+
+        // Conexión a MySQL a través del túnel SSH
+        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+        String dbUser = "root";
+        String dbPassword = "root";
+        Connection conn;
+        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+        String select = "SELECT * FROM " + table + " ORDER BY " + orderColumn + " ASC;";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(select);
+
+        // Se cierra la conexión
+        //stmt.close();
+        //conn.close();
+        session.disconnect();
+
+        return rs;
+    }
+
     // Método para insertar en la base de datos
-    default void insert(String table, String data) throws JSchException, SQLException {
+    default int insert(String table, String data, String safeInsertClause) throws JSchException, SQLException {
         // Conexión SSH a la MV remota
         Session session = jsch.getSession(sshUser, sshHost, sshPort);
         session.setPassword(sshPassword);
@@ -41,9 +68,22 @@ public interface OperacionesBD {
         // Crear la sentencia
         Statement stmt = conn.createStatement();
 
+        // Comprobación para no insertar si ya existe una fila con la misma key
+        String checkClause = "SELECT * FROM "  + table + " " + safeInsertClause;
+        ResultSet results = stmt.executeQuery(checkClause);
+
+        if (results.next()) {
+            new CustomJOptionPane("ERROR - Ya existe una olimpiada con ese código");
+            stmt.close();
+            conn.close();
+            session.disconnect();
+
+            return 1;
+        }
+
         // Consulta para añadir la nueva olimpiada
-        String sql = "INSERT INTO " + table + " VALUES(" + data + ")";
-        int rowsAffected = stmt.executeUpdate(sql);
+        String insertClause = "INSERT INTO " + table + " VALUES(" + data + ")";
+        int rowsAffected = stmt.executeUpdate(insertClause);
 
         if (!(rowsAffected > 0)) {
             new CustomJOptionPane("No se ha podido insertar en la tabla");
@@ -53,6 +93,8 @@ public interface OperacionesBD {
         stmt.close();
         conn.close();
         session.disconnect();
+
+        return 0;
     }
 
     // Método para actualizar valor en la tabla
@@ -71,8 +113,8 @@ public interface OperacionesBD {
         Statement stmt = conn.createStatement();
 
         // Consulta para añadir la nueva olimpiada
-        String sql = "UPDATE " + table + " " + setClause + " " + whereClause;
-        int rowsAffected = stmt.executeUpdate(sql);
+        String updateClause = "UPDATE " + table + " " + setClause + " " + whereClause;
+        int rowsAffected = stmt.executeUpdate(updateClause);
 
         if (!(rowsAffected > 0)) {
             new CustomJOptionPane("No se ha podido actualizar la tabla");
@@ -84,6 +126,7 @@ public interface OperacionesBD {
         session.disconnect();
     }
 
+    // Método para eliminar fila de la tabla
     default void delete(String table, String whereClause) throws JSchException, SQLException {
         // Conexión SSH a la MV remota
         Session session = jsch.getSession(sshUser, sshHost, sshPort);
@@ -99,8 +142,8 @@ public interface OperacionesBD {
         Statement stmt = conn.createStatement();
 
         // Consulta para añadir la nueva olimpiada
-        String sql = "DELETE FROM " + table + " " + whereClause;
-        int rowsAffected = stmt.executeUpdate(sql);
+        String deleteClause = "DELETE FROM " + table + " " + whereClause;
+        int rowsAffected = stmt.executeUpdate(deleteClause);
 
         if (!(rowsAffected > 0)) {
             new CustomJOptionPane("No se ha podido eliminar el registro de la tabla");

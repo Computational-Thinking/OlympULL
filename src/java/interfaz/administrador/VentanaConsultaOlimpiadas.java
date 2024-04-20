@@ -3,6 +3,10 @@ package interfaz.administrador;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import interfaz.Bordes;
+import interfaz.CustomJOptionPane;
+import interfaz.Fuentes;
+import interfaz.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -19,7 +23,7 @@ import java.awt.event.MouseListener;
 import java.security.DigestException;
 import java.sql.*;
 
-public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
+public class VentanaConsultaOlimpiadas extends JFrame implements Bordes, Fuentes, Iconos, MouseListener {
     // Panel superior (título y botón de volver)
     JPanel upperPanel;
     // Panel de tabla
@@ -32,36 +36,29 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
     DefaultTableModel modeloTabla;
     // Tabla
     JTable tabla;
+    // Administrador
     Administrador administrador;
 
     // Constructor
     public VentanaConsultaOlimpiadas(Administrador administrador) throws JSchException, SQLException {
+        this.administrador = administrador;
+        
         // Configuración de ventana
-        setSize(750, 465);
+        setSize(950, 465);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Consulta de olimpiadas");
+        setTitle("Consulta de olimpiadas");
         setLocationRelativeTo(null);
+        setIconImage(iconoVentana);
 
-        this.administrador = administrador;
-
-        Image icon = new ImageIcon("images/icono-ull-original.png").getImage();
-        setIconImage(icon);
-
-        // Declaración de fuentes de texto y borde
-        Border borde = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        Font fuenteNegrita1 = new Font("Argentum Sans Light", Font.PLAIN, 12);
-        Font fuenteNegrita2 = new Font("Argentum Sans Bold", Font.PLAIN, 18);
-        Font fuenteNegrita3 = new Font("Argentum Sans Bold", Font.PLAIN, 12);
-
-        // Definición del botón de volver
+        // Botón de volver
         goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteNegrita3);
+        goBackButton.setFont(fuenteBotonesEtiquetas);
         goBackButton.setPreferredSize(new Dimension(90, 30));
 
-        // Definición de etiqueta de título
+        // Etiqueta de título
         consultaOlimpiadas = new JLabel("Consulta de tabla T_OLIMPIADAS");
-        consultaOlimpiadas.setFont(fuenteNegrita2);
+        consultaOlimpiadas.setFont(fuenteTitulo);
 
         // Configuración de panel superior
         upperPanel = new JPanel();
@@ -80,43 +77,11 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
 
         // Creamos la tabla con el modelo
         tabla = new JTable(modeloTabla);
-
         tablaScrollPane = new JScrollPane(tabla);
 
-        // Valores para conexión a MV remota
-        String sshHost = "10.6.130.204";
-        String sshUser = "usuario";
-        String sshPassword = "Usuario";
-        int sshPort = 22; // Puerto SSH por defecto
-        int localPort = 3307; // Puerto local para el túnel SSH
-        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
-        int remotePort = 3306; // Puerto MySQL en la máquina remota
-
-        // Conexión SSH a la MV remota
-        JSch jsch = new JSch();
-        Session session = jsch.getSession(sshUser, sshHost, sshPort);
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
-
-        // Debugger
-        System.out.println("Conexión con la máquina establecida");
-
-        // Abrir un túnel SSH al puerto MySQL en la máquina remota
-        session.setPortForwardingL(localPort, remoteHost, remotePort);
-
-        // Conexión a MySQL a través del túnel SSH
-        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
-        String dbUser = "root";
-        String dbPassword = "root";
-        Connection conn;
-        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
-        String consulta = "SELECT * FROM T_OLIMPIADAS ORDER BY CODIGO ASC;";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(consulta);
-
-        ResultSetMetaData metaData = rs.getMetaData();
+        // Se almacena el conjunto de datos
+        ResultSet tableContents = administrador.selectRows("T_OLIMPIADAS", "CODIGO");
+        ResultSetMetaData metaData = tableContents.getMetaData();
         int numeroColumnas = metaData.getColumnCount();
 
         // Se insertan las filas traídas de la MV en la tabla de la ventana
@@ -124,33 +89,34 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
             modeloTabla.addColumn(metaData.getColumnName(i));
         }
 
+        // Se añaden las columnas de botones
         modeloTabla.addColumn(""); // Columna de editar
         modeloTabla.addColumn(""); // Columna de duplicar
         modeloTabla.addColumn(""); // Columna de eliminar
 
-        while (rs.next()) {
+        // Se añaden las filas a la tabla de la ventana
+        while (tableContents.next()) {
             Object[] fila = new Object[numeroColumnas];
+
             for (int i = 1; i <= numeroColumnas; ++i) {
-                fila [i - 1] = rs.getObject(i);
+                fila [i - 1] = tableContents.getObject(i);
             }
+
             modeloTabla.addRow(fila);
         }
 
-        rs.close();
-        stmt.close();
-        conn.close();
-        session.disconnect();
+        tableContents.close();
 
-        // Esto es para establecer la fuente del contenido de la tabla
+        // Se establece la fuente de texto al modelo de tabla
         DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) tabla.getTableHeader().getDefaultRenderer();
         headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        tabla.getTableHeader().setFont(fuenteNegrita3);
+        tabla.getTableHeader().setFont(fuenteBotonesEtiquetas);
 
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                setFont(fuenteNegrita1);
+                setFont(fuenteCampoTexto);
                 return this;
             }
         };
@@ -159,29 +125,29 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
             tabla.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
 
-        // Altura de la fila
+        // Altura de las filas de la tabla
         tabla.setRowHeight(35);
 
         // Esto es para que se pueda pulsar los botones
         tabla.addMouseListener(this);
 
-        // Esto es para insertar los botones en la última columna de la tabla (cambiar por tres columnas distintas)
+        // Esto es para insertar los botones en las columnas de botones
         // Columna de editar
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 3).setCellRenderer(new ButtonPanelRenderer(3));
-        // Columna de duplicar
-        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new ButtonPanelRenderer(2));
-        // Columna de eliminar
-        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new ButtonPanelRenderer(1));
-
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 3).setMinWidth(30);
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 3).setMaxWidth(30);
 
+        // Columna de duplicar
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new ButtonPanelRenderer(2));
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMinWidth(30);
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMaxWidth(30);
 
+        // Columna de eliminar
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new ButtonPanelRenderer(1));
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMinWidth(30);
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMaxWidth(30);
 
+        // Se añaden los elementos a la ventana
         add(upperPanel, BorderLayout.NORTH);
         add(tablaScrollPane, BorderLayout.CENTER);
 
@@ -201,35 +167,42 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         int row = tabla.rowAtPoint(e.getPoint());
-        int columna = tabla.columnAtPoint(e.getPoint());
+        int column = tabla.columnAtPoint(e.getPoint());
 
-        if (columna == tabla.getColumnCount() - 3) {
-            String codigo = (String) modeloTabla.getValueAt(row, 0);
-            String titulo = (String) modeloTabla.getValueAt(row, 1);
-            String descripcion = (String) modeloTabla.getValueAt(row, 2);
-            int year = (int) modeloTabla.getValueAt(row, 3);
-            VentanaEditarOlimpiada ventana = new VentanaEditarOlimpiada(administrador, codigo, titulo, descripcion, year);
+        String code = (String) modeloTabla.getValueAt(row, 0);
+        String title = (String) modeloTabla.getValueAt(row, 1);
+        String desc = (String) modeloTabla.getValueAt(row, 2);
+        String year = Integer.toString((Integer) modeloTabla.getValueAt(row, 3));
+
+        if (column == tabla.getColumnCount() - 3) {
+            new VentanaModificarOlimpiada(administrador, code, title, desc, year);
             dispose();
-        } else if (columna == tabla.getColumnCount() - 2) {
-            String codigo = "Copia de " + modeloTabla.getValueAt(row, 0);
-            String titulo = (String) modeloTabla.getValueAt(row, 1);
-            String descripcion = (String) modeloTabla.getValueAt(row, 2);
-            int year = (int) modeloTabla.getValueAt(row, 3);
-            try {
-                administrador.createOlympiad(codigo, titulo, descripcion, year);
-                VentanaConsultaOlimpiadas ventana = new VentanaConsultaOlimpiadas(administrador);
-                dispose();
-            } catch (JSchException | SQLException ex) {
-                throw new RuntimeException(ex);
+
+        } else if (column == tabla.getColumnCount() - 2) {
+            code = "Copia de " + modeloTabla.getValueAt(row, 0);
+
+            if (year.matches("[0-9]*") && Integer.parseInt(year) > 1999 && Integer.parseInt(year) < 3001) {
+                try {
+                    if (administrador.createOlympiad(code, title, desc, Integer.parseInt(year)) == 0) {
+                        new VentanaConsultaOlimpiadas(administrador);
+                        dispose();
+                    }
+
+                } catch (JSchException | SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            } else {
+                new CustomJOptionPane("El campo Año debe ser un número entero y tener un valor válido");
             }
-        } else if (columna == tabla.getColumnCount() - 1) {
+
+        } else if (column == tabla.getColumnCount() - 1) {
             try {
                 administrador.deleteOlympiad((String) modeloTabla.getValueAt(row, 0));
-                VentanaConsultaOlimpiadas ventana = new VentanaConsultaOlimpiadas(administrador);
+                new VentanaConsultaOlimpiadas(administrador);
                 dispose();
-            } catch (JSchException ex) {
-                throw new RuntimeException(ex);
-            } catch (SQLException ex) {
+
+            } catch (JSchException | SQLException ex) {
                 throw new RuntimeException(ex);
             }
         }
@@ -258,7 +231,6 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
     // Esto es para añadir los botones a la última columna de la tabla (no necesario y creo que ni siquiera hace falta hacerlo tan complicado)
     class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
         private JButton actionButton;
-        private Image image;
         private ImageIcon buttonIcon;
 
         public ButtonPanelRenderer(int columna) {
@@ -266,20 +238,18 @@ public class VentanaConsultaOlimpiadas extends JFrame implements MouseListener {
 
             switch(columna) {
                 case 3:
-                    image = new ImageIcon("images/edit icon.png").getImage();
+                    buttonIcon = new ImageIcon(iconoEditar.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
                     break;
                 case 2:
-                    image = new ImageIcon("images/duplicate icon.png").getImage();
+                    buttonIcon = new ImageIcon(iconoDuplicar.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
                     break;
                 case 1:
-                    image = new ImageIcon("images/delete icon.png").getImage();
+                    buttonIcon = new ImageIcon(iconoEliminar.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
                     break;
                 default:
                     break;
             }
 
-            image = image.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-            buttonIcon = new ImageIcon(image);
             actionButton = new JButton(buttonIcon);
             actionButton.setPreferredSize(new Dimension(25, 25));
 

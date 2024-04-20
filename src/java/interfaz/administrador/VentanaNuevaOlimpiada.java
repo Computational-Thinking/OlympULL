@@ -1,7 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.VentanaInicio;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -11,43 +11,46 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.util.Objects;
 
-public class VentanaNuevaOlimpiada extends JFrame {
+public class VentanaNuevaOlimpiada extends JFrame implements Bordes, Fuentes, Iconos {
+    // Botones
+    JButton createOlympButton;
     JButton goBackButton;
+    
+    // Etiquetas
     JLabel introduceData;
     JLabel olympCode;
     JLabel olympName;
     JLabel olympDesc;
     JLabel olympYear;
+    
+    // Campos de texto
     JTextField olympCodeField;
     JTextField olympNameField;
     JTextField olympDescField;
     JTextField olympYearField;
-    JButton createOlympButton;
+    
+    // Paneles
     JPanel upperPanel;
     JPanel inputPanel;
 
     public VentanaNuevaOlimpiada(Administrador administrador) {
+        // Configuración de la ventana
         setSize(500, 335);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Nueva olimpiada");
-        this.setVisible(true);
+        setTitle("Nueva olimpiada");
+        setIconImage(iconoVentana);
+        setVisible(true);
         setLocationRelativeTo(null);
 
-        Image icon = new ImageIcon("images/icono-ull-original.png").getImage();
-        setIconImage(icon);
-
-        Border borde = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        Font fuenteNegrita1 = new Font("Argentum Sans Bold", Font.PLAIN, 20);
-        Font fuenteNegrita2 = new Font("Argentum Sans Light", Font.PLAIN, 12);
-        Font fuenteNegrita3 = new Font("Argentum Sans Bold", Font.PLAIN, 12);
-
+        // Configuración del panel superior
         introduceData = new JLabel("Nueva olimpiada");
-        introduceData.setFont(fuenteNegrita1);
+        introduceData.setFont(fuenteTitulo);
 
         goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteNegrita3);
+        goBackButton.setFont(fuenteBotonesEtiquetas);
         goBackButton.setPreferredSize(new Dimension(90, 30));
 
         upperPanel = new JPanel();
@@ -56,36 +59,48 @@ public class VentanaNuevaOlimpiada extends JFrame {
         upperPanel.add(goBackButton, BorderLayout.EAST);
         upperPanel.setBorder(borde);
 
+        // Etiquetas del panel input
         olympCode = new JLabel("Código (*)");
-        olympCode.setFont(fuenteNegrita3);
+        olympCode.setFont(fuenteBotonesEtiquetas);
+
         olympName = new JLabel("Nombre (*)");
-        olympName.setFont(fuenteNegrita3);
+        olympName.setFont(fuenteBotonesEtiquetas);
+
         olympDesc = new JLabel("Descripción");
-        olympDesc.setFont(fuenteNegrita3);
+        olympDesc.setFont(fuenteBotonesEtiquetas);
+
         olympYear = new JLabel("Año (*)");
-        olympYear.setFont(fuenteNegrita3);
+        olympYear.setFont(fuenteBotonesEtiquetas);
 
+        // Campos del panel de input
         olympCodeField = new JTextField();
-        olympCodeField.setFont(fuenteNegrita2);
-        olympNameField = new JTextField();
-        olympNameField.setFont(fuenteNegrita2);
-        olympDescField = new JTextField();
-        olympDescField.setFont(fuenteNegrita2);
-        olympYearField = new JTextField();
-        olympYearField.setFont(fuenteNegrita2);
+        olympCodeField.setFont(fuenteCampoTexto);
 
+        olympNameField = new JTextField();
+        olympNameField.setFont(fuenteCampoTexto);
+
+        olympDescField = new JTextField();
+        olympDescField.setFont(fuenteCampoTexto);
+
+        olympYearField = new JTextField();
+        olympYearField.setFont(fuenteCampoTexto);
+
+        // Botón de crear olimpiada
         createOlympButton = new JButton("Crear olimpiada");
-        createOlympButton.setFont(fuenteNegrita3);
+        createOlympButton.setFont(fuenteBotonesEtiquetas);
         createOlympButton.setPreferredSize(new Dimension(150, 30));
 
+        // Panel del botón de crear olimpiada
         JPanel createButtonPanel = new JPanel();
         createButtonPanel.setBorder(borde);
         createButtonPanel.add(createOlympButton);
 
+        // Panel de input del usuario
         inputPanel = new JPanel();
         inputPanel.setLayout(new GridLayout(4, 2, 10, 10));
         inputPanel.setBorder(borde);
 
+        // Se añaden los elementos a los paneles
         inputPanel.add(olympCode);
         inputPanel.add(olympCodeField);
         inputPanel.add(olympName);
@@ -95,37 +110,51 @@ public class VentanaNuevaOlimpiada extends JFrame {
         inputPanel.add(olympYear);
         inputPanel.add(olympYearField);
 
+        // Se añaden los paneles a la ventana
         add(upperPanel, BorderLayout.NORTH);
         add(inputPanel, BorderLayout.CENTER);
         add(createButtonPanel, BorderLayout.SOUTH);
 
+        // Botón de volver
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaAdministrador ventana = new VentanaAdministrador(administrador);
+                new VentanaAdministrador(administrador);
                 dispose();
             }
         });
 
+        // Botón de crear olimpiada
         createOlympButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String code = olympCodeField.getText();
-                String name = olympNameField.getText();
-                String desc = olympDescField.getText();
-                int year = Integer.parseInt(olympYearField.getText());
-                try {
-                    administrador.createOlympiad(code, name, desc, year);
-                    VentanaAdministrador ventana = new VentanaAdministrador(administrador);
-                    dispose();
-                } catch (JSchException ex) {
-                    throw new RuntimeException(ex);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                if (Objects.equals(olympCodeField.getText(), "")
+                        || Objects.equals(olympNameField.getText(), "")
+                        || Objects.equals(olympYearField.getText(), "")) {
+                    new CustomJOptionPane("Los campos Código, Título y Año son obligatorios");
+
+                } else {
+                    String code = olympCodeField.getText();
+                    String name = olympNameField.getText();
+                    String desc = olympDescField.getText();
+                    String year = olympYearField.getText();
+
+                    if (year.matches("[0-9]*") && Integer.parseInt(year) > 2000 && Integer.parseInt(year) < 3000) {
+                        try {
+                            if (administrador.createOlympiad(code, name, desc, Integer.parseInt(year)) == 0) {
+                                new VentanaAdministrador(administrador);
+                                dispose();
+                            }
+
+                        } catch (JSchException | SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+
+                    } else {
+                        new CustomJOptionPane("El campo Año debe ser un número entero y tener un valor válido");
+                    }
                 }
             }
         });
-
     }
-
 }

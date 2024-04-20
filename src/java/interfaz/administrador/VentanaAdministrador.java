@@ -212,7 +212,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    VentanaConsultaOlimpiadas ventana = new VentanaConsultaOlimpiadas(administrador);
+                    new VentanaConsultaOlimpiadas(administrador);
 
                 } catch (SQLException | JSchException ex) {
                     ex.printStackTrace();
