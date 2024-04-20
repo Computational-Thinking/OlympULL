@@ -700,7 +700,7 @@ public class Administrador extends Usuario {
 
         /**
         // Ejecutar la consulta SQL
-        String sql1 = "SELECT NOMBRE_USUARIO FROM T_USUARIOS WHERE NOMBRE_USUARIO = " + "'" + name + "'";
+        String sql1 = "SELECT NOMBRE FROM T_USUARIOS WHERE NOMBRE = " + "'" + name + "'";
         ResultSet rs = stmt.executeQuery(sql1);
          */
 
@@ -1048,13 +1048,13 @@ public class Administrador extends Usuario {
         Statement stmt = conn.createStatement();
 
         // Ejecutar la consulta SQL
-        String sql1 = "SELECT NOMBRE_USUARIO FROM T_USUARIOS WHERE NOMBRE_USUARIO = " + "'" + name + "'";
+        String sql1 = "SELECT NOMBRE FROM T_USUARIOS WHERE NOMBRE = " + "'" + name + "'";
         ResultSet rs = stmt.executeQuery(sql1);
 
         if (rs.next()) {
             JOptionPane.showMessageDialog(null, "ERROR. Ya existe un usuario con este nombre de usuario.");
         } else {
-            String sql2 = "INSERT INTO T_USUARIOS(NOMBRE_USUARIO, PASSWORD, TIPO_USUARIO) VALUES ('" + name + "', '" + passw + "', '" + type + "');";
+            String sql2 = "INSERT INTO T_USUARIOS(NOMBRE, PASSWORD, TIPO) VALUES ('" + name + "', '" + passw + "', '" + type + "');";
             int rowsAffected = stmt.executeUpdate(sql2);
 
             if (rowsAffected > 0) {
@@ -1066,6 +1066,64 @@ public class Administrador extends Usuario {
         }
         // Consulta para añadir el usuario a la base de datos
 
+
+        conn.close();
+        session.disconnect();
+    }
+
+    public void modifyUser(String oldName, String name, String password, String type) throws JSchException, SQLException {
+        // Valores para conexión a MV remota
+        String sshHost = "10.6.130.204";
+        String sshUser = "usuario";
+        String sshPassword = "Usuario";
+        int sshPort = 22; // Puerto SSH por defecto
+        int localPort = 3307; // Puerto local para el túnel SSH
+        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
+        int remotePort = 3306; // Puerto MySQL en la máquina remota
+
+        // Conexión SSH a la MV remota
+        JSch jsch = new JSch();
+        Session session = jsch.getSession(sshUser, sshHost, sshPort);
+        session.setPassword(sshPassword);
+        session.setConfig("StrictHostKeyChecking", "no");
+        session.connect();
+
+        // Debugger
+        System.out.println("Conexión con la máquina establecida");
+
+        // Abrir un túnel SSH al puerto MySQL en la máquina remota
+        session.setPortForwardingL(localPort, remoteHost, remotePort);
+
+        // Conexión a MySQL a través del túnel SSH
+        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+        String dbUser = "root";
+        String dbPassword = "root";
+        Connection conn;
+        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+        // Debugger
+        Statement stmt = conn.createStatement();
+
+        // Ejecutar la consulta SQL
+        String sql1 = "SELECT * FROM T_USUARIOS WHERE NOMBRE= " + "'" + oldName + "'";
+        ResultSet rs = stmt.executeQuery(sql1);
+
+        if (rs.next()) {
+            String sql2 = "UPDATE T_USUARIOS " +
+                    "SET NOMBRE='" + name + "', " +
+                    "PASSWORD='" + password + "', " +
+                    "TIPO='" + type + "' WHERE NOMBRE='" + oldName + "';";
+            int rowsAffected = stmt.executeUpdate(sql2);
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Usuario modificado con éxito.");
+
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR. No se ha podido modificar el usuario.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR. No existe el usuario.");
+        }
 
         conn.close();
         session.disconnect();
@@ -1105,11 +1163,11 @@ public class Administrador extends Usuario {
         Statement stmt = conn.createStatement();
 
         // Ejecutar la consulta SQL
-        String sql1 = "SELECT NOMBRE_USUARIO FROM T_USUARIOS WHERE NOMBRE_USUARIO = " + "'" + name + "'";
+        String sql1 = "SELECT NOMBRE FROM T_USUARIOS WHERE NOMBRE = " + "'" + name + "'";
         ResultSet rs = stmt.executeQuery(sql1);
 
         if (rs.next()) {
-            String sql2 = "DELETE FROM T_USUARIOS WHERE NOMBRE_USUARIO = '" + name + "';";
+            String sql2 = "DELETE FROM T_USUARIOS WHERE NOMBRE = '" + name + "';";
             int rowsAffected = stmt.executeUpdate(sql2);
 
             if (rowsAffected > 0) {

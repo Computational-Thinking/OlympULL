@@ -3,6 +3,9 @@ package interfaz.administrador;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import interfaz.Bordes;
+import interfaz.Fuentes;
+import interfaz.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -13,7 +16,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class VentanaNuevaAsignacionEjOlimp extends JFrame {
+public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fuentes, Iconos {
     // Botones
     JButton goBackButton;
     JButton assignExercise;
@@ -23,10 +26,6 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame {
     JLabel exerCode;
     JLabel olympCode;
     JLabel itinerarioCode;
-    JLabel exerConcept;
-    JLabel exerResources;
-    JLabel exerType;
-    JLabel exerRubricaLabel;
     
     // Combo boxes
     JComboBox<String> exerCodeField;
@@ -47,16 +46,7 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Icono de la ventana
-        Image icon = new ImageIcon("images/icono-ull-original.png").getImage();
-        setIconImage(icon);
-
-        // Definición de borde de paneles
-        Border borde = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        
-        // Definición de fuentes
-        Font fuenteTitulo = new Font("Argentum Sans Bold", Font.PLAIN, 20);
-        Font fuenteCampoTexto = new Font("Argentum Sans Light", Font.PLAIN, 12);
-        Font fuenteBotonesEtiquetas = new Font("Argentum Sans Bold", Font.PLAIN, 12);
+        setIconImage(iconoVentana);
 
         introduceData = new JLabel("Nueva asignación");
         introduceData.setFont(fuenteTitulo);

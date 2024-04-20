@@ -7,9 +7,9 @@ import interfaz.Bordes;
 import interfaz.Fuentes;
 import interfaz.Iconos;
 import usuarios.Administrador;
-import usuarios.Usuario;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -20,37 +20,33 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.*;
 
-public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, Fuentes, Iconos, MouseListener {
-    // Paneles
+public class VentanaConsultaUsuarios extends JFrame implements Bordes, Fuentes, Iconos, MouseListener {
+    // Panel superior (título y botón de volver)
     JPanel upperPanel;
+    // Panel de tabla
     JScrollPane tablaScrollPane;
-    
-    // Etiquetas
+    // Título de ventana
     JLabel consultaItinerarios;
-    
-    // Botones
+    // Botón de volver
     JButton goBackButton;
-    
     // Modelo de tabla
     DefaultTableModel modeloTabla;
-    
     // Tabla
     JTable tabla;
-
-    // Administrador
     Administrador administrador;
 
     // Constructor
-    public VentanaConsultaAsignacionEjOlimp(Administrador administrador) throws JSchException, SQLException {
+    public VentanaConsultaUsuarios(Administrador administrador) throws JSchException, SQLException {
         // Configuración de ventana
         setSize(950, 465);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Consulta de ejercicios");
         setLocationRelativeTo(null);
-        setIconImage(iconoVentana);
 
         this.administrador = administrador;
+
+        setIconImage(iconoVentana);
 
         // Definición del botón de volver
         goBackButton = new JButton("< Volver");
@@ -58,7 +54,7 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
         goBackButton.setPreferredSize(new Dimension(90, 30));
 
         // Definición de etiqueta de título
-        consultaItinerarios = new JLabel("Consulta de tabla T_EJERCICIOS_OLIMPIADA_ITINERARIO");
+        consultaItinerarios = new JLabel("Consulta de tabla T_EJERCICIOS");
         consultaItinerarios.setFont(fuenteTitulo);
 
         // Configuración de panel superior
@@ -110,7 +106,7 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
         Connection conn;
         conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-        String consulta = "SELECT * FROM T_EJERCICIOS_OLIMPIADA_ITINERARIO ORDER BY EJERCICIO ASC;";
+        String consulta = "SELECT * FROM T_USUARIOS ORDER BY NOMBRE ASC;";
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(consulta);
 
@@ -123,6 +119,7 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
         }
 
         modeloTabla.addColumn(""); // Columna de editar
+        modeloTabla.addColumn(""); // Columna de duplicar
         modeloTabla.addColumn(""); // Columna de eliminar
 
         while (rs.next()) {
@@ -164,9 +161,14 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
 
         // Esto es para insertar los botones en la última columna de la tabla (cambiar por tres columnas distintas)
         // Columna de editar
-        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new VentanaConsultaAsignacionEjOlimp.ButtonPanelRenderer(2));
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 3).setCellRenderer(new VentanaConsultaUsuarios.ButtonPanelRenderer(3));
+        // Columna de duplicar
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new VentanaConsultaUsuarios.ButtonPanelRenderer(2));
         // Columna de eliminar
-        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new VentanaConsultaAsignacionEjOlimp.ButtonPanelRenderer(1));
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new VentanaConsultaUsuarios.ButtonPanelRenderer(1));
+
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 3).setMinWidth(30);
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 3).setMaxWidth(30);
 
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMinWidth(30);
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMaxWidth(30);
@@ -181,7 +183,7 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new VentanaAdministrador(administrador);
+                VentanaAdministrador ventana = new VentanaAdministrador(administrador);
                 dispose();
             }
         });
@@ -195,19 +197,26 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
         int row = tabla.rowAtPoint(e.getPoint());
         int columna = tabla.columnAtPoint(e.getPoint());
 
-        String ejercicio = (String) modeloTabla.getValueAt(row, 0);
-        String olimpiada = (String) modeloTabla.getValueAt(row, 1);
-        String itinerario = (String) modeloTabla.getValueAt(row, 2);
+        String nombre = (String) modeloTabla.getValueAt(row, 0);
+        String password = (String) modeloTabla.getValueAt(row, 1);
+        String type = (String) modeloTabla.getValueAt(row, 2);
 
-        System.out.println(ejercicio + " - " + olimpiada + " - " + itinerario);
-
-        if (columna == tabla.getColumnCount() - 2) {
-            new VentanaEditarAsignacionEjOlimp(administrador, ejercicio, olimpiada, itinerario);
+        if (columna == tabla.getColumnCount() - 3) {
+            new VentanaEditarUsuario(administrador, nombre, password, type);
             dispose();
+        } else if (columna == tabla.getColumnCount() - 2) {
+            nombre = "Copia de " + modeloTabla.getValueAt(row, 0);
+            try {
+                administrador.createUser(nombre, password, type);
+                new VentanaConsultaUsuarios(administrador);
+                dispose();
+            } catch (JSchException | SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
-                administrador.deleteAssignationEjOlimp(ejercicio);
-                new VentanaConsultaAsignacionEjOlimp(administrador);
+                administrador.deleteUser(nombre);
+                new VentanaConsultaUsuarios(administrador);
                 dispose();
             } catch (JSchException | SQLException ex) {
                 throw new RuntimeException(ex);
@@ -235,8 +244,9 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
 
     }
 
-    // Esto es para añadir los botones a la última columna de la tabla
+    // Esto es para añadir los botones a la última columna de la tabla (no necesario y creo que ni siquiera hace falta hacerlo tan complicado)
     class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
+        private JButton actionButton;
         private Image image;
         private ImageIcon buttonIcon;
 
@@ -244,19 +254,21 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
             setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
             switch(columna) {
+                case 3:
+                    image = iconoEditar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                    break;
                 case 2:
-                    image = iconoEditar;
+                    image = iconoDuplicar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
                     break;
                 case 1:
-                    image = iconoEliminar;
+                    image = iconoEliminar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
                     break;
                 default:
                     break;
             }
 
-            image = image.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
             buttonIcon = new ImageIcon(image);
-            JButton actionButton = new JButton(buttonIcon);
+            actionButton = new JButton(buttonIcon);
             actionButton.setPreferredSize(new Dimension(25, 25));
 
             // Se añaden estos botones al modelo de tabla

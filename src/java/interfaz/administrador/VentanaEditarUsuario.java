@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Iconos {
+public class VentanaEditarUsuario extends JFrame implements Bordes, Fuentes, Iconos {
     // Etiquetas
     JLabel title;
     JLabel userNameLabel;
@@ -28,14 +28,14 @@ public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Icon
 
     // Botones
     JButton goBackButton;
-    JButton createUserButton;
+    JButton modifyUserButton;
 
     // Paneles
     JPanel upperPanel;
     JPanel inputPanel;
     JPanel createButtonPanel;
 
-    public VentanaNuevoUsuario(Administrador administrador) {
+    public VentanaEditarUsuario(Administrador administrador, String nombre, String password, String tipo) {
         // Configuración de la ventana
         setSize(500, 270);
         getContentPane().setLayout(new BorderLayout());
@@ -44,6 +44,8 @@ public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Icon
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setIconImage(iconoVentana);
         setVisible(true);
+        
+        String oldName = nombre;
 
         // Definición del botón de volver
         goBackButton = new JButton("< Volver");
@@ -51,7 +53,7 @@ public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Icon
         goBackButton.setPreferredSize(new Dimension(90, 30));
 
         // Definición de etiqueta de título
-        title = new JLabel("Nuevo usuario");
+        title = new JLabel("Editar usuario");
         title.setFont(fuenteTitulo);
 
         // Configuración de panel superior
@@ -72,19 +74,20 @@ public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Icon
         userTypeLabel = new JLabel("Tipo de usuario (*)");
         userTypeLabel.setFont(fuenteBotonesEtiquetas);
 
-        userNameField = new JTextField();
+        userNameField = new JTextField(nombre);
         userNameField.setFont(fuenteCampoTexto);
 
-        userPasswordField = new JTextField();
+        userPasswordField = new JTextField(password);
         userPasswordField.setFont(fuenteCampoTexto);
 
         String[] userTypes = {"ADMINISTRADOR", "ORGANIZADOR", "MONITOR"};
         userTypeComboBox = new JComboBox<>(userTypes);
         userTypeComboBox.setFont(fuenteCampoTexto);
+        userTypeComboBox.setSelectedItem(tipo);
 
-        createUserButton = new JButton("Crear usuario");
-        createUserButton.setFont(fuenteBotonesEtiquetas);
-        createUserButton.setPreferredSize(new Dimension(175, 30));
+        modifyUserButton = new JButton("Modificar usuario");
+        modifyUserButton.setFont(fuenteBotonesEtiquetas);
+        modifyUserButton.setPreferredSize(new Dimension(175, 30));
 
         // Configuración del panel de input del usuario
         inputPanel = new JPanel();
@@ -103,7 +106,7 @@ public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Icon
         inputPanel.add(userTypeLabel);
         inputPanel.add(userTypeComboBox);
 
-        createButtonPanel.add(createUserButton);
+        createButtonPanel.add(modifyUserButton);
 
         // Se añaden los diferentes elementos a la ventana
         add(upperPanel, BorderLayout.NORTH);
@@ -113,20 +116,24 @@ public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Icon
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new VentanaAdministrador(administrador);
+                try {
+                    new VentanaConsultaUsuarios(administrador);
+                } catch (JSchException | SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 dispose();
             }
         });
 
-        createUserButton.addActionListener(new ActionListener() {
+        modifyUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = userNameField.getText();
                 String password = userPasswordField.getText();
                 String type = String.valueOf(userTypeComboBox.getSelectedItem());
                 try {
-                    administrador.createUser(name, password, type);
-                    new VentanaAdministrador(administrador);
+                    administrador.modifyUser(oldName, name, password, type);
+                    new VentanaConsultaUsuarios(administrador);
                 } catch (JSchException | SQLException ex) {
                     throw new RuntimeException(ex);
                 }

@@ -1,17 +1,19 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
+import interfaz.Bordes;
+import interfaz.Fuentes;
+import interfaz.Iconos;
 import interfaz.VentanaInicio;
 import usuarios.Administrador;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class VentanaAdministrador extends JFrame {
+public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Iconos {
     // Botones
     JButton createOlympiad;
     JButton consultarOlimpiadas;
@@ -24,13 +26,14 @@ public class VentanaAdministrador extends JFrame {
     JButton crearEquipo;
     JButton consultarEquipos;
     JButton assignExerciseToOlympiad;
-    JButton consultarAsignacionEjercicios;
+    JButton consultarAsignacionEjerciciosOlimpiadas;
     JButton createUser;
     JButton consultarUsuarios;
     JButton assignExerciseToUser;
+    JButton consultarAsignacionEjerciciosMonitores;
     JButton asignarItinerarioAOrganizador;
+    JButton consultarAsignacionItinerarioOrganizador;
     JButton goBackButton;
-
 
     // Etiquetas
     JLabel welcomeLabel;
@@ -43,87 +46,89 @@ public class VentanaAdministrador extends JFrame {
     JPanel gestionUsuarios;
 
     public VentanaAdministrador(Administrador administrador) {
-        setSize(750, 600);
+        setSize(825, 650);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Panel Administrador");
         setLocationRelativeTo(null);
 
-        Image icon = new ImageIcon("images/icono-ull-original.png").getImage();
-        setIconImage(icon);
-
-        Border borde = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        Font fuenteNegrita1 = new Font("Argentum Sans Bold", Font.PLAIN, 20);
-        Font fuenteNegrita2 = new Font("Argentum Sans Bold", Font.PLAIN, 18);
-        Font fuenteNegrita3 = new Font("Argentum Sans Bold", Font.PLAIN, 12);
+        setIconImage(iconoVentana);
 
         goBackButton = new JButton("< Desconectar");
-        goBackButton.setFont(fuenteNegrita3);
+        goBackButton.setFont(fuenteBotonesEtiquetas);
         goBackButton.setPreferredSize(new Dimension(120, 30));
 
         createOlympiad = new JButton("Crear nueva olimpiada");
         createOlympiad.setPreferredSize(new Dimension(200, 30));
-        createOlympiad.setFont(fuenteNegrita3);
+        createOlympiad.setFont(fuenteBotonesEtiquetas);
 
         consultarOlimpiadas = new JButton("Consultar olimpiadas");
         consultarOlimpiadas.setPreferredSize(new Dimension(200, 30));
-        consultarOlimpiadas.setFont(fuenteNegrita3);
+        consultarOlimpiadas.setFont(fuenteBotonesEtiquetas);
 
         crearItinerario = new JButton("Crear nuevo itinerario");
         crearItinerario.setPreferredSize(new Dimension(200, 30));
-        crearItinerario.setFont(fuenteNegrita3);
+        crearItinerario.setFont(fuenteBotonesEtiquetas);
 
         consultarItinerario = new JButton("Consultar itinerarios");
         consultarItinerario.setPreferredSize(new Dimension(200, 30));
-        consultarItinerario.setFont(fuenteNegrita3);
+        consultarItinerario.setFont(fuenteBotonesEtiquetas);
 
         createExercise = new JButton("Crear nuevo ejercicio");
         createExercise.setPreferredSize(new Dimension(200, 30));
-        createExercise.setFont(fuenteNegrita3);
+        createExercise.setFont(fuenteBotonesEtiquetas);
 
         consultarEjercicios = new JButton("Consultar ejercicios");
         consultarEjercicios.setPreferredSize(new Dimension(200, 30));
-        consultarEjercicios.setFont(fuenteNegrita3);
+        consultarEjercicios.setFont(fuenteBotonesEtiquetas);
 
         crearEquipo = new JButton("Crear nuevo equipo");
         crearEquipo.setPreferredSize(new Dimension(200, 30));
-        crearEquipo.setFont(fuenteNegrita3);
+        crearEquipo.setFont(fuenteBotonesEtiquetas);
 
         consultarEquipos = new JButton("Consultar equipos");
         consultarEquipos.setPreferredSize(new Dimension(200, 30));
-        consultarEquipos.setFont(fuenteNegrita3);
+        consultarEquipos.setFont(fuenteBotonesEtiquetas);
 
         crearRubrica = new JButton("Crear nueva rúbrica");
         crearRubrica.setPreferredSize(new Dimension(200, 30));
-        crearRubrica.setFont(fuenteNegrita3);
+        crearRubrica.setFont(fuenteBotonesEtiquetas);
 
         consultarRubricas = new JButton("Consultar rúbricas");
         consultarRubricas.setPreferredSize(new Dimension(200, 30));
-        consultarRubricas.setFont(fuenteNegrita3);
+        consultarRubricas.setFont(fuenteBotonesEtiquetas);
 
         assignExerciseToOlympiad = new JButton("Asignar ejercicio a olimpiada");
         assignExerciseToOlympiad.setPreferredSize(new Dimension(200, 30));
-        assignExerciseToOlympiad.setFont(fuenteNegrita3);
+        assignExerciseToOlympiad.setFont(fuenteBotonesEtiquetas);
 
-        consultarAsignacionEjercicios = new JButton("Consultar asignaciones de ejercicios");
-        consultarAsignacionEjercicios.setPreferredSize(new Dimension(200, 30));
-        consultarAsignacionEjercicios.setFont(fuenteNegrita3);
+        consultarAsignacionEjerciciosOlimpiadas = new JButton("Consultar asignaciones de ejercicios a olimpiadas");
+        consultarAsignacionEjerciciosOlimpiadas.setPreferredSize(new Dimension(200, 30));
+        consultarAsignacionEjerciciosOlimpiadas.setFont(fuenteBotonesEtiquetas);
 
         createUser = new JButton("Crear nuevo usuario");
         createUser.setPreferredSize(new Dimension(200, 30));
-        createUser.setFont(fuenteNegrita3);
+        createUser.setFont(fuenteBotonesEtiquetas);
 
         consultarUsuarios = new JButton("Consultar usuarios");
         consultarUsuarios.setPreferredSize(new Dimension(200, 30));
-        consultarUsuarios.setFont(fuenteNegrita3);
+        consultarUsuarios.setFont(fuenteBotonesEtiquetas);
 
         assignExerciseToUser = new JButton("Asignar ejercicio a monitor");
         assignExerciseToUser.setPreferredSize(new Dimension(200, 30));
-        assignExerciseToUser.setFont(fuenteNegrita3);
+        assignExerciseToUser.setFont(fuenteBotonesEtiquetas);
+
+        consultarAsignacionEjerciciosMonitores = new JButton("Consultar asignaciones de ejercicios a monitores");
+        consultarAsignacionEjerciciosMonitores.setPreferredSize(new Dimension(200, 30));
+        consultarAsignacionEjerciciosMonitores.setFont(fuenteBotonesEtiquetas);
 
         asignarItinerarioAOrganizador = new JButton("Asignar itinerario a organizador");
         asignarItinerarioAOrganizador.setPreferredSize(new Dimension(200, 30));
-        asignarItinerarioAOrganizador.setFont(fuenteNegrita3);
+        asignarItinerarioAOrganizador.setFont(fuenteBotonesEtiquetas);
+
+        consultarAsignacionItinerarioOrganizador = new JButton("Consultar asignaciones de itinerarios a organizadores");
+        consultarAsignacionItinerarioOrganizador.setPreferredSize(new Dimension(200, 30));
+        consultarAsignacionItinerarioOrganizador.setFont(fuenteBotonesEtiquetas);
 
         upperBar = new JPanel();
         upperBar.setLayout(new BorderLayout(5, 5));
@@ -144,23 +149,25 @@ public class VentanaAdministrador extends JFrame {
         olimpiadaButtonsPanel.add(crearEquipo);
         olimpiadaButtonsPanel.add(consultarEquipos);
         olimpiadaButtonsPanel.add(assignExerciseToOlympiad);
-        olimpiadaButtonsPanel.add(consultarAsignacionEjercicios);
+        olimpiadaButtonsPanel.add(consultarAsignacionEjerciciosOlimpiadas);
 
         usuariosButtonsPanel = new JPanel();
         usuariosButtonsPanel.setBorder(borde);
-        usuariosButtonsPanel.setLayout(new GridLayout(2, 2, 15, 15));
+        usuariosButtonsPanel.setLayout(new GridLayout(3, 2, 15, 15));
         usuariosButtonsPanel.add(createUser);
         usuariosButtonsPanel.add(consultarUsuarios);
         usuariosButtonsPanel.add(assignExerciseToUser);
+        usuariosButtonsPanel.add(consultarAsignacionEjerciciosMonitores);
         usuariosButtonsPanel.add(asignarItinerarioAOrganizador);
+        usuariosButtonsPanel.add(consultarAsignacionItinerarioOrganizador);
 
         JLabel gestionOlimpiadaLabel = new JLabel("Gestión de olimpiadas");
-        gestionOlimpiadaLabel.setFont(fuenteNegrita2);
+        gestionOlimpiadaLabel.setFont(fuenteSubtitulo);
         gestionOlimpiadaLabel.setBorder(borde);
 
 
         JLabel gestionUsuariosLabel = new JLabel("Gestión de usuarios");
-        gestionUsuariosLabel.setFont(fuenteNegrita2);
+        gestionUsuariosLabel.setFont(fuenteSubtitulo);
         gestionUsuariosLabel.setBorder(borde);
 
         gestionOlimpiada = new JPanel();
@@ -177,7 +184,7 @@ public class VentanaAdministrador extends JFrame {
         gestionUsuarios.add(usuariosButtonsPanel, BorderLayout.CENTER);
 
         welcomeLabel = new JLabel("¡Bienvenido al panel de administrador de OlympULL!");
-        welcomeLabel.setFont(fuenteNegrita1);
+        welcomeLabel.setFont(fuenteTitulo);
         //welcomeLabel.setPreferredSize(new Dimension(200, 50));
         upperBar.add(welcomeLabel, BorderLayout.CENTER);
 
@@ -308,7 +315,7 @@ public class VentanaAdministrador extends JFrame {
             }
         });
 
-        consultarAsignacionEjercicios.addActionListener(new ActionListener() {
+        consultarAsignacionEjerciciosOlimpiadas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -325,6 +332,19 @@ public class VentanaAdministrador extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new VentanaNuevoUsuario(administrador);
+                dispose();
+            }
+        });
+
+        consultarUsuarios.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new VentanaConsultaUsuarios(administrador);
+                } catch (JSchException | SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                dispose();
             }
         });
 
