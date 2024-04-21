@@ -46,8 +46,33 @@ public interface OperacionesBD {
         ResultSet rs = stmt.executeQuery(select);
 
         // Se cierra la conexión
-        //stmt.close();
-        //conn.close();
+        session.disconnect();
+
+        return rs;
+    }
+
+    default ResultSet selectCol(String table, String col) throws JSchException, SQLException {
+        // Conexión SSH a la MV remota
+        Session session = jsch.getSession(sshUser, sshHost, sshPort);
+        session.setPassword(sshPassword);
+        session.setConfig("StrictHostKeyChecking", "no");
+        session.connect();
+
+        // Abrir un túnel SSH al puerto MySQL en la máquina remota
+        session.setPortForwardingL(localPort, remoteHost, remotePort);
+
+        // Conexión a MySQL a través del túnel SSH
+        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+        String dbUser = "root";
+        String dbPassword = "root";
+        Connection conn;
+        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+        String select = "SELECT " + col + " FROM " + table +";";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(select);
+
+        // Se cierra la conexión
         session.disconnect();
 
         return rs;
@@ -73,7 +98,7 @@ public interface OperacionesBD {
         ResultSet results = stmt.executeQuery(checkClause);
 
         if (results.next()) {
-            new CustomJOptionPane("ERROR - Ya existe una olimpiada con ese código");
+            new CustomJOptionPane("ERROR - Ya existe una registro en " + table + " con esa clave");
             stmt.close();
             conn.close();
             session.disconnect();
@@ -127,7 +152,7 @@ public interface OperacionesBD {
     }
 
     // Método para eliminar fila de la tabla
-    default void delete(String table, String whereClause) throws JSchException, SQLException {
+    default int delete(String table, String whereClause) throws JSchException, SQLException {
         // Conexión SSH a la MV remota
         Session session = jsch.getSession(sshUser, sshHost, sshPort);
         session.setPassword(sshPassword);
@@ -143,15 +168,24 @@ public interface OperacionesBD {
 
         // Consulta para añadir la nueva olimpiada
         String deleteClause = "DELETE FROM " + table + " " + whereClause;
-        int rowsAffected = stmt.executeUpdate(deleteClause);
 
-        if (!(rowsAffected > 0)) {
-            new CustomJOptionPane("No se ha podido eliminar el registro de la tabla");
+        try {
+            stmt.executeUpdate(deleteClause);
+
+        } catch (SQLException e) {
+            new CustomJOptionPane("No se puede eliminar el registro porque existen referencias a él en otras tablas");
+            stmt.close();
+            conn.close();
+            session.disconnect();
+            return 1;
+
         }
 
         // Se cierra la conexión
         stmt.close();
         conn.close();
         session.disconnect();
+
+        return 0;
     }
 }

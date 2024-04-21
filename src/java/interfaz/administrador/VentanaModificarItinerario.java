@@ -18,9 +18,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, Iconos {
+public class VentanaModificarItinerario extends JFrame implements Bordes, Fuentes, Iconos {
     // Botones
-    JButton botonCrearItinerario;
+    JButton botonModificarItinerario;
     JButton goBackButton;
 
     // Etiquetas
@@ -40,17 +40,22 @@ public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, I
     JPanel upperPanel;
     JPanel inputPanel;
 
-    public VentanaNuevoItinerario(Administrador administrador) throws JSchException, SQLException {
-        // Configuración de la ventana
+    // Otros
+    String oldCode;
+
+    public VentanaModificarItinerario(Administrador administrador, String codigo, String titulo, String descripcion, String olimpiada) throws JSchException, SQLException {
+        // Configuración de la ventana    
         setSize(500, 335);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Nuevo itinerario");
+        setTitle("Modificar itinerario");
+        setIconImage(iconoVentana);
         setVisible(true);
         setLocationRelativeTo(null);
-        setIconImage(iconoVentana);
 
-        // Configuración del panel superior
+        oldCode = codigo;
+
+        // Panel superior
         introduceData = new JLabel("Nuevo itinerario");
         introduceData.setFont(fuenteTitulo);
 
@@ -64,36 +69,35 @@ public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, I
         upperPanel.add(goBackButton, BorderLayout.EAST);
         upperPanel.setBorder(borde);
 
-        // Configuración del panel de inputs
+        // Panel de inputs
         codigoItinerario = new JLabel("Código (*)");
         codigoItinerario.setFont(fuenteBotonesEtiquetas);
-
+        
         nombreItinerario = new JLabel("Nombre (*)");
         nombreItinerario.setFont(fuenteBotonesEtiquetas);
-
+        
         descripcionItinerario = new JLabel("Descripción");
         descripcionItinerario.setFont(fuenteBotonesEtiquetas);
-
+        
         olimpiadaItinerario = new JLabel("Olimpiada (*)");
         olimpiadaItinerario.setFont(fuenteBotonesEtiquetas);
 
-        campoCodigoItinerario = new JTextField();
+        campoCodigoItinerario = new JTextField(codigo);
         campoCodigoItinerario.setFont(fuenteCampoTexto);
 
-        campoNombreItinerario = new JTextField();
+        campoNombreItinerario = new JTextField(titulo);
         campoNombreItinerario.setFont(fuenteCampoTexto);
 
-        campoDescripcionItinerario = new JTextField();
+        campoDescripcionItinerario = new JTextField(descripcion);
         campoDescripcionItinerario.setFont(fuenteCampoTexto);
 
         ArrayList<String> codigosOlimpiadas = new ArrayList<>();
         campoOlimpiadaItinerario = new JComboBox<String>();
         campoOlimpiadaItinerario.setFont(fuenteCampoTexto);
-
-        // Se obtienen los códigos de las olimpiadas existentes
+        
         ResultSet olympCodes = administrador.selectCol("T_OLIMPIADAS", "CODIGO");
 
-        // Se añaden los códigos al ArrayList
+        // Se añaden los códigos de olimpiada al ArrayList
         while (olympCodes.next()) {
             String registro = olympCodes.getString("CODIGO");
             codigosOlimpiadas.add(registro);
@@ -103,8 +107,10 @@ public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, I
         for (int i = 0; i < codigosOlimpiadas.size(); ++i) {
             campoOlimpiadaItinerario.addItem(codigosOlimpiadas.get(i));
         }
-
+        
         olympCodes.close();
+
+        campoOlimpiadaItinerario.setSelectedItem(olimpiada);
 
         inputPanel = new JPanel();
         inputPanel.setLayout(new GridLayout(4, 2, 10, 10));
@@ -118,16 +124,17 @@ public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, I
         inputPanel.add(campoDescripcionItinerario);
         inputPanel.add(olimpiadaItinerario);
         inputPanel.add(campoOlimpiadaItinerario);
+        
 
-        // Configuración del panel de crear el itinerario
-        botonCrearItinerario = new JButton("Crear itinerario");
-        botonCrearItinerario.setFont(fuenteBotonesEtiquetas);
-        botonCrearItinerario.setPreferredSize(new Dimension(150, 30));
+        // Panel de botón modificar
+        botonModificarItinerario = new JButton("Modificar itinerario");
+        botonModificarItinerario.setFont(fuenteBotonesEtiquetas);
+        botonModificarItinerario.setPreferredSize(new Dimension(150, 30));
 
         JPanel createButtonPanel = new JPanel();
         createButtonPanel.setBorder(borde);
-        createButtonPanel.add(botonCrearItinerario);
-
+        createButtonPanel.add(botonModificarItinerario);
+        
         // Se añaden los paneles a la ventana
         add(upperPanel, BorderLayout.NORTH);
         add(inputPanel, BorderLayout.CENTER);
@@ -137,18 +144,23 @@ public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, I
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaAdministrador ventana = new VentanaAdministrador(administrador);
+                try {
+                    new VentanaConsultaItinerarios(administrador);
+                    
+                } catch (JSchException | SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 dispose();
             }
         });
 
-        // Botón de crear itinerario
-        botonCrearItinerario.addActionListener(new ActionListener() {
+        // Botón modificar
+        botonModificarItinerario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Objects.equals(campoCodigoItinerario.getText(), "")
-                        || Objects.equals(campoNombreItinerario.getText(), "")
-                        || Objects.equals(campoOlimpiadaItinerario.getSelectedItem(), "")) {
+                if (campoCodigoItinerario.getText().matches("^\\s*$")
+                        || campoNombreItinerario.getText().matches("^\\s*$")
+                        || Objects.requireNonNull(campoOlimpiadaItinerario.getSelectedItem()).toString().matches("^\\s*$")) {
                     new CustomJOptionPane("Los campos Código, Nombre y Olimpiada son obligatorios");
 
                 } else {
@@ -158,19 +170,20 @@ public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, I
                     String olymp = (String) campoOlimpiadaItinerario.getSelectedItem();
 
                     try {
-                        if (administrador.createItinerario(code, name, desc, olymp) == 0) {
-                            campoCodigoItinerario.setText("");
-                            campoNombreItinerario.setText("");
-                            campoDescripcionItinerario.setText("");
-                            campoOlimpiadaItinerario.setSelectedItem(campoOlimpiadaItinerario.getItemAt(0));
-                        }
+                        administrador.modifyItinerario(oldCode, code, name, desc, olymp);
+                        new VentanaConsultaItinerarios(administrador);
+                        dispose();
 
-                    } catch (JSchException | SQLException exc) {
-                        new CustomJOptionPane("ERROR");
+                    } catch (JSchException | SQLException ex) {
+                        throw new RuntimeException(ex);
+
                     }
+
                 }
             }
         });
     }
 
 }
+
+

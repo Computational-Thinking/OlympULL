@@ -215,7 +215,6 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                     new VentanaConsultaOlimpiadas(administrador);
 
                 } catch (SQLException | JSchException ex) {
-                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error");
                 }
                 dispose();
@@ -225,7 +224,12 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
         crearItinerario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new VentanaNuevoItinerario(administrador);
+                try {
+                    new VentanaNuevoItinerario(administrador);
+
+                } catch (JSchException | SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
                 dispose();
             }
         });

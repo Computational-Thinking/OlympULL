@@ -138,9 +138,9 @@ public class VentanaModificarOlimpiada extends JFrame implements Bordes, Fuentes
         modifyOlympButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Objects.equals(olympCodeField.getText(), "")
-                        || Objects.equals(olympNameField.getText(), "")
-                        || Objects.equals(olympYearField.getText(), "")) {
+                if (olympCodeField.getText().matches("^\\s*$")
+                        || olympNameField.getText().matches("^\\s*$")
+                        || olympYearField.getText().matches("^\\s*$")) {
                     new CustomJOptionPane("Los campos Código, Título y Año son obligatorios");
 
                 } else {

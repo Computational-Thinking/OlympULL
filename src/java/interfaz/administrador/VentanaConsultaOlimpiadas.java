@@ -82,10 +82,10 @@ public class VentanaConsultaOlimpiadas extends JFrame implements Bordes, Fuentes
         // Se almacena el conjunto de datos
         ResultSet tableContents = administrador.selectRows("T_OLIMPIADAS", "CODIGO");
         ResultSetMetaData metaData = tableContents.getMetaData();
-        int numeroColumnas = metaData.getColumnCount();
+        int nCols = metaData.getColumnCount();
 
         // Se insertan las filas traídas de la MV en la tabla de la ventana
-        for (int i = 1; i <= numeroColumnas; ++i) {
+        for (int i = 1; i <= nCols; ++i) {
             modeloTabla.addColumn(metaData.getColumnName(i));
         }
 
@@ -96,9 +96,9 @@ public class VentanaConsultaOlimpiadas extends JFrame implements Bordes, Fuentes
 
         // Se añaden las filas a la tabla de la ventana
         while (tableContents.next()) {
-            Object[] fila = new Object[numeroColumnas];
+            Object[] fila = new Object[nCols];
 
-            for (int i = 1; i <= numeroColumnas; ++i) {
+            for (int i = 1; i <= nCols; ++i) {
                 fila [i - 1] = tableContents.getObject(i);
             }
 
@@ -198,9 +198,11 @@ public class VentanaConsultaOlimpiadas extends JFrame implements Bordes, Fuentes
 
         } else if (column == tabla.getColumnCount() - 1) {
             try {
-                administrador.deleteOlympiad((String) modeloTabla.getValueAt(row, 0));
-                new VentanaConsultaOlimpiadas(administrador);
-                dispose();
+                if (administrador.deleteOlympiad((String) modeloTabla.getValueAt(row, 0)) == 0) {
+                    new CustomJOptionPane("Se ha eliminado la olimpiada");
+                    new VentanaConsultaOlimpiadas(administrador);
+                    dispose();
+                }
 
             } catch (JSchException | SQLException ex) {
                 throw new RuntimeException(ex);

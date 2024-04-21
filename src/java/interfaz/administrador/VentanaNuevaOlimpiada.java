@@ -128,9 +128,9 @@ public class VentanaNuevaOlimpiada extends JFrame implements Bordes, Fuentes, Ic
         createOlympButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Objects.equals(olympCodeField.getText(), "")
-                        || Objects.equals(olympNameField.getText(), "")
-                        || Objects.equals(olympYearField.getText(), "")) {
+                if (olympCodeField.getText().matches("^\\s*$")
+                        || olympNameField.getText().matches("^\\s*$")
+                        || olympYearField.getText().matches("^\\s*$")) {
                     new CustomJOptionPane("Los campos Código, Título y Año son obligatorios");
 
                 } else {
@@ -142,8 +142,10 @@ public class VentanaNuevaOlimpiada extends JFrame implements Bordes, Fuentes, Ic
                     if (year.matches("[0-9]*") && Integer.parseInt(year) > 2000 && Integer.parseInt(year) < 3000) {
                         try {
                             if (administrador.createOlympiad(code, name, desc, Integer.parseInt(year)) == 0) {
-                                new VentanaAdministrador(administrador);
-                                dispose();
+                                olympCodeField.setText("");
+                                olympNameField.setText("");
+                                olympDescField.setText("");
+                                olympYearField.setText("");
                             }
 
                         } catch (JSchException | SQLException ex) {
