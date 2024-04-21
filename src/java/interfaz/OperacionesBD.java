@@ -51,6 +51,7 @@ public interface OperacionesBD {
         return rs;
     }
 
+    // Método para obtener valores de una columna
     default ResultSet selectCol(String table, String col) throws JSchException, SQLException {
         // Conexión SSH a la MV remota
         Session session = jsch.getSession(sshUser, sshHost, sshPort);

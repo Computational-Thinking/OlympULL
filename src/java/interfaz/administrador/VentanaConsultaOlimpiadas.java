@@ -205,7 +205,7 @@ public class VentanaConsultaOlimpiadas extends JFrame implements Bordes, Fuentes
                 }
 
             } catch (JSchException | SQLException ex) {
-                throw new RuntimeException(ex);
+                new CustomJOptionPane("ERROR");
             }
         }
     }

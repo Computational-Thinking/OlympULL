@@ -229,7 +229,9 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
 
                 } catch (JSchException | SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Error");
+
                 }
+
                 dispose();
             }
         });
@@ -238,7 +240,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    VentanaConsultaItinerarios ventana = new VentanaConsultaItinerarios(administrador);
+                    new VentanaConsultaItinerarios(administrador);
 
                 } catch (SQLException | JSchException ex) {
                     ex.printStackTrace();
@@ -251,7 +253,14 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
         createExercise.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new VentanaNuevoEjercicio(administrador);
+                try {
+                    new VentanaNuevoEjercicio(administrador);
+
+                } catch (JSchException | SQLException ex) {
+                    throw new RuntimeException(ex);
+
+                }
+
                 dispose();
             }
         });

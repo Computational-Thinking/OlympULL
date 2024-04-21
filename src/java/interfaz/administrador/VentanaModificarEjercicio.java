@@ -3,7 +3,10 @@ package interfaz.administrador;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import interfaz.Bordes;
 import interfaz.CustomJOptionPane;
+import interfaz.Fuentes;
+import interfaz.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -13,13 +16,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class VentanaNuevoEjercicio extends JFrame {
+public class VentanaModificarEjercicio extends JFrame implements Bordes, Fuentes, Iconos {
     // Botones
+    JButton modifyExerButton;
     JButton goBackButton;
-    JButton createExerButton;
-
+    
     // Etiquetas
     JLabel introduceData;
     JLabel exerCode;
@@ -28,46 +30,42 @@ public class VentanaNuevoEjercicio extends JFrame {
     JLabel exerConcept;
     JLabel exerResources;
     JLabel exerType;
-    JLabel exerRubricaLabel;
-
+    JLabel exerRubrica;
+    
     // Campos de texto
     JTextField exerCodeField;
     JTextField exerNameField;
     JTextField exerDescField;
-
+    
     // Combo boxes
     JComboBox<String> exerConceptField;
     JComboBox<String> exerResourcesField;
     JComboBox<String> exerTypeField;
-    JComboBox<String> exerRubrica;
-
+    JComboBox<String> exerRubricaField;
+    
     // Paneles
-    JPanel createButtonPanel;
     JPanel inputPanel;
     JPanel upperPanel;
 
-    public VentanaNuevoEjercicio(Administrador administrador) throws JSchException, SQLException {
+    public VentanaModificarEjercicio(Administrador administrador, String codigo, String titulo, String desc, String concepto, String recurso, String tipo) throws JSchException, SQLException {
+        // Configuración de la ventana
         setSize(500, 475);
         getContentPane().setLayout(new BorderLayout(5, 5));
-        this.setTitle("Nuevo ejercicio olímpico");
-        this.setVisible(true);
+        setTitle("Modificar ejercicio olímpico");
+        setTitle("Modificar ejercicio olímpico");
+        setVisible(true);
         setLocationRelativeTo(null);
+        setIconImage(iconoVentana);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Image icon = new ImageIcon("images/icono-ull-original.png").getImage();
-        setIconImage(icon);
-
-        Border borde = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        Font fuenteNegrita1 = new Font("Argentum Sans Bold", Font.PLAIN, 20);
-        Font fuenteNegrita2 = new Font("Argentum Sans Light", Font.PLAIN, 12);
-        Font fuenteNegrita3 = new Font("Argentum Sans Bold", Font.PLAIN, 12);
+        String oldCode = codigo;
 
         // Panel superior
-        introduceData = new JLabel("Nuevo ejercicio");
-        introduceData.setFont(fuenteNegrita1);
+        introduceData = new JLabel("Edición de ejercicio");
+        introduceData.setFont(fuenteTitulo);
 
         goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteNegrita3);
+        goBackButton.setFont(fuenteBotonesEtiquetas);
         goBackButton.setPreferredSize(new Dimension(90, 30));
 
         upperPanel = new JPanel();
@@ -76,71 +74,85 @@ public class VentanaNuevoEjercicio extends JFrame {
         upperPanel.add(goBackButton, BorderLayout.EAST);
         upperPanel.setBorder(borde);
 
-        // Panel de input
+        // Panel de inputs
         exerCode = new JLabel("Código (*)");
-        exerCode.setFont(fuenteNegrita3);
+        exerCode.setFont(fuenteBotonesEtiquetas);
 
         exerName = new JLabel("Nombre (*)");
-        exerName.setFont(fuenteNegrita3);
+        exerName.setFont(fuenteBotonesEtiquetas);
 
         exerDesc = new JLabel("Descripción");
-        exerDesc.setFont(fuenteNegrita3);
+        exerDesc.setFont(fuenteBotonesEtiquetas);
 
         exerConcept = new JLabel("Categoría (*)");
-        exerConcept.setFont(fuenteNegrita3);
+        exerConcept.setFont(fuenteBotonesEtiquetas);
 
         exerResources = new JLabel("Recursos (*)");
-        exerResources.setFont(fuenteNegrita3);
+        exerResources.setFont(fuenteBotonesEtiquetas);
 
         exerType = new JLabel("Tipo (*)");
-        exerType.setFont(fuenteNegrita3);
+        exerType.setFont(fuenteBotonesEtiquetas);
 
-        exerRubricaLabel = new JLabel("Rúbrica (*)");
-        exerType.setFont(fuenteNegrita3);
+        exerRubrica = new JLabel("Rúbrica (*)");
+        exerRubrica.setFont(fuenteBotonesEtiquetas);
 
-        exerCodeField = new JTextField();
-        exerCodeField.setFont(fuenteNegrita2);
+        exerCodeField = new JTextField(codigo);
+        exerCodeField.setFont(fuenteCampoTexto);
 
-        exerNameField = new JTextField();
-        exerNameField.setFont(fuenteNegrita2);
+        exerNameField = new JTextField(titulo);
+        exerNameField.setFont(fuenteCampoTexto);
 
-        exerDescField = new JTextField();
-        exerDescField.setFont(fuenteNegrita2);
+        exerDescField = new JTextField(desc);
+        exerDescField.setFont(fuenteCampoTexto);
 
         String[] exerConcepts = {"Abstracción", "Algoritmos", "Bucles", "Condicionales", "Descomposición", "Funciones",
-                                 "IA", "Reconocimiento de patrones", "Secuencias", "Secuencias y bucles", "Variables",
-                                 "Variables y funciones"};
+                "IA", "Reconocimiento de patrones", "Secuencias", "Secuencias y bucles", "Variables", "Variables y funciones", "Otro"};
 
         exerConceptField = new JComboBox<>(exerConcepts);
-        exerConceptField.setFont(fuenteNegrita2);
+        exerConceptField.setFont(fuenteCampoTexto);
+        if (!concepto.equals("IA")) {
+            String substring = concepto.substring(1);
+            substring = substring.toLowerCase();
+            concepto = concepto.charAt(0) + substring;
+        }
+        exerConceptField.setSelectedItem(concepto);
 
         String[] exerResource = {"INICIAL", "INTERMEDIO"};
         exerResourcesField = new JComboBox<>(exerResource);
-        exerResourcesField.setFont(fuenteNegrita2);
+        exerResourcesField.setFont(fuenteCampoTexto);
+        exerResourcesField.setSelectedItem(recurso);
 
         String[] exerTypes = {"Desenchufada", "Enchufada"};
         exerTypeField = new JComboBox<>(exerTypes);
-        exerTypeField.setFont(fuenteNegrita2);
+        exerTypeField.setFont(fuenteCampoTexto);
 
-        ArrayList<String> rubricas = new ArrayList<>();
-        exerRubrica = new JComboBox<>();
+        String substring = tipo.substring(1);
+        substring = substring.toLowerCase();
+        tipo = tipo.charAt(0) + substring;
+        exerTypeField.setSelectedItem(tipo);
 
-        ResultSet codeCol = administrador.selectCol("T_RUBRICAS", "CODIGO");
+        exerRubricaField = new JComboBox<>();
+        exerRubricaField.setFont(fuenteCampoTexto);
 
-        // Iterar sobre el resultado y añadir los registros al ArrayList
-        while (codeCol.next()) {
-            String registro = codeCol.getString("CODIGO");
-            rubricas.add(registro);
+        ResultSet rubricCodes = administrador.selectCol("T_RUBRICAS", "CODIGO");
+
+        // Se añaden los registros al combo box
+        while (rubricCodes.next()) {
+            String registro = rubricCodes.getString("CODIGO");
+            exerRubricaField.addItem(registro);
+
         }
 
-        // Utilizamos los años para meterlos en el combo box
-        for (int i = 0; i < rubricas.size(); ++i) {
-            exerRubrica.addItem(rubricas.get(i));
-        }
+        rubricCodes.close();
 
-        codeCol.close();
+        // Panel de botón modificar
+        modifyExerButton = new JButton("Modificar ejercicio olímpico");
+        modifyExerButton.setPreferredSize(new Dimension(250, 30));
+        modifyExerButton.setFont(fuenteBotonesEtiquetas);
 
-        exerRubrica.setFont(fuenteNegrita2);
+        JPanel createButtonPanel = new JPanel();
+        createButtonPanel.setBorder(borde);
+        createButtonPanel.add(modifyExerButton);
 
         inputPanel = new JPanel();
         inputPanel.setBorder(borde);
@@ -158,33 +170,29 @@ public class VentanaNuevoEjercicio extends JFrame {
         inputPanel.add(exerResourcesField);
         inputPanel.add(exerType);
         inputPanel.add(exerTypeField);
-        inputPanel.add(exerRubricaLabel);
         inputPanel.add(exerRubrica);
+        inputPanel.add(exerRubricaField);
 
-        // Panel de botón crear
-        createExerButton = new JButton("Crear ejercicio");
-        createExerButton.setPreferredSize(new Dimension(200, 30));
-        createExerButton.setFont(fuenteNegrita3);
-
-        createButtonPanel = new JPanel();
-        createButtonPanel.setBorder(borde);
-        createButtonPanel.add(createExerButton);
-
+        // Se añaden los paneles a la ventana
         add(upperPanel, BorderLayout.NORTH);
         add(inputPanel, BorderLayout.CENTER);
         add(createButtonPanel, BorderLayout.SOUTH);
 
-        // Botón volver
+        // Botón de volver
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new VentanaAdministrador(administrador);
+                try {
+                    new VentanaConsultaEjercicios(administrador);
+                } catch (JSchException | SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 dispose();
             }
         });
 
-        // Botón crear ejercicio
-        createExerButton.addActionListener(new ActionListener() {
+        // 
+        modifyExerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (exerCodeField.getText().matches("^\\s*$")
@@ -198,23 +206,15 @@ public class VentanaNuevoEjercicio extends JFrame {
                     String concept = (String) exerConceptField.getSelectedItem();
                     String resources = (String) exerResourcesField.getSelectedItem();
                     String type = (String) exerTypeField.getSelectedItem();
-                    String rubric = (String) exerRubrica.getSelectedItem();
+                    String rubric = (String) exerRubricaField.getSelectedItem();
 
                     try {
-                        if (administrador.createExercise(code, name, desc, concept, resources, type, rubric) == 0) {
-                            exerCodeField.setText("");
-                            exerNameField.setText("");
-                            exerDescField.setText("");
-                            exerConceptField.setSelectedItem(exerConceptField.getItemAt(0));
-                            exerResourcesField.setSelectedItem(exerResourcesField.getItemAt(0));
-                            exerTypeField.setSelectedItem(exerTypeField.getItemAt(0));
-                            exerRubrica.setSelectedItem(exerRubrica.getItemAt(0));
+                        administrador.modifyExercise(oldCode, code, name, desc, concept, resources, type, rubric);
+                        new VentanaConsultaEjercicios(administrador);
+                        dispose();
 
-                        }
-
-                    } catch (JSchException | SQLException exc) {
+                    } catch (JSchException | SQLException ex) {
                         new CustomJOptionPane("ERROR");
-
                     }
                 }
             }

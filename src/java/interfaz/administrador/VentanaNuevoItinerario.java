@@ -146,9 +146,9 @@ public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, I
         botonCrearItinerario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Objects.equals(campoCodigoItinerario.getText(), "")
-                        || Objects.equals(campoNombreItinerario.getText(), "")
-                        || Objects.equals(campoOlimpiadaItinerario.getSelectedItem(), "")) {
+                if (campoCodigoItinerario.getText().matches("^\\s*$")
+                        || campoNombreItinerario.getText().matches("^\\s*$")
+                        || Objects.requireNonNull(campoOlimpiadaItinerario.getSelectedItem()).toString().matches("^\\s*$")) {
                     new CustomJOptionPane("Los campos Código, Nombre y Olimpiada son obligatorios");
 
                 } else {

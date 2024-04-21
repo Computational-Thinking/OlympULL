@@ -91,21 +91,15 @@ public class VentanaModificarItinerario extends JFrame implements Bordes, Fuente
         campoDescripcionItinerario = new JTextField(descripcion);
         campoDescripcionItinerario.setFont(fuenteCampoTexto);
 
-        ArrayList<String> codigosOlimpiadas = new ArrayList<>();
         campoOlimpiadaItinerario = new JComboBox<String>();
         campoOlimpiadaItinerario.setFont(fuenteCampoTexto);
         
         ResultSet olympCodes = administrador.selectCol("T_OLIMPIADAS", "CODIGO");
 
-        // Se añaden los códigos de olimpiada al ArrayList
+        // Se añaden los códigos de olimpiada al combo box
         while (olympCodes.next()) {
             String registro = olympCodes.getString("CODIGO");
-            codigosOlimpiadas.add(registro);
-        }
-
-        // Utilizamos los códigos para meterlos en el combo box
-        for (int i = 0; i < codigosOlimpiadas.size(); ++i) {
-            campoOlimpiadaItinerario.addItem(codigosOlimpiadas.get(i));
+            campoOlimpiadaItinerario.addItem(registro);
         }
         
         olympCodes.close();
@@ -129,7 +123,7 @@ public class VentanaModificarItinerario extends JFrame implements Bordes, Fuente
         // Panel de botón modificar
         botonModificarItinerario = new JButton("Modificar itinerario");
         botonModificarItinerario.setFont(fuenteBotonesEtiquetas);
-        botonModificarItinerario.setPreferredSize(new Dimension(150, 30));
+        botonModificarItinerario.setPreferredSize(new Dimension(175, 30));
 
         JPanel createButtonPanel = new JPanel();
         createButtonPanel.setBorder(borde);
@@ -175,7 +169,7 @@ public class VentanaModificarItinerario extends JFrame implements Bordes, Fuente
                         dispose();
 
                     } catch (JSchException | SQLException ex) {
-                        throw new RuntimeException(ex);
+                        new CustomJOptionPane("ERROR");
 
                     }
 
