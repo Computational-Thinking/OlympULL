@@ -1,6 +1,10 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
+import interfaz.Bordes;
+import interfaz.CustomJOptionPane;
+import interfaz.Fuentes;
+import interfaz.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -12,7 +16,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Vector;
 
-public class VentanaEditarRubrica extends JFrame {
+public class VentanaModificarRubrica extends JFrame implements Bordes, Fuentes, Iconos {
     // Etiquetas
     JLabel title; // Título de la ventana
     JLabel codeLabel; // Etiqueta de código de la rúbrica
@@ -49,36 +53,25 @@ public class VentanaEditarRubrica extends JFrame {
     int nScales; // Variable de seguridad que indica el número de puntos que hay por el momento en la rúbrica
 
     // Constructor
-    public VentanaEditarRubrica(Administrador administrador, String code, String name, String desc, int[] points, String[] tags) {
+    public VentanaModificarRubrica(Administrador administrador, String code, String name, String desc, int[] points, String[] tags) {
         // Configuración de la ventana
         // setSize(500, 400);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Editar rúbrica");
+        setTitle("Modificar rúbrica");
+        setIconImage(iconoVentana);
 
-        // Icono de la ventana
-        Image icon = new ImageIcon("images/icono-ull-original.png").getImage();
-        setIconImage(icon);
-
-        //Borde
-        Border borde = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        Border bordeMaxField = BorderFactory.createEmptyBorder(0, 10, 0, 10);
-        Border bordePanelInformacionBasica = BorderFactory.createEmptyBorder(10, 10, 0, 10);
-
-        // Fuentes
-        Font fuenteCamposTexto = new Font("Argentum Sans Light", Font.PLAIN, 12);
-        Font fuenteTitulo = new Font("Argentum Sans Bold", Font.PLAIN, 18);
-        Font fuenteEtiquetasBotones = new Font("Argentum Sans Bold", Font.PLAIN, 12);
+        String oldCode = code;
 
         nScales = points.length;
 
         // Botón de volver
         goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteEtiquetasBotones);
+        goBackButton.setFont(fuenteBotonesEtiquetas);
         goBackButton.setPreferredSize(new Dimension(90, 30));
 
         // Etiqueta de título
-        title = new JLabel("Editar rúbrica " + code);
+        title = new JLabel("Modificar rúbrica " + code);
         title.setFont(fuenteTitulo);
 
         // Configurar y añadir elementos a panel superior (Panel 1)
@@ -91,30 +84,34 @@ public class VentanaEditarRubrica extends JFrame {
         // Elementos de Panel 3
         codeLabel = new JLabel("Código (*)"); // Campo obligatorio
         codeField = new JTextField(code);
-        codeLabel.setFont(fuenteEtiquetasBotones);
-        codeField.setFont(fuenteCamposTexto);
+
+        codeLabel.setFont(fuenteBotonesEtiquetas);
+        codeField.setFont(fuenteCampoTexto);
 
         nameLabel = new JLabel("Nombre");
         nameField = new JTextField(name);
-        nameLabel.setFont(fuenteEtiquetasBotones);
-        nameField.setFont(fuenteCamposTexto);
+
+        nameLabel.setFont(fuenteBotonesEtiquetas);
+        nameField.setFont(fuenteCampoTexto);
 
         descriptionLabel = new JLabel("Descripción");
         descriptionField = new JTextField(desc);
-        descriptionLabel.setFont(fuenteEtiquetasBotones);
-        descriptionField.setFont(fuenteCamposTexto);
+
+        descriptionLabel.setFont(fuenteBotonesEtiquetas);
+        descriptionField.setFont(fuenteCampoTexto);
 
         minPunctuation = new JLabel("0");
         minPunctuation.setPreferredSize(new Dimension(20, 30));
-        minPunctuation.setFont(fuenteEtiquetasBotones);
+        minPunctuation.setFont(fuenteBotonesEtiquetas);
+
         minPunctuationTagField = new JTextField(tags[0].substring(1));
         minPunctuationTagField.setPreferredSize(new Dimension(175, 30));
-        minPunctuationTagField.setFont(fuenteCamposTexto);
+        minPunctuationTagField.setFont(fuenteCampoTexto);
 
         // Configurar y añadir elementos a panel de información básica (Panel 3)
         basicInformationPanel = new JPanel();
         basicInformationPanel.setLayout(new GridLayout(4, 2, 5, 5));
-        basicInformationPanel.setBorder(bordePanelInformacionBasica);
+        basicInformationPanel.setBorder(bordeRubricBasicInfo);
         basicInformationPanel.add(codeLabel);
         basicInformationPanel.add(codeField);
         basicInformationPanel.add(nameLabel);
@@ -142,12 +139,12 @@ public class VentanaEditarRubrica extends JFrame {
             // Campo de puntos
             JTextField newPunctuation = new JTextField(String.valueOf(points[i]));
             newPunctuation.setPreferredSize(new Dimension(200, 30));
-            newPunctuation.setFont(fuenteCamposTexto);
+            newPunctuation.setFont(fuenteCampoTexto);
 
             // Campo de etiqueta de puntos
             JTextField newTag = new JTextField(tags[i].substring(1));
             newTag.setPreferredSize(new Dimension(200, 30));
-            newTag.setFont(fuenteCamposTexto);
+            newTag.setFont(fuenteCampoTexto);
 
             // Se añaden los campos nuevos al panel
             newMark.add(newPunctuation);
@@ -162,10 +159,10 @@ public class VentanaEditarRubrica extends JFrame {
 
         // Valor máximo por defecto (Panel 6.2)
         maxPunctuation = new JLabel("10");
-        maxPunctuation.setFont(fuenteEtiquetasBotones);
+        maxPunctuation.setFont(fuenteBotonesEtiquetas);
         maxPunctuation.setPreferredSize(new Dimension(200, 30));
         maxPunctuationTagField = new JTextField(tags[points.length - 1].substring(1, tags[points.length - 1].length() - 1));
-        maxPunctuationTagField.setFont(fuenteCamposTexto);
+        maxPunctuationTagField.setFont(fuenteCampoTexto);
         maxPunctuationTagField.setPreferredSize(new Dimension(200, 30));
 
         maxValuePanel = new JPanel();
@@ -176,11 +173,11 @@ public class VentanaEditarRubrica extends JFrame {
 
         // Botones para añadir y eliminar filas personalizadas
         addNewPunctuationButton = new JButton("+");
-        addNewPunctuationButton.setFont(fuenteEtiquetasBotones);
+        addNewPunctuationButton.setFont(fuenteBotonesEtiquetas);
         addNewPunctuationButton.setPreferredSize(new Dimension(20, 30));
 
         deletePunctuationButton = new JButton("-");
-        deletePunctuationButton.setFont(fuenteEtiquetasBotones);
+        deletePunctuationButton.setFont(fuenteBotonesEtiquetas);
         deletePunctuationButton.setPreferredSize(new Dimension(20, 30));
 
         createDeletePanel = new JPanel();
@@ -193,7 +190,7 @@ public class VentanaEditarRubrica extends JFrame {
         // Panel 6
         customInformationPanel = new JPanel();
         customInformationPanel.setLayout(new BorderLayout(5, 5));
-        customInformationPanel.setBorder(bordeMaxField);
+        customInformationPanel.setBorder(bordeRubricMaxField);
 
         customInformationPanel.add(customValuesPanel, BorderLayout.CENTER);
         customInformationPanel.add(maxValuePanel, BorderLayout.SOUTH);
@@ -207,7 +204,7 @@ public class VentanaEditarRubrica extends JFrame {
         // Panel de botón para modificar rúbrica (Panel 5)
         // Elementos
         modificarRubrica = new JButton("Modificar rúbrica");
-        modificarRubrica.setFont(fuenteEtiquetasBotones);
+        modificarRubrica.setFont(fuenteBotonesEtiquetas);
 
         createRubricPanel = new JPanel();
         createRubricPanel.setLayout(new FlowLayout());
@@ -246,12 +243,12 @@ public class VentanaEditarRubrica extends JFrame {
                     // Campo de puntos
                     JTextField newPunctuation = new JTextField();
                     newPunctuation.setPreferredSize(new Dimension(200, 30));
-                    newPunctuation.setFont(fuenteCamposTexto);
+                    newPunctuation.setFont(fuenteCampoTexto);
 
                     // Campo de etiqueta de puntos
                     JTextField newTag = new JTextField();
                     newTag.setPreferredSize(new Dimension(200, 30));
-                    newTag.setFont(fuenteCamposTexto);
+                    newTag.setFont(fuenteCampoTexto);
 
                     // Se añaden los campos nuevos al panel
                     newMark.add(newPunctuation);
@@ -300,24 +297,47 @@ public class VentanaEditarRubrica extends JFrame {
         modificarRubrica.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int[] scalePoints = new int[nScales];
-                String[] scaleTags = new String[nScales];
+                // Se comprueba si los valores introducidos tienen el formato correcto
+                int[] scalePoints = new int[nScales];      // Puntos de la rúbrica
+                String[] scaleTags = new String[nScales];  // Etiquetas de la rúbrica
 
                 scalePoints[0] = Integer.parseInt(minPunctuation.getText());
                 scaleTags[0] = minPunctuationTagField.getText();
 
                 Component[] registers = customValuesPanel.getComponents();
                 int counter = 1;
+                int exit = 0;
 
+                // Se almacenan los valores de los paneles auxiliares
                 for (Component register : registers) {
                     JPanel dummy = (JPanel) register;
                     Component[] textFields = dummy.getComponents();
                     JTextField value = (JTextField) textFields[0];
-                    System.out.println(value.getText());
                     JTextField tag = (JTextField) textFields[1];
 
-                    scalePoints[counter] = Integer.parseInt(value.getText());
-                    scaleTags[counter] = (tag.getText());
+                    if (value.getText().matches("^[0-9]$")) {
+                        if (Integer.parseInt(value.getText()) > 0) {
+                            scalePoints[counter] = Integer.parseInt(value.getText());
+
+                        } else {
+                            exit = 1;
+
+                        }
+
+                    } else {
+                        exit = 1;
+                        break;
+
+                    }
+
+                    if (tag.getText().matches(".*[,].*")) {
+                        exit = 1;
+                        break;
+
+                    } else {
+                        scaleTags[counter] = value.getText();
+
+                    }
 
                     ++counter;
                 }
@@ -325,16 +345,39 @@ public class VentanaEditarRubrica extends JFrame {
                 scalePoints[scalePoints.length - 1] = Integer.parseInt(maxPunctuation.getText());
                 scaleTags[scaleTags.length - 1] = maxPunctuationTagField.getText();
 
-                try {
-                    administrador.modifyRubric(code, codeField.getText(), nameField.getText(), descriptionField.getText(), Arrays.toString(scalePoints), Arrays.toString(scaleTags));
-                } catch (SQLException | JSchException ex) {
-                    throw new RuntimeException(ex);
+                if (scaleTags[0].matches(".*[,].*") || scaleTags[scaleTags.length - 1].matches(".*[,].*")) {
+                    exit = 1;
+
                 }
-                try {
-                    new VentanaConsultaRubricas(administrador);
-                    dispose();
-                } catch (JSchException | SQLException ex) {
-                    throw new RuntimeException(ex);
+                System.out.println(Arrays.toString(scalePoints));
+                System.out.println(Arrays.toString(scaleTags));
+
+                if (exit == 1) {
+                    new CustomJOptionPane("Los valores de la rúbrica introducidos no son válidos." +
+                            " Los puntos deben ser números enteros entre 0 y 10." +
+                            " Las etiquetas de puntos deben ser cadenas de caracteres sin comas.");
+                } else {
+                    // Se comprueba que el código no es vacío
+                    if (codeField.getText().matches("^\\s*$")) {
+                        new CustomJOptionPane("El campo Código es obligatorio.");
+
+                    } else {
+                        String code = codeField.getText();
+                        String name = nameField.getText();
+                        String desc = descriptionField.getText();
+                        String values = Arrays.toString(scalePoints);
+                        String tags = Arrays.toString(scaleTags);
+
+                        try {
+                            administrador.modifyRubric(oldCode, code, name, desc, values, tags);
+                            new VentanaConsultaRubricas(administrador);
+                            dispose();
+
+                        } catch (SQLException | JSchException ex) {
+                            new CustomJOptionPane("ERROR");
+
+                        }
+                    }
                 }
             }
         });

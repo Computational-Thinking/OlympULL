@@ -18,7 +18,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class VentanaNuevoEquipo extends JFrame implements Bordes, Fuentes, Iconos {
+public class VentanaModificarEquipo extends JFrame implements Bordes, Fuentes, Iconos {
     JButton goBackButton;
     JLabel introduceData;
     JLabel teamCode;
@@ -29,22 +29,23 @@ public class VentanaNuevoEquipo extends JFrame implements Bordes, Fuentes, Icono
     JTextField teamNameField;
     JTextField teamSchoolField;
     JComboBox<String> teamItinerarioField;
-    JButton createExerButton;
+    JButton modifyTeamButton;
     JPanel inputPanel;
     JPanel upperPanel;
 
-    public VentanaNuevoEquipo(Administrador administrador) throws JSchException, SQLException {
+    public VentanaModificarEquipo(Administrador administrador, String code, String name, String school, String itinerario) throws JSchException, SQLException {
         // Configuración de la ventana
         setSize(500, 335);
         getContentPane().setLayout(new BorderLayout(5, 5));
-        setTitle("Nuevo equipo");
+        setTitle("Modificar equipo");
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setIconImage(iconoVentana);
 
-        // Panel superior
-        introduceData = new JLabel("Nuevo equipo");
+        String oldCode = code;
+
+        introduceData = new JLabel("Modificar equipo");
         introduceData.setFont(fuenteTitulo);
 
         goBackButton = new JButton("< Volver");
@@ -57,7 +58,6 @@ public class VentanaNuevoEquipo extends JFrame implements Bordes, Fuentes, Icono
         upperPanel.add(goBackButton, BorderLayout.EAST);
         upperPanel.setBorder(borde);
 
-        // Panel de inputs
         teamCode = new JLabel("Código (*)");
         teamCode.setFont(fuenteBotonesEtiquetas);
 
@@ -70,16 +70,15 @@ public class VentanaNuevoEquipo extends JFrame implements Bordes, Fuentes, Icono
         teamItinerario = new JLabel("Itinerario (*)");
         teamItinerario.setFont(fuenteBotonesEtiquetas);
 
-        teamCodeField = new JTextField();
+        teamCodeField = new JTextField(oldCode);
         teamCodeField.setFont(fuenteCampoTexto);
 
-        teamNameField = new JTextField();
+        teamNameField = new JTextField(name);
         teamNameField.setFont(fuenteCampoTexto);
 
-        teamSchoolField = new JTextField();
+        teamSchoolField = new JTextField(school);
         teamSchoolField.setFont(fuenteCampoTexto);
 
-        ArrayList<String> itinerarios = new ArrayList<>();
         teamItinerarioField = new JComboBox<>();
         teamItinerarioField.setFont(fuenteCampoTexto);
 
@@ -92,15 +91,16 @@ public class VentanaNuevoEquipo extends JFrame implements Bordes, Fuentes, Icono
         }
 
         itCodes.close();
+        
+        teamItinerarioField.setSelectedItem(itinerario);
 
-        // Panel de creación de equipo
-        createExerButton = new JButton("Crear equipo");
-        createExerButton.setPreferredSize(new Dimension(150, 30));
-        createExerButton.setFont(fuenteBotonesEtiquetas);
+        modifyTeamButton = new JButton("Modificar equipo");
+        modifyTeamButton.setPreferredSize(new Dimension(150, 30));
+        modifyTeamButton.setFont(fuenteBotonesEtiquetas);
 
         JPanel createButtonPanel = new JPanel();
         createButtonPanel.setBorder(borde);
-        createButtonPanel.add(createExerButton);
+        createButtonPanel.add(modifyTeamButton);
 
         inputPanel = new JPanel();
         inputPanel.setBorder(borde);
@@ -115,7 +115,6 @@ public class VentanaNuevoEquipo extends JFrame implements Bordes, Fuentes, Icono
         inputPanel.add(teamItinerario);
         inputPanel.add(teamItinerarioField);
 
-        // Se añaden los paneles a la ventana
         add(upperPanel, BorderLayout.NORTH);
         add(inputPanel, BorderLayout.CENTER);
         add(createButtonPanel, BorderLayout.SOUTH);
@@ -128,7 +127,7 @@ public class VentanaNuevoEquipo extends JFrame implements Bordes, Fuentes, Icono
             }
         });
 
-        createExerButton.addActionListener(new ActionListener() {
+        modifyTeamButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (teamCodeField.getText().matches("^\\s*$")
@@ -144,13 +143,9 @@ public class VentanaNuevoEquipo extends JFrame implements Bordes, Fuentes, Icono
                     String itinerary = (String) teamItinerarioField.getSelectedItem();
 
                     try {
-                        if (administrador.createTeam(code, name, school, itinerary) == 0) {
-                            teamCodeField.setText("");
-                            teamNameField.setText("");
-                            teamSchoolField.setText("");
-                            teamItinerarioField.setSelectedItem(teamItinerarioField.getItemAt(0));
-
-                        }
+                        administrador.modifyTeam(oldCode, code, name, school, itinerary);
+                        new VentanaConsultaEquipos(administrador);
+                        dispose();
 
                     } catch (JSchException | SQLException exc) {
                         new CustomJOptionPane("ERROR");

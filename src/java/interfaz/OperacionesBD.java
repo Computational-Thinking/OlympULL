@@ -96,10 +96,11 @@ public interface OperacionesBD {
 
         // Comprobación para no insertar si ya existe una fila con la misma key
         String checkClause = "SELECT * FROM "  + table + " " + safeInsertClause;
+        System.out.println(checkClause);
         ResultSet results = stmt.executeQuery(checkClause);
 
         if (results.next()) {
-            new CustomJOptionPane("ERROR - Ya existe una registro en " + table + " con esa clave");
+            new CustomJOptionPane("ERROR - Ya existe un registro en " + table + " con esa clave");
             stmt.close();
             conn.close();
             session.disconnect();
@@ -107,8 +108,55 @@ public interface OperacionesBD {
             return 1;
         }
 
-        // Consulta para añadir la nueva olimpiada
+        // Consulta para añadir nuevo registro
         String insertClause = "INSERT INTO " + table + " VALUES(" + data + ")";
+        System.out.println(insertClause);
+        int rowsAffected = stmt.executeUpdate(insertClause);
+
+        if (!(rowsAffected > 0)) {
+            new CustomJOptionPane("No se ha podido insertar en la tabla");
+        }
+
+        // Se cierra la conexión
+        stmt.close();
+        conn.close();
+        session.disconnect();
+
+        return 0;
+    }
+
+    default int insertSelectedCols(String table, String data, String selection, String safeInsertClause) throws JSchException, SQLException {
+        // Conexión SSH a la MV remota
+        Session session = jsch.getSession(sshUser, sshHost, sshPort);
+        session.setPassword(sshPassword);
+        session.setConfig("StrictHostKeyChecking", "no");
+        session.connect();
+
+        // Túnel SSH al puerto MySQL en la máquina remota
+        session.setPortForwardingL(localPort, remoteHost, remotePort);
+        Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+        // Crear la sentencia
+        Statement stmt = conn.createStatement();
+
+        // Comprobación para no insertar si ya existe una fila con la misma key
+        String checkClause = "SELECT * FROM "  + table + " " + safeInsertClause;
+        ResultSet results = stmt.executeQuery(checkClause);
+
+        System.out.println(checkClause);
+
+        if (results.next()) {
+            new CustomJOptionPane("ERROR - Ya existe un registro en " + table + " con esa clave o se viola una restricción de clave única");
+            stmt.close();
+            conn.close();
+            session.disconnect();
+
+            return 1;
+        }
+
+        // Consulta para añadir nuevo registro
+        String insertClause = "INSERT INTO " + table + selection + " VALUES(" + data + ");";
+        System.out.println(insertClause);
         int rowsAffected = stmt.executeUpdate(insertClause);
 
         if (!(rowsAffected > 0)) {

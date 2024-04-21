@@ -188,6 +188,7 @@ public class VentanaConsultaItinerarios extends JFrame implements Bordes, Fuente
 
             } catch (JSchException | SQLException ex) {
                 new CustomJOptionPane("ERROR");
+
             }
 
         } else if (col == tabla.getColumnCount() - 1) {

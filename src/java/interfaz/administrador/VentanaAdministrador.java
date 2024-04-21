@@ -302,7 +302,14 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
         crearEquipo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new VentanaNuevoEquipo(administrador);
+                try {
+                    new VentanaNuevoEquipo(administrador);
+
+                } catch (JSchException | SQLException ex) {
+                    throw new RuntimeException(ex);
+
+                }
+
                 dispose();
             }
         });
