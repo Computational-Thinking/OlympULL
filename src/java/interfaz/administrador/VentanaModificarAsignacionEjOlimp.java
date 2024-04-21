@@ -16,41 +16,42 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fuentes, Iconos {
+public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes, Fuentes, Iconos {
     // Botones
     JButton goBackButton;
     JButton assignExercise;
-    
+
     // Etiquetas
     JLabel introduceData;
     JLabel exerCode;
     JLabel olympCode;
     JLabel itinerarioCode;
-    
+
     // Combo boxes
     JComboBox<String> exerCodeField;
     JComboBox<String> olympCodeField;
     JComboBox<String> itinerarioCodeField;
-    
+
     // Paneles
     JPanel inputPanel;
     JPanel upperPanel;
 
-    public VentanaNuevaAsignacionEjOlimp(Administrador administrador) throws JSchException, SQLException {
+    public VentanaModificarAsignacionEjOlimp(Administrador administrador, String ejercicio, String olimpiada, String itinerario) throws JSchException, SQLException {
         // Configuración de la ventana
         setSize(500, 290);
         getContentPane().setLayout(new BorderLayout(5, 5));
-        this.setTitle("Nueva asignación");
+        this.setTitle("Modificar asignación");
         this.setVisible(true);
         setLocationRelativeTo(null);
+        setIconImage(iconoVentana);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Icono de la ventana
-        setIconImage(iconoVentana);
+        String oldExercise = ejercicio;
+        String oldOlympiad = olimpiada;
+        String oldItinerario = itinerario;
 
-        introduceData = new JLabel("Nueva asignación");
+        introduceData = new JLabel("Modificar asignación");
         introduceData.setFont(fuenteTitulo);
 
         goBackButton = new JButton("< Volver");
@@ -81,42 +82,50 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fue
         itinerarioCodeField = new JComboBox<>();
         itinerarioCodeField.setFont(fuenteCampoTexto);
 
-        ArrayList<String> ejercicios = new ArrayList<>();
         exerCodeField = new JComboBox<>();
         exerCodeField.setFont(fuenteCampoTexto);
 
         ResultSet codes = administrador.selectCol("T_EJERCICIOS", "CODIGO");
-
+        
+         // Iterar sobre el resultado y añadir los registros al ArrayList
         while (codes.next()) {
             String registro = codes.getString("CODIGO");
             exerCodeField.addItem(registro);
         }
+
+        exerCodeField.setSelectedItem(ejercicio);
 
         olympCodeField = new JComboBox<>();
         olympCodeField.setFont(fuenteCampoTexto);
 
         codes = administrador.selectCol("T_OLIMPIADAS", "CODIGO");
 
+        // Iterar sobre el resultado y añadir los registros al ArrayList
         while (codes.next()) {
             String registro = codes.getString("CODIGO");
             olympCodeField.addItem(registro);
         }
-
+        
+        olympCodeField.setSelectedItem(olimpiada);
+        
         itinerarioCodeField = new JComboBox<>();
         itinerarioCodeField.setFont(fuenteCampoTexto);
 
         String where = "WHERE OLIMPIADA='" + olympCodeField.getSelectedItem() + "'";
         codes = administrador.selectColWhere("T_ITINERARIOS", "CODIGO", where);
 
+        // Iterar sobre el resultado y añadir los registros al ArrayList
         while (codes.next()) {
             String registro = codes.getString("CODIGO");
             itinerarioCodeField.addItem(registro);
         }
 
+        itinerarioCodeField.setSelectedItem(itinerario);
+        
         codes.close();
 
-        assignExercise = new JButton("Asignar");
-        assignExercise.setPreferredSize(new Dimension(100, 30));
+        assignExercise = new JButton("Modificar asignación");
+        assignExercise.setPreferredSize(new Dimension(175, 30));
         assignExercise.setFont(fuenteBotonesEtiquetas);
 
         JPanel createButtonPanel = new JPanel();
@@ -141,8 +150,14 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fue
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaAdministrador ventana = new VentanaAdministrador(administrador);
-                dispose();
+                try {
+                    new VentanaConsultaAsignacionEjOlimp(administrador);
+                    dispose();
+
+                } catch (JSchException | SQLException ex) {
+                    throw new RuntimeException(ex);
+
+                }
             }
         });
 
@@ -182,9 +197,14 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fue
                     String itinerario = (String) itinerarioCodeField.getSelectedItem();
 
                     try {
-                        if (administrador.assignExerciseToOlympiad(exercise, olympiad, itinerario) == 0) {
-                            new VentanaNuevaAsignacionEjOlimp(administrador);
+                        if (administrador.modifyAssignationExOlymp(oldExercise, oldOlympiad, oldItinerario, exercise, olympiad, itinerario) == 0) {
+                            new CustomJOptionPane("Se ha modificado la asignación");
+                            new VentanaConsultaAsignacionEjOlimp(administrador);
                             dispose();
+
+                        } else {
+                            new CustomJOptionPane("No se ha podido modificar la asignación." +
+                                    "Compruebe los valores de las claves.");
 
                         }
 

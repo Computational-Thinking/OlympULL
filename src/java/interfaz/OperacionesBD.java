@@ -79,6 +79,33 @@ public interface OperacionesBD {
         return rs;
     }
 
+    default ResultSet selectColWhere(String table, String col, String where) throws JSchException, SQLException {
+        // Conexión SSH a la MV remota
+        Session session = jsch.getSession(sshUser, sshHost, sshPort);
+        session.setPassword(sshPassword);
+        session.setConfig("StrictHostKeyChecking", "no");
+        session.connect();
+
+        // Abrir un túnel SSH al puerto MySQL en la máquina remota
+        session.setPortForwardingL(localPort, remoteHost, remotePort);
+
+        // Conexión a MySQL a través del túnel SSH
+        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+        String dbUser = "root";
+        String dbPassword = "root";
+        Connection conn;
+        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+        String select = "SELECT " + col + " FROM " + table + " " + where + ";";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(select);
+
+        // Se cierra la conexión
+        session.disconnect();
+
+        return rs;
+    }
+
     // Método para insertar en la base de datos
     default int insert(String table, String data, String safeInsertClause) throws JSchException, SQLException {
         // Conexión SSH a la MV remota
@@ -96,11 +123,10 @@ public interface OperacionesBD {
 
         // Comprobación para no insertar si ya existe una fila con la misma key
         String checkClause = "SELECT * FROM "  + table + " " + safeInsertClause;
-        System.out.println(checkClause);
         ResultSet results = stmt.executeQuery(checkClause);
 
         if (results.next()) {
-            new CustomJOptionPane("ERROR - Ya existe un registro en " + table + " con esa clave");
+            new CustomJOptionPane("ERROR - Ya existe un registro en " + table + " con esa clave o se viola una restricción");
             stmt.close();
             conn.close();
             session.disconnect();
@@ -110,7 +136,6 @@ public interface OperacionesBD {
 
         // Consulta para añadir nuevo registro
         String insertClause = "INSERT INTO " + table + " VALUES(" + data + ")";
-        System.out.println(insertClause);
         int rowsAffected = stmt.executeUpdate(insertClause);
 
         if (!(rowsAffected > 0)) {
@@ -143,8 +168,6 @@ public interface OperacionesBD {
         String checkClause = "SELECT * FROM "  + table + " " + safeInsertClause;
         ResultSet results = stmt.executeQuery(checkClause);
 
-        System.out.println(checkClause);
-
         if (results.next()) {
             new CustomJOptionPane("ERROR - Ya existe un registro en " + table + " con esa clave o se viola una restricción de clave única");
             stmt.close();
@@ -156,7 +179,6 @@ public interface OperacionesBD {
 
         // Consulta para añadir nuevo registro
         String insertClause = "INSERT INTO " + table + selection + " VALUES(" + data + ");";
-        System.out.println(insertClause);
         int rowsAffected = stmt.executeUpdate(insertClause);
 
         if (!(rowsAffected > 0)) {
@@ -172,7 +194,7 @@ public interface OperacionesBD {
     }
 
     // Método para actualizar valor en la tabla
-    default void update(String table, String setClause, String whereClause) throws JSchException, SQLException {
+    default int update(String table, String setClause, String whereClause) throws JSchException, SQLException {
         // Conexión SSH a la MV remota
         Session session = jsch.getSession(sshUser, sshHost, sshPort);
         session.setPassword(sshPassword);
@@ -192,12 +214,20 @@ public interface OperacionesBD {
 
         if (!(rowsAffected > 0)) {
             new CustomJOptionPane("No se ha podido actualizar la tabla");
+
+            stmt.close();
+            conn.close();
+            session.disconnect();
+
+            return 1;
         }
 
         // Se cierra la conexión
         stmt.close();
         conn.close();
         session.disconnect();
+
+        return 0;
     }
 
     // Método para eliminar fila de la tabla

@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.Fuentes;
-import interfaz.Iconos;
-import interfaz.VentanaInicio;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -319,10 +316,12 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
             public void actionPerformed(ActionEvent e) {
                 try {
                     new VentanaConsultaEquipos(administrador);
+
                 } catch (SQLException | JSchException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Error");
+                    new CustomJOptionPane("ERROR");
+
                 }
+
                 dispose();
             }
         });
@@ -330,7 +329,15 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
         assignExerciseToOlympiad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new VentanaNuevaAsignacionEjOlimp(administrador);
+                try {
+                    new VentanaNuevaAsignacionEjOlimp(administrador);
+
+                } catch (JSchException | SQLException ex) {
+                    new CustomJOptionPane("ERROR");
+
+
+                }
+
                 dispose();
             }
         });

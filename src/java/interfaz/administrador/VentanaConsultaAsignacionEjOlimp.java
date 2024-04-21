@@ -4,6 +4,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import interfaz.Bordes;
+import interfaz.CustomJOptionPane;
 import interfaz.Fuentes;
 import interfaz.Iconos;
 import usuarios.Administrador;
@@ -81,62 +82,27 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
 
         tablaScrollPane = new JScrollPane(tabla);
 
-        // Valores para conexión a MV remota
-        String sshHost = "10.6.130.204";
-        String sshUser = "usuario";
-        String sshPassword = "Usuario";
-        int sshPort = 22; // Puerto SSH por defecto
-        int localPort = 3307; // Puerto local para el túnel SSH
-        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
-        int remotePort = 3306; // Puerto MySQL en la máquina remota
-
-        // Conexión SSH a la MV remota
-        JSch jsch = new JSch();
-        Session session = jsch.getSession(sshUser, sshHost, sshPort);
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
-
-        // Debugger
-        System.out.println("Conexión con la máquina establecida");
-
-        // Abrir un túnel SSH al puerto MySQL en la máquina remota
-        session.setPortForwardingL(localPort, remoteHost, remotePort);
-
-        // Conexión a MySQL a través del túnel SSH
-        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
-        String dbUser = "root";
-        String dbPassword = "root";
-        Connection conn;
-        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
-        String consulta = "SELECT * FROM T_EJERCICIOS_OLIMPIADA_ITINERARIO ORDER BY EJERCICIO ASC;";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(consulta);
-
-        ResultSetMetaData metaData = rs.getMetaData();
-        int numeroColumnas = metaData.getColumnCount();
+        ResultSet tableContent = administrador.selectRows("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "EJERCICIO");
+        ResultSetMetaData data = tableContent.getMetaData();
+        int nCols = data.getColumnCount();
 
         // Se insertan las filas traídas de la MV en la tabla de la ventana
-        for (int i = 1; i <= numeroColumnas; ++i) {
-            modeloTabla.addColumn(metaData.getColumnName(i));
+        for (int i = 1; i <= nCols; ++i) {
+            modeloTabla.addColumn(data.getColumnName(i));
         }
 
         modeloTabla.addColumn(""); // Columna de editar
         modeloTabla.addColumn(""); // Columna de eliminar
 
-        while (rs.next()) {
-            Object[] fila = new Object[numeroColumnas];
-            for (int i = 1; i <= numeroColumnas; ++i) {
-                fila [i - 1] = rs.getObject(i);
+        while (tableContent.next()) {
+            Object[] fila = new Object[nCols];
+            for (int i = 1; i <= nCols; ++i) {
+                fila [i - 1] = tableContent.getObject(i);
             }
             modeloTabla.addRow(fila);
         }
 
-        rs.close();
-        stmt.close();
-        conn.close();
-        session.disconnect();
+        tableContent.close();
 
         // Esto es para establecer la fuente del contenido de la tabla
         DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) tabla.getTableHeader().getDefaultRenderer();
@@ -162,15 +128,14 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
         // Esto es para que se pueda pulsar los botones
         tabla.addMouseListener(this);
 
-        // Esto es para insertar los botones en la última columna de la tabla (cambiar por tres columnas distintas)
+        // Esto es para insertar los botones en la última columna de la tabla
         // Columna de editar
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new VentanaConsultaAsignacionEjOlimp.ButtonPanelRenderer(2));
-        // Columna de eliminar
-        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new VentanaConsultaAsignacionEjOlimp.ButtonPanelRenderer(1));
-
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMinWidth(30);
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMaxWidth(30);
 
+        // Columna de eliminar
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new VentanaConsultaAsignacionEjOlimp.ButtonPanelRenderer(1));
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMinWidth(30);
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMaxWidth(30);
 
@@ -202,15 +167,25 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
         System.out.println(ejercicio + " - " + olimpiada + " - " + itinerario);
 
         if (columna == tabla.getColumnCount() - 2) {
-            new VentanaEditarAsignacionEjOlimp(administrador, ejercicio, olimpiada, itinerario);
-            dispose();
+            try {
+                new VentanaModificarAsignacionEjOlimp(administrador, ejercicio, olimpiada, itinerario);
+                dispose();
+
+            } catch (JSchException | SQLException ex) {
+                new CustomJOptionPane("ERROR");
+
+            }
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
-                administrador.deleteAssignationEjOlimp(ejercicio);
-                new VentanaConsultaAsignacionEjOlimp(administrador);
-                dispose();
+                if (administrador.deleteAssignationEjOlimp(ejercicio, olimpiada) == 0) {
+                    new CustomJOptionPane("Se ha eliminado la asignación");
+                    new VentanaConsultaAsignacionEjOlimp(administrador);
+                    dispose();
+
+                }
+
             } catch (JSchException | SQLException ex) {
-                throw new RuntimeException(ex);
+                new CustomJOptionPane("ERROR");
             }
         }
     }
@@ -243,18 +218,13 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
         public ButtonPanelRenderer(int columna) {
             setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-            switch(columna) {
-                case 2:
-                    image = iconoEditar;
-                    break;
-                case 1:
-                    image = iconoEliminar;
-                    break;
-                default:
-                    break;
+            switch (columna) {
+                case 2 -> image = iconoEditar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                case 1 -> image = iconoEliminar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                default -> {
+                }
             }
 
-            image = image.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
             buttonIcon = new ImageIcon(image);
             JButton actionButton = new JButton(buttonIcon);
             actionButton.setPreferredSize(new Dimension(25, 25));

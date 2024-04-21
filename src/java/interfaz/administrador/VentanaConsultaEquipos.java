@@ -193,7 +193,7 @@ public class VentanaConsultaEquipos extends JFrame implements Bordes, Fuentes, I
 
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
-                if (administrador.deleteItinerario((String) modeloTabla.getValueAt(row, 0)) == 0) {
+                if (administrador.deleteTeam(codigo) == 0) {
                     new CustomJOptionPane("Se ha eliminado el equipo");
                     new VentanaConsultaEquipos(administrador);
                     dispose();
