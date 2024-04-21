@@ -194,7 +194,7 @@ public interface OperacionesBD {
     }
 
     // Método para actualizar valor en la tabla
-    default int update(String table, String setClause, String whereClause) throws JSchException, SQLException {
+    default int update(String table, String setClause, String whereClause, String safeInsertClause) throws JSchException, SQLException {
         // Conexión SSH a la MV remota
         Session session = jsch.getSession(sshUser, sshHost, sshPort);
         session.setPassword(sshPassword);
@@ -208,7 +208,20 @@ public interface OperacionesBD {
         // Crear la sentencia
         Statement stmt = conn.createStatement();
 
-        // Consulta para añadir la nueva olimpiada
+        // Comprobación para no insertar si ya existe una fila con la misma key
+        String checkClause = "SELECT * FROM "  + table + " " + safeInsertClause;
+        ResultSet results = stmt.executeQuery(checkClause);
+
+        if (results.next()) {
+            new CustomJOptionPane("ERROR - Ya existe un registro en " + table + " con esa clave o se viola una restricción");
+            stmt.close();
+            conn.close();
+            session.disconnect();
+
+            return 1;
+        }
+
+        // Consulta para añadir
         String updateClause = "UPDATE " + table + " " + setClause + " " + whereClause;
         int rowsAffected = stmt.executeUpdate(updateClause);
 

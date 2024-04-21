@@ -209,9 +209,15 @@ public class VentanaModificarEjercicio extends JFrame implements Bordes, Fuentes
                     String rubric = (String) exerRubricaField.getSelectedItem();
 
                     try {
-                        administrador.modifyExercise(oldCode, code, name, desc, concept, resources, type, rubric);
-                        new VentanaConsultaEjercicios(administrador);
-                        dispose();
+                        if (administrador.modifyExercise(oldCode, code, name, desc, concept, resources, type, rubric) == 0) {
+                            new CustomJOptionPane("Se ha modificado el ejercicio");
+                            new VentanaConsultaEjercicios(administrador);
+                            dispose();
+
+                        } else {
+                            new CustomJOptionPane("No se puede modificar el ejercicio. Compruebe las claves.");
+
+                        }
 
                     } catch (JSchException | SQLException ex) {
                         new CustomJOptionPane("ERROR");

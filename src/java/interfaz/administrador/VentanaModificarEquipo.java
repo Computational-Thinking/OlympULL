@@ -143,9 +143,13 @@ public class VentanaModificarEquipo extends JFrame implements Bordes, Fuentes, I
                     String itinerary = (String) teamItinerarioField.getSelectedItem();
 
                     try {
-                        administrador.modifyTeam(oldCode, code, name, school, itinerary);
-                        new VentanaConsultaEquipos(administrador);
-                        dispose();
+                        if (administrador.modifyTeam(oldCode, code, name, school, itinerary) == 0) {
+                            new CustomJOptionPane("Se ha modificado el equipo");
+                            new VentanaConsultaEquipos(administrador);
+                            dispose();
+                        } else {
+                            new CustomJOptionPane("No se puede modificar el equipo. Compruebe las claves.");
+                        }
 
                     } catch (JSchException | SQLException exc) {
                         new CustomJOptionPane("ERROR");

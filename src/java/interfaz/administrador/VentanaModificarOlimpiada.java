@@ -151,15 +151,24 @@ public class VentanaModificarOlimpiada extends JFrame implements Bordes, Fuentes
 
                     if (year.matches("[0-9]*") && Integer.parseInt(year) > 2000 && Integer.parseInt(year) < 3000) {
                         try {
-                            administrador.modifyOlympiad(oldCode, code, name, desc, Integer.parseInt(year));
-                            new VentanaConsultaOlimpiadas(administrador);
+                            if (administrador.modifyOlympiad(oldCode, code, name, desc, Integer.parseInt(year)) == 0) {
+                                new CustomJOptionPane("Se ha modificado la olimpiada");
+                                new VentanaConsultaOlimpiadas(administrador);
+                                dispose();
+
+                            } else {
+                                new CustomJOptionPane("No se puede modificar la olimpiada. Compruebe las claves.");
+
+                            }
 
                         } catch (JSchException | SQLException ex) {
                             throw new RuntimeException(ex);
+
                         }
 
                     } else {
                         new CustomJOptionPane("El campo Año debe ser un número entero y tener un valor válido");
+
                     }
                 }
             }

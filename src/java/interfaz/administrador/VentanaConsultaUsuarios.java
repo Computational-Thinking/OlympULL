@@ -4,6 +4,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import interfaz.Bordes;
+import interfaz.CustomJOptionPane;
 import interfaz.Fuentes;
 import interfaz.Iconos;
 import usuarios.Administrador;
@@ -41,7 +42,7 @@ public class VentanaConsultaUsuarios extends JFrame implements Bordes, Fuentes, 
         setSize(950, 465);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Consulta de ejercicios");
+        this.setTitle("Consulta de usuarios");
         setLocationRelativeTo(null);
 
         this.administrador = administrador;
@@ -54,7 +55,7 @@ public class VentanaConsultaUsuarios extends JFrame implements Bordes, Fuentes, 
         goBackButton.setPreferredSize(new Dimension(90, 30));
 
         // Definición de etiqueta de título
-        consultaItinerarios = new JLabel("Consulta de tabla T_EJERCICIOS");
+        consultaItinerarios = new JLabel("Consulta de tabla T_USUARIOS");
         consultaItinerarios.setFont(fuenteTitulo);
 
         // Configuración de panel superior
@@ -202,7 +203,7 @@ public class VentanaConsultaUsuarios extends JFrame implements Bordes, Fuentes, 
         String type = (String) modeloTabla.getValueAt(row, 2);
 
         if (columna == tabla.getColumnCount() - 3) {
-            new VentanaEditarUsuario(administrador, nombre, password, type);
+            new VentanaModificarUsuario(administrador, nombre, password, type);
             dispose();
         } else if (columna == tabla.getColumnCount() - 2) {
             nombre = "Copia de " + modeloTabla.getValueAt(row, 0);
@@ -215,11 +216,13 @@ public class VentanaConsultaUsuarios extends JFrame implements Bordes, Fuentes, 
             }
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
-                administrador.deleteUser(nombre);
-                new VentanaConsultaUsuarios(administrador);
-                dispose();
+                if (administrador.deleteUser(nombre) == 0) {
+                    new CustomJOptionPane("Se ha eliminado el usuario");
+                    new VentanaConsultaUsuarios(administrador);
+                    dispose();
+                }
             } catch (JSchException | SQLException ex) {
-                throw new RuntimeException(ex);
+                new CustomJOptionPane("ERROR");
             }
         }
     }

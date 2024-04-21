@@ -2,6 +2,7 @@ package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
 import interfaz.Bordes;
+import interfaz.CustomJOptionPane;
 import interfaz.Fuentes;
 import interfaz.Iconos;
 import usuarios.Administrador;
@@ -121,14 +122,27 @@ public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Icon
         createUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = userNameField.getText();
-                String password = userPasswordField.getText();
-                String type = String.valueOf(userTypeComboBox.getSelectedItem());
-                try {
-                    administrador.createUser(name, password, type);
-                    new VentanaAdministrador(administrador);
-                } catch (JSchException | SQLException ex) {
-                    throw new RuntimeException(ex);
+                if (userNameField.getText().matches("^\\s*$")
+                        || userPasswordField.getText().matches("^\\s*$")) {
+                    new CustomJOptionPane("Los campos Nombre y Password son obligatorios");
+
+                } else {
+                    String name = userNameField.getText();
+                    String password = userPasswordField.getText();
+                    String type = String.valueOf(userTypeComboBox.getSelectedItem());
+
+                    try {
+                        if (administrador.createUser(name, password, type) == 0) {
+                            new CustomJOptionPane("Se ha creado el usuario");
+                            userNameField.setText("");
+                            userPasswordField.setText("");
+                            userTypeComboBox.setSelectedItem(userTypeComboBox.getItemAt(0));
+                        }
+
+                    } catch (JSchException | SQLException ex) {
+                        new CustomJOptionPane("ERROR");
+
+                    }
                 }
             }
         });

@@ -2,6 +2,7 @@ package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
 import interfaz.Bordes;
+import interfaz.CustomJOptionPane;
 import interfaz.Fuentes;
 import interfaz.Iconos;
 import usuarios.Administrador;
@@ -12,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class VentanaEditarUsuario extends JFrame implements Bordes, Fuentes, Iconos {
+public class VentanaModificarUsuario extends JFrame implements Bordes, Fuentes, Iconos {
     // Etiquetas
     JLabel title;
     JLabel userNameLabel;
@@ -35,7 +36,7 @@ public class VentanaEditarUsuario extends JFrame implements Bordes, Fuentes, Ico
     JPanel inputPanel;
     JPanel createButtonPanel;
 
-    public VentanaEditarUsuario(Administrador administrador, String nombre, String password, String tipo) {
+    public VentanaModificarUsuario(Administrador administrador, String nombre, String password, String tipo) {
         // Configuración de la ventana
         setSize(500, 270);
         getContentPane().setLayout(new BorderLayout());
@@ -53,7 +54,7 @@ public class VentanaEditarUsuario extends JFrame implements Bordes, Fuentes, Ico
         goBackButton.setPreferredSize(new Dimension(90, 30));
 
         // Definición de etiqueta de título
-        title = new JLabel("Editar usuario");
+        title = new JLabel("Modificar usuario");
         title.setFont(fuenteTitulo);
 
         // Configuración de panel superior
@@ -128,15 +129,32 @@ public class VentanaEditarUsuario extends JFrame implements Bordes, Fuentes, Ico
         modifyUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = userNameField.getText();
-                String password = userPasswordField.getText();
-                String type = String.valueOf(userTypeComboBox.getSelectedItem());
-                try {
-                    administrador.modifyUser(oldName, name, password, type);
-                    new VentanaConsultaUsuarios(administrador);
-                } catch (JSchException | SQLException ex) {
-                    throw new RuntimeException(ex);
+                if (userNameField.getText().matches("^\\s*$")
+                        || userPasswordField.getText().matches("^\\s*$")) {
+                    new CustomJOptionPane("Los campos Nombre y Password son obligatorios");
+
+                } else {
+                    String name = userNameField.getText();
+                    String password = userPasswordField.getText();
+                    String type = String.valueOf(userTypeComboBox.getSelectedItem());
+
+                    try {
+                        if (administrador.modifyUser(oldName, name, password, type) == 0) {
+                            new CustomJOptionPane("Se ha modificado el usuario");
+                            new VentanaConsultaUsuarios(administrador);
+                            dispose();
+
+                        } else {
+                            new CustomJOptionPane("No se puede modificar el usuario. Compruebe las claves.");
+
+                        }
+
+                    } catch (JSchException | SQLException ex) {
+                        throw new RuntimeException(ex);
+
+                    }
                 }
+
             }
         });
     }

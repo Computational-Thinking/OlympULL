@@ -164,9 +164,15 @@ public class VentanaModificarItinerario extends JFrame implements Bordes, Fuente
                     String olymp = (String) campoOlimpiadaItinerario.getSelectedItem();
 
                     try {
-                        administrador.modifyItinerario(oldCode, code, name, desc, olymp);
-                        new VentanaConsultaItinerarios(administrador);
-                        dispose();
+                        if (administrador.modifyItinerario(oldCode, code, name, desc, olymp) == 0) {
+                            new CustomJOptionPane("Se ha modificado el itinerario");
+                            new VentanaConsultaItinerarios(administrador);
+                            dispose();
+
+                        } else {
+                            new CustomJOptionPane("No se puede modificar el itinerario. Compruebe las claves.");
+
+                        }
 
                     } catch (JSchException | SQLException ex) {
                         new CustomJOptionPane("ERROR");

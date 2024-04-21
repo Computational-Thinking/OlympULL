@@ -369,9 +369,12 @@ public class VentanaModificarRubrica extends JFrame implements Bordes, Fuentes, 
                         String tags = Arrays.toString(scaleTags);
 
                         try {
-                            administrador.modifyRubric(oldCode, code, name, desc, values, tags);
-                            new VentanaConsultaRubricas(administrador);
-                            dispose();
+                            if (administrador.modifyRubric(oldCode, code, name, desc, values, tags) == 0) {
+                                new CustomJOptionPane("Se ha modificado la rúbrica");
+                                new VentanaConsultaRubricas(administrador);
+                                dispose();
+
+                            }
 
                         } catch (SQLException | JSchException ex) {
                             new CustomJOptionPane("ERROR");
