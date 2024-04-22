@@ -1,5 +1,6 @@
 package interfaz.monitor;
 
+import interfaz.*;
 import interfaz.administrador.VentanaNuevaRubrica;
 import interfaz.administrador.VentanaCambioContrasea;
 import usuarios.Monitor;
@@ -9,61 +10,91 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class VentanaMonitor extends JFrame {
-    JButton botonEstablecerBaremo;
+public class VentanaMonitor extends JFrame implements Bordes, Fuentes, Iconos {
+    // Labels
+    JLabel titleLabel;
+
+    // Botones
+    JButton goBackButton;
     JButton botonPuntuar;
-    JButton botonDesconectar;
-    JButton botonCambioContrasena;
+    JButton botonConsultaPuntuaciones;
+
+    // Paneles
+    JPanel upperPanel;
     JPanel buttonsPanel;
-    JLabel welcomeLabel;
 
     public VentanaMonitor(Monitor monitor) {
-        setSize(500, 250);
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        this.setTitle("Menú Monitor");
+        // Configuración de la ventana
+        setSize(750, 300);
+        getContentPane().setLayout(new BorderLayout());
+        setTitle("Panel Monitor");
+        setIconImage(iconoVentana);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
 
-        botonEstablecerBaremo = new JButton("Establecer baremo de ejercicio");
-        botonEstablecerBaremo.setPreferredSize(new Dimension(200, 30));
-        botonPuntuar = new JButton("Puntuar ejercicio");
+        // Panel superior
+        titleLabel = new JLabel("¡Bienvenido al panel de monitor de OlympULL!");
+        titleLabel.setFont(fuenteTitulo);
+
+        goBackButton = new JButton("< Volver");
+        goBackButton.setFont(fuenteBotonesEtiquetas);
+        goBackButton.setPreferredSize(new Dimension(90, 30));
+
+        upperPanel = new JPanel();
+        upperPanel.setLayout(new BorderLayout(5, 5));
+        upperPanel.add(titleLabel, BorderLayout.CENTER);
+        upperPanel.add(goBackButton, BorderLayout.EAST);
+        upperPanel.setBorder(borde);
+
+        // Panel de botones
+        botonPuntuar = new JButton("Puntuar equipo");
         botonPuntuar.setPreferredSize(new Dimension(200, 30));
-        botonDesconectar = new JButton("Desconectar");
-        botonEstablecerBaremo.setPreferredSize(new Dimension(200, 30));
-        botonCambioContrasena = new JButton("Cambiar contraseña");
+        botonPuntuar.setFont(fuenteBotonesEtiquetas);
+
+        botonConsultaPuntuaciones = new JButton("Consultar puntuaciones");
+        botonConsultaPuntuaciones.setPreferredSize(new Dimension(200, 30));
+        botonConsultaPuntuaciones.setFont(fuenteBotonesEtiquetas);
 
         buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new GridLayout(4, 1));
+        buttonsPanel.setLayout(new GridLayout(2, 1, 5, 5));
+        buttonsPanel.setBorder(borde);
 
-        buttonsPanel.add(botonEstablecerBaremo);
         buttonsPanel.add(botonPuntuar);
-        buttonsPanel.add(botonCambioContrasena);
-        buttonsPanel.add(botonDesconectar);
+        buttonsPanel.add(botonConsultaPuntuaciones);
 
-        welcomeLabel = new JLabel("¡Bienvenido al panel de monitor de OlympULL!");
-        welcomeLabel.setPreferredSize(new Dimension(200, 50));
+        // Se añaden los elementos a la ventana
+        add(upperPanel, BorderLayout.NORTH);
+        add(buttonsPanel, BorderLayout.SOUTH);
 
-        add(welcomeLabel, BorderLayout.NORTH);
-        add(buttonsPanel, BorderLayout.CENTER);
+        goBackButton.addActionListener(e -> {
+            new VentanaInicio();
+            dispose();
 
-        botonPuntuar.addActionListener(new ActionListener() {
+        });
+
+        botonPuntuar.addActionListener(e -> {
+            new VentanaPuntuarEjercicio(monitor);
+            dispose();
+        });
+
+        botonConsultaPuntuaciones.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaPuntuarEjercicio ventana = new VentanaPuntuarEjercicio(monitor);
+                if (monitor.getExerciseCode().isEmpty()) {
+                    new CustomJOptionPane("No tiene ejercicios que puntuar. Póngase en contacto con un administrador.");
+
+                } else if (monitor.getExerciseCode().size() == 1) {
+                    new VentanaPuntuarEjercicio(monitor);
+                    dispose();
+
+                } else {
+                    new VentanaSeleccionarEjercicio(monitor);
+                    dispose();
+                }
             }
         });
 
-        botonCambioContrasena.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                VentanaCambioContrasea ventana = new VentanaCambioContrasea(monitor);
-            }
-        });
-
-        botonDesconectar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
 
         this.setVisible(true);
     }

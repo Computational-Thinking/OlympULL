@@ -7,6 +7,7 @@ import interfaz.administrador.VentanaAdministrador;
 import interfaz.monitor.VentanaMonitor;
 import usuarios.Administrador;
 import usuarios.Monitor;
+import usuarios.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,12 +16,13 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.SoftBevelBorder;
 
-public class VentanaInicio extends JFrame {
+public class VentanaInicio extends JFrame implements Bordes, Fuentes, Iconos, OperacionesBD {
     JPanel logoPanel;
     JPanel credentialsPanel;
     JPanel loginPanel;
@@ -33,25 +35,20 @@ public class VentanaInicio extends JFrame {
     JButton verRanking;
 
     public VentanaInicio() {
+        // Configuración de la ventana
         setSize(500, 300);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Inicio");
         setLocationRelativeTo(null);
 
-        Border borde = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-
-        Font fuenteNegrita1 = new Font("Argentum Sans Light", Font.PLAIN, 12);
-        Font fuenteNegrita3 = new Font("Argentum Sans Bold", Font.PLAIN, 12);
-
         logoPanel = new JPanel();
         logoPanel.setBackground(new Color(255, 255, 255));
 
         // Add logo to the label that will be on the top of the window
         ImageIcon logo = new ImageIcon("images/logo olympull v2.png");
-        Image originalIcon = logo.getImage();
-        Image escalatedLogo = originalIcon.getScaledInstance(268, 65, Image.SCALE_SMOOTH);
-        logo = new ImageIcon(escalatedLogo);
+        Image scalatedLogo = logo.getImage().getScaledInstance(268, 65, Image.SCALE_SMOOTH);
+        logo = new ImageIcon(scalatedLogo);
         olympullLogo = new JLabel(logo);
         logoPanel.add(olympullLogo);
         add(logoPanel, BorderLayout.NORTH);
@@ -61,16 +58,15 @@ public class VentanaInicio extends JFrame {
 
         // Configure credentials panel
         userTag = new JLabel("Usuario");
-        userTag.setFont(fuenteNegrita3);
+        userTag.setFont(fuenteBotonesEtiquetas);
 
         passwordTag = new JLabel("Contraseña");
-        passwordTag.setFont(fuenteNegrita3);
-
-
+        passwordTag.setFont(fuenteBotonesEtiquetas);
+        
         userField = new JTextField();
-        userField.setFont(fuenteNegrita1);
+        userField.setFont(fuenteCampoTexto);
         passwordField = new JPasswordField();
-        passwordField.setFont(fuenteNegrita3);
+        passwordField.setFont(fuenteBotonesEtiquetas);
 
         credentialsPanel = new JPanel();
         credentialsPanel.setBackground(new Color(255, 255, 255));
@@ -86,26 +82,17 @@ public class VentanaInicio extends JFrame {
         add(credentialsPanel);
 
         verRanking = new JButton("Ver ranking");
-        verRanking.setFont(fuenteNegrita3);
+        verRanking.setFont(fuenteBotonesEtiquetas);
 
         loginPanel = new JPanel();
         loginPanel.setBackground(new Color(255, 255, 255));
         loginButton = new JButton("Iniciar sesión");
-        loginButton.setFont(fuenteNegrita3);
+        loginButton.setFont(fuenteBotonesEtiquetas);
 
         loginPanel.add(loginButton);
 
         add(loginPanel);
         add(verRanking);
-
-        // Valores para conexión a MV remota
-        String sshHost = "10.6.130.204";
-        String sshUser = "usuario";
-        String sshPassword = "Usuario";
-        int sshPort = 22; // Puerto SSH por defecto
-        int localPort = 3307; // Puerto local para el túnel SSH
-        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
-        int remotePort = 3306; // Puerto MySQL en la máquina remota
 
         // Action listener
         loginButton.addActionListener(new ActionListener() {
@@ -115,72 +102,65 @@ public class VentanaInicio extends JFrame {
                 // Lógica para comprobar la existencia de un usuario
                 if (userField.getText() != null && passwordField.getText() != null) {
                     try {
-                        // Conexión SSH a la MV remota
-                        JSch jsch = new JSch();
-                        Session session = jsch.getSession(sshUser, sshHost, sshPort);
-                        session.setPassword(sshPassword);
-                        session.setConfig("StrictHostKeyChecking", "no");
-                        session.connect();
+                        String whereClause = "WHERE NOMBRE='" + userField.getText() + "';";
+                        ResultSet users = selectColWhere("T_USUARIOS", "NOMBRE", whereClause);
 
-                        // Debugger
-                        System.out.println("Conexión con la máquina establecida");
+                        if (users.next()) {
+                            String id = users.getString("NOMBRE");
+                            String password = passwordField.getText();
+                            whereClause = "WHERE NOMBRE='" + id + "' AND PASSWORD='" + password + "'";
+                            users = selectColWhere("T_USUARIOS", "*", whereClause);
 
-                        // Abrir un túnel SSH al puerto MySQL en la máquina remota
-                        session.setPortForwardingL(localPort, remoteHost, remotePort);
+                            if (users.next()) {
+                                new CustomJOptionPane("Contraseña correcta. Iniciando sesión...");
 
-                        // Conexión a MySQL a través del túnel SSH
-                        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
-                        String dbUser = "root";
-                        String dbPassword = "root";
-                        Connection conn;
-                        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+                                if (users.getString("TIPO").equals("ADMINISTRADOR")) {
+                                    String name = users.getString("NOMBRE");
+                                    String pass = users.getString("PASSWORD");
 
-                        // Debugger
-                        Statement stmt = conn.createStatement();
+                                    Administrador usuario = new Administrador(name, pass);
 
-                        // Ejecutar la consulta SQL
-                        String sql = "SELECT NOMBRE_USUARIO FROM T_USUARIOS WHERE NOMBRE_USUARIO = " + "'" + userField.getText() + "'";
-                        ResultSet rs = stmt.executeQuery(sql);
-
-                        if (rs.next()) {
-                            String id = rs.getString("NOMBRE_USUARIO");
-                            String sql2 = "SELECT * FROM T_USUARIOS WHERE NOMBRE_USUARIO = " + "'" + id + "' AND PASSWORD = " + "'" + passwordField.getText() + "'";
-                            rs = stmt.executeQuery(sql2);
-                            if (rs.next()) {
-                                JOptionPane.showMessageDialog(null, "Contraseña correcta. Iniciando sesión...");
-                                if (rs.getString("TIPO_USUARIO").equals("ADMINISTRADOR")) {
-                                    Administrador usuario = new Administrador(rs.getString("NOMBRE_USUARIO"), rs.getString("PASSWORD"));
-                                    System.out.println(usuario.getUserName() + ", " + usuario.getPassword() + ", " + usuario.getUserType());
-                                    VentanaAdministrador ventana = new VentanaAdministrador(usuario);
+                                    new VentanaAdministrador(usuario);
                                     dispose();
 
-                                } else if (rs.getString("TIPO_USUARIO").equals("MONITOR")) {
-                                    String name = rs.getString("NOMBRE_USUARIO");
-                                    String password = rs.getString("PASSWORD");
-                                    String sql3 =  "SELECT CODIGO_EJERCICIO FROM T_MONITORES WHERE NOMBRE='" + rs.getString("NOMBRE_USUARIO") + "';";
-                                    rs = stmt.executeQuery(sql3);
-                                    int codigoEjercicio = -1;
-                                    if (rs.next()) {
-                                        codigoEjercicio = rs.getInt("CODIGO_EJERCICIO");
+                                } else if (users.getString("TIPO").equals("MONITOR")) {
+                                    String name = users.getString("NOMBRE");
+                                    String pass = users.getString("PASSWORD");
+                                    ArrayList<String> exercises = new ArrayList<>();
+
+                                    whereClause = "WHERE NOMBRE='" + name + "';";
+                                    users = selectColWhere("T_MONITORES", "EJERCICIO", whereClause);
+
+                                    while (users.next()) {
+                                        exercises.add(users.getString("EJERCICIO"));
+
                                     }
-                                    Monitor usuario = new Monitor(name, password, codigoEjercicio);
-                                    VentanaMonitor ventana = new VentanaMonitor(usuario);
+
+                                    Monitor usuario = new Monitor(name, password, exercises);
+                                    new VentanaMonitor(usuario);
                                     dispose();
+
+                                } else if (users.getString("TIPO").equals("ORGANIZADOR")) {
+                                    
                                 }
-                                userField.setText(null);
-                                passwordField.setText(null);
+
+                                userField.setText("");
+                                passwordField.setText("");
+
                             } else {
-                                System.out.println("Contraseña incorrecta. Pruebe otra vez.");
-                                JOptionPane.showMessageDialog(null, "Contraseña incorrecta. Pruebe otra vez.");
+                                new CustomJOptionPane("Contraseña incorrecta. Pruebe otra vez.");
+
                             }
+
                         } else {
-                            JOptionPane.showMessageDialog(null, "No existe el usuario " + userField.getText() + ". Para darse de alta, póngase en contacto con un administrador.");
+                            new CustomJOptionPane("No existe el usuario " + userField.getText() + ". Para darse de alta, póngase en contacto con un administrador.");
+
                         }
 
-                        conn.close();
-                        session.disconnect();
                     } catch (JSchException | SQLException i) {
-                        i.printStackTrace();
+                        new CustomJOptionPane("ERROR - Ha habido un error al comprobar sus credenciales");
+                        dispose();
+
                     }
                 }
             }
@@ -192,6 +172,7 @@ public class VentanaInicio extends JFrame {
 
             }
         });
+
         this.setVisible(true);
     }
 
