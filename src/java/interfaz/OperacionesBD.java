@@ -208,6 +208,7 @@ public interface OperacionesBD {
         // Crear la sentencia
         Statement stmt = conn.createStatement();
 
+        /**
         // Comprobación para no insertar si ya existe una fila con la misma key
         String checkClause = "SELECT * FROM "  + table + " " + safeInsertClause;
         ResultSet results = stmt.executeQuery(checkClause);
@@ -220,6 +221,7 @@ public interface OperacionesBD {
 
             return 1;
         }
+         */
 
         // Consulta para añadir
         String updateClause = "UPDATE " + table + " " + setClause + " " + whereClause;

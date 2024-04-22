@@ -228,81 +228,19 @@ public class Administrador extends Usuario implements OperacionesBD {
         return delete(table, whereClause);
     }
 
-    public void assignExerciseToUser(String usuario, int codigo, String titulo) {
-        // Valores para conexión a MV remota
-        String sshHost = "10.6.130.204";
-        String sshUser = "usuario";
-        String sshPassword = "Usuario";
-        int sshPort = 22; // Puerto SSH por defecto
-        int localPort = 3307; // Puerto local para el túnel SSH
-        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
-        int remotePort = 3306; // Puerto MySQL en la máquina remota
+    public int assignExerciseToUser(String monitor, String exerCode, String olympCode, String itineraryCode) throws JSchException, SQLException {
+        String table = "T_MONITORES";
+        String data = "'" + monitor + "', '" + exerCode + "', '" + olympCode + "', '" + itineraryCode + "'";
+        String safeInsertClause = "WHERE EJERCICIO='" + exerCode + "' AND OLIMPIADA='" + olympCode + "';";
 
-        // Conexión SSH a la MV remota
-        JSch jsch = new JSch();
-        Session session = null;
-        try {
-            session = jsch.getSession(sshUser, sshHost, sshPort);
-        } catch (JSchException ex) {
-            throw new RuntimeException(ex);
-        }
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        try {
-            session.connect();
-        } catch (JSchException ex) {
-            throw new RuntimeException(ex);
-        }
+        return insert(table, data, safeInsertClause);
+    }
 
-        // Debugger
-        System.out.println("Conexión con la máquina establecida");
+    public int assignItineraryToOrganiser(String org, String itinerary) throws JSchException, SQLException {
+        String table = "T_ORGANIZADORES";
+        String data = "'" + org + "', '" + itinerary + "'";
+        String safeInsertClause = "WHERE ORGANIZADOR='" + org + "' AND ITINERARIO='" + itinerary + "';";
 
-        // Abrir un túnel SSH al puerto MySQL en la máquina remota
-        try {
-            session.setPortForwardingL(localPort, remoteHost, remotePort);
-        } catch (JSchException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        // Conexión a MySQL a través del túnel SSH
-        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
-        String dbUser = "root";
-        String dbPassword = "root";
-        Connection conn;
-        try {
-            conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        // Ejecutar consulta para añadir nuevo ejercicio
-        String sql = "INSERT INTO T_MONITORES VALUES('" + usuario + "', " + codigo + ", '" + titulo + "');";
-
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-        int rowsAffected = 0;
-        try {
-            rowsAffected = stmt.executeUpdate(sql);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(null, "Se ha asignado el ejercicio.");
-        } else {
-            JOptionPane.showMessageDialog(null, "No se ha podido asignar el ejercicio.");
-        }
-
-
-        try {
-            conn.close();
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-        session.disconnect();
+        return insert(table, data, safeInsertClause);
     }
 }

@@ -169,9 +169,6 @@ public class VentanaModificarItinerario extends JFrame implements Bordes, Fuente
                             new VentanaConsultaItinerarios(administrador);
                             dispose();
 
-                        } else {
-                            new CustomJOptionPane("No se puede modificar el itinerario. Compruebe las claves.");
-
                         }
 
                     } catch (JSchException | SQLException ex) {

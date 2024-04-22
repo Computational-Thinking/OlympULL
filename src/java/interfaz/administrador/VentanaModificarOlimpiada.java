@@ -156,9 +156,6 @@ public class VentanaModificarOlimpiada extends JFrame implements Bordes, Fuentes
                                 new VentanaConsultaOlimpiadas(administrador);
                                 dispose();
 
-                            } else {
-                                new CustomJOptionPane("No se puede modificar la olimpiada. Compruebe las claves.");
-
                             }
 
                         } catch (JSchException | SQLException ex) {

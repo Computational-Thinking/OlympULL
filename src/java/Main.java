@@ -11,5 +11,6 @@ public class Main {
         // new VentanaInicio();
         Administrador administrador = new Administrador("admin1", "admin1");
         new VentanaAdministrador(administrador);
+
     }
 }

@@ -214,9 +214,6 @@ public class VentanaModificarEjercicio extends JFrame implements Bordes, Fuentes
                             new VentanaConsultaEjercicios(administrador);
                             dispose();
 
-                        } else {
-                            new CustomJOptionPane("No se puede modificar el ejercicio. Compruebe las claves.");
-
                         }
 
                     } catch (JSchException | SQLException ex) {

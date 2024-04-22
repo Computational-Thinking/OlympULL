@@ -46,9 +46,8 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
         setSize(825, 650);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Panel Administrador");
+        setTitle("Panel Administrador");
         setLocationRelativeTo(null);
-
         setIconImage(iconoVentana);
 
         goBackButton = new JButton("< Desconectar");
@@ -189,196 +188,173 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
         add(gestionOlimpiada, BorderLayout.CENTER);
         add(gestionUsuarios, BorderLayout.SOUTH);
 
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                VentanaInicio ventana = new VentanaInicio();
+        goBackButton.addActionListener(e -> {
+            new VentanaInicio();
+            dispose();
+        });
+
+        createOlympiad.addActionListener(e -> {
+            new VentanaNuevaOlimpiada(administrador);
+            dispose();
+        });
+
+        consultarOlimpiadas.addActionListener(e -> {
+            try {
+                new VentanaConsultaOlimpiadas(administrador);
+
+            } catch (SQLException | JSchException ex) {
+                new CustomJOptionPane("ERROR");
+            }
+            dispose();
+        });
+
+        crearItinerario.addActionListener(e -> {
+            try {
+                new VentanaNuevoItinerario(administrador);
+
+            } catch (JSchException | SQLException ex) {
+                new CustomJOptionPane("ERROR");
+
+            }
+
+            dispose();
+        });
+
+        consultarItinerario.addActionListener(e -> {
+            try {
+                new VentanaConsultaItinerarios(administrador);
+
+            } catch (SQLException | JSchException ex) {
+                new CustomJOptionPane("ERROR");
+
+            }
+
+            dispose();
+        });
+
+        createExercise.addActionListener(e -> {
+            try {
+                new VentanaNuevoEjercicio(administrador);
+
+            } catch (JSchException | SQLException ex) {
+                throw new RuntimeException(ex);
+
+            }
+
+            dispose();
+        });
+
+        consultarEjercicios.addActionListener(e -> {
+            try {
+                new VentanaConsultaEjercicios(administrador);
+
+            } catch (SQLException | JSchException ex) {
+                new CustomJOptionPane("ERROR");
+
+            }
+
+            dispose();
+        });
+
+        crearRubrica.addActionListener(e -> {
+            new VentanaNuevaRubrica(administrador);
+            dispose();
+        });
+
+        consultarRubricas.addActionListener(e -> {
+            try {
+                new VentanaConsultaRubricas(administrador);
+
+            } catch (SQLException | JSchException ex) {
+                new CustomJOptionPane("ERROR");
+
+            }
+
+            dispose();
+        });
+
+        crearEquipo.addActionListener(e -> {
+            try {
+                new VentanaNuevoEquipo(administrador);
+
+            } catch (JSchException | SQLException ex) {
+                throw new RuntimeException(ex);
+
+            }
+
+            dispose();
+        });
+
+        consultarEquipos.addActionListener(e -> {
+            try {
+                new VentanaConsultaEquipos(administrador);
+
+            } catch (SQLException | JSchException ex) {
+                new CustomJOptionPane("ERROR");
+
+            }
+
+            dispose();
+        });
+
+        assignExerciseToOlympiad.addActionListener(e -> {
+            try {
+                new VentanaNuevaAsignacionEjOlimp(administrador);
+
+            } catch (JSchException | SQLException ex) {
+                new CustomJOptionPane("ERROR");
+
+
+            }
+
+            dispose();
+        });
+
+        consultarAsignacionEjerciciosOlimpiadas.addActionListener(e -> {
+            try {
+                new VentanaConsultaAsignacionEjOlimp(administrador);
+
+            } catch (SQLException | JSchException ex) {
+                new CustomJOptionPane("ERROR");
+
+            }
+
+            dispose();
+        });
+
+        createUser.addActionListener(e -> {
+            new VentanaNuevoUsuario(administrador);
+            dispose();
+        });
+
+        consultarUsuarios.addActionListener(e -> {
+            try {
+                new VentanaConsultaUsuarios(administrador);
+            } catch (JSchException | SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            dispose();
+        });
+
+        assignExerciseToUser.addActionListener(e -> {
+            try {
+                new VentananNuevaAsignacionEjMonitor(administrador);
                 dispose();
+
+            } catch (JSchException | SQLException ex) {
+                new CustomJOptionPane("ERROR - No se ha podido recuperar la información de la base de datos");
+
             }
         });
 
-        createOlympiad.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VentanaNuevaOlimpiada(administrador);
+        asignarItinerarioAOrganizador.addActionListener(e -> {
+            try {
+                new VentanaNuevaAsignacionItOrg(administrador);
                 dispose();
-            }
-        });
 
-        consultarOlimpiadas.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaConsultaOlimpiadas(administrador);
+            } catch (JSchException | SQLException ex) {
+                new CustomJOptionPane("ERROR - No se ha podido recuperar la información de la base de datos");
 
-                } catch (SQLException | JSchException ex) {
-                    JOptionPane.showMessageDialog(null, "Error");
-                }
-                dispose();
-            }
-        });
-
-        crearItinerario.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaNuevoItinerario(administrador);
-
-                } catch (JSchException | SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Error");
-
-                }
-
-                dispose();
-            }
-        });
-
-        consultarItinerario.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaConsultaItinerarios(administrador);
-
-                } catch (SQLException | JSchException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Error");
-                }
-                dispose();
-            }
-        });
-
-        createExercise.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaNuevoEjercicio(administrador);
-
-                } catch (JSchException | SQLException ex) {
-                    throw new RuntimeException(ex);
-
-                }
-
-                dispose();
-            }
-        });
-
-        consultarEjercicios.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    VentanaConsultaEjercicios ventana = new VentanaConsultaEjercicios(administrador);
-                } catch (SQLException | JSchException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Error");
-                }
-                dispose();
-            }
-        });
-
-        crearRubrica.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VentanaNuevaRubrica(administrador);
-                dispose();
-            }
-        });
-
-        consultarRubricas.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaConsultaRubricas(administrador);
-                } catch (SQLException | JSchException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Error");
-                }
-                dispose();
-            }
-        });
-
-        crearEquipo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaNuevoEquipo(administrador);
-
-                } catch (JSchException | SQLException ex) {
-                    throw new RuntimeException(ex);
-
-                }
-
-                dispose();
-            }
-        });
-
-        consultarEquipos.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaConsultaEquipos(administrador);
-
-                } catch (SQLException | JSchException ex) {
-                    new CustomJOptionPane("ERROR");
-
-                }
-
-                dispose();
-            }
-        });
-
-        assignExerciseToOlympiad.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaNuevaAsignacionEjOlimp(administrador);
-
-                } catch (JSchException | SQLException ex) {
-                    new CustomJOptionPane("ERROR");
-
-
-                }
-
-                dispose();
-            }
-        });
-
-        consultarAsignacionEjerciciosOlimpiadas.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaConsultaAsignacionEjOlimp(administrador);
-                } catch (SQLException | JSchException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Error");
-                }
-                dispose();
-            }
-        });
-
-        createUser.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VentanaNuevoUsuario(administrador);
-                dispose();
-            }
-        });
-
-        consultarUsuarios.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaConsultaUsuarios(administrador);
-                } catch (JSchException | SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-                dispose();
-            }
-        });
-
-        assignExerciseToUser.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VentanaAsignacionUsuario(administrador);
             }
         });
 

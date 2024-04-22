@@ -1,8 +1,6 @@
 package interfaz.administrador;
 
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import interfaz.Bordes;
 import interfaz.CustomJOptionPane;
 import interfaz.Fuentes;
@@ -10,13 +8,10 @@ import interfaz.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fuentes, Iconos {
     // Botones
@@ -81,7 +76,6 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fue
         itinerarioCodeField = new JComboBox<>();
         itinerarioCodeField.setFont(fuenteCampoTexto);
 
-        ArrayList<String> ejercicios = new ArrayList<>();
         exerCodeField = new JComboBox<>();
         exerCodeField.setFont(fuenteCampoTexto);
 
@@ -141,7 +135,7 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fue
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaAdministrador ventana = new VentanaAdministrador(administrador);
+                new VentanaAdministrador(administrador);
                 dispose();
             }
         });
@@ -183,8 +177,9 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fue
 
                     try {
                         if (administrador.assignExerciseToOlympiad(exercise, olympiad, itinerario) == 0) {
-                            new VentanaNuevaAsignacionEjOlimp(administrador);
-                            dispose();
+                            exerCodeField.setSelectedItem(exerCodeField.getItemAt(0));
+                            olympCodeField.setSelectedItem(olympCodeField.getItemAt(0));
+                            itinerarioCodeField.removeAllItems();
 
                         }
 

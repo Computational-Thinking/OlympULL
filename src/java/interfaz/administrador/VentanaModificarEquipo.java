@@ -147,8 +147,6 @@ public class VentanaModificarEquipo extends JFrame implements Bordes, Fuentes, I
                             new CustomJOptionPane("Se ha modificado el equipo");
                             new VentanaConsultaEquipos(administrador);
                             dispose();
-                        } else {
-                            new CustomJOptionPane("No se puede modificar el equipo. Compruebe las claves.");
                         }
 
                     } catch (JSchException | SQLException exc) {

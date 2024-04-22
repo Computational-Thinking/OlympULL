@@ -122,7 +122,6 @@ public class VentanaNuevoEjercicio extends JFrame {
         exerTypeField = new JComboBox<>(exerTypes);
         exerTypeField.setFont(fuenteNegrita2);
 
-        ArrayList<String> rubricas = new ArrayList<>();
         exerRubrica = new JComboBox<>();
 
         ResultSet codeCol = administrador.selectCol("T_RUBRICAS", "CODIGO");
@@ -130,12 +129,7 @@ public class VentanaNuevoEjercicio extends JFrame {
         // Iterar sobre el resultado y añadir los registros al ArrayList
         while (codeCol.next()) {
             String registro = codeCol.getString("CODIGO");
-            rubricas.add(registro);
-        }
-
-        // Utilizamos los años para meterlos en el combo box
-        for (int i = 0; i < rubricas.size(); ++i) {
-            exerRubrica.addItem(rubricas.get(i));
+            exerRubrica.addItem(registro);
         }
 
         codeCol.close();

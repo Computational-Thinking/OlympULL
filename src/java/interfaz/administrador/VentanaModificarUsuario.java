@@ -144,9 +144,6 @@ public class VentanaModificarUsuario extends JFrame implements Bordes, Fuentes, 
                             new VentanaConsultaUsuarios(administrador);
                             dispose();
 
-                        } else {
-                            new CustomJOptionPane("No se puede modificar el usuario. Compruebe las claves.");
-
                         }
 
                     } catch (JSchException | SQLException ex) {
