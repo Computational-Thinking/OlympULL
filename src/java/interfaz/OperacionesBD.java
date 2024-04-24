@@ -5,23 +5,28 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.sql.*;
 
-public interface OperacionesBD {
-    // Conexión a MV remota
-    String sshHost = "10.6.130.204";
-    String sshUser = "usuario";
-    String sshPassword = "Usuario";
-    int sshPort = 22; // Puerto SSH por defecto
-    int localPort = 3307; // Puerto local para el túnel SSH
-    String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
-    int remotePort = 3306; // Puerto MySQL en la máquina remota
-    JSch jsch = new JSch();
+public interface OperacionesBD extends ConfigReader {
+    // Información de la máquina local
+    String sshHost = ConfigReader.getSshHost();
+    String sshUser = ConfigReader.getSshUser();
+    String sshPassword = ConfigReader.getSshPassword();
+    int sshPort = ConfigReader.getSshPort(); // Puerto SSH por defecto
+    int localPort = ConfigReader.getLocalPort(); // Puerto local para el túnel SSH
+
+    // Información de la máquina remota
+    String remoteHost = ConfigReader.getRemoteHost(); // La conexión MySQL se hará desde la máquina remota
+    int remotePort = ConfigReader.getRemotePort(); // Puerto MySQL en la máquina remota
+    String dbUser = ConfigReader.getRemoteUser();
+    String dbPassword = ConfigReader.getRemotePassword();
+    String databaseName = ConfigReader.getDatabaseName();
 
     // Conexión a MySQL por SSH
-    String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
-    String dbUser = "root";
-    String dbPassword = "root";
+    String dbUrl = "jdbc:mysql://localhost:" + localPort + "/" + databaseName;
+
+    JSch jsch = new JSch();
 
     // Método para obtener filas de tabla
     default ResultSet selectRows(String table, String orderColumn) throws JSchException, SQLException {
