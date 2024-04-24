@@ -4,8 +4,8 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-import javax.swing.*;
-import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.sql.*;
 
 public interface OperacionesBD extends ConfigReader {
@@ -24,7 +24,7 @@ public interface OperacionesBD extends ConfigReader {
     String databaseName = ConfigReader.getDatabaseName();
 
     // Conexión a MySQL por SSH
-    String dbUrl = "jdbc:mysql://localhost:" + localPort + "/" + databaseName;
+    String dbUrl = "jdbc:mysql://" + remoteHost + ":" + localPort + "/" + databaseName;
 
     JSch jsch = new JSch();
 
