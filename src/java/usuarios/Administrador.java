@@ -235,7 +235,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE EJERCICIO='" + oldEx + "' AND OLIMPIADA='" + oldOlymp + "' AND ITINERARIO='" + oldIt + "'";
 
         if (update(table, setClause, whereClause) == 0) {
-            new CustomJOptionPane("Se ha modificado el ejercicio");
+            new CustomJOptionPane("Se ha modificado la asignación");
             return 0;
         } else {
             return 1;
@@ -297,6 +297,31 @@ public class Administrador extends Usuario implements OperacionesBD {
 
         if (insert(table, data) == 0) {
             new CustomJOptionPane("Se ha asignado el ejercicio");
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    public int modifyAssignationExUser(String oldMoni, String oldEx, String oldOlymp, String monitor, String ex, String olymp, String it) {
+        String table = "T_MONITORES";
+        String setClause = "SET NOMBRE='" + monitor + "', EJERCICIO='" + ex + "', OLIMPIADA='" + olymp + "', ITINERARIO='" + it + "'";
+        String whereClause = "WHERE MONITOR='" + oldMoni + "' AND EJERCICIO='" + oldEx + "' AND OLIMPIADA='" + oldOlymp + "'";
+
+        if (update(table, setClause, whereClause) == 0) {
+            new CustomJOptionPane("Se ha modificado la asignación");
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    public int deleteAssignationExUser(String name, String ex, String olymp) {
+        String table = "T_MONITORES";
+        String whereClause = "WHERE NOMBRE='" + name +  "' AND EJERCICIO='" + ex + "' AND OLIMPIADA='"  + olymp + "';";
+
+        if (delete(table, whereClause) == 0) {
+            new CustomJOptionPane("Se ha eliminado la asignación");
             return 0;
         } else {
             return 1;

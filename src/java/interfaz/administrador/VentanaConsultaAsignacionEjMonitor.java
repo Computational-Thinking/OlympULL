@@ -170,9 +170,8 @@ public class VentanaConsultaAsignacionEjMonitor extends JFrame implements Bordes
             dispose();
 
         } else if (columna == tabla.getColumnCount() - 1) {
-            /**
             try {
-                if (administrador.deleteEjercicio((String) modeloTabla.getValueAt(row, 0)) == 0) {
+                if (administrador.deleteAssignationExUser(name, exercise, olympiad) == 0) {
                     new VentanaConsultaEjercicios(administrador);
                     dispose();
                 }
@@ -181,7 +180,6 @@ public class VentanaConsultaAsignacionEjMonitor extends JFrame implements Bordes
                 new CustomJOptionPane("ERROR - " + ex.getMessage());
 
             }
-             */
         }
     }
 

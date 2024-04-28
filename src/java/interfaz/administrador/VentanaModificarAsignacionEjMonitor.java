@@ -248,9 +248,8 @@ public class VentanaModificarAsignacionEjMonitor extends JFrame implements Borde
             String monitor = (String) monitorComboBox.getSelectedItem();
             String exerCode = (String) exerField.getSelectedItem();
             String olympCode = (String) olympField.getSelectedItem();
-            String itineraryCode = itineraryField.getText();
 
-            if (administrador.assignExerciseToUser(monitor, exerCode, olympCode, itineraryCode) == 0) {
+            if (administrador.modifyAssignationExUser(monitor, exerCode, olympCode) == 0) {
                 monitorComboBox.setSelectedItem(monitorComboBox.getItemAt(0));
                 exerField.setSelectedItem(exerField.getItemAt(0));
                 tituloEjercicioField.setText("");
