@@ -129,13 +129,10 @@ public class VentanaNuevaAsignacionItOrg extends JFrame implements Bordes, Fuent
         add(inputPanel, BorderLayout.CENTER);
         add(createAssignationPanel, BorderLayout.SOUTH);
 
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VentanaAdministrador(administrador);
-                dispose();
+        goBackButton.addActionListener(e -> {
+            new VentanaAdministrador(administrador);
+            dispose();
 
-            }
         });
 
         itineraryField.addActionListener(e -> {

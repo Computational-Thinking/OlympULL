@@ -347,6 +347,15 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
             }
         });
 
+        consultarAsignacionEjerciciosMonitores.addActionListener(e -> {
+            try {
+                new VentanaConsultaAsignacionEjMonitor(administrador);
+                dispose();
+            } catch (JSchException | SQLException ex) {
+                new CustomJOptionPane("ERROR - No se ha podido recuperar la información de la base de datos");
+            }
+        });
+
         asignarItinerarioAOrganizador.addActionListener(e -> {
             try {
                 new VentanaNuevaAsignacionItOrg(administrador);
