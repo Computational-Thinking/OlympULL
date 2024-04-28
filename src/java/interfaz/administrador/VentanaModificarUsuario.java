@@ -22,10 +22,10 @@ public class VentanaModificarUsuario extends JFrame implements Bordes, Fuentes, 
 
     // Campos de texto
     JTextField userNameField;
-    JTextField userPasswordField;
+    JPasswordField userPasswordField;
 
     // Combo boxes
-    JComboBox userTypeComboBox;
+    JComboBox<String> userTypeComboBox;
 
     // Botones
     JButton goBackButton;
@@ -78,7 +78,7 @@ public class VentanaModificarUsuario extends JFrame implements Bordes, Fuentes, 
         userNameField = new JTextField(nombre);
         userNameField.setFont(fuenteCampoTexto);
 
-        userPasswordField = new JTextField(password);
+        userPasswordField = new JPasswordField(password);
         userPasswordField.setFont(fuenteCampoTexto);
 
         String[] userTypes = {"ADMINISTRADOR", "ORGANIZADOR", "MONITOR"};
@@ -126,33 +126,29 @@ public class VentanaModificarUsuario extends JFrame implements Bordes, Fuentes, 
             }
         });
 
-        modifyUserButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (userNameField.getText().matches("^\\s*$")
-                        || userPasswordField.getText().matches("^\\s*$")) {
-                    new CustomJOptionPane("Los campos Nombre y Password son obligatorios");
+        modifyUserButton.addActionListener(e -> {
+            if (userNameField.getText().matches("^\\s*$")
+                    || userPasswordField.getText().matches("^\\s*$")) {
+                new CustomJOptionPane("Los campos Nombre y Password son obligatorios");
 
-                } else {
-                    String name = userNameField.getText();
-                    String password = userPasswordField.getText();
-                    String type = String.valueOf(userTypeComboBox.getSelectedItem());
+            } else {
+                String name = userNameField.getText();
+                String password1 = userPasswordField.getText();
+                String type = String.valueOf(userTypeComboBox.getSelectedItem());
 
-                    try {
-                        if (administrador.modifyUser(oldName, name, password, type) == 0) {
-                            new CustomJOptionPane("Se ha modificado el usuario");
-                            new VentanaConsultaUsuarios(administrador);
-                            dispose();
-
-                        }
-
-                    } catch (JSchException | SQLException ex) {
-                        throw new RuntimeException(ex);
+                try {
+                    if (administrador.modifyUser(oldName, name, password1, type) == 0) {
+                        new VentanaConsultaUsuarios(administrador);
+                        dispose();
 
                     }
-                }
 
+                } catch (JSchException | SQLException ex) {
+                    throw new RuntimeException(ex);
+
+                }
             }
+
         });
     }
 }

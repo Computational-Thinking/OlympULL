@@ -1,8 +1,6 @@
 package interfaz.administrador;
 
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import interfaz.Bordes;
 import interfaz.CustomJOptionPane;
 import interfaz.Fuentes;
@@ -10,13 +8,10 @@ import interfaz.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.*;
@@ -39,7 +34,7 @@ public class VentanaConsultaUsuarios extends JFrame implements Bordes, Fuentes, 
     // Constructor
     public VentanaConsultaUsuarios(Administrador administrador) throws JSchException, SQLException {
         // Configuración de ventana
-        setSize(950, 465);
+        setSize(750, 465);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Consulta de usuarios");
@@ -78,40 +73,8 @@ public class VentanaConsultaUsuarios extends JFrame implements Bordes, Fuentes, 
 
         tablaScrollPane = new JScrollPane(tabla);
 
-        // Valores para conexión a MV remota
-        String sshHost = "10.6.130.204";
-        String sshUser = "usuario";
-        String sshPassword = "Usuario";
-        int sshPort = 22; // Puerto SSH por defecto
-        int localPort = 3307; // Puerto local para el túnel SSH
-        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
-        int remotePort = 3306; // Puerto MySQL en la máquina remota
-
-        // Conexión SSH a la MV remota
-        JSch jsch = new JSch();
-        Session session = jsch.getSession(sshUser, sshHost, sshPort);
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
-
-        // Debugger
-        System.out.println("Conexión con la máquina establecida");
-
-        // Abrir un túnel SSH al puerto MySQL en la máquina remota
-        session.setPortForwardingL(localPort, remoteHost, remotePort);
-
-        // Conexión a MySQL a través del túnel SSH
-        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
-        String dbUser = "root";
-        String dbPassword = "root";
-        Connection conn;
-        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
-        String consulta = "SELECT * FROM T_USUARIOS ORDER BY NOMBRE ASC;";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(consulta);
-
-        ResultSetMetaData metaData = rs.getMetaData();
+        ResultSet data = administrador.selectRows("T_USUARIOS", "TIPO");
+        ResultSetMetaData metaData = data.getMetaData();
         int numeroColumnas = metaData.getColumnCount();
 
         // Se insertan las filas traídas de la MV en la tabla de la ventana
@@ -123,18 +86,15 @@ public class VentanaConsultaUsuarios extends JFrame implements Bordes, Fuentes, 
         modeloTabla.addColumn(""); // Columna de duplicar
         modeloTabla.addColumn(""); // Columna de eliminar
 
-        while (rs.next()) {
+        while (data.next()) {
             Object[] fila = new Object[numeroColumnas];
             for (int i = 1; i <= numeroColumnas; ++i) {
-                fila [i - 1] = rs.getObject(i);
+                fila [i - 1] = data.getObject(i);
             }
             modeloTabla.addRow(fila);
         }
 
-        rs.close();
-        stmt.close();
-        conn.close();
-        session.disconnect();
+        data.close();
 
         // Esto es para establecer la fuente del contenido de la tabla
         DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) tabla.getTableHeader().getDefaultRenderer();
@@ -162,18 +122,17 @@ public class VentanaConsultaUsuarios extends JFrame implements Bordes, Fuentes, 
 
         // Esto es para insertar los botones en la última columna de la tabla (cambiar por tres columnas distintas)
         // Columna de editar
-        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 3).setCellRenderer(new VentanaConsultaUsuarios.ButtonPanelRenderer(3));
-        // Columna de duplicar
-        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new VentanaConsultaUsuarios.ButtonPanelRenderer(2));
-        // Columna de eliminar
-        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new VentanaConsultaUsuarios.ButtonPanelRenderer(1));
-
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 3).setCellRenderer(new ButtonPanelRenderer(3));
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 3).setMinWidth(30);
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 3).setMaxWidth(30);
 
+        // Columna de duplicar
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new ButtonPanelRenderer(2));
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMinWidth(30);
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMaxWidth(30);
 
+        // Columna de eliminar
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new ButtonPanelRenderer(1));
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMinWidth(30);
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMaxWidth(30);
 
@@ -181,12 +140,9 @@ public class VentanaConsultaUsuarios extends JFrame implements Bordes, Fuentes, 
         add(tablaScrollPane, BorderLayout.CENTER);
 
         // Acción del botón de volver
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                VentanaAdministrador ventana = new VentanaAdministrador(administrador);
-                dispose();
-            }
+        goBackButton.addActionListener(e -> {
+            new VentanaAdministrador(administrador);
+            dispose();
         });
 
         setVisible(true);
@@ -217,12 +173,11 @@ public class VentanaConsultaUsuarios extends JFrame implements Bordes, Fuentes, 
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
                 if (administrador.deleteUser(nombre) == 0) {
-                    new CustomJOptionPane("Se ha eliminado el usuario");
                     new VentanaConsultaUsuarios(administrador);
                     dispose();
                 }
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
             }
         }
     }
@@ -247,31 +202,22 @@ public class VentanaConsultaUsuarios extends JFrame implements Bordes, Fuentes, 
 
     }
 
-    // Esto es para añadir los botones a la última columna de la tabla (no necesario y creo que ni siquiera hace falta hacerlo tan complicado)
-    class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
-        private JButton actionButton;
+     static class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
         private Image image;
-        private ImageIcon buttonIcon;
 
         public ButtonPanelRenderer(int columna) {
             setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-            switch(columna) {
-                case 3:
-                    image = iconoEditar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-                    break;
-                case 2:
-                    image = iconoDuplicar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-                    break;
-                case 1:
-                    image = iconoEliminar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-                    break;
-                default:
-                    break;
+            switch (columna) {
+                case 3 -> image = iconoEditar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                case 2 -> image = iconoDuplicar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                case 1 -> image = iconoEliminar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                default -> {
+                }
             }
 
-            buttonIcon = new ImageIcon(image);
-            actionButton = new JButton(buttonIcon);
+            ImageIcon buttonIcon = new ImageIcon(image);
+            JButton actionButton = new JButton(buttonIcon);
             actionButton.setPreferredSize(new Dimension(25, 25));
 
             // Se añaden estos botones al modelo de tabla

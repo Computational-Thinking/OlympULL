@@ -86,7 +86,7 @@ public class VentanaNuevaAsignacionItOrg extends JFrame implements Bordes, Fuent
 
         // Nombres de los organizadores
         String whereClause = "WHERE TIPO='ORGANIZADOR';";
-        ResultSet comboBoxesItems = administrador.selectColWhere("T_USUARIOS", "NOMBRE", whereClause);
+        ResultSet comboBoxesItems = administrador.selectCol("T_USUARIOS", "NOMBRE", whereClause);
 
         while (comboBoxesItems.next()) {
             String register = comboBoxesItems.getString("NOMBRE");
@@ -94,7 +94,7 @@ public class VentanaNuevaAsignacionItOrg extends JFrame implements Bordes, Fuent
         }
 
         // Códigos de los itinerarios
-        comboBoxesItems = administrador.selectCol("T_ITINERARIOS", "CODIGO");
+        comboBoxesItems = administrador.selectCol("T_ITINERARIOS", "CODIGO", "");
 
         while (comboBoxesItems.next()) {
             String register = comboBoxesItems.getString("CODIGO");
@@ -142,15 +142,7 @@ public class VentanaNuevaAsignacionItOrg extends JFrame implements Bordes, Fuent
             olympField.setText("");
 
             String whereClause1 = "WHERE CODIGO='" + itineraryField.getSelectedItem() + "'";
-            ResultSet exerTitles = null;
-            try {
-                exerTitles = administrador.selectColWhere("T_ITINERARIOS", "OLIMPIADA", whereClause1);
-
-            } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR (1) - No se ha podido obtener el título del ejercicio");
-                new VentanaAdministrador(administrador);
-                dispose();
-            }
+            ResultSet exerTitles = administrador.selectCol("T_ITINERARIOS", "OLIMPIADA", whereClause1);
 
             try {
                 assert exerTitles != null;
@@ -172,17 +164,10 @@ public class VentanaNuevaAsignacionItOrg extends JFrame implements Bordes, Fuent
             String organizador = (String) organizerComboBox.getSelectedItem();
             String itineraryCode = (String) itineraryField.getSelectedItem();
 
-            try {
-                if (administrador.assignItineraryToOrganiser(organizador, itineraryCode) == 0) {
-                    new CustomJOptionPane("Se ha asignado el itinerario");
-                    organizerComboBox.setSelectedItem(organizerComboBox.getItemAt(0));
-                    itineraryField.setSelectedItem(itineraryField.getItemAt(0));
-                    olympField.setText("");
-
-                }
-
-            } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido insertar en la base de datos. Compruebe los datos a introducir");
+            if (administrador.assignItineraryToOrganiser(organizador, itineraryCode) == 0) {
+                organizerComboBox.setSelectedItem(organizerComboBox.getItemAt(0));
+                itineraryField.setSelectedItem(itineraryField.getItemAt(0));
+                olympField.setText("");
 
             }
         });

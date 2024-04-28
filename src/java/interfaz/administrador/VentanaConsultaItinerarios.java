@@ -173,7 +173,7 @@ public class VentanaConsultaItinerarios extends JFrame implements Bordes, Fuente
                 new VentanaModificarItinerario(administrador, codigo, titulo, descripcion, olimpiada);
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
             }
 
             dispose();
@@ -187,20 +187,19 @@ public class VentanaConsultaItinerarios extends JFrame implements Bordes, Fuente
                 dispose();
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
 
             }
 
         } else if (col == tabla.getColumnCount() - 1) {
             try {
                 if (administrador.deleteItinerario((String) modeloTabla.getValueAt(row, 0)) == 0) {
-                    new CustomJOptionPane("Se ha eliminado el itinerario");
                     new VentanaConsultaItinerarios(administrador);
                     dispose();
                 }
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
             }
         }
     }
@@ -226,10 +225,8 @@ public class VentanaConsultaItinerarios extends JFrame implements Bordes, Fuente
     }
 
     // Esto es para añadir los botones a la última col de la tabla (no necesario y creo que ni siquiera hace falta hacerlo tan complicado)
-    class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
-        private JButton actionButton;
+    static class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
         private Image image;
-        private ImageIcon buttonIcon;
 
         public ButtonPanelRenderer(int col) {
             setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -242,8 +239,8 @@ public class VentanaConsultaItinerarios extends JFrame implements Bordes, Fuente
                 }
             }
 
-            buttonIcon = new ImageIcon(image);
-            actionButton = new JButton(buttonIcon);
+            ImageIcon buttonIcon = new ImageIcon(image);
+            JButton actionButton = new JButton(buttonIcon);
             actionButton.setPreferredSize(new Dimension(25, 25));
 
             // Se añaden estos botones al modelo de tabla

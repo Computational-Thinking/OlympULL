@@ -1,6 +1,5 @@
 package interfaz.administrador;
 
-import com.jcraft.jsch.JSchException;
 import interfaz.Bordes;
 import interfaz.CustomJOptionPane;
 import interfaz.Fuentes;
@@ -11,7 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Iconos {
     // Etiquetas
@@ -22,10 +20,10 @@ public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Icon
 
     // Campos de texto
     JTextField userNameField;
-    JTextField userPasswordField;
+    JPasswordField userPasswordField;
 
     // Combo boxes
-    JComboBox userTypeComboBox;
+    JComboBox<String> userTypeComboBox;
 
     // Botones
     JButton goBackButton;
@@ -76,8 +74,8 @@ public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Icon
         userNameField = new JTextField();
         userNameField.setFont(fuenteCampoTexto);
 
-        userPasswordField = new JTextField();
-        userPasswordField.setFont(fuenteCampoTexto);
+        userPasswordField = new JPasswordField();
+        userPasswordField.setFont(fuenteBotonesEtiquetas);
 
         String[] userTypes = {"ADMINISTRADOR", "ORGANIZADOR", "MONITOR"};
         userTypeComboBox = new JComboBox<>(userTypes);
@@ -111,39 +109,27 @@ public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Icon
         add(inputPanel, BorderLayout.CENTER);
         add(createButtonPanel, BorderLayout.SOUTH);
 
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VentanaAdministrador(administrador);
-                dispose();
-            }
+        goBackButton.addActionListener(e -> {
+            new VentanaAdministrador(administrador);
+            dispose();
         });
 
-        createUserButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (userNameField.getText().matches("^\\s*$")
-                        || userPasswordField.getText().matches("^\\s*$")) {
-                    new CustomJOptionPane("Los campos Nombre y Password son obligatorios");
+        createUserButton.addActionListener(e -> {
+            if (userNameField.getText().matches("^\\s*$")
+                    || userPasswordField.getText().matches("^\\s*$")) {
+                new CustomJOptionPane("Los campos Nombre y Password son obligatorios");
 
-                } else {
-                    String name = userNameField.getText();
-                    String password = userPasswordField.getText();
-                    String type = String.valueOf(userTypeComboBox.getSelectedItem());
+            } else {
+                String name = userNameField.getText();
+                String password = userPasswordField.getText();
+                String type = String.valueOf(userTypeComboBox.getSelectedItem());
 
-                    try {
-                        if (administrador.createUser(name, password, type) == 0) {
-                            new CustomJOptionPane("Se ha creado el usuario");
-                            userNameField.setText("");
-                            userPasswordField.setText("");
-                            userTypeComboBox.setSelectedItem(userTypeComboBox.getItemAt(0));
-                        }
-
-                    } catch (JSchException | SQLException ex) {
-                        new CustomJOptionPane("ERROR");
-
-                    }
+                if (administrador.createUser(name, password, type) == 0) {
+                    userNameField.setText("");
+                    userPasswordField.setText("");
+                    userTypeComboBox.setSelectedItem(userTypeComboBox.getItemAt(0));
                 }
+
             }
         });
     }

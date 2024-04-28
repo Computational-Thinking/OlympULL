@@ -91,7 +91,7 @@ public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, I
         campoOlimpiadaItinerario.setFont(fuenteCampoTexto);
 
         // Se obtienen los códigos de las olimpiadas existentes
-        ResultSet olympCodes = administrador.selectCol("T_OLIMPIADAS", "CODIGO");
+        ResultSet olympCodes = administrador.selectCol("T_OLIMPIADAS", "CODIGO", "");
 
         // Se añaden los códigos al ArrayList
         while (olympCodes.next()) {
@@ -100,8 +100,8 @@ public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, I
         }
 
         // Utilizamos los códigos para meterlos en el combo box
-        for (int i = 0; i < codigosOlimpiadas.size(); ++i) {
-            campoOlimpiadaItinerario.addItem(codigosOlimpiadas.get(i));
+        for (String codigosOlimpiada : codigosOlimpiadas) {
+            campoOlimpiadaItinerario.addItem(codigosOlimpiada);
         }
 
         olympCodes.close();
@@ -137,7 +137,7 @@ public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, I
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaAdministrador ventana = new VentanaAdministrador(administrador);
+                new VentanaAdministrador(administrador);
                 dispose();
             }
         });

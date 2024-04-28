@@ -79,7 +79,7 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fue
         exerCodeField = new JComboBox<>();
         exerCodeField.setFont(fuenteCampoTexto);
 
-        ResultSet codes = administrador.selectCol("T_EJERCICIOS", "CODIGO");
+        ResultSet codes = administrador.selectCol("T_EJERCICIOS", "CODIGO", "");
 
         while (codes.next()) {
             String registro = codes.getString("CODIGO");
@@ -89,7 +89,7 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fue
         olympCodeField = new JComboBox<>();
         olympCodeField.setFont(fuenteCampoTexto);
 
-        codes = administrador.selectCol("T_OLIMPIADAS", "CODIGO");
+        codes = administrador.selectCol("T_OLIMPIADAS", "CODIGO", "");
 
         while (codes.next()) {
             String registro = codes.getString("CODIGO");
@@ -100,7 +100,7 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fue
         itinerarioCodeField.setFont(fuenteCampoTexto);
 
         String where = "WHERE OLIMPIADA='" + olympCodeField.getSelectedItem() + "'";
-        codes = administrador.selectColWhere("T_ITINERARIOS", "CODIGO", where);
+        codes = administrador.selectCol("T_ITINERARIOS", "CODIGO", where);
 
         while (codes.next()) {
             String registro = codes.getString("CODIGO");
@@ -147,7 +147,7 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fue
 
                 try {
                     String where = "WHERE OLIMPIADA='" + olympCodeField.getSelectedItem() + "'";
-                    ResultSet codes = administrador.selectColWhere("T_ITINERARIOS", "CODIGO", where);
+                    ResultSet codes = administrador.selectCol("T_ITINERARIOS", "CODIGO", where);
 
                     while (codes.next()) {
                         String registro = codes.getString("CODIGO");
@@ -157,8 +157,8 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fue
 
                     codes.close();
 
-                } catch (RuntimeException | SQLException | JSchException ex) {
-                    new CustomJOptionPane("ERROR");
+                } catch (RuntimeException | SQLException ex) {
+                    new CustomJOptionPane("ERROR - " + ex.getMessage());
 
                 }
             }
@@ -175,18 +175,13 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fue
                     String olympiad = (String) olympCodeField.getSelectedItem();
                     String itinerario = (String) itinerarioCodeField.getSelectedItem();
 
-                    try {
-                        if (administrador.assignExerciseToOlympiad(exercise, olympiad, itinerario) == 0) {
-                            exerCodeField.setSelectedItem(exerCodeField.getItemAt(0));
-                            olympCodeField.setSelectedItem(olympCodeField.getItemAt(0));
-                            itinerarioCodeField.removeAllItems();
-
-                        }
-
-                    } catch (JSchException | SQLException ex) {
-                        new CustomJOptionPane("ERROR");
+                    if (administrador.assignExerciseToOlympiad(exercise, olympiad, itinerario) == 0) {
+                        exerCodeField.setSelectedItem(exerCodeField.getItemAt(0));
+                        olympCodeField.setSelectedItem(olympCodeField.getItemAt(0));
+                        itinerarioCodeField.removeAllItems();
 
                     }
+
                 }
             }
         });

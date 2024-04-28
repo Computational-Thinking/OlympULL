@@ -1,8 +1,6 @@
 package interfaz.administrador;
 
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import interfaz.Bordes;
 import interfaz.CustomJOptionPane;
 import interfaz.Fuentes;
@@ -10,12 +8,8 @@ import interfaz.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class VentanaModificarEquipo extends JFrame implements Bordes, Fuentes, Iconos {
@@ -82,7 +76,7 @@ public class VentanaModificarEquipo extends JFrame implements Bordes, Fuentes, I
         teamItinerarioField = new JComboBox<>();
         teamItinerarioField.setFont(fuenteCampoTexto);
 
-        ResultSet itCodes = administrador.selectCol("T_ITINERARIOS", "CODIGO");
+        ResultSet itCodes = administrador.selectCol("T_ITINERARIOS", "CODIGO", "");
 
         // Iterar sobre el resultado y añadir los registros al ArrayList
         while (itCodes.next()) {
@@ -119,40 +113,33 @@ public class VentanaModificarEquipo extends JFrame implements Bordes, Fuentes, I
         add(inputPanel, BorderLayout.CENTER);
         add(createButtonPanel, BorderLayout.SOUTH);
 
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VentanaAdministrador(administrador);
-                dispose();
-            }
+        goBackButton.addActionListener(e -> {
+            new VentanaAdministrador(administrador);
+            dispose();
         });
 
-        modifyTeamButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (teamCodeField.getText().matches("^\\s*$")
-                        || teamNameField.getText().matches("^\\s*$")
-                        || teamSchoolField.getText().matches("^\\s*$")
-                        || Objects.requireNonNull(teamItinerarioField.getSelectedItem()).toString().matches("^\\s*$")) {
-                    new CustomJOptionPane("Todos los campos son obligatorios");
+        modifyTeamButton.addActionListener(e -> {
+            if (teamCodeField.getText().matches("^\\s*$")
+                    || teamNameField.getText().matches("^\\s*$")
+                    || teamSchoolField.getText().matches("^\\s*$")
+                    || Objects.requireNonNull(teamItinerarioField.getSelectedItem()).toString().matches("^\\s*$")) {
+                new CustomJOptionPane("Todos los campos son obligatorios");
 
-                } else {
-                    String code = teamCodeField.getText();
-                    String name = teamNameField.getText();
-                    String school = teamSchoolField.getText();
-                    String itinerary = (String) teamItinerarioField.getSelectedItem();
+            } else {
+                String code1 = teamCodeField.getText();
+                String name1 = teamNameField.getText();
+                String school1 = teamSchoolField.getText();
+                String itinerary = (String) teamItinerarioField.getSelectedItem();
 
-                    try {
-                        if (administrador.modifyTeam(oldCode, code, name, school, itinerary) == 0) {
-                            new CustomJOptionPane("Se ha modificado el equipo");
-                            new VentanaConsultaEquipos(administrador);
-                            dispose();
-                        }
-
-                    } catch (JSchException | SQLException exc) {
-                        new CustomJOptionPane("ERROR");
-
+                try {
+                    if (administrador.modifyTeam(oldCode, code1, name1, school1, itinerary) == 0) {
+                        new VentanaConsultaEquipos(administrador);
+                        dispose();
                     }
+
+                } catch (JSchException | SQLException exc) {
+                    new CustomJOptionPane("ERROR - " + exc.getMessage());
+
                 }
             }
         });

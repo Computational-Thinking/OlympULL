@@ -140,16 +140,11 @@ public class VentanaNuevaOlimpiada extends JFrame implements Bordes, Fuentes, Ic
                     String year = olympYearField.getText();
 
                     if (year.matches("[0-9]*") && Integer.parseInt(year) > 2000 && Integer.parseInt(year) < 3000) {
-                        try {
-                            if (administrador.createOlympiad(code, name, desc, Integer.parseInt(year)) == 0) {
-                                olympCodeField.setText("");
-                                olympNameField.setText("");
-                                olympDescField.setText("");
-                                olympYearField.setText("");
-                            }
-
-                        } catch (JSchException | SQLException ex) {
-                            throw new RuntimeException(ex);
+                        if (administrador.createOlympiad(code, name, desc, Integer.parseInt(year)) == 0) {
+                            olympCodeField.setText("");
+                            olympNameField.setText("");
+                            olympDescField.setText("");
+                            olympYearField.setText("");
                         }
 
                     } else {

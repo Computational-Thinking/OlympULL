@@ -79,11 +79,10 @@ public class VentanaNuevoEquipo extends JFrame implements Bordes, Fuentes, Icono
         teamSchoolField = new JTextField();
         teamSchoolField.setFont(fuenteCampoTexto);
 
-        ArrayList<String> itinerarios = new ArrayList<>();
         teamItinerarioField = new JComboBox<>();
         teamItinerarioField.setFont(fuenteCampoTexto);
 
-        ResultSet itCodes = administrador.selectCol("T_ITINERARIOS", "CODIGO");
+        ResultSet itCodes = administrador.selectCol("T_ITINERARIOS", "CODIGO", "");
 
         // Iterar sobre el resultado y añadir los registros al ArrayList
         while (itCodes.next()) {
@@ -143,19 +142,14 @@ public class VentanaNuevoEquipo extends JFrame implements Bordes, Fuentes, Icono
                     String school = teamSchoolField.getText();
                     String itinerary = (String) teamItinerarioField.getSelectedItem();
 
-                    try {
-                        if (administrador.createTeam(code, name, school, itinerary) == 0) {
-                            teamCodeField.setText("");
-                            teamNameField.setText("");
-                            teamSchoolField.setText("");
-                            teamItinerarioField.setSelectedItem(teamItinerarioField.getItemAt(0));
-
-                        }
-
-                    } catch (JSchException | SQLException exc) {
-                        new CustomJOptionPane("ERROR");
+                    if (administrador.createTeam(code, name, school, itinerary) == 0) {
+                        teamCodeField.setText("");
+                        teamNameField.setText("");
+                        teamSchoolField.setText("");
+                        teamItinerarioField.setSelectedItem(teamItinerarioField.getItemAt(0));
 
                     }
+
                 }
             }
         });

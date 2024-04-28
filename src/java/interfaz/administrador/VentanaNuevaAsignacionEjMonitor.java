@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class VentananNuevaAsignacionEjMonitor extends JFrame implements Bordes, Fuentes, Iconos {
+public class VentanaNuevaAsignacionEjMonitor extends JFrame implements Bordes, Fuentes, Iconos {
     // Etiquetas
     JLabel monitorLabel;
     JLabel exerCodeLabel;
@@ -38,7 +38,7 @@ public class VentananNuevaAsignacionEjMonitor extends JFrame implements Bordes, 
     JPanel createAssignationPanel;
     JPanel inputPanel;
 
-    public VentananNuevaAsignacionEjMonitor(Administrador administrador) throws JSchException, SQLException {
+    public VentanaNuevaAsignacionEjMonitor(Administrador administrador) throws JSchException, SQLException {
         // Configuración de la ventana
         setSize(500, 335);
         getContentPane().setLayout(new BorderLayout());
@@ -105,7 +105,7 @@ public class VentananNuevaAsignacionEjMonitor extends JFrame implements Bordes, 
 
         // Nombres de los monitores
         String whereClause = "WHERE TIPO='MONITOR';";
-        ResultSet comboBoxesItems = administrador.selectColWhere("T_USUARIOS", "NOMBRE", whereClause);
+        ResultSet comboBoxesItems = administrador.selectCol("T_USUARIOS", "NOMBRE", whereClause);
 
         while (comboBoxesItems.next()) {
             String register = comboBoxesItems.getString("NOMBRE");
@@ -113,7 +113,7 @@ public class VentananNuevaAsignacionEjMonitor extends JFrame implements Bordes, 
         }
 
         // Códigos de los ejercicios
-        comboBoxesItems = administrador.selectCol("T_EJERCICIOS", "CODIGO");
+        comboBoxesItems = administrador.selectCol("T_EJERCICIOS", "CODIGO", "");
 
         while (comboBoxesItems.next()) {
             String register = comboBoxesItems.getString("CODIGO");
@@ -154,13 +154,10 @@ public class VentananNuevaAsignacionEjMonitor extends JFrame implements Bordes, 
         add(inputPanel, BorderLayout.CENTER);
         add(createAssignationPanel, BorderLayout.SOUTH);
 
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VentanaAdministrador(administrador);
-                dispose();
+        goBackButton.addActionListener(e -> {
+            new VentanaAdministrador(administrador);
+            dispose();
 
-            }
         });
 
         exerField.addActionListener(e -> {
@@ -168,15 +165,7 @@ public class VentananNuevaAsignacionEjMonitor extends JFrame implements Bordes, 
             itineraryField.setText("");
 
             String whereClause1 = "WHERE CODIGO='" + exerField.getSelectedItem() + "'";
-            ResultSet exerTitles = null;
-            try {
-                exerTitles = administrador.selectColWhere("T_EJERCICIOS", "TITULO", whereClause1);
-
-            } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR (1) - No se ha podido obtener el título del ejercicio");
-                new VentanaAdministrador(administrador);
-                dispose();
-            }
+            ResultSet exerTitles = administrador.selectCol("T_EJERCICIOS", "TITULO", whereClause1);
 
             try {
                 assert exerTitles != null;
@@ -186,7 +175,7 @@ public class VentananNuevaAsignacionEjMonitor extends JFrame implements Bordes, 
                 }
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR (2) - No se ha podido obtener el título del ejercicio");
+                new CustomJOptionPane("ERROR - No se ha podido obtener el título del ejercicio");
                 new VentanaAdministrador(administrador);
                 dispose();
 
@@ -194,15 +183,7 @@ public class VentananNuevaAsignacionEjMonitor extends JFrame implements Bordes, 
 
             // Olimpiadas a las que está asociado
             whereClause1 = "WHERE EJERCICIO='" + exerField.getSelectedItem() + "'";
-            exerTitles = null;
-            try {
-                exerTitles = administrador.selectColWhere("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "OLIMPIADA", whereClause1);
-
-            } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR (1) - No se ha podido obtener las olimpiadas");
-                new VentanaAdministrador(administrador);
-                dispose();
-            }
+            exerTitles = administrador.selectCol("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "OLIMPIADA", whereClause1);
 
             try {
                 assert exerTitles != null;
@@ -212,7 +193,7 @@ public class VentananNuevaAsignacionEjMonitor extends JFrame implements Bordes, 
                 }
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR (2) - No se ha podido obtener las olimpiadas");
+                new CustomJOptionPane("ERROR - No se ha podido obtener las olimpiadas");
                 new VentanaAdministrador(administrador);
                 dispose();
 
@@ -221,15 +202,7 @@ public class VentananNuevaAsignacionEjMonitor extends JFrame implements Bordes, 
 
         olympField.addActionListener(e -> {
             String whereClause1 = "WHERE EJERCICIO='" + exerField.getSelectedItem() + "' AND OLIMPIADA='" + olympField.getSelectedItem() + "';";
-            ResultSet exerTitles = null;
-            try {
-                exerTitles = administrador.selectColWhere("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "ITINERARIO", whereClause1);
-
-            } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR (1) - No se ha podido obtener el itinerario");
-                new VentanaAdministrador(administrador);
-                dispose();
-            }
+            ResultSet exerTitles = administrador.selectCol("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "ITINERARIO", whereClause1);
 
             try {
                 assert exerTitles != null;
@@ -239,7 +212,7 @@ public class VentananNuevaAsignacionEjMonitor extends JFrame implements Bordes, 
                 }
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR (2) - No se ha podido obtener el itinerario");
+                new CustomJOptionPane("ERROR - No se ha podido obtener el itinerario");
                 new VentanaAdministrador(administrador);
                 dispose();
 
@@ -252,17 +225,11 @@ public class VentananNuevaAsignacionEjMonitor extends JFrame implements Bordes, 
             String olympCode = (String) olympField.getSelectedItem();
             String itineraryCode = itineraryField.getText();
 
-            try {
-                if (administrador.assignExerciseToUser(monitor, exerCode, olympCode, itineraryCode) == 0) {
-                    new CustomJOptionPane("Se ha asignado el ejercicio");
-                    monitorComboBox.setSelectedItem(monitorComboBox.getItemAt(0));
-                    exerField.setSelectedItem(exerField.getItemAt(0));
-                    tituloEjercicioField.setText("");
-
-                }
-
-            } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido insertar en la base de datos. Compruebe los datos a introducir");
+            if (administrador.assignExerciseToUser(monitor, exerCode, olympCode, itineraryCode) == 0) {
+                monitorComboBox.setSelectedItem(monitorComboBox.getItemAt(0));
+                exerField.setSelectedItem(exerField.getItemAt(0));
+                tituloEjercicioField.setText("");
+                itineraryField.setText("");
 
             }
         });

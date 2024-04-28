@@ -1,8 +1,6 @@
 package interfaz.administrador;
 
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import interfaz.Bordes;
 import interfaz.CustomJOptionPane;
 import interfaz.Fuentes;
@@ -10,17 +8,14 @@ import interfaz.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.security.DigestException;
 import java.sql.*;
 
 public class VentanaConsultaOlimpiadas extends JFrame implements Bordes, Fuentes, Iconos, MouseListener {
@@ -155,7 +150,7 @@ public class VentanaConsultaOlimpiadas extends JFrame implements Bordes, Fuentes
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaAdministrador ventana = new VentanaAdministrador(administrador);
+                new VentanaAdministrador(administrador);
                 dispose();
             }
         });
@@ -199,13 +194,12 @@ public class VentanaConsultaOlimpiadas extends JFrame implements Bordes, Fuentes
         } else if (column == tabla.getColumnCount() - 1) {
             try {
                 if (administrador.deleteOlympiad((String) modeloTabla.getValueAt(row, 0)) == 0) {
-                    new CustomJOptionPane("Se ha eliminado la olimpiada");
                     new VentanaConsultaOlimpiadas(administrador);
                     dispose();
                 }
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
             }
         }
     }
@@ -231,28 +225,21 @@ public class VentanaConsultaOlimpiadas extends JFrame implements Bordes, Fuentes
     }
 
     // Esto es para añadir los botones a la última columna de la tabla (no necesario y creo que ni siquiera hace falta hacerlo tan complicado)
-    class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
-        private JButton actionButton;
+    static class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
         private ImageIcon buttonIcon;
 
         public ButtonPanelRenderer(int columna) {
             setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-            switch(columna) {
-                case 3:
-                    buttonIcon = new ImageIcon(iconoEditar.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-                    break;
-                case 2:
-                    buttonIcon = new ImageIcon(iconoDuplicar.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-                    break;
-                case 1:
-                    buttonIcon = new ImageIcon(iconoEliminar.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-                    break;
-                default:
-                    break;
+            switch (columna) {
+                case 3 -> buttonIcon = new ImageIcon(iconoEditar.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+                case 2 -> buttonIcon = new ImageIcon(iconoDuplicar.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+                case 1 -> buttonIcon = new ImageIcon(iconoEliminar.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+                default -> {
+                }
             }
 
-            actionButton = new JButton(buttonIcon);
+            JButton actionButton = new JButton(buttonIcon);
             actionButton.setPreferredSize(new Dimension(25, 25));
 
             // Se añaden estos botones al modelo de tabla

@@ -338,7 +338,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
 
         assignExerciseToUser.addActionListener(e -> {
             try {
-                new VentananNuevaAsignacionEjMonitor(administrador);
+                new VentanaNuevaAsignacionEjMonitor(administrador);
                 dispose();
 
             } catch (JSchException | SQLException ex) {

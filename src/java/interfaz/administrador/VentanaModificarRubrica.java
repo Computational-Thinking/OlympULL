@@ -8,10 +8,7 @@ import interfaz.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Vector;
@@ -221,165 +218,152 @@ public class VentanaModificarRubrica extends JFrame implements Bordes, Fuentes, 
         pack();
         setLocationRelativeTo(null);
 
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaConsultaRubricas(administrador);
-                } catch (JSchException | SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-                dispose();
+        goBackButton.addActionListener(e -> {
+            try {
+                new VentanaConsultaRubricas(administrador);
+            } catch (JSchException | SQLException ex) {
+                throw new RuntimeException(ex);
             }
+            dispose();
         });
 
-        addNewPunctuationButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (nScales < 11) {
-                    JPanel newMark = new JPanel();
-                    newMark.setLayout(new GridLayout(1, 2, 5, 5));
+        addNewPunctuationButton.addActionListener(e -> {
+            if (nScales < 11) {
+                JPanel newMark = new JPanel();
+                newMark.setLayout(new GridLayout(1, 2, 5, 5));
 
-                    // Campo de puntos
-                    JTextField newPunctuation = new JTextField();
-                    newPunctuation.setPreferredSize(new Dimension(200, 30));
-                    newPunctuation.setFont(fuenteCampoTexto);
+                // Campo de puntos
+                JTextField newPunctuation = new JTextField();
+                newPunctuation.setPreferredSize(new Dimension(200, 30));
+                newPunctuation.setFont(fuenteCampoTexto);
 
-                    // Campo de etiqueta de puntos
-                    JTextField newTag = new JTextField();
-                    newTag.setPreferredSize(new Dimension(200, 30));
-                    newTag.setFont(fuenteCampoTexto);
+                // Campo de etiqueta de puntos
+                JTextField newTag = new JTextField();
+                newTag.setPreferredSize(new Dimension(200, 30));
+                newTag.setFont(fuenteCampoTexto);
 
-                    // Se añaden los campos nuevos al panel
-                    newMark.add(newPunctuation);
-                    newMark.add(newTag);
+                // Se añaden los campos nuevos al panel
+                newMark.add(newPunctuation);
+                newMark.add(newTag);
 
-                    // Se añade el panel al vector de paneles personalizados
-                    newFields.add(newMark);
+                // Se añade el panel al vector de paneles personalizados
+                newFields.add(newMark);
 
-                    // Se añade el panel al panel de campos personalizados
-                    customValuesPanel.add(newMark);
+                // Se añade el panel al panel de campos personalizados
+                customValuesPanel.add(newMark);
 
-                    // Valor de seguridad
-                    nScales += 1;
+                // Valor de seguridad
+                nScales += 1;
 
-                    // Esto es para que se actualice la ventana con los nuevos campos personalizados
-                    customValuesPanel.revalidate();
-                    customValuesPanel.repaint();
-                    pack();
-                    setLocationRelativeTo(null);
-                } else {
-                    JOptionPane.showMessageDialog(null, "No es posible añadir más filas");
-                }
-
+                // Esto es para que se actualice la ventana con los nuevos campos personalizados
+                customValuesPanel.revalidate();
+                customValuesPanel.repaint();
+                pack();
+                setLocationRelativeTo(null);
+            } else {
+                new CustomJOptionPane("No es posible añadir más filas");
             }
+
         });
 
-        deletePunctuationButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Component[] components = customValuesPanel.getComponents();
-                if (components.length > 0) {
-                    Component lastComponent = components[components.length - 1];
-                    customValuesPanel.remove(lastComponent);
-                    customValuesPanel.revalidate();
-                    customValuesPanel.repaint();
-                    pack();
-                    setLocationRelativeTo(null);
-                    nScales -= 1;
-                } else {
-                    JOptionPane.showMessageDialog(null, "No hay registros que borrar");
-                }
-
+        deletePunctuationButton.addActionListener(e -> {
+            Component[] components = customValuesPanel.getComponents();
+            if (components.length > 0) {
+                Component lastComponent = components[components.length - 1];
+                customValuesPanel.remove(lastComponent);
+                customValuesPanel.revalidate();
+                customValuesPanel.repaint();
+                pack();
+                setLocationRelativeTo(null);
+                nScales -= 1;
+            } else {
+                new CustomJOptionPane("No hay registros que borrar");
             }
+
         });
 
-        modificarRubrica.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Se comprueba si los valores introducidos tienen el formato correcto
-                int[] scalePoints = new int[nScales];      // Puntos de la rúbrica
-                String[] scaleTags = new String[nScales];  // Etiquetas de la rúbrica
+        modificarRubrica.addActionListener(e -> {
+            // Se comprueba si los valores introducidos tienen el formato correcto
+            int[] scalePoints = new int[nScales];      // Puntos de la rúbrica
+            String[] scaleTags = new String[nScales];  // Etiquetas de la rúbrica
 
-                scalePoints[0] = Integer.parseInt(minPunctuation.getText());
-                scaleTags[0] = minPunctuationTagField.getText();
+            scalePoints[0] = Integer.parseInt(minPunctuation.getText());
+            scaleTags[0] = minPunctuationTagField.getText();
 
-                Component[] registers = customValuesPanel.getComponents();
-                int counter = 1;
-                int exit = 0;
+            Component[] registers = customValuesPanel.getComponents();
+            int counter = 1;
+            int exit = 0;
 
-                // Se almacenan los valores de los paneles auxiliares
-                for (Component register : registers) {
-                    JPanel dummy = (JPanel) register;
-                    Component[] textFields = dummy.getComponents();
-                    JTextField value = (JTextField) textFields[0];
-                    JTextField tag = (JTextField) textFields[1];
+            // Se almacenan los valores de los paneles auxiliares
+            for (Component register : registers) {
+                JPanel dummy = (JPanel) register;
+                Component[] textFields = dummy.getComponents();
+                JTextField value = (JTextField) textFields[0];
+                JTextField tag = (JTextField) textFields[1];
 
-                    if (value.getText().matches("^[0-9]$")) {
-                        if (Integer.parseInt(value.getText()) > 0) {
-                            scalePoints[counter] = Integer.parseInt(value.getText());
-
-                        } else {
-                            exit = 1;
-
-                        }
+                if (value.getText().matches("^[0-9]$")) {
+                    if (Integer.parseInt(value.getText()) > 0) {
+                        scalePoints[counter] = Integer.parseInt(value.getText());
 
                     } else {
                         exit = 1;
-                        break;
 
                     }
 
-                    if (tag.getText().matches(".*[,].*")) {
-                        exit = 1;
-                        break;
-
-                    } else {
-                        scaleTags[counter] = value.getText();
-
-                    }
-
-                    ++counter;
-                }
-
-                scalePoints[scalePoints.length - 1] = Integer.parseInt(maxPunctuation.getText());
-                scaleTags[scaleTags.length - 1] = maxPunctuationTagField.getText();
-
-                if (scaleTags[0].matches(".*[,].*") || scaleTags[scaleTags.length - 1].matches(".*[,].*")) {
+                } else {
                     exit = 1;
+                    break;
 
                 }
-                System.out.println(Arrays.toString(scalePoints));
-                System.out.println(Arrays.toString(scaleTags));
 
-                if (exit == 1) {
-                    new CustomJOptionPane("Los valores de la rúbrica introducidos no son válidos." +
-                            " Los puntos deben ser números enteros entre 0 y 10." +
-                            " Las etiquetas de puntos deben ser cadenas de caracteres sin comas.");
+                if (tag.getText().matches(".*[,].*")) {
+                    exit = 1;
+                    break;
+
                 } else {
-                    // Se comprueba que el código no es vacío
-                    if (codeField.getText().matches("^\\s*$")) {
-                        new CustomJOptionPane("El campo Código es obligatorio.");
+                    scaleTags[counter] = tag.getText();
 
-                    } else {
-                        String code = codeField.getText();
-                        String name = nameField.getText();
-                        String desc = descriptionField.getText();
-                        String values = Arrays.toString(scalePoints);
-                        String tags = Arrays.toString(scaleTags);
+                }
 
-                        try {
-                            if (administrador.modifyRubric(oldCode, code, name, desc, values, tags) == 0) {
-                                new CustomJOptionPane("Se ha modificado la rúbrica");
-                                new VentanaConsultaRubricas(administrador);
-                                dispose();
+                ++counter;
+            }
 
-                            }
+            scalePoints[scalePoints.length - 1] = Integer.parseInt(maxPunctuation.getText());
+            scaleTags[scaleTags.length - 1] = maxPunctuationTagField.getText();
 
-                        } catch (SQLException | JSchException ex) {
-                            new CustomJOptionPane("ERROR");
+            if (scaleTags[0].matches(".*[,].*") || scaleTags[scaleTags.length - 1].matches(".*[,].*")) {
+                exit = 1;
+
+            }
+            System.out.println(Arrays.toString(scalePoints));
+            System.out.println(Arrays.toString(scaleTags));
+
+            if (exit == 1) {
+                new CustomJOptionPane("Los valores de rúbrica introducidos no son válidos." +
+                        " Los puntos deben ser números enteros entre 0 y 10." +
+                        " Las etiquetas de puntos deben ser cadenas de caracteres sin comas.");
+            } else {
+                // Se comprueba que el código no es vacío
+                if (codeField.getText().matches("^\\s*$")) {
+                    new CustomJOptionPane("El campo Código es obligatorio.");
+
+                } else {
+                    String code1 = codeField.getText();
+                    String name1 = nameField.getText();
+                    String desc1 = descriptionField.getText();
+                    String values = Arrays.toString(scalePoints);
+                    String tags1 = Arrays.toString(scaleTags);
+
+                    try {
+                        if (administrador.modifyRubric(oldCode, code1, name1, desc1, values, tags1) == 0) {
+                            new VentanaConsultaRubricas(administrador);
+                            dispose();
 
                         }
+
+                    } catch (SQLException | JSchException ex) {
+                        new CustomJOptionPane("ERROR - " + ex.getMessage());
+
                     }
                 }
             }

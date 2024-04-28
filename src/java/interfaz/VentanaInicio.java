@@ -5,6 +5,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import interfaz.administrador.VentanaAdministrador;
 import interfaz.monitor.VentanaMonitor;
+import interfaz.organizador.VentanaOrganizador;
 import usuarios.Administrador;
 import usuarios.Monitor;
 import usuarios.Usuario;
@@ -17,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -95,82 +97,76 @@ public class VentanaInicio extends JFrame implements Bordes, Fuentes, Iconos, Op
         add(verRanking);
 
         // Action listener
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        loginButton.addActionListener(e -> {
 
-                // Lógica para comprobar la existencia de un usuario
-                if (userField.getText() != null && passwordField.getText() != null) {
-                    try {
-                        String whereClause = "WHERE NOMBRE='" + userField.getText() + "';";
-                        ResultSet users = selectColWhere("T_USUARIOS", "NOMBRE", whereClause);
+            // Lógica para comprobar la existencia de un usuario
+            if (userField.getText() != null && passwordField.getPassword() != null) {
+                try {
+                    String whereClause = "WHERE NOMBRE='" + userField.getText() + "';";
+                    ResultSet users = selectCol("T_USUARIOS", "NOMBRE", whereClause);
+
+                    if (users.next()) {
+                        String id = users.getString("NOMBRE");
+                        String password = (passwordField.getText());
+                        whereClause = "WHERE NOMBRE='" + id + "' AND PASSWORD='" + password + "'";
+                        users = selectCol("T_USUARIOS", "*", whereClause);
 
                         if (users.next()) {
-                            String id = users.getString("NOMBRE");
-                            String password = passwordField.getText();
-                            whereClause = "WHERE NOMBRE='" + id + "' AND PASSWORD='" + password + "'";
-                            users = selectColWhere("T_USUARIOS", "*", whereClause);
+                            new CustomJOptionPane("Contraseña correcta. Iniciando sesión...");
 
-                            if (users.next()) {
-                                new CustomJOptionPane("Contraseña correcta. Iniciando sesión...");
+                            if (users.getString("TIPO").equals("ADMINISTRADOR")) {
+                                String name = users.getString("NOMBRE");
+                                String pass = users.getString("PASSWORD");
 
-                                if (users.getString("TIPO").equals("ADMINISTRADOR")) {
-                                    String name = users.getString("NOMBRE");
-                                    String pass = users.getString("PASSWORD");
+                                Administrador usuario = new Administrador(name, pass);
 
-                                    Administrador usuario = new Administrador(name, pass);
+                                new VentanaAdministrador(usuario);
+                                dispose();
 
-                                    new VentanaAdministrador(usuario);
-                                    dispose();
+                            } else if (users.getString("TIPO").equals("MONITOR")) {
+                                String name = users.getString("NOMBRE");
+                                ArrayList<String> exercises = new ArrayList<>();
 
-                                } else if (users.getString("TIPO").equals("MONITOR")) {
-                                    String name = users.getString("NOMBRE");
-                                    String pass = users.getString("PASSWORD");
-                                    ArrayList<String> exercises = new ArrayList<>();
+                                whereClause = "WHERE NOMBRE='" + name + "';";
+                                users = selectCol("T_MONITORES", "EJERCICIO", whereClause);
 
-                                    whereClause = "WHERE NOMBRE='" + name + "';";
-                                    users = selectColWhere("T_MONITORES", "EJERCICIO", whereClause);
+                                while (users.next()) {
+                                    exercises.add(users.getString("EJERCICIO"));
 
-                                    while (users.next()) {
-                                        exercises.add(users.getString("EJERCICIO"));
-
-                                    }
-
-                                    Monitor usuario = new Monitor(name, password, exercises);
-                                    new VentanaMonitor(usuario);
-                                    dispose();
-
-                                } else if (users.getString("TIPO").equals("ORGANIZADOR")) {
-                                    
                                 }
 
-                                userField.setText("");
-                                passwordField.setText("");
+                                Monitor usuario = new Monitor(name, password, exercises);
+                                new VentanaMonitor(usuario);
+                                dispose();
 
-                            } else {
-                                new CustomJOptionPane("Contraseña incorrecta. Pruebe otra vez.");
-
+                            } else if (users.getString("TIPO").equals("ORGANIZADOR")) {
+                                new VentanaOrganizador();
+                                dispose();
                             }
 
+                            userField.setText("");
+                            passwordField.setText("");
+
                         } else {
-                            new CustomJOptionPane("No existe el usuario " + userField.getText() + ". Para darse de alta, póngase en contacto con un administrador.");
+                            new CustomJOptionPane("Contraseña incorrecta. Pruebe otra vez.");
 
                         }
 
-                    } catch (JSchException | SQLException i) {
-                        new CustomJOptionPane("ERROR - Ha habido un error al comprobar sus credenciales");
-                        dispose();
+                    } else {
+                        new CustomJOptionPane("No existe el usuario " + userField.getText() + ". Para darse de alta, póngase en contacto con un administrador.");
 
                     }
+
+                } catch (SQLException i) {
+                    new CustomJOptionPane("ERROR - " + i.getMessage());
+                    dispose();
+
                 }
             }
         });
 
-        verRanking.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        verRanking.addActionListener(e -> {
 
-            }
         });
 
         this.setVisible(true);

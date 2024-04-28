@@ -1,8 +1,6 @@
 package interfaz.administrador;
 
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import interfaz.Bordes;
 import interfaz.CustomJOptionPane;
 import interfaz.Fuentes;
@@ -10,12 +8,10 @@ import interfaz.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes, Fuentes, Iconos {
     // Botones
@@ -85,7 +81,7 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
         exerCodeField = new JComboBox<>();
         exerCodeField.setFont(fuenteCampoTexto);
 
-        ResultSet codes = administrador.selectCol("T_EJERCICIOS", "CODIGO");
+        ResultSet codes = administrador.selectCol("T_EJERCICIOS", "CODIGO", "");
         
          // Iterar sobre el resultado y añadir los registros al ArrayList
         while (codes.next()) {
@@ -98,7 +94,7 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
         olympCodeField = new JComboBox<>();
         olympCodeField.setFont(fuenteCampoTexto);
 
-        codes = administrador.selectCol("T_OLIMPIADAS", "CODIGO");
+        codes = administrador.selectCol("T_OLIMPIADAS", "CODIGO", "");
 
         // Iterar sobre el resultado y añadir los registros al ArrayList
         while (codes.next()) {
@@ -112,7 +108,7 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
         itinerarioCodeField.setFont(fuenteCampoTexto);
 
         String where = "WHERE OLIMPIADA='" + olympCodeField.getSelectedItem() + "'";
-        codes = administrador.selectColWhere("T_ITINERARIOS", "CODIGO", where);
+        codes = administrador.selectCol("T_ITINERARIOS", "CODIGO", where);
 
         // Iterar sobre el resultado y añadir los registros al ArrayList
         while (codes.next()) {
@@ -147,41 +143,35 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
         add(inputPanel, BorderLayout.CENTER);
         add(createButtonPanel, BorderLayout.SOUTH);
 
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaConsultaAsignacionEjOlimp(administrador);
-                    dispose();
+        goBackButton.addActionListener(e -> {
+            try {
+                new VentanaConsultaAsignacionEjOlimp(administrador);
+                dispose();
 
-                } catch (JSchException | SQLException ex) {
-                    throw new RuntimeException(ex);
+            } catch (JSchException | SQLException ex) {
+                throw new RuntimeException(ex);
 
-                }
             }
         });
 
-        olympCodeField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                itinerarioCodeField.removeAllItems();
+        olympCodeField.addActionListener(e -> {
+            itinerarioCodeField.removeAllItems();
 
-                try {
-                    String where = "WHERE OLIMPIADA='" + olympCodeField.getSelectedItem() + "'";
-                    ResultSet codes = administrador.selectColWhere("T_ITINERARIOS", "CODIGO", where);
+            try {
+                String where1 = "WHERE OLIMPIADA='" + olympCodeField.getSelectedItem() + "'";
+                ResultSet codes1 = administrador.selectCol("T_ITINERARIOS", "CODIGO", where1);
 
-                    while (codes.next()) {
-                        String registro = codes.getString("CODIGO");
-                        itinerarioCodeField.addItem(registro);
-
-                    }
-
-                    codes.close();
-
-                } catch (RuntimeException | SQLException | JSchException ex) {
-                    new CustomJOptionPane("ERROR");
+                while (codes1.next()) {
+                    String registro = codes1.getString("CODIGO");
+                    itinerarioCodeField.addItem(registro);
 
                 }
+
+                codes1.close();
+
+            } catch (RuntimeException | SQLException ex) {
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
+
             }
         });
 
@@ -194,22 +184,16 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
                 } else {
                     String exercise = (String) exerCodeField.getSelectedItem();
                     String olympiad = (String) olympCodeField.getSelectedItem();
-                    String itinerario = (String) itinerarioCodeField.getSelectedItem();
+                    String itinerary = (String) itinerarioCodeField.getSelectedItem();
 
                     try {
-                        if (administrador.modifyAssignationExOlymp(oldExercise, oldOlympiad, oldItinerario, exercise, olympiad, itinerario) == 0) {
-                            new CustomJOptionPane("Se ha modificado la asignación");
+                        if (administrador.modifyAssignationExOlymp(oldExercise, oldOlympiad, oldItinerario, exercise, olympiad, itinerary) == 0) {
                             new VentanaConsultaAsignacionEjOlimp(administrador);
                             dispose();
-
-                        } else {
-                            new CustomJOptionPane("No se ha podido modificar la asignación." +
-                                    "Compruebe los valores de las claves.");
-
                         }
 
                     } catch (JSchException | SQLException ex) {
-                        new CustomJOptionPane("ERROR");
+                        new CustomJOptionPane("ERROR - " + ex.getMessage());
 
                     }
                 }

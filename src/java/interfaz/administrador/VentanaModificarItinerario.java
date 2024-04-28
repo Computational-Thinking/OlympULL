@@ -1,8 +1,6 @@
 package interfaz.administrador;
 
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import interfaz.Bordes;
 import interfaz.CustomJOptionPane;
 import interfaz.Fuentes;
@@ -10,12 +8,10 @@ import interfaz.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class VentanaModificarItinerario extends JFrame implements Bordes, Fuentes, Iconos {
@@ -91,10 +87,10 @@ public class VentanaModificarItinerario extends JFrame implements Bordes, Fuente
         campoDescripcionItinerario = new JTextField(descripcion);
         campoDescripcionItinerario.setFont(fuenteCampoTexto);
 
-        campoOlimpiadaItinerario = new JComboBox<String>();
+        campoOlimpiadaItinerario = new JComboBox<>();
         campoOlimpiadaItinerario.setFont(fuenteCampoTexto);
         
-        ResultSet olympCodes = administrador.selectCol("T_OLIMPIADAS", "CODIGO");
+        ResultSet olympCodes = administrador.selectCol("T_OLIMPIADAS", "CODIGO", "");
 
         // Se añaden los códigos de olimpiada al combo box
         while (olympCodes.next()) {
@@ -135,48 +131,41 @@ public class VentanaModificarItinerario extends JFrame implements Bordes, Fuente
         add(createButtonPanel, BorderLayout.SOUTH);
 
         // Botón de volver
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaConsultaItinerarios(administrador);
-                    
-                } catch (JSchException | SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-                dispose();
+        goBackButton.addActionListener(e -> {
+            try {
+                new VentanaConsultaItinerarios(administrador);
+
+            } catch (JSchException | SQLException ex) {
+                throw new RuntimeException(ex);
             }
+            dispose();
         });
 
         // Botón modificar
-        botonModificarItinerario.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (campoCodigoItinerario.getText().matches("^\\s*$")
-                        || campoNombreItinerario.getText().matches("^\\s*$")
-                        || Objects.requireNonNull(campoOlimpiadaItinerario.getSelectedItem()).toString().matches("^\\s*$")) {
-                    new CustomJOptionPane("Los campos Código, Nombre y Olimpiada son obligatorios");
+        botonModificarItinerario.addActionListener(e -> {
+            if (campoCodigoItinerario.getText().matches("^\\s*$")
+                    || campoNombreItinerario.getText().matches("^\\s*$")
+                    || Objects.requireNonNull(campoOlimpiadaItinerario.getSelectedItem()).toString().matches("^\\s*$")) {
+                new CustomJOptionPane("Los campos Código, Nombre y Olimpiada son obligatorios");
 
-                } else {
-                    String code = campoCodigoItinerario.getText();
-                    String name = campoNombreItinerario.getText();
-                    String desc = campoDescripcionItinerario.getText();
-                    String olymp = (String) campoOlimpiadaItinerario.getSelectedItem();
+            } else {
+                String code = campoCodigoItinerario.getText();
+                String name = campoNombreItinerario.getText();
+                String desc = campoDescripcionItinerario.getText();
+                String olymp = (String) campoOlimpiadaItinerario.getSelectedItem();
 
-                    try {
-                        if (administrador.modifyItinerario(oldCode, code, name, desc, olymp) == 0) {
-                            new CustomJOptionPane("Se ha modificado el itinerario");
-                            new VentanaConsultaItinerarios(administrador);
-                            dispose();
-
-                        }
-
-                    } catch (JSchException | SQLException ex) {
-                        new CustomJOptionPane("ERROR");
+                try {
+                    if (administrador.modifyItinerario(oldCode, code, name, desc, olymp) == 0) {
+                        new VentanaConsultaItinerarios(administrador);
+                        dispose();
 
                     }
 
+                } catch (JSchException | SQLException ex) {
+                    new CustomJOptionPane("ERROR - " + ex.getMessage());
+
                 }
+
             }
         });
     }

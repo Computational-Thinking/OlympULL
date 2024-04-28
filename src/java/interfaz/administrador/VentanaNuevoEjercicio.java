@@ -124,7 +124,7 @@ public class VentanaNuevoEjercicio extends JFrame {
 
         exerRubrica = new JComboBox<>();
 
-        ResultSet codeCol = administrador.selectCol("T_RUBRICAS", "CODIGO");
+        ResultSet codeCol = administrador.selectCol("T_RUBRICAS", "CODIGO", "");
 
         // Iterar sobre el resultado y añadir los registros al ArrayList
         while (codeCol.next()) {
@@ -194,22 +194,17 @@ public class VentanaNuevoEjercicio extends JFrame {
                     String type = (String) exerTypeField.getSelectedItem();
                     String rubric = (String) exerRubrica.getSelectedItem();
 
-                    try {
-                        if (administrador.createExercise(code, name, desc, concept, resources, type, rubric) == 0) {
-                            exerCodeField.setText("");
-                            exerNameField.setText("");
-                            exerDescField.setText("");
-                            exerConceptField.setSelectedItem(exerConceptField.getItemAt(0));
-                            exerResourcesField.setSelectedItem(exerResourcesField.getItemAt(0));
-                            exerTypeField.setSelectedItem(exerTypeField.getItemAt(0));
-                            exerRubrica.setSelectedItem(exerRubrica.getItemAt(0));
-
-                        }
-
-                    } catch (JSchException | SQLException exc) {
-                        new CustomJOptionPane("ERROR");
+                    if (administrador.createExercise(code, name, desc, concept, resources, type, rubric) == 0) {
+                        exerCodeField.setText("");
+                        exerNameField.setText("");
+                        exerDescField.setText("");
+                        exerConceptField.setSelectedItem(exerConceptField.getItemAt(0));
+                        exerResourcesField.setSelectedItem(exerResourcesField.getItemAt(0));
+                        exerTypeField.setSelectedItem(exerTypeField.getItemAt(0));
+                        exerRubrica.setSelectedItem(exerRubrica.getItemAt(0));
 
                     }
+
                 }
             }
         });

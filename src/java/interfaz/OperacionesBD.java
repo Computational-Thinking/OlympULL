@@ -4,8 +4,6 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.sql.*;
 
 public interface OperacionesBD extends ConfigReader {
@@ -25,266 +23,241 @@ public interface OperacionesBD extends ConfigReader {
 
     // Conexión a MySQL por SSH
     String dbUrl = "jdbc:mysql://" + remoteHost + ":" + localPort + "/" + databaseName;
-
     JSch jsch = new JSch();
 
     // Método para obtener filas de tabla
-    default ResultSet selectRows(String table, String orderColumn) throws JSchException, SQLException {
-        // Conexión SSH a la MV remota
-        Session session = jsch.getSession(sshUser, sshHost, sshPort);
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
+    default ResultSet selectRows(String table, String orderColumn) {
+        Session session = null;
+        ResultSet rs = null;
 
-        // Abrir un túnel SSH al puerto MySQL en la máquina remota
-        session.setPortForwardingL(localPort, remoteHost, remotePort);
+        try {
+            // Conexión SSH a la MV remota
+            session = jsch.getSession(sshUser, sshHost, sshPort);
+            session.setPassword(sshPassword);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
 
-        // Conexión a MySQL a través del túnel SSH
-        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
-        String dbUser = "root";
-        String dbPassword = "root";
-        Connection conn;
-        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+            // Abrir un túnel SSH al puerto MySQL en la máquina remota
+            session.setPortForwardingL(localPort, remoteHost, remotePort);
 
-        String select = "SELECT * FROM " + table + " ORDER BY " + orderColumn + " ASC;";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(select);
+            // Conexión a MySQL a través del túnel SSH
+            String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+            String dbUser = "root";
+            String dbPassword = "root";
+            Connection conn;
+            conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-        // Se cierra la conexión
-        session.disconnect();
+            String select = "SELECT * FROM " + table + " ORDER BY " + orderColumn + " ASC;";
+            Statement stmt = conn.createStatement();
+            rs = stmt.executeQuery(select);
+
+            // Se cierra la conexión
+            session.disconnect();
+
+        } catch (JSchException | SQLException ex) {
+            new CustomJOptionPane("ERROR - " + ex.getMessage());
+            assert session != null;
+            session.disconnect();
+        }
 
         return rs;
     }
 
     // Método para obtener valores de una columna
-    default ResultSet selectCol(String table, String col) throws JSchException, SQLException {
-        // Conexión SSH a la MV remota
-        Session session = jsch.getSession(sshUser, sshHost, sshPort);
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
+    default ResultSet selectCol(String table, String col, String where) {
+        Session session = null;
+        ResultSet rs = null;
 
-        // Abrir un túnel SSH al puerto MySQL en la máquina remota
-        session.setPortForwardingL(localPort, remoteHost, remotePort);
+        try {
+            // Conexión SSH a la MV remota
+            session = jsch.getSession(sshUser, sshHost, sshPort);
+            session.setPassword(sshPassword);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
 
-        // Conexión a MySQL a través del túnel SSH
-        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
-        String dbUser = "root";
-        String dbPassword = "root";
-        Connection conn;
-        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+            // Abrir un túnel SSH al puerto MySQL en la máquina remota
+            session.setPortForwardingL(localPort, remoteHost, remotePort);
 
-        String select = "SELECT " + col + " FROM " + table +";";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(select);
+            // Conexión a MySQL a través del túnel SSH
+            String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+            String dbUser = "root";
+            String dbPassword = "root";
+            Connection conn;
+            conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-        // Se cierra la conexión
-        session.disconnect();
+            String select = "SELECT " + col + " FROM " + table + " " + where + ";";
+            Statement stmt = conn.createStatement();
+            rs = stmt.executeQuery(select);
 
-        return rs;
-    }
+            // Se cierra la conexión
+            session.disconnect();
 
-    default ResultSet selectColWhere(String table, String col, String where) throws JSchException, SQLException {
-        // Conexión SSH a la MV remota
-        Session session = jsch.getSession(sshUser, sshHost, sshPort);
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
-
-        // Abrir un túnel SSH al puerto MySQL en la máquina remota
-        session.setPortForwardingL(localPort, remoteHost, remotePort);
-
-        // Conexión a MySQL a través del túnel SSH
-        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
-        String dbUser = "root";
-        String dbPassword = "root";
-        Connection conn;
-        conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
-        String select = "SELECT " + col + " FROM " + table + " " + where + ";";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(select);
-
-        // Se cierra la conexión
-        session.disconnect();
+        } catch (JSchException | SQLException ex) {
+            new CustomJOptionPane("ERROR - " + ex.getMessage());
+            assert session != null;
+            session.disconnect();
+        }
 
         return rs;
     }
 
     // Método para insertar en la base de datos
-    default int insert(String table, String data, String safeInsertClause) throws JSchException, SQLException {
-        // Conexión SSH a la MV remota
-        Session session = jsch.getSession(sshUser, sshHost, sshPort);
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
+    default int insert(String table, String data) {
+        Session session = null;
 
-        // Túnel SSH al puerto MySQL en la máquina remota
-        session.setPortForwardingL(localPort, remoteHost, remotePort);
-        Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        try {
+            // Conexión SSH a la MV remota
+            session = jsch.getSession(sshUser, sshHost, sshPort);
+            session.setPassword(sshPassword);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
 
-        // Crear la sentencia
-        Statement stmt = conn.createStatement();
+            // Túnel SSH al puerto MySQL en la máquina remota
+            session.setPortForwardingL(localPort, remoteHost, remotePort);
+            Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-        // Comprobación para no insertar si ya existe una fila con la misma key
-        String checkClause = "SELECT * FROM "  + table + " " + safeInsertClause;
-        ResultSet results = stmt.executeQuery(checkClause);
+            // Crear la sentencia
+            Statement stmt = conn.createStatement();
 
-        if (results.next()) {
-            new CustomJOptionPane("ERROR - Ya existe un registro en " + table + " con esa clave o se viola una restricción");
+            // Consulta para añadir nuevo registro
+            String insertClause = "INSERT INTO " + table + " VALUES(" + data + ")";
+            stmt.executeUpdate(insertClause);
+
+            // Se cierra la conexión
             stmt.close();
             conn.close();
             session.disconnect();
 
+            return 0;
+
+        } catch (JSchException | SQLException ex) {
+            new CustomJOptionPane("ERROR - " + ex.getMessage());
+            assert session != null;
+            session.disconnect();
+
             return 1;
+
         }
-
-        // Consulta para añadir nuevo registro
-        String insertClause = "INSERT INTO " + table + " VALUES(" + data + ")";
-        int rowsAffected = stmt.executeUpdate(insertClause);
-
-        if (!(rowsAffected > 0)) {
-            new CustomJOptionPane("No se ha podido insertar en la tabla");
-        }
-
-        // Se cierra la conexión
-        stmt.close();
-        conn.close();
-        session.disconnect();
-
-        return 0;
     }
 
-    default int insertSelectedCols(String table, String data, String selection, String safeInsertClause) throws JSchException, SQLException {
-        // Conexión SSH a la MV remota
-        Session session = jsch.getSession(sshUser, sshHost, sshPort);
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
+    default int insertSelectedCols(String table, String data, String selection) {
+        Session session = null;
 
-        // Túnel SSH al puerto MySQL en la máquina remota
-        session.setPortForwardingL(localPort, remoteHost, remotePort);
-        Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        try {
+            // Conexión SSH a la MV remota
+            session = jsch.getSession(sshUser, sshHost, sshPort);
+            session.setPassword(sshPassword);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
 
-        // Crear la sentencia
-        Statement stmt = conn.createStatement();
+            // Túnel SSH al puerto MySQL en la máquina remota
+            session.setPortForwardingL(localPort, remoteHost, remotePort);
+            Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-        // Comprobación para no insertar si ya existe una fila con la misma key
-        String checkClause = "SELECT * FROM "  + table + " " + safeInsertClause;
-        ResultSet results = stmt.executeQuery(checkClause);
+            // Crear la sentencia
+            Statement stmt = conn.createStatement();
 
-        if (results.next()) {
-            new CustomJOptionPane("ERROR - Ya existe un registro en " + table + " con esa clave o se viola una restricción de clave única");
+            // Consulta para añadir nuevo registro
+            String insertClause = "INSERT INTO " + table + selection + " VALUES(" + data + ");";
+            stmt.executeUpdate(insertClause);
+
+            // Se cierra la conexión
             stmt.close();
             conn.close();
             session.disconnect();
 
+            return 0;
+
+        } catch (JSchException | SQLException ex) {
+            new CustomJOptionPane("ERROR - " + ex.getMessage());
+            assert session != null;
+            session.disconnect();
+
             return 1;
+
         }
-
-        // Consulta para añadir nuevo registro
-        String insertClause = "INSERT INTO " + table + selection + " VALUES(" + data + ");";
-        int rowsAffected = stmt.executeUpdate(insertClause);
-
-        if (!(rowsAffected > 0)) {
-            new CustomJOptionPane("No se ha podido insertar en la tabla");
-        }
-
-        // Se cierra la conexión
-        stmt.close();
-        conn.close();
-        session.disconnect();
-
-        return 0;
     }
 
     // Método para actualizar valor en la tabla
-    default int update(String table, String setClause, String whereClause, String safeInsertClause) throws JSchException, SQLException {
-        // Conexión SSH a la MV remota
-        Session session = jsch.getSession(sshUser, sshHost, sshPort);
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
+    default int update(String table, String setClause, String whereClause) {
+        Session session = null;
 
-        // Túnel SSH al puerto MySQL en la máquina remota
-        session.setPortForwardingL(localPort, remoteHost, remotePort);
-        Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        try {
+            // Conexión SSH a la MV remota
+            session = jsch.getSession(sshUser, sshHost, sshPort);
+            session.setPassword(sshPassword);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
 
-        // Crear la sentencia
-        Statement stmt = conn.createStatement();
+            // Túnel SSH al puerto MySQL en la máquina remota
+            session.setPortForwardingL(localPort, remoteHost, remotePort);
+            Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-        /**
-        // Comprobación para no insertar si ya existe una fila con la misma key
-        String checkClause = "SELECT * FROM "  + table + " " + safeInsertClause;
-        ResultSet results = stmt.executeQuery(checkClause);
+            // Crear la sentencia
+            Statement stmt = conn.createStatement();
 
-        if (results.next()) {
-            new CustomJOptionPane("ERROR - Ya existe un registro en " + table + " con esa clave o se viola una restricción");
+            // Consulta para añadir
+            String updateClause = "UPDATE " + table + " " + setClause + " " + whereClause;
+            stmt.executeUpdate(updateClause);
+
+            // Se cierra la conexión
             stmt.close();
             conn.close();
             session.disconnect();
 
-            return 1;
-        }
-         */
+            return 0;
 
-        // Consulta para añadir
-        String updateClause = "UPDATE " + table + " " + setClause + " " + whereClause;
-        int rowsAffected = stmt.executeUpdate(updateClause);
-
-        if (!(rowsAffected > 0)) {
-            new CustomJOptionPane("No se ha podido actualizar la tabla");
-
-            stmt.close();
-            conn.close();
+        } catch (JSchException | SQLException ex) {
+            new CustomJOptionPane("ERROR - " + ex.getMessage());
+            assert session != null;
             session.disconnect();
 
             return 1;
+
         }
-
-        // Se cierra la conexión
-        stmt.close();
-        conn.close();
-        session.disconnect();
-
-        return 0;
     }
 
     // Método para eliminar fila de la tabla
-    default int delete(String table, String whereClause) throws JSchException, SQLException {
-        // Conexión SSH a la MV remota
-        Session session = jsch.getSession(sshUser, sshHost, sshPort);
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
-
-        // Túnel SSH al puerto MySQL en la máquina remota
-        session.setPortForwardingL(localPort, remoteHost, remotePort);
-        Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
-        // Crear la sentencia
-        Statement stmt = conn.createStatement();
-
-        // Consulta para añadir la nueva olimpiada
-        String deleteClause = "DELETE FROM " + table + " " + whereClause;
+    default int delete(String table, String whereClause) {
+        Session session = null;
 
         try {
+            // Conexión SSH a la MV remota
+            session = jsch.getSession(sshUser, sshHost, sshPort);
+            session.setPassword(sshPassword);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
+
+            // Túnel SSH al puerto MySQL en la máquina remota
+            session.setPortForwardingL(localPort, remoteHost, remotePort);
+            Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+            // Crear la sentencia
+            Statement stmt = conn.createStatement();
+
+            // Consulta para añadir la nueva olimpiada
+            String deleteClause = "DELETE FROM " + table + " " + whereClause;
             stmt.executeUpdate(deleteClause);
 
-        } catch (SQLException e) {
-            new CustomJOptionPane("No se puede eliminar el registro porque existen referencias a él en otras tablas");
+            // Se cierra la conexión
             stmt.close();
             conn.close();
             session.disconnect();
+
+            return 0;
+
+        } catch (SQLException ex) {
+            new CustomJOptionPane("ERROR - No se ha podido eliminar. Hay una referencia a este objeto en otra tabla");
+            session.disconnect();
+
             return 1;
 
+        } catch (JSchException ex) {
+            new CustomJOptionPane("ERROR - " + ex.getMessage());
+            assert session != null;
+            session.disconnect();
+
+            return 1;
         }
-
-        // Se cierra la conexión
-        stmt.close();
-        conn.close();
-        session.disconnect();
-
-        return 0;
     }
 }

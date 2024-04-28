@@ -130,12 +130,12 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
 
         // Esto es para insertar los botones en la última columna de la tabla
         // Columna de editar
-        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new VentanaConsultaAsignacionEjOlimp.ButtonPanelRenderer(2));
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new ButtonPanelRenderer(2));
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMinWidth(30);
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMaxWidth(30);
 
         // Columna de eliminar
-        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new VentanaConsultaAsignacionEjOlimp.ButtonPanelRenderer(1));
+        tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new ButtonPanelRenderer(1));
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMinWidth(30);
         tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMaxWidth(30);
 
@@ -172,20 +172,20 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
                 dispose();
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
 
             }
+
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
                 if (administrador.deleteAssignationEjOlimp(ejercicio, olimpiada) == 0) {
-                    new CustomJOptionPane("Se ha eliminado la asignación");
                     new VentanaConsultaAsignacionEjOlimp(administrador);
                     dispose();
 
                 }
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
             }
         }
     }
@@ -211,9 +211,8 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
     }
 
     // Esto es para añadir los botones a la última columna de la tabla
-    class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
+    static class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
         private Image image;
-        private ImageIcon buttonIcon;
 
         public ButtonPanelRenderer(int columna) {
             setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -225,7 +224,7 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
                 }
             }
 
-            buttonIcon = new ImageIcon(image);
+            ImageIcon buttonIcon = new ImageIcon(image);
             JButton actionButton = new JButton(buttonIcon);
             actionButton.setPreferredSize(new Dimension(25, 25));
 

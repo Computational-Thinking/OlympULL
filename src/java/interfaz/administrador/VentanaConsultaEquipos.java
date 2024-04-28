@@ -172,7 +172,7 @@ public class VentanaConsultaEquipos extends JFrame implements Bordes, Fuentes, I
                 new VentanaModificarEquipo(administrador, codigo, name, school, itinerario);
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
 
             }
             dispose();
@@ -187,14 +187,13 @@ public class VentanaConsultaEquipos extends JFrame implements Bordes, Fuentes, I
                 dispose();
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
 
             }
 
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
                 if (administrador.deleteTeam(codigo) == 0) {
-                    new CustomJOptionPane("Se ha eliminado el equipo");
                     new VentanaConsultaEquipos(administrador);
                     dispose();
                 }
@@ -227,10 +226,8 @@ public class VentanaConsultaEquipos extends JFrame implements Bordes, Fuentes, I
     }
 
     // Esto es para añadir los botones a la última columna de la tabla (no necesario y creo que ni siquiera hace falta hacerlo tan complicado)
-    class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
-        private JButton actionButton;
+    static class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
         private Image image;
-        private ImageIcon buttonIcon;
 
         public ButtonPanelRenderer(int columna) {
             setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -243,8 +240,8 @@ public class VentanaConsultaEquipos extends JFrame implements Bordes, Fuentes, I
                 }
             }
 
-            buttonIcon = new ImageIcon(image);
-            actionButton = new JButton(buttonIcon);
+            ImageIcon buttonIcon = new ImageIcon(image);
+            JButton actionButton = new JButton(buttonIcon);
             actionButton.setPreferredSize(new Dimension(25, 25));
 
             // Se añaden estos botones al modelo de tabla

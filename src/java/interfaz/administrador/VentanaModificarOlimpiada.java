@@ -120,53 +120,47 @@ public class VentanaModificarOlimpiada extends JFrame implements Bordes, Fuentes
         add(modifyButtonPanel, BorderLayout.SOUTH);
 
         // Botón de volver
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    VentanaConsultaOlimpiadas ventana = new VentanaConsultaOlimpiadas(administrador);
-                } catch (JSchException ex) {
-                    throw new RuntimeException(ex);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-                dispose();
+        goBackButton.addActionListener(e -> {
+            try {
+                new VentanaConsultaOlimpiadas(administrador);
+
+            } catch (JSchException | SQLException ex) {
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
+
             }
+
+            dispose();
         });
 
         // Botón de modificar
-        modifyOlympButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (olympCodeField.getText().matches("^\\s*$")
-                        || olympNameField.getText().matches("^\\s*$")
-                        || olympYearField.getText().matches("^\\s*$")) {
-                    new CustomJOptionPane("Los campos Código, Título y Año son obligatorios");
+        modifyOlympButton.addActionListener(e -> {
+            if (olympCodeField.getText().matches("^\\s*$")
+                    || olympNameField.getText().matches("^\\s*$")
+                    || olympYearField.getText().matches("^\\s*$")) {
+                new CustomJOptionPane("Los campos Código, Título y Año son obligatorios");
 
-                } else {
-                    String code = olympCodeField.getText();
-                    String name = olympNameField.getText();
-                    String desc = olympDescField.getText();
-                    String year = olympYearField.getText();
+            } else {
+                String code = olympCodeField.getText();
+                String name = olympNameField.getText();
+                String desc = olympDescField.getText();
+                String year1 = olympYearField.getText();
 
-                    if (year.matches("[0-9]*") && Integer.parseInt(year) > 2000 && Integer.parseInt(year) < 3000) {
-                        try {
-                            if (administrador.modifyOlympiad(oldCode, code, name, desc, Integer.parseInt(year)) == 0) {
-                                new CustomJOptionPane("Se ha modificado la olimpiada");
-                                new VentanaConsultaOlimpiadas(administrador);
-                                dispose();
-
-                            }
-
-                        } catch (JSchException | SQLException ex) {
-                            throw new RuntimeException(ex);
+                if (year1.matches("[0-9]*") && Integer.parseInt(year1) > 2000 && Integer.parseInt(year1) < 3000) {
+                    try {
+                        if (administrador.modifyOlympiad(oldCode, code, name, desc, Integer.parseInt(year1)) == 0) {
+                            new VentanaConsultaOlimpiadas(administrador);
+                            dispose();
 
                         }
 
-                    } else {
-                        new CustomJOptionPane("El campo Año debe ser un número entero y tener un valor válido");
+                    } catch (JSchException | SQLException ex) {
+                        new CustomJOptionPane("ERROR - " + ex.getMessage());
 
                     }
+
+                } else {
+                    new CustomJOptionPane("El campo Año debe ser un número entero y tener un valor válido");
+
                 }
             }
         });

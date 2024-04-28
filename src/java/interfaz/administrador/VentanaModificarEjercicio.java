@@ -134,7 +134,7 @@ public class VentanaModificarEjercicio extends JFrame implements Bordes, Fuentes
         exerRubricaField = new JComboBox<>();
         exerRubricaField.setFont(fuenteCampoTexto);
 
-        ResultSet rubricCodes = administrador.selectCol("T_RUBRICAS", "CODIGO");
+        ResultSet rubricCodes = administrador.selectCol("T_RUBRICAS", "CODIGO", "");
 
         // Se añaden los registros al combo box
         while (rubricCodes.next()) {
@@ -179,16 +179,13 @@ public class VentanaModificarEjercicio extends JFrame implements Bordes, Fuentes
         add(createButtonPanel, BorderLayout.SOUTH);
 
         // Botón de volver
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new VentanaConsultaEjercicios(administrador);
-                } catch (JSchException | SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-                dispose();
+        goBackButton.addActionListener(e -> {
+            try {
+                new VentanaConsultaEjercicios(administrador);
+            } catch (JSchException | SQLException ex) {
+                throw new RuntimeException(ex);
             }
+            dispose();
         });
 
         // 
@@ -210,14 +207,13 @@ public class VentanaModificarEjercicio extends JFrame implements Bordes, Fuentes
 
                     try {
                         if (administrador.modifyExercise(oldCode, code, name, desc, concept, resources, type, rubric) == 0) {
-                            new CustomJOptionPane("Se ha modificado el ejercicio");
                             new VentanaConsultaEjercicios(administrador);
                             dispose();
 
                         }
 
                     } catch (JSchException | SQLException ex) {
-                        new CustomJOptionPane("ERROR");
+                        new CustomJOptionPane("ERROR - " + ex.getMessage());
                     }
                 }
             }

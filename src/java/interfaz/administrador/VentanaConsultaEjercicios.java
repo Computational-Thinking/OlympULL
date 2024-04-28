@@ -180,7 +180,7 @@ public class VentanaConsultaEjercicios extends JFrame implements Bordes, Fuentes
                 new VentanaModificarEjercicio(administrador, codigo, titulo, descripcion, concepto, recursos, tipo);
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
 
             }
 
@@ -196,20 +196,19 @@ public class VentanaConsultaEjercicios extends JFrame implements Bordes, Fuentes
                 }
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
 
             }
 
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
                 if (administrador.deleteEjercicio((String) modeloTabla.getValueAt(row, 0)) == 0) {
-                    new CustomJOptionPane("Se ha eliminado el ejercicio");
-                    new VentanaConsultaOlimpiadas(administrador);
+                    new VentanaConsultaEjercicios(administrador);
                     dispose();
                 }
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
 
             }
         }
@@ -236,10 +235,8 @@ public class VentanaConsultaEjercicios extends JFrame implements Bordes, Fuentes
     }
 
     // Esto es para añadir los botones a la última columna de la tabla (no necesario y creo que ni siquiera hace falta hacerlo tan complicado)
-    class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
-        private JButton actionButton;
+    static class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
         private Image image;
-        private ImageIcon buttonIcon;
 
         public ButtonPanelRenderer(int columna) {
             setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -252,8 +249,8 @@ public class VentanaConsultaEjercicios extends JFrame implements Bordes, Fuentes
                 }
             }
 
-            buttonIcon = new ImageIcon(image);
-            actionButton = new JButton(buttonIcon);
+            ImageIcon buttonIcon = new ImageIcon(image);
+            JButton actionButton = new JButton(buttonIcon);
             actionButton.setPreferredSize(new Dimension(25, 25));
 
             // Se añaden estos botones al modelo de tabla

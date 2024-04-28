@@ -1,8 +1,6 @@
 package interfaz.administrador;
 
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import interfaz.Bordes;
 import interfaz.CustomJOptionPane;
 import interfaz.Fuentes;
@@ -10,7 +8,6 @@ import interfaz.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -20,7 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.*;
-import java.util.Arrays;
 
 public class VentanaConsultaRubricas extends JFrame implements Bordes, Fuentes, Iconos, MouseListener {
     // Panel superior (título y botón de volver)
@@ -203,13 +199,12 @@ public class VentanaConsultaRubricas extends JFrame implements Bordes, Fuentes, 
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
                 if (administrador.deleteRubric(codigo) == 0) {
-                    new CustomJOptionPane("Se ha eliminado la rúbrica");
                     new VentanaConsultaRubricas(administrador);
                     dispose();
                 }
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
             }
         }
     }
@@ -235,31 +230,23 @@ public class VentanaConsultaRubricas extends JFrame implements Bordes, Fuentes, 
     }
 
     // Esto es para añadir los botones a la última columna de la tabla (no necesario y creo que ni siquiera hace falta hacerlo tan complicado)
-    class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
-        private JButton actionButton;
+    static class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
         private Image image;
-        private ImageIcon buttonIcon;
 
         public ButtonPanelRenderer(int columna) {
             setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-            switch(columna) {
-                case 3:
-                    image = new ImageIcon("images/edit icon.png").getImage();
-                    break;
-                case 2:
-                    image = new ImageIcon("images/duplicate icon.png").getImage();
-                    break;
-                case 1:
-                    image = new ImageIcon("images/delete icon.png").getImage();
-                    break;
-                default:
-                    break;
+            switch (columna) {
+                case 3 -> image = new ImageIcon("images/edit icon.png").getImage();
+                case 2 -> image = new ImageIcon("images/duplicate icon.png").getImage();
+                case 1 -> image = new ImageIcon("images/delete icon.png").getImage();
+                default -> {
+                }
             }
 
             image = image.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-            buttonIcon = new ImageIcon(image);
-            actionButton = new JButton(buttonIcon);
+            ImageIcon buttonIcon = new ImageIcon(image);
+            JButton actionButton = new JButton(buttonIcon);
             actionButton.setPreferredSize(new Dimension(25, 25));
 
             // Se añaden estos botones al modelo de tabla
