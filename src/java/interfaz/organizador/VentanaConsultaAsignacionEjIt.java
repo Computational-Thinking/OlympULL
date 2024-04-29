@@ -22,6 +22,7 @@ import java.awt.event.MouseListener;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class VentanaConsultaAsignacionEjIt extends JFrame implements Bordes, Fuentes, Iconos, MouseListener {
     // Paneles
@@ -101,7 +102,14 @@ public class VentanaConsultaAsignacionEjIt extends JFrame implements Bordes, Fue
             for (int i = 1; i <= nCols; ++i) {
                 fila [i - 1] = tableContent.getObject(i);
             }
-            modeloTabla.addRow(fila);
+
+            for (int j = 0; j < organizador.getItinerarios().size(); ++j) {
+                System.out.println(organizador.getItinerarios().get(j));
+                if (Objects.equals(organizador.getItinerarios().get(j), fila[2].toString())) {
+                    modeloTabla.addRow(fila);
+
+                }
+            }
         }
 
         tableContent.close();
@@ -145,12 +153,9 @@ public class VentanaConsultaAsignacionEjIt extends JFrame implements Bordes, Fue
         add(tablaScrollPane, BorderLayout.CENTER);
 
         // Acción del botón de volver
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VentanaOrganizador(organizador);
-                dispose();
-            }
+        goBackButton.addActionListener(e -> {
+            new VentanaOrganizador(organizador);
+            dispose();
         });
 
         setVisible(true);

@@ -21,12 +21,12 @@ public class VentanaModificarAsignacionEjIt extends JFrame implements Bordes, Fu
     JLabel introduceData;
     JLabel exerCode;
     JLabel olympCode;
-    JLabel oldItCode;
+    JLabel itCode;
+    JLabel olympCodeField;
 
     // Combo boxes
     JComboBox<String> exerCodeField;
-    JComboBox<String> olympCodeField;
-    JComboBox<String> oldItCodeField;
+    JComboBox<String> itCodeField;
 
     // Paneles
     JPanel inputPanel;
@@ -61,17 +61,17 @@ public class VentanaModificarAsignacionEjIt extends JFrame implements Bordes, Fu
         olympCode = new JLabel("Olimpiada (*)");
         olympCode.setFont(fuenteBotonesEtiquetas);
 
-        oldItCode = new JLabel("Itinerario (*)");
-        oldItCode.setFont(fuenteBotonesEtiquetas);
+        itCode = new JLabel("Itinerario (*)");
+        itCode.setFont(fuenteBotonesEtiquetas);
 
         exerCodeField = new JComboBox<String>();
         exerCodeField.setFont(fuenteCampoTexto);
 
-        olympCodeField = new JComboBox<>();
+        olympCodeField = new JLabel();
         olympCodeField.setFont(fuenteCampoTexto);
 
-        oldItCodeField = new JComboBox<>();
-        oldItCodeField.setFont(fuenteCampoTexto);
+        itCodeField = new JComboBox<>();
+        itCodeField.setFont(fuenteCampoTexto);
 
         exerCodeField = new JComboBox<>();
         exerCodeField.setFont(fuenteCampoTexto);
@@ -86,29 +86,20 @@ public class VentanaModificarAsignacionEjIt extends JFrame implements Bordes, Fu
 
         exerCodeField.setSelectedItem(oldEx);
 
-        olympCodeField = new JComboBox<>();
+        olympCodeField = new JLabel();
         olympCodeField.setFont(fuenteCampoTexto);
+        olympCodeField.setText(oldOlymp);
 
-        codes = organizador.selectCol("T_OLIMPIADAS", "CODIGO", "");
-
-        // Iterar sobre el resultado y añadir los registros al ArrayList
-        while (codes.next()) {
-            String registro = codes.getString("CODIGO");
-            olympCodeField.addItem(registro);
-        }
-
-        olympCodeField.setSelectedItem(oldOlymp);
-
-        oldItCodeField = new JComboBox<>();
-        oldItCodeField.setFont(fuenteCampoTexto);
+        itCodeField = new JComboBox<>();
+        itCodeField.setFont(fuenteCampoTexto);
 
         for (int i = 0; i < organizador.getItinerarios().size(); ++i) {
-            oldItCodeField.addItem(organizador.getItinerarios().get(i));
+            itCodeField.addItem(organizador.getItinerarios().get(i));
         }
 
         codes.close();
 
-        assignExercise = new JButton("Modificar asignación");
+        assignExercise = new JButton("Modificar");
         assignExercise.setPreferredSize(new Dimension(175, 30));
         assignExercise.setFont(fuenteBotonesEtiquetas);
 
@@ -122,8 +113,8 @@ public class VentanaModificarAsignacionEjIt extends JFrame implements Bordes, Fu
 
         inputPanel.add(exerCode);
         inputPanel.add(exerCodeField);
-        inputPanel.add(oldItCode);
-        inputPanel.add(oldItCodeField);
+        inputPanel.add(itCode);
+        inputPanel.add(itCodeField);
         inputPanel.add(olympCode);
         inputPanel.add(olympCodeField);
 
@@ -142,16 +133,15 @@ public class VentanaModificarAsignacionEjIt extends JFrame implements Bordes, Fu
             }
         });
 
-        olympCodeField.addActionListener(e -> {
-            oldItCodeField.removeAllItems();
+        itCodeField.addActionListener(e -> {
 
             try {
-                String where1 = "WHERE OLIMPIADA='" + olympCodeField.getSelectedItem() + "'";
-                ResultSet codes1 = organizador.selectCol("T_ITINERARIOS", "CODIGO", where1);
+                String where1 = "WHERE CODIGO='" + itCodeField.getSelectedItem() + "'";
+                ResultSet codes1 = organizador.selectCol("T_ITINERARIOS", "OLIMPIADA", where1);
 
                 while (codes1.next()) {
-                    String registro = codes1.getString("CODIGO");
-                    oldItCodeField.addItem(registro);
+                    String registro = codes1.getString("OLIMPIADA");
+                    itCodeField.addItem(registro);
 
                 }
 
@@ -164,13 +154,13 @@ public class VentanaModificarAsignacionEjIt extends JFrame implements Bordes, Fu
         });
 
         assignExercise.addActionListener(e -> {
-            if (oldItCodeField.getItemCount() == 0) {
+            if (itCodeField.getItemCount() == 0) {
                 new CustomJOptionPane("ERROR - Debe seleccionar un oldIt");
 
             } else {
                 String exercise = (String) exerCodeField.getSelectedItem();
-                String olympiad = (String) olympCodeField.getSelectedItem();
-                String itinerary = (String) oldItCodeField.getSelectedItem();
+                String olympiad = olympCodeField.getText();
+                String itinerary = (String) itCodeField.getSelectedItem();
 
                 try {
                     if (organizador.modifyAssignationExIt(oldEx, oldOlymp, oldIt, exercise, olympiad, itinerary) == 0) {
