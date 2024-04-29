@@ -164,8 +164,6 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
         String olimpiada = (String) modeloTabla.getValueAt(row, 1);
         String itinerario = (String) modeloTabla.getValueAt(row, 2);
 
-        System.out.println(ejercicio + " - " + olimpiada + " - " + itinerario);
-
         if (columna == tabla.getColumnCount() - 2) {
             try {
                 new VentanaModificarAsignacionEjOlimp(administrador, ejercicio, olimpiada, itinerario);

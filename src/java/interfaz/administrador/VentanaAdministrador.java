@@ -6,8 +6,6 @@ import usuarios.Administrador;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Iconos {
@@ -359,6 +357,17 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
         asignarItinerarioAOrganizador.addActionListener(e -> {
             try {
                 new VentanaNuevaAsignacionItOrg(administrador);
+                dispose();
+
+            } catch (JSchException | SQLException ex) {
+                new CustomJOptionPane("ERROR - No se ha podido recuperar la información de la base de datos");
+
+            }
+        });
+
+        consultarAsignacionItinerarioOrganizador.addActionListener(e -> {
+            try {
+                new VentanaConsultaAsignacionItOrg(administrador);
                 dispose();
 
             } catch (JSchException | SQLException ex) {

@@ -339,4 +339,29 @@ public class Administrador extends Usuario implements OperacionesBD {
             return 1;
         }
     }
+
+    public int modifyAssignationItOrg(String oldOrg, String oldIt, String org, String it) {
+        String table = "T_ORGANIZADORES";
+        String setClause = "SET ORGANIZADOR='" + org + "', ITINERARIO='" + it + "'";
+        String whereClause = "WHERE ORGANIZADOR='" + oldOrg + "' AND ITINERARIO='" + oldIt + "'";
+
+        if (update(table, setClause, whereClause) == 0) {
+            new CustomJOptionPane("Se ha modificado la asignación");
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    public int deleteAssignationItOrg(String org, String it) {
+        String table = "T_ORGANIZADORES";
+        String whereClause = "WHERE ORGANIZADOR='" + org +  "' AND ITINERARIO='" + it + "';";
+
+        if (delete(table, whereClause) == 0) {
+            new CustomJOptionPane("Se ha eliminado la asignación");
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }
