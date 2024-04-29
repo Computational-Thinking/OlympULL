@@ -8,6 +8,7 @@ import interfaz.monitor.VentanaMonitor;
 import interfaz.organizador.VentanaOrganizador;
 import usuarios.Administrador;
 import usuarios.Monitor;
+import usuarios.Organizador;
 import usuarios.Usuario;
 
 import javax.swing.*;
@@ -140,7 +141,19 @@ public class VentanaInicio extends JFrame implements Bordes, Fuentes, Iconos, Op
                                 dispose();
 
                             } else if (users.getString("TIPO").equals("ORGANIZADOR")) {
-                                new VentanaOrganizador();
+                                String name = users.getString("NOMBRE");
+                                ArrayList<String> itineraries = new ArrayList<>();
+
+                                whereClause = "WHERE NOMBRE='" + name + "';";
+                                users = selectCol("T_ORGANIZADORES", "ITINERARIO", whereClause);
+
+                                while (users.next()) {
+                                    itineraries.add(users.getString("ITINERARIO"));
+
+                                }
+
+                                Organizador usuario = new Organizador(name, password, itineraries);
+                                new VentanaOrganizador(usuario);
                                 dispose();
                             }
 

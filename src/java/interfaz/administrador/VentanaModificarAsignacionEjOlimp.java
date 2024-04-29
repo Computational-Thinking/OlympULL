@@ -9,8 +9,6 @@ import usuarios.Administrador;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes, Fuentes, Iconos {
@@ -175,27 +173,24 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
             }
         });
 
-        assignExercise.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (itinerarioCodeField.getItemCount() == 0) {
-                    new CustomJOptionPane("ERROR - Debe seleccionar un itinerario");
+        assignExercise.addActionListener(e -> {
+            if (itinerarioCodeField.getItemCount() == 0) {
+                new CustomJOptionPane("ERROR - Debe seleccionar un itinerario");
 
-                } else {
-                    String exercise = (String) exerCodeField.getSelectedItem();
-                    String olympiad = (String) olympCodeField.getSelectedItem();
-                    String itinerary = (String) itinerarioCodeField.getSelectedItem();
+            } else {
+                String exercise = (String) exerCodeField.getSelectedItem();
+                String olympiad = (String) olympCodeField.getSelectedItem();
+                String itinerary = (String) itinerarioCodeField.getSelectedItem();
 
-                    try {
-                        if (administrador.modifyAssignationExOlymp(oldExercise, oldOlympiad, oldItinerario, exercise, olympiad, itinerary) == 0) {
-                            new VentanaConsultaAsignacionEjOlimp(administrador);
-                            dispose();
-                        }
-
-                    } catch (JSchException | SQLException ex) {
-                        new CustomJOptionPane("ERROR - " + ex.getMessage());
-
+                try {
+                    if (administrador.modifyAssignationExOlymp(oldExercise, oldOlympiad, oldItinerario, exercise, olympiad, itinerary) == 0) {
+                        new VentanaConsultaAsignacionEjOlimp(administrador);
+                        dispose();
                     }
+
+                } catch (JSchException | SQLException ex) {
+                    new CustomJOptionPane("ERROR - " + ex.getMessage());
+
                 }
             }
         });

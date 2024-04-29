@@ -126,7 +126,7 @@ public class VentanaModificarAsignacionItOrg extends JFrame implements Bordes, F
         inputPanel.add(organizerLabel);
         inputPanel.add(organizerComboBox);
 
-        assignButton = new JButton("Asignar");
+        assignButton = new JButton("Modificar");
         assignButton.setFont(fuenteBotonesEtiquetas);
 
         createAssignationPanel = new JPanel();
