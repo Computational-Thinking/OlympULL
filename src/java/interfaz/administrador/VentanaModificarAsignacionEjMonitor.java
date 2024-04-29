@@ -41,7 +41,7 @@ public class VentanaModificarAsignacionEjMonitor extends JFrame implements Borde
         // Configuración de la ventana
         setSize(500, 335);
         getContentPane().setLayout(new BorderLayout());
-        setTitle("Asignar ejercicio a monitor");
+        setTitle("Modificar asignación de ejercicio a monitor");
         setIconImage(iconoVentana);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -248,12 +248,16 @@ public class VentanaModificarAsignacionEjMonitor extends JFrame implements Borde
             String monitor = (String) monitorComboBox.getSelectedItem();
             String exerCode = (String) exerField.getSelectedItem();
             String olympCode = (String) olympField.getSelectedItem();
+            String itCode = itineraryField.getText();
 
-            if (administrador.modifyAssignationExUser(monitor, exerCode, olympCode) == 0) {
-                monitorComboBox.setSelectedItem(monitorComboBox.getItemAt(0));
-                exerField.setSelectedItem(exerField.getItemAt(0));
-                tituloEjercicioField.setText("");
-                itineraryField.setText("");
+            if (administrador.modifyAssignationExUser(name, exer, olymp, monitor, exerCode, olympCode, itCode) == 0) {
+                try {
+                    new VentanaConsultaAsignacionEjMonitor(administrador);
+                    dispose();
+
+                } catch (JSchException | SQLException ex) {
+                    new CustomJOptionPane("ERROR - " + ex.getMessage());
+                }
 
             }
         });

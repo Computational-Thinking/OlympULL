@@ -172,7 +172,7 @@ public class VentanaConsultaAsignacionEjMonitor extends JFrame implements Bordes
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
                 if (administrador.deleteAssignationExUser(name, exercise, olympiad) == 0) {
-                    new VentanaConsultaEjercicios(administrador);
+                    new VentanaConsultaAsignacionEjMonitor(administrador);
                     dispose();
                 }
 

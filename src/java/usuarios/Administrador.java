@@ -306,7 +306,7 @@ public class Administrador extends Usuario implements OperacionesBD {
     public int modifyAssignationExUser(String oldMoni, String oldEx, String oldOlymp, String monitor, String ex, String olymp, String it) {
         String table = "T_MONITORES";
         String setClause = "SET NOMBRE='" + monitor + "', EJERCICIO='" + ex + "', OLIMPIADA='" + olymp + "', ITINERARIO='" + it + "'";
-        String whereClause = "WHERE MONITOR='" + oldMoni + "' AND EJERCICIO='" + oldEx + "' AND OLIMPIADA='" + oldOlymp + "'";
+        String whereClause = "WHERE NOMBRE='" + oldMoni + "' AND EJERCICIO='" + oldEx + "' AND OLIMPIADA='" + oldOlymp + "'";
 
         if (update(table, setClause, whereClause) == 0) {
             new CustomJOptionPane("Se ha modificado la asignación");
