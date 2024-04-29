@@ -144,7 +144,7 @@ public class VentanaInicio extends JFrame implements Bordes, Fuentes, Iconos, Op
                                 String name = users.getString("NOMBRE");
                                 ArrayList<String> itineraries = new ArrayList<>();
 
-                                whereClause = "WHERE NOMBRE='" + name + "';";
+                                whereClause = "WHERE ORGANIZADOR='" + name + "';";
                                 users = selectCol("T_ORGANIZADORES", "ITINERARIO", whereClause);
 
                                 while (users.next()) {
