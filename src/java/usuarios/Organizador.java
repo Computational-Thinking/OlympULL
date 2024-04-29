@@ -19,7 +19,7 @@ public class Organizador extends Usuario implements OperacionesBD {
     }
 
     public int createAssignationExIt(String ex, String olymp, String it) {
-        String table = "T_EJERCICIOS_OLIMPIADA_EJERCICIO";
+        String table = "T_EJERCICIOS_OLIMPIADA_ITINERARIO";
         String data = "'" + ex + "', '" + olymp + "', '" + it + "'";
 
         if (insert(table, data) == 0) {
