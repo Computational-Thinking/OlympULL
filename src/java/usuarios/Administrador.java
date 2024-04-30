@@ -1,19 +1,16 @@
 package usuarios;
 
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import interfaz.CustomJOptionPane;
 import interfaz.OperacionesBD;
 
-import javax.swing.*;
 import java.sql.*;
 
 public class Administrador extends Usuario implements OperacionesBD {
     public Administrador(String nombre, String password) {
         this.userName = nombre;
         this.password = password;
-        this.userType = "admin";
+        this.userType = "administrador";
     }
 
     // Operaciones con olimpiadas

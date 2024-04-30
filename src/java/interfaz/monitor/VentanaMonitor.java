@@ -1,6 +1,5 @@
 package interfaz.monitor;
 
-import com.jcraft.jsch.JSchException;
 import interfaz.*;
 import usuarios.Monitor;
 
@@ -113,6 +112,11 @@ public class VentanaMonitor extends JFrame implements Bordes, Fuentes, Iconos {
         checkPunctuations.addActionListener(e -> {
                 new VentanaSeleccionarEjercicio(monitor);
 
+            dispose();
+        });
+
+        cambioContrasea.addActionListener(e -> {
+            new VentanaCambioContrasea(monitor);
             dispose();
         });
 

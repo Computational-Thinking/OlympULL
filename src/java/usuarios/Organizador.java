@@ -11,6 +11,7 @@ public class Organizador extends Usuario implements OperacionesBD {
     public Organizador(String name, String password, ArrayList<String> itinerarios) {
         this.userName = name;
         this.password = password;
+        this.userType = "organizador";
         this.itinerarios = itinerarios;
     }
 

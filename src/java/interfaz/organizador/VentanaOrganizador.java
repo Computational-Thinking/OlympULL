@@ -6,6 +6,8 @@ import usuarios.Organizador;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class VentanaOrganizador extends JFrame implements Bordes, Fuentes, Iconos {
@@ -123,6 +125,12 @@ public class VentanaOrganizador extends JFrame implements Bordes, Fuentes, Icono
             }
 
             dispose();
+        });
+
+        cambioContrasea.addActionListener(e -> {
+            new VentanaCambioContrasea(organizador);
+            dispose();
+
         });
 
         this.setVisible(true);

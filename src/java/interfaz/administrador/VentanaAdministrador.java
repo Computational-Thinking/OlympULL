@@ -29,6 +29,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
     JButton asignarItinerarioAOrganizador;
     JButton consultarAsignacionItinerarioOrganizador;
     JButton goBackButton;
+    JButton changePassword;
 
     // Etiquetas
     JLabel welcomeLabel;
@@ -41,7 +42,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
     JPanel gestionUsuarios;
 
     public VentanaAdministrador(Administrador administrador) {
-        setSize(825, 650);
+        setSize(825, 690);
         getContentPane().setLayout(new BorderLayout(5, 5));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Panel Administrador");
@@ -124,6 +125,10 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
         consultarAsignacionItinerarioOrganizador.setPreferredSize(new Dimension(200, 30));
         consultarAsignacionItinerarioOrganizador.setFont(fuenteBotonesEtiquetas);
 
+        changePassword = new JButton("Cambiar contraseña");
+        changePassword.setPreferredSize(new Dimension(200, 30));
+        changePassword.setFont(fuenteBotonesEtiquetas);
+
         upperBar = new JPanel();
         upperBar.setLayout(new BorderLayout(5, 5));
         upperBar.setBorder(borde);
@@ -147,13 +152,14 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
 
         usuariosButtonsPanel = new JPanel();
         usuariosButtonsPanel.setBorder(borde);
-        usuariosButtonsPanel.setLayout(new GridLayout(3, 2, 15, 15));
+        usuariosButtonsPanel.setLayout(new GridLayout(4, 2, 15, 15));
         usuariosButtonsPanel.add(createUser);
         usuariosButtonsPanel.add(consultarUsuarios);
         usuariosButtonsPanel.add(assignExerciseToUser);
         usuariosButtonsPanel.add(consultarAsignacionEjerciciosMonitores);
         usuariosButtonsPanel.add(asignarItinerarioAOrganizador);
         usuariosButtonsPanel.add(consultarAsignacionItinerarioOrganizador);
+        usuariosButtonsPanel.add(changePassword);
 
         JLabel gestionOlimpiadaLabel = new JLabel("Gestión de olimpiadas");
         gestionOlimpiadaLabel.setFont(fuenteSubtitulo);
@@ -374,6 +380,11 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                 new CustomJOptionPane("ERROR - No se ha podido recuperar la información de la base de datos");
 
             }
+        });
+
+        changePassword.addActionListener(e -> {
+            new VentanaCambioContrasea(administrador);
+            dispose();
         });
 
         this.setVisible(true);
