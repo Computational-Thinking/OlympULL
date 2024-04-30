@@ -1,117 +1,177 @@
 package interfaz.monitor;
 
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
+import interfaz.Bordes;
+import interfaz.CustomJOptionPane;
+import interfaz.Fuentes;
+import interfaz.Iconos;
 import usuarios.Monitor;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class VentanaPuntuarEjercicio extends JFrame {
+public class VentanaPuntuarEjercicio extends JFrame implements Bordes, Fuentes, Iconos {
+    // Labels
+    JLabel exerciseSelectionLabel;
     JLabel teamSelectionLabel;
-    JComboBox<String> teamSelectionComboBox;
     JLabel punctuationSelectionLabel;
+    JLabel title;
+
+    // ComboBoxes
+    JComboBox<String> exerciseSelectionComboBox;
+    JComboBox<String> teamSelectionComboBox;
+    JComboBox<String> punctuationComboBox;
+
+    // Paneles
+    JPanel upperPanel;
     JPanel punctuationsPanel;
+    JPanel inputsPanel;
+    JPanel punctuateButtonPanel;
+
+    // Botones
     JButton punctuateButton;
+    JButton goBackButton;
 
-    public VentanaPuntuarEjercicio(Monitor monitor) {
-        setSize(500, 250);
-        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        this.setTitle("Puntuar equipo");
-        this.setVisible(true);
+    int puntuacion;
+    String itinerario;
 
-        teamSelectionLabel = new JLabel("Selecciona el equipo al que quieres puntuar:");
+    public VentanaPuntuarEjercicio(Monitor monitor) throws SQLException {
+        // Configuración de ventana
+        setSize(725, 275);
+        getContentPane().setLayout(new BorderLayout(5, 5));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setTitle("Puntuación de equipo");
+        setLocationRelativeTo(null);
+        setIconImage(iconoVentana);
+        setVisible(true);
 
-        teamSelectionComboBox = new JComboBox<>();
+        // Definición del botón de volver
+        goBackButton = new JButton("< Volver");
+        goBackButton.setFont(fuenteBotonesEtiquetas);
+        goBackButton.setPreferredSize(new Dimension(90, 30));
 
-        punctuationSelectionLabel = new JLabel("Selecciona la puntuación que quieres darle al equipo");
+        title = new JLabel("Puntuación de equipos");
+        title.setFont(fuenteTitulo);
+
+        upperPanel = new JPanel();
+        upperPanel.setBorder(borde);
+        upperPanel.setLayout(new BorderLayout());
+
+        exerciseSelectionLabel = new JLabel("Ejercicio (*)");
+        exerciseSelectionLabel.setFont(fuenteBotonesEtiquetas);
+
+        teamSelectionLabel = new JLabel("Equipo (*)");
+        teamSelectionLabel.setFont(fuenteBotonesEtiquetas);
+
+        punctuationSelectionLabel = new JLabel("Puntuación (*)");
+        punctuationSelectionLabel.setFont(fuenteBotonesEtiquetas);
+
+        exerciseSelectionComboBox = new JComboBox<>();
+        exerciseSelectionComboBox.setFont(fuenteCampoTexto);
+
+        for (int i = 0; i < monitor.getExerciseCode().size(); ++i) {
+            exerciseSelectionComboBox.addItem(monitor.getExerciseCode().get(i));
+        }
 
         punctuationsPanel = new JPanel();
 
         punctuateButton = new JButton("Puntuar");
+        punctuateButton.setFont(fuenteBotonesEtiquetas);
 
-        ArrayList<String> teams = new ArrayList<>();
+        exerciseSelectionLabel.setFont(fuenteBotonesEtiquetas);
 
-        // Valores para conexión a MV remota
-        String sshHost = "10.6.130.204";
-        String sshUser = "usuario";
-        String sshPassword = "Usuario";
-        int sshPort = 22; // Puerto SSH por defecto
-        int localPort = 3307; // Puerto local para el túnel SSH
-        String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
-        int remotePort = 3306; // Puerto MySQL en la máquina remota
+        teamSelectionComboBox = new JComboBox<>();
+        teamSelectionComboBox.setFont(fuenteCampoTexto);
 
-        // Conexión SSH a la MV remota
-        JSch jsch = new JSch();
-        Session session = null;
-        try {
-            session = jsch.getSession(sshUser, sshHost, sshPort);
-        } catch (JSchException e) {
-            throw new RuntimeException(e);
-        }
-        session.setPassword(sshPassword);
-        session.setConfig("StrictHostKeyChecking", "no");
-        try {
-            session.connect();
-        } catch (JSchException e) {
-            throw new RuntimeException(e);
-        }
+        punctuationComboBox = new JComboBox<>();
+        punctuationComboBox.setFont(fuenteCampoTexto);
 
-        // Debugger
-        System.out.println("Conexión con la máquina establecida");
+        inputsPanel = new JPanel();
+        inputsPanel.setLayout(new GridLayout(3, 2, 5, 5));
+        inputsPanel.setBorder(borde);
 
-        // Abrir un túnel SSH al puerto MySQL en la máquina remota
-        try {
-            session.setPortForwardingL(localPort, remoteHost, remotePort);
-        } catch (JSchException e) {
-            throw new RuntimeException(e);
-        }
+        punctuateButtonPanel = new JPanel();
+        punctuateButtonPanel.setBorder(borde);
+        punctuateButtonPanel.setLayout(new FlowLayout());
 
-        // Conexión a MySQL a través del túnel SSH
-        String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
-        String dbUser = "root";
-        String dbPassword = "root";
-        Connection conn;
-        try {
-            conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        upperPanel.add(title, BorderLayout.WEST);
+        upperPanel.add(goBackButton, BorderLayout.EAST);
 
-        // Ejecutar consulta para añadir nuevo ejercicio
-        String teamNames = "SELECT NOMBRE FROM T_EQUIPOS WHERE MENCION=(SELECT CODIGO_MENCION FROM T_EJERCICIOS_MENCIONES WHERE CODIGO_EJERCICIO=" + monitor.getExerciseCode() + ");";
-        String scaleValues = "SELECT ETIQUETAS_BAREMO, VALORES_BAREMO FROM T_BAREMOS WHERE CODIGO_EJERCICIO=" + monitor.getExerciseCode() + ";";
+        inputsPanel.add(exerciseSelectionLabel);
+        inputsPanel.add(exerciseSelectionComboBox);
+        inputsPanel.add(teamSelectionLabel);
+        inputsPanel.add(teamSelectionComboBox);
+        inputsPanel.add(punctuationSelectionLabel);
+        inputsPanel.add(punctuationComboBox);
 
-        // Almacenar nombres de los equipos en combo box
-        try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(teamNames)) {
+        punctuateButtonPanel.add(punctuateButton);
 
-            // Iterar sobre el resultado y añadir los registros al ArrayList
-            while (rs.next()) {
-                String team = (rs.getString("NOMBRE"));
-                teams.add(team);
+        add(upperPanel, BorderLayout.NORTH);
+        add(inputsPanel, BorderLayout.CENTER);
+        add(punctuateButtonPanel, BorderLayout.SOUTH);
+
+        exerciseSelectionComboBox.addActionListener(e -> {
+
+        });
+
+        // Acción del botón de volver
+        goBackButton.addActionListener(e -> {
+            new VentanaMonitor(monitor);
+            dispose();
+        });
+
+        punctuateButton.addActionListener(e -> {
+            try {
+                String concepto = "";
+                puntuacion = Integer.parseInt(Objects.requireNonNull(punctuationComboBox.getSelectedItem()).toString().substring(0, 2).trim());
+
+                ResultSet data = monitor.selectCol("T_EJERCICIOS", "CONCEPTO", "WHERE CODIGO='" + exerciseSelectionComboBox.getSelectedItem() + "'");
+
+                if (data.next()) {
+                    concepto = data.getString("CONCEPTO");
+                }
+
+                monitor.puntuarEquipo(puntuacion, concepto, (String) teamSelectionComboBox.getSelectedItem(), itinerario);
+
+            } catch (SQLException ex) {
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
             }
+        });
 
-            // Utilizamos los años para meterlos en el combo box
-            for (String team : teams) {
-                teamSelectionComboBox.addItem(team);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        exerciseSelectionComboBox.addActionListener(e -> {
+            try {
+                itinerario = "";
 
-        // Recoger valores del baremo
-        try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(scaleValues)) {
+                String whereClause = "WHERE EJERCICIO='" + exerciseSelectionComboBox.getSelectedItem() + "'";
+                ResultSet data = monitor.selectCol("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "ITINERARIO", whereClause);
 
-            if (rs.next()) {
-                String values = rs.getString("VALORES_BAREMO");
-                String tags = rs.getString("ETIQUETAS_BAREMO");
+                if (data.next()) {
+                    itinerario = data.getString("ITINERARIO");
+                }
+
+                data = monitor.selectCol("T_EQUIPOS", "NOMBRE", "WHERE ITINERARIO='" + itinerario + "'");
+
+                while (data.next()) {
+                    teamSelectionComboBox.addItem(data.getString("NOMBRE"));
+                }
+
+                String rubrica = null;
+                data = monitor.selectCol("T_EJERCICIOS", "RUBRICA", "WHERE CODIGO='" + exerciseSelectionComboBox.getSelectedItem() + "'");
+
+                if (data.next()) rubrica = data.getString("RUBRICA");
+
+                data = monitor.selectCol("T_RUBRICAS", "PUNTOS_RUBRICA, ETIQUETAS_RUBRICA", "WHERE CODIGO='" + rubrica + "'");
+
+                String values = "";
+                String tags = "";
+
+                if (data.next()) {
+                    values = data.getString("PUNTOS_RUBRICA");
+                    tags = data.getString("ETIQUETAS_RUBRICA");
+
+                }
 
                 // Se separa por comas
                 String[] separatedValues = values.split(",");
@@ -120,171 +180,24 @@ public class VentanaPuntuarEjercicio extends JFrame {
                 separatedValues[0] = separatedValues[0].substring(1);
                 separatedTags[0] = separatedTags[0].substring(1);
 
-                separatedValues[separatedValues.length - 1] = separatedValues[separatedValues.length - 1].substring(0, (separatedValues[separatedValues.length - 1]).length() - 1);
-                separatedTags[separatedTags.length - 1] = separatedTags[separatedTags.length - 1].substring(0, (separatedTags[separatedTags.length - 1]).length() - 1);
+                separatedValues[separatedValues.length - 1] = separatedValues[separatedValues.length - 1].substring(1, (separatedValues[separatedValues.length - 1]).length() - 1);
+                separatedTags[separatedTags.length - 1] = separatedTags[separatedTags.length - 1].substring(1, (separatedTags[separatedTags.length - 1]).length() - 1);
 
                 // Array donde se va a almacenar la escala
                 ArrayList<String> scale = new ArrayList<>();
 
-                // Utilizamos los años para meterlos en el combo box
                 for (int i = 0; i < separatedValues.length; ++i) {
                     scale.add(separatedValues[i] + " - " + separatedTags[i]);
                 }
 
-                for (int i = 0; i < scale.size(); ++i) {
-                    JRadioButton rButton = new JRadioButton(scale.get(i), false);
-                    punctuationsPanel.add(rButton);
+                for (String s : scale) {
+                    punctuationComboBox.addItem(s);
                 }
 
-            } else {
-                JOptionPane.showMessageDialog(null, "No se ha establecido el baremo para este ejercicio. Hágalo y vuelva a intentarlo.");
-                dispose();
+            } catch (SQLException ex) {
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        session.disconnect();
-
-        add(teamSelectionLabel);
-        add(teamSelectionComboBox);
-        add(punctuationSelectionLabel);
-        add(punctuationsPanel);
-        add(punctuateButton);
-
-        punctuateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Valores para conexión a MV remota
-                String sshHost = "10.6.130.204";
-                String sshUser = "usuario";
-                String sshPassword = "Usuario";
-                int sshPort = 22; // Puerto SSH por defecto
-                int localPort = 3307; // Puerto local para el túnel SSH
-                String remoteHost = "localhost"; // La conexión MySQL se hará desde la máquina remota
-                int remotePort = 3306; // Puerto MySQL en la máquina remota
-
-                // Conexión SSH a la MV remota
-                JSch jsch = new JSch();
-                Session session = null;
-                try {
-                    session = jsch.getSession(sshUser, sshHost, sshPort);
-                } catch (JSchException ex) {
-                    throw new RuntimeException(ex);
-                }
-                session.setPassword(sshPassword);
-                session.setConfig("StrictHostKeyChecking", "no");
-                try {
-                    session.connect();
-                } catch (JSchException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                // Debugger
-                System.out.println("Conexión con la máquina establecida");
-
-                // Abrir un túnel SSH al puerto MySQL en la máquina remota
-                try {
-                    session.setPortForwardingL(localPort, remoteHost, remotePort);
-                } catch (JSchException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                // Conexión a MySQL a través del túnel SSH
-                String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
-                String dbUser = "root";
-                String dbPassword = "root";
-                Connection conn;
-                try {
-                    conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                // Consulta para obtener la categoría del ejercicio
-                String categoryQuery = "SELECT CATEGORIA FROM T_EJERCICIOS WHERE CODIGO=" + monitor.getExerciseCode() + ";";
-                String category = null;
-
-                // Almacenar nombres de los equipos en combo box
-                try (Statement stmt = conn.createStatement();
-                     ResultSet rs = stmt.executeQuery(categoryQuery)) {
-
-                    // Iterar sobre el resultado y añadir los registros al ArrayList
-                    if (rs.next()) {
-                        category = (rs.getString("CATEGORIA"));
-                    }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-
-                String columnName = null;
-
-                if (Objects.equals(category, "VARIABLES")) {
-                    columnName = "PUNTUACION_VARIABLES";
-                } else if (Objects.equals(category, "FUNCIONES")) {
-                    columnName = "PUNTUACION_FUNCIONES";
-                } else if (Objects.equals(category, "SECUENCIAS Y BUCLES")) {
-                    columnName = "PUNTUACION_SECUENCIAS";
-                } else if (Objects.equals(category, "CONDICIONALES")) {
-                    columnName = "PUNTUACION_CONDICIONALES";
-                } else if (Objects.equals(category, "MATRICES")) {
-                    columnName = "PUNTUACION_MATRICES";
-                } else if (Objects.equals(category, "IA")) {
-                    columnName = "PUNTUACION_IA";
-                } else {
-                    JOptionPane.showMessageDialog(null, "ERROR");
-                    dispose();
-                }
-
-                int points = -1;
-
-                for (int i = 0; i < punctuationsPanel.getComponents().length; ++i) {
-                    if (punctuationsPanel.getComponents()[i] instanceof JRadioButton) {
-                        if (((JRadioButton) punctuationsPanel.getComponents()[i]).isSelected()) {
-                            JRadioButton dummy = (JRadioButton) punctuationsPanel.getComponents()[i];
-                            String tag = dummy.getText();
-                            String[] tagSplitted = tag.split(" ");
-                            points = Integer.parseInt(tagSplitted[1]);
-                        }
-                    }
-                }
-
-                if (points == -1) {
-                    JOptionPane.showMessageDialog(null, "Por favor, seleccione una puntuación.");
-                }
-
-                Statement stmt = null;
-                try {
-                    stmt = conn.createStatement();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                String addPoints = "UPDATE T_EQUIPOS SET " + columnName + "=" + points + " WHERE NOMBRE='" + teamSelectionComboBox.getSelectedItem() + "';";
-                try {
-                    int rowsAffected = stmt.executeUpdate(addPoints);
-                    if (rowsAffected > 0) {
-                        JOptionPane.showMessageDialog(null, "Se ha establecido la puntuación con éxito.");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No se ha podido insertar.");
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-                session.disconnect();
-                dispose();
-            }
         });
     }
 }
