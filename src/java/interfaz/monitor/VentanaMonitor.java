@@ -111,7 +111,7 @@ public class VentanaMonitor extends JFrame implements Bordes, Fuentes, Iconos {
 
         checkPunctuations.addActionListener(e -> {
             try {
-                new VentanaConsultaPuntuaciones(monitor);
+                new VentanaConsultaPuntuaciones(monitor, monitor.getExerciseCode().get(0));
                 dispose();
 
             } catch (SQLException ex) {

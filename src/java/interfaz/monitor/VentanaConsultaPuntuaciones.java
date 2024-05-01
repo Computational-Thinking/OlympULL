@@ -1,7 +1,6 @@
 package interfaz.monitor;
 
 import interfaz.*;
-import interfaz.administrador.VentanaConsultaUsuarios;
 import usuarios.Monitor;
 
 import javax.swing.*;
@@ -9,8 +8,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.ResultSet;
@@ -36,8 +33,9 @@ public class VentanaConsultaPuntuaciones extends JFrame implements Bordes, Fuent
     DefaultTableModel modeloTabla;
     JTable tabla;
     JScrollPane tablaScrollPane;
+    Monitor monitor;
 
-    public VentanaConsultaPuntuaciones(Monitor monitor) throws SQLException {
+    public VentanaConsultaPuntuaciones(Monitor monitor, String ejercicio) throws SQLException {
         // Configuración de la ventana
         setSize(750, 600);
         getContentPane().setLayout(new BorderLayout());
@@ -46,6 +44,8 @@ public class VentanaConsultaPuntuaciones extends JFrame implements Bordes, Fuent
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
+
+        this.monitor = monitor;
 
         // Panel superior
         titleLabel = new JLabel("Consulta de tabla T_EQUIPOS");
@@ -63,7 +63,7 @@ public class VentanaConsultaPuntuaciones extends JFrame implements Bordes, Fuent
             exerciseComboBox.addItem(monitor.getExerciseCode().get(i));
         }
         exerciseComboBox.setFont(fuenteCampoTexto);
-        exerciseComboBox.setSelectedItem(exerciseComboBox.getItemAt(0));
+        exerciseComboBox.setSelectedItem(ejercicio);
 
         filterPanel = new JPanel();
         filterPanel.setLayout(new FlowLayout());
@@ -192,14 +192,38 @@ public class VentanaConsultaPuntuaciones extends JFrame implements Bordes, Fuent
         });
 
         exerciseComboBox.addActionListener(e -> {
+            try {
+                new VentanaConsultaPuntuaciones(monitor, (String) exerciseComboBox.getSelectedItem());
+                dispose();
 
+            } catch (SQLException ex) {
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
+
+            }
         });
 
     }
 
+    // Acciones del ratón
     @Override
     public void mouseClicked(MouseEvent e) {
+        int row = tabla.rowAtPoint(e.getPoint());
+        int columna = tabla.columnAtPoint(e.getPoint());
 
+        String ejercicio = (String) exerciseComboBox.getSelectedItem();
+        String equipo = (String) modeloTabla.getValueAt(row, 0);
+
+        if (columna == tabla.getColumnCount() - 1) {
+            try {
+                new VentanaModificarPuntuacion(monitor, ejercicio, equipo);
+
+            } catch (SQLException ex) {
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
+
+            }
+            dispose();
+
+        }
     }
 
     @Override
