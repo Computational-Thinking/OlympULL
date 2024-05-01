@@ -133,6 +133,7 @@ public class VentanaPuntuarEjercicio extends JFrame implements Bordes, Fuentes, 
                     concepto = data.getString("CONCEPTO");
                 }
 
+                // Se puntúa al equipo
                 monitor.puntuarEquipo(puntuacion, concepto, (String) teamSelectionComboBox.getSelectedItem(), itinerario);
 
             } catch (SQLException ex) {

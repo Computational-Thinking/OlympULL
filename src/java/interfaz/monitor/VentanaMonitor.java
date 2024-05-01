@@ -36,7 +36,7 @@ public class VentanaMonitor extends JFrame implements Bordes, Fuentes, Iconos {
         goBackButton.setFont(fuenteBotonesEtiquetas);
         goBackButton.setPreferredSize(new Dimension(120, 30));
 
-        punctuateExercise = new JButton("Puntuar ejercicio");
+        punctuateExercise = new JButton("Puntuar equipo");
         punctuateExercise.setPreferredSize(new Dimension(200, 30));
         punctuateExercise.setFont(fuenteBotonesEtiquetas);
 
@@ -110,9 +110,14 @@ public class VentanaMonitor extends JFrame implements Bordes, Fuentes, Iconos {
         });
 
         checkPunctuations.addActionListener(e -> {
-                new VentanaSeleccionarEjercicio(monitor);
+            try {
+                new VentanaConsultaPuntuaciones(monitor);
+                dispose();
 
-            dispose();
+            } catch (SQLException ex) {
+                new CustomJOptionPane("ERROR - " + ex.getMessage());
+            }
+
         });
 
         cambioContrasea.addActionListener(e -> {

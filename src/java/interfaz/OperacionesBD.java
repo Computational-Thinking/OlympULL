@@ -63,6 +63,43 @@ public interface OperacionesBD extends ConfigReader {
         return rs;
     }
 
+    default ResultSet selectRows(String table, String columns, String orderColumn, String where) {
+        Session session = null;
+        ResultSet rs = null;
+
+        try {
+            // Conexión SSH a la MV remota
+            session = jsch.getSession(sshUser, sshHost, sshPort);
+            session.setPassword(sshPassword);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
+
+            // Abrir un túnel SSH al puerto MySQL en la máquina remota
+            session.setPortForwardingL(localPort, remoteHost, remotePort);
+
+            // Conexión a MySQL a través del túnel SSH
+            String dbUrl = "jdbc:mysql://localhost:" + localPort + "/OLYMPULL_DB";
+            String dbUser = "root";
+            String dbPassword = "root";
+            Connection conn;
+            conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+            String select = "SELECT " + columns + " FROM " + table + " " + where + " ORDER BY " + orderColumn + " ASC;";
+            Statement stmt = conn.createStatement();
+            rs = stmt.executeQuery(select);
+
+            // Se cierra la conexión
+            session.disconnect();
+
+        } catch (JSchException | SQLException ex) {
+            new CustomJOptionPane("ERROR - " + ex.getMessage());
+            assert session != null;
+            session.disconnect();
+        }
+
+        return rs;
+    }
+
     // Método para obtener valores de una columna
     default ResultSet selectCol(String table, String col, String where) {
         Session session = null;

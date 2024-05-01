@@ -25,7 +25,7 @@ public class Monitor extends Usuario implements OperacionesBD {
         return this.exercises;
     }
 
-    public int puntuarEquipo(int puntuacion, String concepto, String equipo, String itinerario) {
+    public void puntuarEquipo(int puntuacion, String concepto, String equipo, String itinerario) throws SQLException {
         String columnaPuntuacion = null;
 
         switch(concepto) {
@@ -44,16 +44,28 @@ public class Monitor extends Usuario implements OperacionesBD {
             case "OTROS" -> columnaPuntuacion = "P_OTROS";
         }
 
-        String table = "T_EQUIPOS";
-        String data = "SET " + columnaPuntuacion + "=" + puntuacion;
-        String where = "WHERE NOMBRE='" + equipo + "' AND ITINERARIO='" + itinerario + "'";
+        // Se comprueba que no se ha puntuado ya al equipo
+        String wherePrueba = "WHERE NOMBRE='" + equipo + "' AND ITINERARIO='" + itinerario + "'";
+        ResultSet prueba = selectCol("T_EQUIPOS", columnaPuntuacion, wherePrueba);
 
-        if (update(table, data, where) == 0) {
-            new CustomJOptionPane("Se ha puntuado al equipo");
-            return 0;
-        } else {
-            return 1;
+        if (prueba.next()) {
+            if (prueba.getString(columnaPuntuacion) != null) {
+                new CustomJOptionPane("ERROR - Este equipo ya ha recibido una puntuación para el ejercicio seleccionado");
+
+            } else {
+                String table = "T_EQUIPOS";
+                String data = "SET " + columnaPuntuacion + "=" + puntuacion;
+                String where = "WHERE NOMBRE='" + equipo + "' AND ITINERARIO='" + itinerario + "'";
+
+                if (update(table, data, where) == 0) {
+                    new CustomJOptionPane("Se ha puntuado al equipo");
+                } else {
+                    new CustomJOptionPane("No se ha podido puntuar al equipo");
+                }
+            }
         }
+
+
     }
 
 }
