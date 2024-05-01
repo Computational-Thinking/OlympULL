@@ -78,7 +78,7 @@ public class VentanaNuevaAsignacionEjIt extends JFrame implements Bordes, Fuente
         exerCodeField = new JComboBox<>();
         exerCodeField.setFont(fuenteCampoTexto);
 
-        ResultSet codes = organizador.selectCol("T_EJERCICIOS", "CODIGO", "");
+        ResultSet codes = organizador.selectCol("T_EJERCICIOS", "CODIGO");
 
         while (codes.next()) {
             String registro = codes.getString("CODIGO");

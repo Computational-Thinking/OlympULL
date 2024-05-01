@@ -76,7 +76,7 @@ public class VentanaModificarEquipo extends JFrame implements Bordes, Fuentes, I
         teamItinerarioField = new JComboBox<>();
         teamItinerarioField.setFont(fuenteCampoTexto);
 
-        ResultSet itCodes = administrador.selectCol("T_ITINERARIOS", "CODIGO", "");
+        ResultSet itCodes = administrador.selectCol("T_ITINERARIOS", "CODIGO");
 
         // Iterar sobre el resultado y añadir los registros al ArrayList
         while (itCodes.next()) {

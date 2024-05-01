@@ -134,7 +134,7 @@ public class VentanaModificarEjercicio extends JFrame implements Bordes, Fuentes
         exerRubricaField = new JComboBox<>();
         exerRubricaField.setFont(fuenteCampoTexto);
 
-        ResultSet rubricCodes = administrador.selectCol("T_RUBRICAS", "CODIGO", "");
+        ResultSet rubricCodes = administrador.selectCol("T_RUBRICAS", "CODIGO");
 
         // Se añaden los registros al combo box
         while (rubricCodes.next()) {

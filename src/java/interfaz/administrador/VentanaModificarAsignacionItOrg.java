@@ -94,7 +94,7 @@ public class VentanaModificarAsignacionItOrg extends JFrame implements Bordes, F
         organizerComboBox.setSelectedItem(oldOrganizador);
 
         // Códigos de los itinerarios
-        comboBoxesItems = administrador.selectCol("T_ITINERARIOS", "CODIGO", "");
+        comboBoxesItems = administrador.selectCol("T_ITINERARIOS", "CODIGO");
 
         while (comboBoxesItems.next()) {
             String register = comboBoxesItems.getString("CODIGO");

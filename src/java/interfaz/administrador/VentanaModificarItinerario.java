@@ -90,7 +90,7 @@ public class VentanaModificarItinerario extends JFrame implements Bordes, Fuente
         campoOlimpiadaItinerario = new JComboBox<>();
         campoOlimpiadaItinerario.setFont(fuenteCampoTexto);
         
-        ResultSet olympCodes = administrador.selectCol("T_OLIMPIADAS", "CODIGO", "");
+        ResultSet olympCodes = administrador.selectCol("T_OLIMPIADAS", "CODIGO");
 
         // Se añaden los códigos de olimpiada al combo box
         while (olympCodes.next()) {

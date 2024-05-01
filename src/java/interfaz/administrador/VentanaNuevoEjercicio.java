@@ -124,7 +124,7 @@ public class VentanaNuevoEjercicio extends JFrame {
 
         exerRubrica = new JComboBox<>();
 
-        ResultSet codeCol = administrador.selectCol("T_RUBRICAS", "CODIGO", "");
+        ResultSet codeCol = administrador.selectCol("T_RUBRICAS", "CODIGO");
 
         // Iterar sobre el resultado y añadir los registros al ArrayList
         while (codeCol.next()) {

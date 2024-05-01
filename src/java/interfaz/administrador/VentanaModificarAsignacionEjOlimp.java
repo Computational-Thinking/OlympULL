@@ -79,7 +79,7 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
         exerCodeField = new JComboBox<>();
         exerCodeField.setFont(fuenteCampoTexto);
 
-        ResultSet codes = administrador.selectCol("T_EJERCICIOS", "CODIGO", "");
+        ResultSet codes = administrador.selectCol("T_EJERCICIOS", "CODIGO");
         
          // Iterar sobre el resultado y añadir los registros al ArrayList
         while (codes.next()) {
@@ -92,7 +92,7 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
         olympCodeField = new JComboBox<>();
         olympCodeField.setFont(fuenteCampoTexto);
 
-        codes = administrador.selectCol("T_OLIMPIADAS", "CODIGO", "");
+        codes = administrador.selectCol("T_OLIMPIADAS", "CODIGO");
 
         // Iterar sobre el resultado y añadir los registros al ArrayList
         while (codes.next()) {

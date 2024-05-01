@@ -115,7 +115,7 @@ public class VentanaModificarAsignacionEjMonitor extends JFrame implements Borde
         monitorComboBox.setSelectedItem(name);
 
         // Códigos de los ejercicios
-        comboBoxesItems = administrador.selectCol("T_EJERCICIOS", "CODIGO", "");
+        comboBoxesItems = administrador.selectCol("T_EJERCICIOS", "CODIGO");
 
         while (comboBoxesItems.next()) {
             String register = comboBoxesItems.getString("CODIGO");

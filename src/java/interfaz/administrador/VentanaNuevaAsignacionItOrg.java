@@ -92,7 +92,7 @@ public class VentanaNuevaAsignacionItOrg extends JFrame implements Bordes, Fuent
         }
 
         // Códigos de los itinerarios
-        comboBoxesItems = administrador.selectCol("T_ITINERARIOS", "CODIGO", "");
+        comboBoxesItems = administrador.selectCol("T_ITINERARIOS", "CODIGO");
 
         while (comboBoxesItems.next()) {
             String register = comboBoxesItems.getString("CODIGO");

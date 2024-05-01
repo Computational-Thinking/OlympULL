@@ -91,7 +91,7 @@ public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, I
         campoOlimpiadaItinerario.setFont(fuenteCampoTexto);
 
         // Se obtienen los códigos de las olimpiadas existentes
-        ResultSet olympCodes = administrador.selectCol("T_OLIMPIADAS", "CODIGO", "");
+        ResultSet olympCodes = administrador.selectCol("T_OLIMPIADAS", "CODIGO");
 
         // Se añaden los códigos al ArrayList
         while (olympCodes.next()) {
