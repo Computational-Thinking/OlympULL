@@ -105,7 +105,7 @@ public class VentanaMonitor extends JFrame implements Bordes, Fuentes, Iconos {
                 new VentanaPuntuarEjercicio(monitor);
                 dispose();
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
             }
         });
 
@@ -115,7 +115,7 @@ public class VentanaMonitor extends JFrame implements Bordes, Fuentes, Iconos {
                 dispose();
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
             }
 
         });

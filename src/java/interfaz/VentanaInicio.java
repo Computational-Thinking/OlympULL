@@ -113,7 +113,7 @@ public class VentanaInicio extends JFrame implements Bordes, Fuentes, Iconos, Op
                         users = selectCol("T_USUARIOS", "*", whereClause);
 
                         if (users.next()) {
-                            new CustomJOptionPane("Contraseña correcta. Iniciando sesión...");
+                            new MessageJOptionPane("Contraseña correcta. Iniciando sesión...");
 
                             if (users.getString("TIPO").equals("ADMINISTRADOR")) {
                                 String name = users.getString("NOMBRE");
@@ -161,17 +161,17 @@ public class VentanaInicio extends JFrame implements Bordes, Fuentes, Iconos, Op
                             passwordField.setText("");
 
                         } else {
-                            new CustomJOptionPane("Contraseña incorrecta. Pruebe otra vez.");
+                            new ErrorJOptionPane("Contraseña incorrecta. Pruebe otra vez.");
 
                         }
 
                     } else {
-                        new CustomJOptionPane("No existe el usuario " + userField.getText() + ". Para darse de alta, póngase en contacto con un administrador.");
+                        new ErrorJOptionPane("No existe el usuario " + userField.getText() + ". Para darse de alta, póngase en contacto con un administrador.");
 
                     }
 
                 } catch (SQLException i) {
-                    new CustomJOptionPane("ERROR - " + i.getMessage());
+                    new ErrorJOptionPane(i.getMessage());
                     dispose();
 
                 }

@@ -3,10 +3,7 @@ package interfaz.administrador;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -172,7 +169,7 @@ public class VentanaConsultaEquipos extends JFrame implements Bordes, Fuentes, I
                 new VentanaModificarEquipo(administrador, codigo, name, school, itinerario);
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
 
             }
             dispose();
@@ -187,7 +184,7 @@ public class VentanaConsultaEquipos extends JFrame implements Bordes, Fuentes, I
                 dispose();
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
 
             }
 

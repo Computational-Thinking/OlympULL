@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -140,49 +137,43 @@ public class VentanaNuevaAsignacionEjOlimp extends JFrame implements Bordes, Fue
             }
         });
 
-        olympCodeField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                itinerarioCodeField.removeAllItems();
+        olympCodeField.addActionListener(e -> {
+            itinerarioCodeField.removeAllItems();
 
-                try {
-                    String where = "WHERE OLIMPIADA='" + olympCodeField.getSelectedItem() + "'";
-                    ResultSet codes = administrador.selectCol("T_ITINERARIOS", "CODIGO", where);
+            try {
+                String where1 = "WHERE OLIMPIADA='" + olympCodeField.getSelectedItem() + "'";
+                ResultSet codes1 = administrador.selectCol("T_ITINERARIOS", "CODIGO", where1);
 
-                    while (codes.next()) {
-                        String registro = codes.getString("CODIGO");
-                        itinerarioCodeField.addItem(registro);
-
-                    }
-
-                    codes.close();
-
-                } catch (RuntimeException | SQLException ex) {
-                    new CustomJOptionPane("ERROR - " + ex.getMessage());
+                while (codes1.next()) {
+                    String registro = codes1.getString("CODIGO");
+                    itinerarioCodeField.addItem(registro);
 
                 }
+
+                codes1.close();
+
+            } catch (RuntimeException | SQLException ex) {
+                new ErrorJOptionPane(ex.getMessage());
+
             }
         });
 
-        assignExercise.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (itinerarioCodeField.getItemCount() == 0) {
-                    new CustomJOptionPane("ERROR - Debe seleccionar un itinerario");
+        assignExercise.addActionListener(e -> {
+            if (itinerarioCodeField.getItemCount() == 0) {
+                new ErrorJOptionPane("Debe seleccionar un itinerario");
 
-                } else {
-                    String exercise = (String) exerCodeField.getSelectedItem();
-                    String olympiad = (String) olympCodeField.getSelectedItem();
-                    String itinerario = (String) itinerarioCodeField.getSelectedItem();
+            } else {
+                String exercise = (String) exerCodeField.getSelectedItem();
+                String olympiad = (String) olympCodeField.getSelectedItem();
+                String itinerario = (String) itinerarioCodeField.getSelectedItem();
 
-                    if (administrador.assignExerciseToOlympiad(exercise, olympiad, itinerario) == 0) {
-                        exerCodeField.setSelectedItem(exerCodeField.getItemAt(0));
-                        olympCodeField.setSelectedItem(olympCodeField.getItemAt(0));
-                        itinerarioCodeField.removeAllItems();
-
-                    }
+                if (administrador.assignExerciseToOlympiad(exercise, olympiad, itinerario) == 0) {
+                    exerCodeField.setSelectedItem(exerCodeField.getItemAt(0));
+                    olympCodeField.setSelectedItem(olympCodeField.getItemAt(0));
+                    itinerarioCodeField.removeAllItems();
 
                 }
+
             }
         });
 

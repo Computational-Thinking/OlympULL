@@ -1,16 +1,11 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.Objects;
 
@@ -146,7 +141,7 @@ public class VentanaModificarItinerario extends JFrame implements Bordes, Fuente
             if (campoCodigoItinerario.getText().matches("^\\s*$")
                     || campoNombreItinerario.getText().matches("^\\s*$")
                     || Objects.requireNonNull(campoOlimpiadaItinerario.getSelectedItem()).toString().matches("^\\s*$")) {
-                new CustomJOptionPane("Los campos Código, Nombre y Olimpiada son obligatorios");
+                new ErrorJOptionPane("Los campos Código, Nombre y Olimpiada son obligatorios");
 
             } else {
                 String code = campoCodigoItinerario.getText();
@@ -162,7 +157,7 @@ public class VentanaModificarItinerario extends JFrame implements Bordes, Fuente
                     }
 
                 } catch (JSchException | SQLException ex) {
-                    new CustomJOptionPane("ERROR - " + ex.getMessage());
+                    new ErrorJOptionPane(ex.getMessage());
 
                 }
 

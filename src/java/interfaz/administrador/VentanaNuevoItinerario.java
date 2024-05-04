@@ -3,10 +3,7 @@ package interfaz.administrador;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -149,7 +146,7 @@ public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, I
                 if (campoCodigoItinerario.getText().matches("^\\s*$")
                         || campoNombreItinerario.getText().matches("^\\s*$")
                         || Objects.requireNonNull(campoOlimpiadaItinerario.getSelectedItem()).toString().matches("^\\s*$")) {
-                    new CustomJOptionPane("Los campos Código, Nombre y Olimpiada son obligatorios");
+                    new ErrorJOptionPane("Los campos Código, Nombre y Olimpiada son obligatorios");
 
                 } else {
                     String code = campoCodigoItinerario.getText();
@@ -166,7 +163,7 @@ public class VentanaNuevoItinerario extends JFrame implements Bordes, Fuentes, I
                         }
 
                     } catch (JSchException | SQLException exc) {
-                        new CustomJOptionPane("ERROR");
+                        new ErrorJOptionPane("Ha ocurrido un error inesperado");
                     }
                 }
             }

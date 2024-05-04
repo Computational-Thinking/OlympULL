@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -125,7 +122,7 @@ public class VentanaModificarOlimpiada extends JFrame implements Bordes, Fuentes
                 new VentanaConsultaOlimpiadas(administrador);
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
 
             }
 
@@ -137,7 +134,7 @@ public class VentanaModificarOlimpiada extends JFrame implements Bordes, Fuentes
             if (olympCodeField.getText().matches("^\\s*$")
                     || olympNameField.getText().matches("^\\s*$")
                     || olympYearField.getText().matches("^\\s*$")) {
-                new CustomJOptionPane("Los campos Código, Título y Año son obligatorios");
+                new ErrorJOptionPane("Los campos Código, Título y Año son obligatorios");
 
             } else {
                 String code = olympCodeField.getText();
@@ -154,12 +151,12 @@ public class VentanaModificarOlimpiada extends JFrame implements Bordes, Fuentes
                         }
 
                     } catch (JSchException | SQLException ex) {
-                        new CustomJOptionPane("ERROR - " + ex.getMessage());
+                        new ErrorJOptionPane(ex.getMessage());
 
                     }
 
                 } else {
-                    new CustomJOptionPane("El campo Año debe ser un número entero y tener un valor válido");
+                    new ErrorJOptionPane("El campo Año debe ser un número entero y tener un valor válido");
 
                 }
             }

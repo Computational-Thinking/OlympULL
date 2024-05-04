@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -145,7 +142,7 @@ public class VentanaModificarAsignacionItOrg extends JFrame implements Bordes, F
                 dispose();
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
             }
 
         });
@@ -164,7 +161,7 @@ public class VentanaModificarAsignacionItOrg extends JFrame implements Bordes, F
                 }
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido obtener la olimpiada");
+                new ErrorJOptionPane("No se ha podido obtener la olimpiada");
                 new VentanaAdministrador(administrador);
                 dispose();
 
@@ -182,7 +179,7 @@ public class VentanaModificarAsignacionItOrg extends JFrame implements Bordes, F
                     dispose();
 
                 } catch (JSchException | SQLException ex) {
-                    new CustomJOptionPane("ERROR - " + ex.getMessage());
+                    new ErrorJOptionPane(ex.getMessage());
                 }
 
             }

@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -188,7 +185,7 @@ public class VentanaConsultaOlimpiadas extends JFrame implements Bordes, Fuentes
                 }
 
             } else {
-                new CustomJOptionPane("El campo Año debe ser un número entero y tener un valor válido");
+                new ErrorJOptionPane("El campo Año debe ser un número entero y tener un valor válido");
             }
 
         } else if (column == tabla.getColumnCount() - 1) {
@@ -199,7 +196,7 @@ public class VentanaConsultaOlimpiadas extends JFrame implements Bordes, Fuentes
                 }
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
             }
         }
     }

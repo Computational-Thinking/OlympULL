@@ -3,10 +3,7 @@ package interfaz.administrador;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -134,7 +131,7 @@ public class VentanaNuevoEquipo extends JFrame implements Bordes, Fuentes, Icono
                         || teamNameField.getText().matches("^\\s*$")
                         || teamSchoolField.getText().matches("^\\s*$")
                         || Objects.requireNonNull(teamItinerarioField.getSelectedItem()).toString().matches("^\\s*$")) {
-                    new CustomJOptionPane("Todos los campos son obligatorios");
+                    new ErrorJOptionPane("Todos los campos son obligatorios");
 
                 } else {
                     String code = teamCodeField.getText();

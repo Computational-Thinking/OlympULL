@@ -108,7 +108,7 @@ public class VentanaOrganizador extends JFrame implements Bordes, Fuentes, Icono
                 new VentanaNuevaAsignacionEjIt(organizador);
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new ErrorJOptionPane("No se ha podido recuperar la información de la base de datos");
 
             }
 
@@ -120,7 +120,7 @@ public class VentanaOrganizador extends JFrame implements Bordes, Fuentes, Icono
                 new VentanaConsultaAsignacionEjIt(organizador);
 
             } catch (SQLException | JSchException ex) {
-                new CustomJOptionPane("ERROR");
+                new ErrorJOptionPane("No se ha podido recuperar la información de la base de datos");
 
             }
 

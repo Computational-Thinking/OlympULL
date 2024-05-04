@@ -3,10 +3,7 @@ package interfaz.administrador;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 import usuarios.Usuario;
 
@@ -170,7 +167,7 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
                 dispose();
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
 
             }
 
@@ -183,7 +180,7 @@ public class VentanaConsultaAsignacionEjOlimp extends JFrame implements Bordes, 
                 }
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
             }
         }
     }

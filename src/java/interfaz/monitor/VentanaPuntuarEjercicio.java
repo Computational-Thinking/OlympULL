@@ -1,9 +1,6 @@
 package interfaz.monitor;
 
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Monitor;
 
 import javax.swing.*;
@@ -137,7 +134,7 @@ public class VentanaPuntuarEjercicio extends JFrame implements Bordes, Fuentes, 
                 monitor.puntuarEquipo(puntuacion, concepto, (String) teamSelectionComboBox.getSelectedItem(), itinerario);
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
             }
         });
 
@@ -196,7 +193,7 @@ public class VentanaPuntuarEjercicio extends JFrame implements Bordes, Fuentes, 
                 }
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
             }
 
         });

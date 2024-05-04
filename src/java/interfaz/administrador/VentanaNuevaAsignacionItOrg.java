@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -147,7 +144,7 @@ public class VentanaNuevaAsignacionItOrg extends JFrame implements Bordes, Fuent
                 }
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido obtener la olimpiada");
+                new ErrorJOptionPane("No se ha podido obtener la olimpiada");
                 new VentanaAdministrador(administrador);
                 dispose();
 

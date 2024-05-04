@@ -1,26 +1,18 @@
 package interfaz.administrador;
 
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.security.DigestException;
 import java.sql.*;
 
 public class VentanaConsultaEjercicios extends JFrame implements Bordes, Fuentes, Iconos, MouseListener {
@@ -180,7 +172,7 @@ public class VentanaConsultaEjercicios extends JFrame implements Bordes, Fuentes
                 new VentanaModificarEjercicio(administrador, codigo, titulo, descripcion, concepto, recursos, tipo);
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
 
             }
 
@@ -196,7 +188,7 @@ public class VentanaConsultaEjercicios extends JFrame implements Bordes, Fuentes
                 }
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
 
             }
 
@@ -208,7 +200,7 @@ public class VentanaConsultaEjercicios extends JFrame implements Bordes, Fuentes
                 }
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
 
             }
         }

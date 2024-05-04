@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -175,7 +172,7 @@ public class VentanaNuevaAsignacionEjMonitor extends JFrame implements Bordes, F
                 }
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido obtener el título del ejercicio");
+                new ErrorJOptionPane("No se ha podido obtener el título del ejercicio");
                 new VentanaAdministrador(administrador);
                 dispose();
 
@@ -193,7 +190,7 @@ public class VentanaNuevaAsignacionEjMonitor extends JFrame implements Bordes, F
                 }
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido obtener las olimpiadas");
+                new ErrorJOptionPane("No se ha podido obtener las olimpiadas");
                 new VentanaAdministrador(administrador);
                 dispose();
 
@@ -212,7 +209,7 @@ public class VentanaNuevaAsignacionEjMonitor extends JFrame implements Bordes, F
                 }
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido obtener el itinerario");
+                new ErrorJOptionPane("No se ha podido obtener el itinerario");
                 new VentanaAdministrador(administrador);
                 dispose();
 

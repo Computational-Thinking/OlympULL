@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -181,7 +178,7 @@ public class VentanaModificarAsignacionEjMonitor extends JFrame implements Borde
                 new VentanaConsultaAsignacionEjMonitor(administrador);
                 dispose();
             } catch (JSchException | SQLException ex){
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
             }
         });
 
@@ -200,7 +197,7 @@ public class VentanaModificarAsignacionEjMonitor extends JFrame implements Borde
                 }
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido obtener el título del ejercicio");
+                new ErrorJOptionPane("No se ha podido obtener el título del ejercicio");
                 new VentanaAdministrador(administrador);
                 dispose();
 
@@ -218,7 +215,7 @@ public class VentanaModificarAsignacionEjMonitor extends JFrame implements Borde
                 }
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido obtener las olimpiadas");
+                new ErrorJOptionPane("No se ha podido obtener las olimpiadas");
                 new VentanaAdministrador(administrador);
                 dispose();
 
@@ -237,7 +234,7 @@ public class VentanaModificarAsignacionEjMonitor extends JFrame implements Borde
                 }
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido obtener el itinerario");
+                new ErrorJOptionPane("No se ha podido obtener el itinerario");
                 new VentanaAdministrador(administrador);
                 dispose();
 
@@ -256,7 +253,7 @@ public class VentanaModificarAsignacionEjMonitor extends JFrame implements Borde
                     dispose();
 
                 } catch (JSchException | SQLException ex) {
-                    new CustomJOptionPane("ERROR - " + ex.getMessage());
+                    new ErrorJOptionPane(ex.getMessage());
                 }
 
             }

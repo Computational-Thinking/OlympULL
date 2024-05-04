@@ -1,13 +1,7 @@
 package usuarios;
 
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
-import interfaz.CustomJOptionPane;
+import interfaz.MessageJOptionPane;
 import interfaz.OperacionesBD;
-
-import javax.swing.*;
-import java.sql.*;
 
 public abstract class Usuario implements OperacionesBD {
     String userName;
@@ -34,9 +28,9 @@ public abstract class Usuario implements OperacionesBD {
         String whereClause = "WHERE NOMBRE='" + this.userName + "'";
 
         if (update(table, setClause, whereClause) == 0) {
-            new CustomJOptionPane("Se ha cambiado la contraseña");
+            new MessageJOptionPane("Se ha cambiado la contraseña");
         } else {
-            new CustomJOptionPane("No se ha podido cambiar la contraseña");
+            new MessageJOptionPane("No se ha podido cambiar la contraseña");
         }
     }
 }

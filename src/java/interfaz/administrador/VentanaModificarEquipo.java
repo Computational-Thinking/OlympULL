@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -123,7 +120,7 @@ public class VentanaModificarEquipo extends JFrame implements Bordes, Fuentes, I
                     || teamNameField.getText().matches("^\\s*$")
                     || teamSchoolField.getText().matches("^\\s*$")
                     || Objects.requireNonNull(teamItinerarioField.getSelectedItem()).toString().matches("^\\s*$")) {
-                new CustomJOptionPane("Todos los campos son obligatorios");
+                new ErrorJOptionPane("Todos los campos son obligatorios");
 
             } else {
                 String code1 = teamCodeField.getText();
@@ -138,7 +135,7 @@ public class VentanaModificarEquipo extends JFrame implements Bordes, Fuentes, I
                     }
 
                 } catch (JSchException | SQLException exc) {
-                    new CustomJOptionPane("ERROR - " + exc.getMessage());
+                    new ErrorJOptionPane(exc.getMessage());
 
                 }
             }

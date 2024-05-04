@@ -207,7 +207,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                 new VentanaConsultaOlimpiadas(administrador);
 
             } catch (SQLException | JSchException ex) {
-                new CustomJOptionPane("ERROR");
+                new ErrorJOptionPane("Ha ocurrido un error inesperado");
             }
             dispose();
         });
@@ -217,7 +217,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                 new VentanaNuevoItinerario(administrador);
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new ErrorJOptionPane("Ha ocurrido un error inesperado");
 
             }
 
@@ -229,7 +229,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                 new VentanaConsultaItinerarios(administrador);
 
             } catch (SQLException | JSchException ex) {
-                new CustomJOptionPane("ERROR");
+                new ErrorJOptionPane("Ha ocurrido un error inesperado");
 
             }
 
@@ -253,7 +253,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                 new VentanaConsultaEjercicios(administrador);
 
             } catch (SQLException | JSchException ex) {
-                new CustomJOptionPane("ERROR");
+                new ErrorJOptionPane("Ha ocurrido un error inesperado");
 
             }
 
@@ -270,7 +270,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                 new VentanaConsultaRubricas(administrador);
 
             } catch (SQLException | JSchException ex) {
-                new CustomJOptionPane("ERROR");
+                new ErrorJOptionPane("Ha ocurrido un error inesperado");
 
             }
 
@@ -294,7 +294,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                 new VentanaConsultaEquipos(administrador);
 
             } catch (SQLException | JSchException ex) {
-                new CustomJOptionPane("ERROR");
+                new ErrorJOptionPane("Ha ocurrido un error inesperado");
 
             }
 
@@ -306,7 +306,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                 new VentanaNuevaAsignacionEjOlimp(administrador);
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR");
+                new ErrorJOptionPane("Ha ocurrido un error inesperado");
 
 
             }
@@ -319,7 +319,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                 new VentanaConsultaAsignacionEjOlimp(administrador);
 
             } catch (SQLException | JSchException ex) {
-                new CustomJOptionPane("ERROR");
+                new ErrorJOptionPane("Ha ocurrido un error inesperado");
 
             }
 
@@ -346,7 +346,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                 dispose();
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido recuperar la información de la base de datos");
+                new ErrorJOptionPane("No se ha podido recuperar la información de la base de datos");
 
             }
         });
@@ -356,7 +356,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                 new VentanaConsultaAsignacionEjMonitor(administrador);
                 dispose();
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido recuperar la información de la base de datos");
+                new ErrorJOptionPane("No se ha podido recuperar la información de la base de datos");
             }
         });
 
@@ -366,7 +366,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                 dispose();
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido recuperar la información de la base de datos");
+                new ErrorJOptionPane("No se ha podido recuperar la información de la base de datos");
 
             }
         });
@@ -377,7 +377,7 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
                 dispose();
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - No se ha podido recuperar la información de la base de datos");
+                new ErrorJOptionPane("No se ha podido recuperar la información de la base de datos");
 
             }
         });

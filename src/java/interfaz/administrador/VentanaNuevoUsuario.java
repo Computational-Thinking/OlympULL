@@ -1,9 +1,6 @@
 package interfaz.administrador;
 
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -117,7 +114,7 @@ public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Icon
         createUserButton.addActionListener(e -> {
             if (userNameField.getText().matches("^\\s*$")
                     || userPasswordField.getText().matches("^\\s*$")) {
-                new CustomJOptionPane("Los campos Nombre y Password son obligatorios");
+                new ErrorJOptionPane("Los campos Nombre y Password son obligatorios");
 
             } else {
                 String name = userNameField.getText();

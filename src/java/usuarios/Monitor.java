@@ -1,15 +1,12 @@
 package usuarios;
 
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import interfaz.CustomJOptionPane;
+import interfaz.ErrorJOptionPane;
+import interfaz.MessageJOptionPane;
 import interfaz.OperacionesBD;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Monitor extends Usuario implements OperacionesBD {
     ArrayList<String> exercises; // Código del ejercicio asociado a este monitor
@@ -50,7 +47,7 @@ public class Monitor extends Usuario implements OperacionesBD {
 
         if (prueba.next()) {
             if (prueba.getString(columnaPuntuacion) != null) {
-                new CustomJOptionPane("ERROR - Este equipo ya ha recibido una puntuación para el ejercicio seleccionado");
+                new ErrorJOptionPane("Este equipo ya ha recibido una puntuación para el ejercicio seleccionado");
 
             } else {
                 String table = "T_EQUIPOS";
@@ -58,9 +55,9 @@ public class Monitor extends Usuario implements OperacionesBD {
                 String where = "WHERE NOMBRE='" + equipo + "' AND ITINERARIO='" + itinerario + "'";
 
                 if (update(table, data, where) == 0) {
-                    new CustomJOptionPane("Se ha puntuado al equipo");
+                    new MessageJOptionPane("Se ha puntuado al equipo");
                 } else {
-                    new CustomJOptionPane("No se ha podido puntuar al equipo");
+                    new MessageJOptionPane("No se ha podido puntuar al equipo");
                 }
             }
         }
@@ -92,9 +89,9 @@ public class Monitor extends Usuario implements OperacionesBD {
         String where = "WHERE NOMBRE='" + equipo + "' AND ITINERARIO='" + itinerario + "'";
 
         if (update(table, data, where) == 0) {
-            new CustomJOptionPane("Se ha modificado la puntuación del equipo");
+            new MessageJOptionPane("Se ha modificado la puntuación del equipo");
         } else {
-            new CustomJOptionPane("No se ha podido modificar la puntuación");
+            new MessageJOptionPane("No se ha podido modificar la puntuación");
         }
 
     }

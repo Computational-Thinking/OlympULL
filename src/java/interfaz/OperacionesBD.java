@@ -55,7 +55,7 @@ public interface OperacionesBD extends ConfigReader {
             session.disconnect();
 
         } catch (JSchException | SQLException ex) {
-            new CustomJOptionPane("ERROR - " + ex.getMessage());
+            new ErrorJOptionPane(ex.getMessage());
             assert session != null;
             session.disconnect();
         }
@@ -97,7 +97,7 @@ public interface OperacionesBD extends ConfigReader {
             session.disconnect();
 
         } catch (JSchException | SQLException ex) {
-            new CustomJOptionPane("ERROR - " + ex.getMessage());
+            new ErrorJOptionPane(ex.getMessage());
             assert session != null;
             session.disconnect();
         }
@@ -110,7 +110,7 @@ public interface OperacionesBD extends ConfigReader {
     }
 
     // Método para insertar en la base de datos
-    default int insert(String table, String data) {
+    default int insert(String table, String data, String selection) {
         Session session = null;
 
         try {
@@ -128,7 +128,7 @@ public interface OperacionesBD extends ConfigReader {
             Statement stmt = conn.createStatement();
 
             // Consulta para añadir nuevo registro
-            String insertClause = "INSERT INTO " + table + " VALUES(" + data + ")";
+            String insertClause = "INSERT INTO " + table + selection + " VALUES(" + data + ")";
             stmt.executeUpdate(insertClause);
 
             // Se cierra la conexión
@@ -139,7 +139,7 @@ public interface OperacionesBD extends ConfigReader {
             return 0;
 
         } catch (JSchException | SQLException ex) {
-            new CustomJOptionPane("ERROR - " + ex.getMessage());
+            new ErrorJOptionPane(ex.getMessage());
             assert session != null;
             session.disconnect();
 
@@ -148,42 +148,8 @@ public interface OperacionesBD extends ConfigReader {
         }
     }
 
-    default int insertSelectedCols(String table, String data, String selection) {
-        Session session = null;
-
-        try {
-            // Conexión SSH a la MV remota
-            session = jsch.getSession(sshUser, sshHost, sshPort);
-            session.setPassword(sshPassword);
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.connect();
-
-            // Túnel SSH al puerto MySQL en la máquina remota
-            session.setPortForwardingL(localPort, remoteHost, remotePort);
-            Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
-            // Crear la sentencia
-            Statement stmt = conn.createStatement();
-
-            // Consulta para añadir nuevo registro
-            String insertClause = "INSERT INTO " + table + selection + " VALUES(" + data + ");";
-            stmt.executeUpdate(insertClause);
-
-            // Se cierra la conexión
-            stmt.close();
-            conn.close();
-            session.disconnect();
-
-            return 0;
-
-        } catch (JSchException | SQLException ex) {
-            new CustomJOptionPane("ERROR - " + ex.getMessage());
-            assert session != null;
-            session.disconnect();
-
-            return 1;
-
-        }
+    default int insert(String table, String data) {
+        return insert(table, data, "");
     }
 
     // Método para actualizar valor en la tabla
@@ -216,7 +182,7 @@ public interface OperacionesBD extends ConfigReader {
             return 0;
 
         } catch (JSchException | SQLException ex) {
-            new CustomJOptionPane("ERROR - " + ex.getMessage());
+            new ErrorJOptionPane(ex.getMessage());
             assert session != null;
             session.disconnect();
 
@@ -255,13 +221,13 @@ public interface OperacionesBD extends ConfigReader {
             return 0;
 
         } catch (SQLException ex) {
-            new CustomJOptionPane("ERROR - No se ha podido eliminar. Hay una referencia a este objeto en otra tabla");
+            new ErrorJOptionPane("No se ha podido eliminar. Hay una referencia a este objeto en otra tabla");
             session.disconnect();
 
             return 1;
 
         } catch (JSchException ex) {
-            new CustomJOptionPane("ERROR - " + ex.getMessage());
+            new ErrorJOptionPane(ex.getMessage());
             assert session != null;
             session.disconnect();
 

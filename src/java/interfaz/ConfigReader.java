@@ -14,7 +14,7 @@ public interface ConfigReader {
             properties.load(new FileInputStream("config.properties"));
 
         } catch (IOException e) {
-            new CustomJOptionPane("ERROR - No se ha podido recuperar el puerto SSH de config.properties");
+            new ErrorJOptionPane("No se ha podido recuperar el puerto SSH de config.properties");
 
         }
 
@@ -26,7 +26,7 @@ public interface ConfigReader {
             properties.load(new FileInputStream("config.properties"));
 
         } catch (IOException e) {
-            new CustomJOptionPane("ERROR - No se ha podido recuperar el username de la máquina remota de config.properties");
+            new ErrorJOptionPane("No se ha podido recuperar el username de la máquina remota de config.properties");
 
         }
 
@@ -38,7 +38,7 @@ public interface ConfigReader {
             properties.load(new FileInputStream("config.properties"));
 
         } catch (IOException e) {
-            new CustomJOptionPane("ERROR - No se ha podido recuperar la contraseña de la máquina remota de config.properties");
+            new ErrorJOptionPane("No se ha podido recuperar la contraseña de la máquina remota de config.properties");
 
         }
 
@@ -50,7 +50,7 @@ public interface ConfigReader {
             properties.load(new FileInputStream("config.properties"));
 
         } catch (IOException e) {
-            new CustomJOptionPane("ERROR - No se ha podido recuperar el username de la máquina remota de config.properties");
+            new ErrorJOptionPane("No se ha podido recuperar el username de la máquina remota de config.properties");
 
         }
 
@@ -62,7 +62,7 @@ public interface ConfigReader {
             properties.load(new FileInputStream("config.properties"));
 
         } catch (IOException e) {
-            new CustomJOptionPane("ERROR - No se ha podido recuperar el puerto de túnel SSH de config.properties");
+            new ErrorJOptionPane("No se ha podido recuperar el puerto de túnel SSH de config.properties");
 
         }
 
@@ -74,7 +74,7 @@ public interface ConfigReader {
             properties.load(new FileInputStream("config.properties"));
 
         } catch (IOException e) {
-            new CustomJOptionPane("ERROR - No se ha podido recuperar el nombre del host remoto de config.properties");
+            new ErrorJOptionPane("No se ha podido recuperar el nombre del host remoto de config.properties");
 
         }
 
@@ -86,7 +86,7 @@ public interface ConfigReader {
             properties.load(new FileInputStream("config.properties"));
 
         } catch (IOException e) {
-            new CustomJOptionPane("ERROR - No se ha podido recuperar el puerto remoto de config.properties");
+            new ErrorJOptionPane("No se ha podido recuperar el puerto remoto de config.properties");
 
         }
 
@@ -98,7 +98,7 @@ public interface ConfigReader {
             properties.load(new FileInputStream("config.properties"));
 
         } catch (IOException e) {
-            new CustomJOptionPane("ERROR - No se ha podido recuperar el nombre de la base de datos de config.properties");
+            new ErrorJOptionPane("No se ha podido recuperar el nombre de la base de datos de config.properties");
 
         }
 
@@ -110,7 +110,7 @@ public interface ConfigReader {
             properties.load(new FileInputStream("config.properties"));
 
         } catch (IOException e) {
-            new CustomJOptionPane("ERROR - No se ha podido recuperar el username del usuario de la base de datos de config.properties");
+            new ErrorJOptionPane("No se ha podido recuperar el username del usuario de la base de datos de config.properties");
 
         }
 
@@ -122,7 +122,7 @@ public interface ConfigReader {
             properties.load(new FileInputStream("config.properties"));
 
         } catch (IOException e) {
-            new CustomJOptionPane("ERROR - No se ha podido recuperar la contraseña del usuario de la base de datos de config.properties");
+            new ErrorJOptionPane("No se ha podido recuperar la contraseña del usuario de la base de datos de config.properties");
 
         }
 

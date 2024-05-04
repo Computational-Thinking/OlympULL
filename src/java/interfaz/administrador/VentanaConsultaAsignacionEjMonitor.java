@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -163,7 +160,7 @@ public class VentanaConsultaAsignacionEjMonitor extends JFrame implements Bordes
                 new VentanaModificarAsignacionEjMonitor(administrador, name, exercise, olympiad, itinerary);
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
 
             }
 
@@ -177,7 +174,7 @@ public class VentanaConsultaAsignacionEjMonitor extends JFrame implements Bordes
                 }
 
             } catch (JSchException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
 
             }
         }

@@ -1,10 +1,7 @@
 package interfaz.organizador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Organizador;
 
 import javax.swing.*;
@@ -148,14 +145,14 @@ public class VentanaModificarAsignacionEjIt extends JFrame implements Bordes, Fu
                 codes1.close();
 
             } catch (RuntimeException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
 
             }
         });
 
         assignExercise.addActionListener(e -> {
             if (itCodeField.getItemCount() == 0) {
-                new CustomJOptionPane("ERROR - Debe seleccionar un oldIt");
+                new ErrorJOptionPane("Debe seleccionar un itinerario");
 
             } else {
                 String exercise = (String) exerCodeField.getSelectedItem();
@@ -169,7 +166,7 @@ public class VentanaModificarAsignacionEjIt extends JFrame implements Bordes, Fu
                     }
 
                 } catch (JSchException | SQLException ex) {
-                    new CustomJOptionPane("ERROR - " + ex.getMessage());
+                    new ErrorJOptionPane(ex.getMessage());
 
                 }
             }

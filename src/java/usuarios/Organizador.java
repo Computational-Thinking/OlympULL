@@ -1,6 +1,7 @@
 package usuarios;
 
 import interfaz.CustomJOptionPane;
+import interfaz.MessageJOptionPane;
 import interfaz.OperacionesBD;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class Organizador extends Usuario implements OperacionesBD {
         String data = "'" + ex + "', '" + olymp + "', '" + it + "'";
 
         if (insert(table, data) == 0) {
-            new CustomJOptionPane("Se ha asignado el ejercicio");
+            new MessageJOptionPane("Se ha asignado el ejercicio");
             return 0;
         } else {
             return 1;
@@ -37,7 +38,7 @@ public class Organizador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE EJERCICIO='" + oldEx + "' AND OLIMPIADA='" + oldOlymp + "' AND ITINERARIO='" + oldIt + "'";
 
         if (update(table, setClause, whereClause) == 0) {
-            new CustomJOptionPane("Se ha modificado la asignación");
+            new MessageJOptionPane("Se ha modificado la asignación");
             return 0;
         } else {
             return 1;
@@ -49,7 +50,7 @@ public class Organizador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE EJERCICIO='" + ex +  "' AND OLIMPIADA='" + olymp + "' AND ITINERARIO='" + it + "';";
 
         if (delete(table, whereClause) == 0) {
-            new CustomJOptionPane("Se ha eliminado la asignación");
+            new MessageJOptionPane("Se ha eliminado la asignación");
             return 0;
         } else {
             return 1;

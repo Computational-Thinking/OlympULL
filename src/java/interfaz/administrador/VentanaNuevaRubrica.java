@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -230,7 +227,7 @@ public class VentanaNuevaRubrica extends JFrame implements Bordes, Fuentes, Icon
                 setLocationRelativeTo(null);
 
             } else {
-                new CustomJOptionPane("No es posible añadir más puntuaciones a la rúbrica");
+                new ErrorJOptionPane("No es posible añadir más campos de puntuación a la rúbrica");
 
             }
         });
@@ -247,7 +244,7 @@ public class VentanaNuevaRubrica extends JFrame implements Bordes, Fuentes, Icon
                 nScales -= 1;
 
             } else {
-                new CustomJOptionPane("No hay puntuaciones que borrar");
+                new ErrorJOptionPane("No hay puntuaciones que borrar");
 
             }
         });
@@ -307,13 +304,13 @@ public class VentanaNuevaRubrica extends JFrame implements Bordes, Fuentes, Icon
             }
 
             if (exit == 1) {
-                new CustomJOptionPane("Los valores de la rúbrica introducidos no son válidos.\n" +
+                new ErrorJOptionPane("Los valores de la rúbrica introducidos no son válidos.\n" +
                         "Los puntos deben ser números enteros entre 0 y 10.\n" +
                         "Las etiquetas de puntos deben ser cadenas de caracteres sin comas.");
             } else {
                 // Se comprueba que el código no es vacío
                 if (codeField.getText().matches("^\\s*$")) {
-                    new CustomJOptionPane("El campo Código es obligatorio.");
+                    new ErrorJOptionPane("El campo Código es obligatorio.");
 
                 } else {
                     String code = codeField.getText();

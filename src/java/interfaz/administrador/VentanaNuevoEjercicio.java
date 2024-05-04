@@ -4,6 +4,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import interfaz.CustomJOptionPane;
+import interfaz.ErrorJOptionPane;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -183,7 +184,7 @@ public class VentanaNuevoEjercicio extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (exerCodeField.getText().matches("^\\s*$")
                         || exerNameField.getText().matches("^\\s*$")) {
-                    new CustomJOptionPane("Los campos Código, Nombre, Concepto, Recursos, Tipo y Rúbrica son obligatorios");
+                    new ErrorJOptionPane("Los campos Código, Nombre, Concepto, Recursos, Tipo y Rúbrica son obligatorios");
 
                 } else {
                     String code = exerCodeField.getText();

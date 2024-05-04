@@ -95,12 +95,13 @@ public class VentanaConsultaPuntuaciones extends JFrame implements Bordes, Fuent
 
         String concepto = null;
 
-        ResultSet exerciseConcept = monitor.selectCol("T_EJERCICIOS", "CONCEPTO", "WHERE CODIGO='" + exerciseComboBox.getSelectedItem() + "'");
+        String where = "WHERE CODIGO='" + exerciseComboBox.getSelectedItem() + "'";
+        ResultSet exerciseConcept = monitor.selectCol("T_EJERCICIOS", "CONCEPTO", where);
 
         if (exerciseConcept.next()) {
             concepto = exerciseConcept.getString("CONCEPTO");
         } else {
-            new CustomJOptionPane("Ha ocurrido un error inesperado. Abortando...");
+            new ErrorJOptionPane("Ha ocurrido un error inesperado. Abortando...");
             dispose();
         }
 
@@ -197,7 +198,7 @@ public class VentanaConsultaPuntuaciones extends JFrame implements Bordes, Fuent
                 dispose();
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
 
             }
         });
@@ -218,7 +219,7 @@ public class VentanaConsultaPuntuaciones extends JFrame implements Bordes, Fuent
                 new VentanaModificarPuntuacion(monitor, ejercicio, equipo);
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
 
             }
             dispose();

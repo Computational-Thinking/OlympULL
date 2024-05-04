@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -261,7 +258,7 @@ public class VentanaModificarRubrica extends JFrame implements Bordes, Fuentes, 
                 pack();
                 setLocationRelativeTo(null);
             } else {
-                new CustomJOptionPane("No es posible añadir más filas");
+                new ErrorJOptionPane("No es posible añadir más filas");
             }
 
         });
@@ -277,7 +274,7 @@ public class VentanaModificarRubrica extends JFrame implements Bordes, Fuentes, 
                 setLocationRelativeTo(null);
                 nScales -= 1;
             } else {
-                new CustomJOptionPane("No hay registros que borrar");
+                new ErrorJOptionPane("No hay registros que borrar");
             }
 
         });
@@ -339,13 +336,13 @@ public class VentanaModificarRubrica extends JFrame implements Bordes, Fuentes, 
             System.out.println(Arrays.toString(scaleTags));
 
             if (exit == 1) {
-                new CustomJOptionPane("Los valores de rúbrica introducidos no son válidos." +
+                new ErrorJOptionPane("Los valores de rúbrica introducidos no son válidos." +
                         " Los puntos deben ser números enteros entre 0 y 10." +
                         " Las etiquetas de puntos deben ser cadenas de caracteres sin comas.");
             } else {
                 // Se comprueba que el código no es vacío
                 if (codeField.getText().matches("^\\s*$")) {
-                    new CustomJOptionPane("El campo Código es obligatorio.");
+                    new ErrorJOptionPane("El campo Código es obligatorio.");
 
                 } else {
                     String code1 = codeField.getText();
@@ -362,7 +359,7 @@ public class VentanaModificarRubrica extends JFrame implements Bordes, Fuentes, 
                         }
 
                     } catch (SQLException | JSchException ex) {
-                        new CustomJOptionPane("ERROR - " + ex.getMessage());
+                        new ErrorJOptionPane(ex.getMessage());
 
                     }
                 }

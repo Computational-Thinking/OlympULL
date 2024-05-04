@@ -116,7 +116,7 @@ public class VentanaCambioContrasea extends JFrame implements Bordes, Fuentes, I
                dispose();
 
             } else {
-                new CustomJOptionPane("Ha ocurrido un error inesperado. Abortando...");
+                new ErrorJOptionPane("Ha ocurrido un error inesperado. Abortando...");
                 dispose();
 
             }
@@ -141,13 +141,13 @@ public class VentanaCambioContrasea extends JFrame implements Bordes, Fuentes, I
                     dispose();
 
                 } else {
-                    new CustomJOptionPane("Ha ocurrido un error inesperado. Abortando...");
+                    new ErrorJOptionPane("Ha ocurrido un error inesperado. Abortando...");
                     dispose();
 
                 }
 
             } else {
-                new CustomJOptionPane("ERROR - Las contraseñas no coinciden");
+                new ErrorJOptionPane("Las contraseñas no coinciden");
 
             }
 

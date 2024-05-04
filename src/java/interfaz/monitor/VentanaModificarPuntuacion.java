@@ -1,9 +1,6 @@
 package interfaz.monitor;
 
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import interfaz.administrador.VentanaConsultaEquipos;
 import usuarios.Monitor;
 
@@ -154,7 +151,7 @@ public class VentanaModificarPuntuacion extends JFrame implements Bordes, Fuente
                 dispose();
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
             }
         });
 
@@ -187,7 +184,7 @@ public class VentanaModificarPuntuacion extends JFrame implements Bordes, Fuente
                 dispose();
 
             } catch (SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
             }
         });
     }

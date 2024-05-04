@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.Bordes;
-import interfaz.CustomJOptionPane;
-import interfaz.Fuentes;
-import interfaz.Iconos;
+import interfaz.*;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -31,7 +28,7 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
     JPanel inputPanel;
     JPanel upperPanel;
 
-    public VentanaModificarAsignacionEjOlimp(Administrador administrador, String ejercicio, String olimpiada, String itinerario) throws JSchException, SQLException {
+    public VentanaModificarAsignacionEjOlimp(Administrador administrador, String oldEx, String oldOlymp, String oldIt) throws JSchException, SQLException {
         // Configuración de la ventana
         setSize(500, 290);
         getContentPane().setLayout(new BorderLayout(5, 5));
@@ -40,10 +37,6 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
         setLocationRelativeTo(null);
         setIconImage(iconoVentana);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        String oldExercise = ejercicio;
-        String oldOlympiad = olimpiada;
-        String oldItinerario = itinerario;
 
         introduceData = new JLabel("Modificar asignación");
         introduceData.setFont(fuenteTitulo);
@@ -87,7 +80,7 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
             exerCodeField.addItem(registro);
         }
 
-        exerCodeField.setSelectedItem(ejercicio);
+        exerCodeField.setSelectedItem(oldEx);
 
         olympCodeField = new JComboBox<>();
         olympCodeField.setFont(fuenteCampoTexto);
@@ -100,7 +93,7 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
             olympCodeField.addItem(registro);
         }
         
-        olympCodeField.setSelectedItem(olimpiada);
+        olympCodeField.setSelectedItem(oldOlymp);
         
         itinerarioCodeField = new JComboBox<>();
         itinerarioCodeField.setFont(fuenteCampoTexto);
@@ -114,7 +107,7 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
             itinerarioCodeField.addItem(registro);
         }
 
-        itinerarioCodeField.setSelectedItem(itinerario);
+        itinerarioCodeField.setSelectedItem(oldIt);
         
         codes.close();
 
@@ -168,14 +161,14 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
                 codes1.close();
 
             } catch (RuntimeException | SQLException ex) {
-                new CustomJOptionPane("ERROR - " + ex.getMessage());
+                new ErrorJOptionPane(ex.getMessage());
 
             }
         });
 
         assignExercise.addActionListener(e -> {
             if (itinerarioCodeField.getItemCount() == 0) {
-                new CustomJOptionPane("ERROR - Debe seleccionar un itinerario");
+                new ErrorJOptionPane("Debe seleccionar un itinerario");
 
             } else {
                 String exercise = (String) exerCodeField.getSelectedItem();
@@ -183,13 +176,13 @@ public class VentanaModificarAsignacionEjOlimp extends JFrame implements Bordes,
                 String itinerary = (String) itinerarioCodeField.getSelectedItem();
 
                 try {
-                    if (administrador.modifyAssignationExOlymp(oldExercise, oldOlympiad, oldItinerario, exercise, olympiad, itinerary) == 0) {
+                    if (administrador.modifyAssignationExOlymp(oldEx, oldOlymp, oldIt, exercise, olympiad, itinerary) == 0) {
                         new VentanaConsultaAsignacionEjOlimp(administrador);
                         dispose();
                     }
 
                 } catch (JSchException | SQLException ex) {
-                    new CustomJOptionPane("ERROR - " + ex.getMessage());
+                    new ErrorJOptionPane(ex.getMessage());
 
                 }
             }

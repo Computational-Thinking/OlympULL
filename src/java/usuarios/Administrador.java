@@ -2,6 +2,7 @@ package usuarios;
 
 import com.jcraft.jsch.JSchException;
 import interfaz.CustomJOptionPane;
+import interfaz.MessageJOptionPane;
 import interfaz.OperacionesBD;
 
 import java.sql.*;
@@ -19,7 +20,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String data = "'" + code + "', '" + title + "', '" + desc + "', " + year;
 
         if (insert(table, data) == 0) {
-            new CustomJOptionPane("Se ha creado la olimpiada");
+            new MessageJOptionPane("Se ha creado la olimpiada");
             return 0;
 
         } else {
@@ -34,7 +35,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE CODIGO='" + oldCode + "';";
 
         if (update(table, setClause, whereClause) == 0) {
-            new CustomJOptionPane("Se ha modificado la olimpiada");
+            new MessageJOptionPane("Se ha modificado la olimpiada");
             return 0;
 
         } else {
@@ -48,7 +49,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE CODIGO='" + codigoOlimpiada + "';";
 
         if (delete(table, whereClause) == 0) {
-            new CustomJOptionPane("Se ha eliminado la olimpiada");
+            new MessageJOptionPane("Se ha eliminado la olimpiada");
             return 0;
 
         } else {
@@ -63,7 +64,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String data = "'" + code + "', '" + title + "', '" + desc + "', '" + olymp + "'";
 
         if (insert(table, data) == 0) {
-            new CustomJOptionPane("Se ha creado el itinerario");
+            new MessageJOptionPane("Se ha creado el itinerario");
             return 0;
         } else {
             return 1;
@@ -76,7 +77,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE CODIGO='" + oldCode + "';";
 
         if (update(table, setClause, whereClause) == 0) {
-            new CustomJOptionPane("Se ha modificado el itinerario");
+            new MessageJOptionPane("Se ha modificado el itinerario");
             return 0;
         } else {
             return 1;
@@ -88,7 +89,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE CODIGO='" + codigoItinerario + "';";
 
         if (delete(table, whereClause) == 0) {
-            new CustomJOptionPane("Se ha eliminado el itinerario");
+            new MessageJOptionPane("Se ha eliminado el itinerario");
             return 0;
 
         } else {
@@ -101,7 +102,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String data = "'" + code + "', '" + title + "', '" + desc + "', '" + concept + "', '" + resources + "', '" + type + "', '" + rubrica + "'";
 
         if (insert(table, data) == 0) {
-            new CustomJOptionPane("Se ha creado el ejercicio");
+            new MessageJOptionPane("Se ha creado el ejercicio");
             return 0;
         } else {
             return 1;
@@ -116,7 +117,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE CODIGO='" + oldCode + "';";
 
         if (update(table, setClause, whereClause) == 0) {
-            new CustomJOptionPane("Se ha modificado el ejercicio");
+            new MessageJOptionPane("Se ha modificado el ejercicio");
             return 0;
         } else {
             return 1;
@@ -128,7 +129,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE CODIGO='" + codigoEjercicio + "';";
 
         if (delete(table, whereClause) == 0) {
-            new CustomJOptionPane("Se ha eliminado el ejercicio");
+            new MessageJOptionPane("Se ha eliminado el ejercicio");
             return 0;
         } else {
             return 1;
@@ -140,7 +141,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String data = "'" + code + "', '" + title + "', '" + desc + "', '" + values + "', '" + tags + "'";
 
         if (insert(table, data) == 0) {
-            new CustomJOptionPane("Se ha creado la rúbrica");
+            new MessageJOptionPane("Se ha creado la rúbrica");
             return 0;
         } else {
             return 1;
@@ -154,7 +155,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE CODIGO='" + oldCode + "';";
 
         if (update(table, setClause, whereClause) == 0) {
-            new CustomJOptionPane("Se ha modificado la rúbrica");
+            new MessageJOptionPane("Se ha modificado la rúbrica");
             return 0;
         } else {
             return 1;
@@ -166,7 +167,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE CODIGO='" + codigoRubrica + "';";
 
         if (delete(table, whereClause) == 0) {
-            new CustomJOptionPane("Se ha eliminado la rúbrica");
+            new MessageJOptionPane("Se ha eliminado la rúbrica");
             return 0;
         } else {
             return 1;
@@ -178,8 +179,8 @@ public class Administrador extends Usuario implements OperacionesBD {
         String data = "'" + code + "', '" + name + "', '" + school + "', '" + itinerary + "'";
         String selection = "(CODIGO, NOMBRE, CENTRO_EDUCATIVO, ITINERARIO)";
 
-        if (insertSelectedCols(table, data, selection) == 0) {
-            new CustomJOptionPane("Se ha creado el equipo");
+        if (insert(table, data, selection) == 0) {
+            new MessageJOptionPane("Se ha creado el equipo");
             return 0;
         } else {
             return 1;
@@ -193,7 +194,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE CODIGO='" + oldCode + "';";
 
         if (update(table, setClause, whereClause) == 0) {
-            new CustomJOptionPane("Se ha modificado el equipo");
+            new MessageJOptionPane("Se ha modificado el equipo");
             return 0;
         } else {
             return 1;
@@ -205,7 +206,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE CODIGO='" + codigo + "';";
 
         if (delete(table, whereClause) == 0) {
-            new CustomJOptionPane("Se ha eliminado el equipo");
+            new MessageJOptionPane("Se ha eliminado el equipo");
             return 0;
         } else {
             return 1;
@@ -217,7 +218,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String data = "'" + exercise + "', '" + olympiad + "', '" + itinerario + "'";
 
         if (insert(table, data) == 0) {
-            new CustomJOptionPane("Se ha asignado el ejercicio");
+            new MessageJOptionPane("Se ha asignado el ejercicio");
             return 0;
 
         } else {
@@ -232,7 +233,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE EJERCICIO='" + oldEx + "' AND OLIMPIADA='" + oldOlymp + "' AND ITINERARIO='" + oldIt + "'";
 
         if (update(table, setClause, whereClause) == 0) {
-            new CustomJOptionPane("Se ha modificado la asignación");
+            new MessageJOptionPane("Se ha modificado la asignación");
             return 0;
         } else {
             return 1;
@@ -244,7 +245,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE EJERCICIO='" + ejercicio +  "' AND OLIMPIADA='" + olimpiada + "';";
 
         if (delete(table, whereClause) == 0) {
-            new CustomJOptionPane("Se ha eliminado la asignación");
+            new MessageJOptionPane("Se ha eliminado la asignación");
             return 0;
         } else {
             return 1;
@@ -256,7 +257,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String data = "'" + name + "', '" + passw + "', '" + type + "'";
 
         if (insert(table, data) == 0) {
-            new CustomJOptionPane("Se ha creado el usuario");
+            new MessageJOptionPane("Se ha creado el usuario");
             return 0;
         } else {
             return 1;
@@ -269,7 +270,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE NOMBRE='" + oldName + "';";
 
         if (update(table, setClause, whereClause) == 0) {
-            new CustomJOptionPane("Se ha modificado el usuario");
+            new MessageJOptionPane("Se ha modificado el usuario");
             return 0;
         } else {
             return 1;
@@ -281,7 +282,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE NOMBRE='" + name + "';";
 
         if (delete(table, whereClause) == 0) {
-            new CustomJOptionPane("Se ha eliminado el usuario");
+            new MessageJOptionPane("Se ha eliminado el usuario");
             return 0;
         } else {
             return 1;
@@ -293,7 +294,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String data = "'" + monitor + "', '" + exerCode + "', '" + olympCode + "', '" + itineraryCode + "'";
 
         if (insert(table, data) == 0) {
-            new CustomJOptionPane("Se ha asignado el ejercicio");
+            new MessageJOptionPane("Se ha asignado el ejercicio");
             return 0;
         } else {
             return 1;
@@ -306,7 +307,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE NOMBRE='" + oldMoni + "' AND EJERCICIO='" + oldEx + "' AND OLIMPIADA='" + oldOlymp + "'";
 
         if (update(table, setClause, whereClause) == 0) {
-            new CustomJOptionPane("Se ha modificado la asignación");
+            new MessageJOptionPane("Se ha modificado la asignación");
             return 0;
         } else {
             return 1;
@@ -318,7 +319,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE NOMBRE='" + name +  "' AND EJERCICIO='" + ex + "' AND OLIMPIADA='"  + olymp + "';";
 
         if (delete(table, whereClause) == 0) {
-            new CustomJOptionPane("Se ha eliminado la asignación");
+            new MessageJOptionPane("Se ha eliminado la asignación");
             return 0;
         } else {
             return 1;
@@ -330,7 +331,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String data = "'" + org + "', '" + itinerary + "'";
 
         if (insert(table, data) == 0) {
-            new CustomJOptionPane("Se ha asignado el itinerario");
+            new MessageJOptionPane("Se ha asignado el itinerario");
             return 0;
         } else {
             return 1;
@@ -343,7 +344,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE ORGANIZADOR='" + oldOrg + "' AND ITINERARIO='" + oldIt + "'";
 
         if (update(table, setClause, whereClause) == 0) {
-            new CustomJOptionPane("Se ha modificado la asignación");
+            new MessageJOptionPane("Se ha modificado la asignación");
             return 0;
         } else {
             return 1;
@@ -355,7 +356,7 @@ public class Administrador extends Usuario implements OperacionesBD {
         String whereClause = "WHERE ORGANIZADOR='" + org +  "' AND ITINERARIO='" + it + "';";
 
         if (delete(table, whereClause) == 0) {
-            new CustomJOptionPane("Se ha eliminado la asignación");
+            new MessageJOptionPane("Se ha eliminado la asignación");
             return 0;
         } else {
             return 1;
