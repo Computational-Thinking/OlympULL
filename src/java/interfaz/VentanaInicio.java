@@ -1,49 +1,45 @@
 package interfaz;
 
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import interfaz.administrador.VentanaAdministrador;
+import interfaz.custom_components.*;
 import interfaz.monitor.VentanaMonitor;
 import interfaz.organizador.VentanaOrganizador;
 import usuarios.Administrador;
 import usuarios.Monitor;
 import usuarios.Organizador;
-import usuarios.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
 
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.ImageIcon;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-import javax.swing.border.SoftBevelBorder;
 
 public class VentanaInicio extends JFrame implements Bordes, Fuentes, Iconos, OperacionesBD {
+    // Credentials stuff
+    JLabel userTag = new CustomFieldLabel("Usuario");
+    JLabel passwordTag = new CustomFieldLabel("Contraseña");
+    JTextField userField = new CustomTextField("");
+    JPasswordField passwordField = new CustomPasswordField("");
+    CustomButton loginButton = new CustomButton("Iniciar sesión");
+
+    //
+    CustomButton verRanking = new CustomButton("Ver ranking");
+
     JPanel logoPanel;
     JPanel credentialsPanel;
     JPanel loginPanel;
     JLabel olympullLogo;
-    JLabel userTag;
-    JLabel passwordTag;
-    JTextField userField;
-    JPasswordField passwordField;
-    JButton loginButton;
-    JButton verRanking;
 
     public VentanaInicio() {
         // Configuración de la ventana
-        setSize(500, 300);
-        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        setSize(500, 315);
+        getContentPane().setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Inicio");
         setLocationRelativeTo(null);
+        setResizable(false);
 
         logoPanel = new JPanel();
         logoPanel.setBackground(new Color(255, 255, 255));
@@ -60,17 +56,6 @@ public class VentanaInicio extends JFrame implements Bordes, Fuentes, Iconos, Op
         setIconImage(icon);
 
         // Configure credentials panel
-        userTag = new JLabel("Usuario");
-        userTag.setFont(fuenteBotonesEtiquetas);
-
-        passwordTag = new JLabel("Contraseña");
-        passwordTag.setFont(fuenteBotonesEtiquetas);
-        
-        userField = new JTextField();
-        userField.setFont(fuenteCampoTexto);
-        passwordField = new JPasswordField();
-        passwordField.setFont(fuenteBotonesEtiquetas);
-
         credentialsPanel = new JPanel();
         credentialsPanel.setBackground(new Color(255, 255, 255));
         credentialsPanel.setLayout(new GridLayout(2, 2, 10, 10));
@@ -84,18 +69,25 @@ public class VentanaInicio extends JFrame implements Bordes, Fuentes, Iconos, Op
 
         add(credentialsPanel);
 
-        verRanking = new JButton("Ver ranking");
-        verRanking.setFont(fuenteBotonesEtiquetas);
+        JPanel dummy1 = new JPanel();
+        dummy1.setLayout(new FlowLayout());
+        dummy1.add(verRanking);
+        dummy1.setBorder(borde);
 
         loginPanel = new JPanel();
         loginPanel.setBackground(new Color(255, 255, 255));
-        loginButton = new JButton("Iniciar sesión");
-        loginButton.setFont(fuenteBotonesEtiquetas);
+        loginPanel.setLayout(new BorderLayout());
+        JPanel dummy = new JPanel();
+        dummy.setLayout(new FlowLayout());
+        dummy.add(loginButton);
+        dummy.setBackground(new Color(255, 255, 255));
 
-        loginPanel.add(loginButton);
+        loginPanel.add(credentialsPanel, BorderLayout.CENTER);
+        loginPanel.add(dummy, BorderLayout.SOUTH);
+        loginPanel.setBorder(borde);
 
-        add(loginPanel);
-        add(verRanking);
+        add(loginPanel, BorderLayout.CENTER);
+        add(dummy1, BorderLayout.SOUTH);
 
         // Action listener
         loginButton.addActionListener(e -> {
@@ -179,7 +171,7 @@ public class VentanaInicio extends JFrame implements Bordes, Fuentes, Iconos, Op
         });
 
         verRanking.addActionListener(e -> {
-
+            new MessageJOptionPane("Funcionalidad en obras. Disculpe las molestias.");
         });
 
         this.setVisible(true);

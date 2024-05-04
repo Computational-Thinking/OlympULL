@@ -1,8 +1,7 @@
 package usuarios;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.CustomJOptionPane;
-import interfaz.MessageJOptionPane;
+import interfaz.custom_components.MessageJOptionPane;
 import interfaz.OperacionesBD;
 
 import java.sql.*;

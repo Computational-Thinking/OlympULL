@@ -1,11 +1,11 @@
 package interfaz.administrador;
 
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
-import interfaz.*;
+import interfaz.custom_components.Bordes;
+import interfaz.custom_components.ErrorJOptionPane;
+import interfaz.custom_components.Fuentes;
+import interfaz.custom_components.Iconos;
 import usuarios.Administrador;
-import usuarios.Usuario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

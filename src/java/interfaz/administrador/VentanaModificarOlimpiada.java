@@ -1,16 +1,15 @@
 package interfaz.administrador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.*;
+import interfaz.custom_components.Bordes;
+import interfaz.custom_components.ErrorJOptionPane;
+import interfaz.custom_components.Fuentes;
+import interfaz.custom_components.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.Objects;
 
 public class VentanaModificarOlimpiada extends JFrame implements Bordes, Fuentes, Iconos {
     // Botones

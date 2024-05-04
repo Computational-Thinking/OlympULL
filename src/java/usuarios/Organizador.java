@@ -1,7 +1,6 @@
 package usuarios;
 
-import interfaz.CustomJOptionPane;
-import interfaz.MessageJOptionPane;
+import interfaz.custom_components.MessageJOptionPane;
 import interfaz.OperacionesBD;
 
 import java.util.ArrayList;

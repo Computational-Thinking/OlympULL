@@ -1,13 +1,13 @@
 package interfaz.administrador;
 
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
-import interfaz.*;
+import interfaz.custom_components.Bordes;
+import interfaz.custom_components.ErrorJOptionPane;
+import interfaz.custom_components.Fuentes;
+import interfaz.custom_components.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -17,7 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.*;
-import java.util.Arrays;
 
 public class VentanaConsultaEquipos extends JFrame implements Bordes, Fuentes, Iconos, MouseListener {
     // Panel superior (título y botón de volver)

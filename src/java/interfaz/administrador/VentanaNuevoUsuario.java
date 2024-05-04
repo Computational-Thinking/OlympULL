@@ -1,12 +1,13 @@
 package interfaz.administrador;
 
-import interfaz.*;
+import interfaz.custom_components.Bordes;
+import interfaz.custom_components.ErrorJOptionPane;
+import interfaz.custom_components.Fuentes;
+import interfaz.custom_components.Iconos;
 import usuarios.Administrador;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class VentanaNuevoUsuario extends JFrame implements Bordes, Fuentes, Iconos {
     // Etiquetas

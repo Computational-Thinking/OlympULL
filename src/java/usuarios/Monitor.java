@@ -1,8 +1,7 @@
 package usuarios;
 
-import interfaz.CustomJOptionPane;
-import interfaz.ErrorJOptionPane;
-import interfaz.MessageJOptionPane;
+import interfaz.custom_components.ErrorJOptionPane;
+import interfaz.custom_components.MessageJOptionPane;
 import interfaz.OperacionesBD;
 
 import java.sql.*;

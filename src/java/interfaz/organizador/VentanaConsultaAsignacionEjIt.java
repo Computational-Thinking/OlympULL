@@ -1,10 +1,10 @@
 package interfaz.organizador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.*;
-import interfaz.administrador.VentanaAdministrador;
-import interfaz.administrador.VentanaModificarAsignacionEjOlimp;
-import usuarios.Administrador;
+import interfaz.custom_components.Bordes;
+import interfaz.custom_components.ErrorJOptionPane;
+import interfaz.custom_components.Fuentes;
+import interfaz.custom_components.Iconos;
 import usuarios.Organizador;
 
 import javax.swing.*;
@@ -12,8 +12,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.ResultSet;

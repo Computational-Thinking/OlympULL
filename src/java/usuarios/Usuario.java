@@ -1,6 +1,6 @@
 package usuarios;
 
-import interfaz.MessageJOptionPane;
+import interfaz.custom_components.MessageJOptionPane;
 import interfaz.OperacionesBD;
 
 public abstract class Usuario implements OperacionesBD {

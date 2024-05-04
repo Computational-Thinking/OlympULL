@@ -1,4 +1,4 @@
-package interfaz;
+package interfaz.custom_components;
 
 import javax.swing.*;
 

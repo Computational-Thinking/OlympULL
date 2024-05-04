@@ -1,6 +1,10 @@
 package interfaz;
 
 import interfaz.administrador.VentanaAdministrador;
+import interfaz.custom_components.Bordes;
+import interfaz.custom_components.ErrorJOptionPane;
+import interfaz.custom_components.Fuentes;
+import interfaz.custom_components.Iconos;
 import interfaz.monitor.VentanaMonitor;
 import interfaz.organizador.VentanaOrganizador;
 import usuarios.Administrador;

@@ -1,10 +1,7 @@
 package interfaz.administrador;
 
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
-import interfaz.CustomJOptionPane;
-import interfaz.ErrorJOptionPane;
+import interfaz.custom_components.ErrorJOptionPane;
 import usuarios.Administrador;
 
 import javax.swing.*;
@@ -13,8 +10,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class VentanaNuevoEjercicio extends JFrame {
     // Botones
