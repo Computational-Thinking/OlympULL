@@ -2,25 +2,25 @@ package interfaz.organizador;
 
 import com.jcraft.jsch.JSchException;
 import interfaz.*;
-import interfaz.custom_components.Bordes;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fuentes;
-import interfaz.custom_components.Iconos;
+import interfaz.custom_components.*;
+import interfaz.template.VentanaUsuario;
 import usuarios.Organizador;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 
-public class VentanaOrganizador extends JFrame implements Bordes, Fuentes, Iconos {
+public class VentanaOrganizador extends VentanaUsuario implements Bordes, Fuentes, Iconos {
     // Botones
-    JButton assignExerciseToItinerary;
-    JButton consultarAsignacionEjerciciosItinerarios;
-    JButton cambioContrasea;
-    JButton goBackButton;
+    CustomButton assignExerciseToItinerary;
+    CustomButton consultarAsignacionEjerciciosItinerarios;
+    CustomButton cambioContrasea;
+    CustomButton goBackButton;
 
     // Etiquetas
-    JLabel welcomeLabel;
+    CustomLabel welcomeLabel;
+    CustomLabel gestionItinerarioLabel;
+    CustomLabel otrasGestionesLabel;
 
     // Paneles
     JPanel olimpiadaButtonsPanel;
@@ -30,29 +30,15 @@ public class VentanaOrganizador extends JFrame implements Bordes, Fuentes, Icono
     JPanel otrasGestiones;
 
     public VentanaOrganizador(Organizador organizador) {
-        setSize(725, 375);
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Panel Organizador");
-        setLocationRelativeTo(null);
-        setIconImage(iconoVentana);
+        super(725, 375, "Panel Organizador", "¡Bienvenido al panel de organizador de OlympULL!");
 
-        goBackButton = new JButton("< Desconectar");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(120, 30));
-
-        assignExerciseToItinerary = new JButton("Asignar ejercicio a itinerario");
+        assignExerciseToItinerary = new CustomButton("Asignar ejercicio a itinerario");
         assignExerciseToItinerary.setPreferredSize(new Dimension(200, 30));
         assignExerciseToItinerary.setFont(fuenteBotonesEtiquetas);
 
-        consultarAsignacionEjerciciosItinerarios = new JButton("Consultar asignaciones de ejercicios a itinerarios");
+        consultarAsignacionEjerciciosItinerarios = new CustomButton("Consultar asignaciones de ejercicios a itinerarios");
         consultarAsignacionEjerciciosItinerarios.setPreferredSize(new Dimension(200, 30));
         consultarAsignacionEjerciciosItinerarios.setFont(fuenteBotonesEtiquetas);
-
-        upperBar = new JPanel();
-        upperBar.setLayout(new BorderLayout(5, 5));
-        upperBar.setBorder(borde);
-        upperBar.add(goBackButton, BorderLayout.EAST);
 
         olimpiadaButtonsPanel = new JPanel();
         olimpiadaButtonsPanel.setBorder(borde);
@@ -64,15 +50,15 @@ public class VentanaOrganizador extends JFrame implements Bordes, Fuentes, Icono
         usuariosButtonsPanel.setBorder(borde);
         usuariosButtonsPanel.setLayout(new GridLayout(1, 1, 15, 15));
 
-        JLabel gestionItinerarioLabel = new JLabel("Gestión de itinerarios");
+        gestionItinerarioLabel = new CustomSubtitleLabel("Gestión de itinerarios");
         gestionItinerarioLabel.setFont(fuenteSubtitulo);
         gestionItinerarioLabel.setBorder(borde);
 
-        JLabel otrasGestionesLabel = new JLabel("Otras gestiones");
+        otrasGestionesLabel = new CustomSubtitleLabel("Otras gestiones");
         otrasGestionesLabel.setFont(fuenteSubtitulo);
         otrasGestionesLabel.setBorder(borde);
         
-        cambioContrasea = new JButton("Cambiar contraseña");
+        cambioContrasea = new CustomButton("Cambiar contraseña");
         cambioContrasea.setFont(fuenteBotonesEtiquetas);
         cambioContrasea.setPreferredSize(new Dimension(120, 30));
 
@@ -91,19 +77,8 @@ public class VentanaOrganizador extends JFrame implements Bordes, Fuentes, Icono
         otrasGestiones.add(otrasGestionesLabel, BorderLayout.NORTH);
         otrasGestiones.add(usuariosButtonsPanel, BorderLayout.CENTER);
 
-        welcomeLabel = new JLabel("¡Bienvenido al panel de organizador de OlympULL!");
-        welcomeLabel.setFont(fuenteTitulo);
-        //welcomeLabel.setPreferredSize(new Dimension(200, 50));
-        upperBar.add(welcomeLabel, BorderLayout.CENTER);
-
-        add(upperBar, BorderLayout.NORTH);
         add(gestionItinerario, BorderLayout.CENTER);
         add(otrasGestiones, BorderLayout.SOUTH);
-
-        goBackButton.addActionListener(e -> {
-            new VentanaInicio();
-            dispose();
-        });
 
         assignExerciseToItinerary.addActionListener(e -> {
             try {
@@ -134,8 +109,6 @@ public class VentanaOrganizador extends JFrame implements Bordes, Fuentes, Icono
             dispose();
 
         });
-
-        this.setVisible(true);
     }
 }
 

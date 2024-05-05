@@ -17,20 +17,23 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 public class VentanaInicio extends JFrame implements Bordes, Fuentes, Iconos, OperacionesBD {
-    // Credentials stuff
-    JLabel userTag = new CustomFieldLabel("Usuario");
-    JLabel passwordTag = new CustomFieldLabel("Contraseña");
-    JTextField userField = new CustomTextField("");
-    JPasswordField passwordField = new CustomPasswordField("");
-    CustomButton loginButton = new CustomButton("Iniciar sesión");
+    // Labels
+    CustomLabel userTag;
+    CustomLabel passwordTag;
+    JLabel olympullLogo;
 
-    //
-    CustomButton verRanking = new CustomButton("Ver ranking");
+    // Text fields
+    CustomTextField userField;
+    CustomPasswordField passwordField;
 
+    // Buttons
+    CustomButton loginButton;
+    CustomButton verRanking;
+
+    // Panels
     JPanel logoPanel;
     JPanel credentialsPanel;
     JPanel loginPanel;
-    JLabel olympullLogo;
 
     public VentanaInicio() {
         // Configuración de la ventana
@@ -39,7 +42,6 @@ public class VentanaInicio extends JFrame implements Bordes, Fuentes, Iconos, Op
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Inicio");
         setLocationRelativeTo(null);
-        setResizable(false);
 
         logoPanel = new JPanel();
         logoPanel.setBackground(new Color(255, 255, 255));
@@ -56,6 +58,15 @@ public class VentanaInicio extends JFrame implements Bordes, Fuentes, Iconos, Op
         setIconImage(icon);
 
         // Configure credentials panel
+        userTag = new CustomFieldLabel("Usuario");
+        passwordTag = new CustomFieldLabel("Contraseña");
+        userField = new CustomTextField("");
+        passwordField = new CustomPasswordField("");
+        loginButton = new CustomButton("Iniciar sesión");
+
+        //
+        verRanking = new CustomButton("Ver ranking");
+
         credentialsPanel = new JPanel();
         credentialsPanel.setBackground(new Color(255, 255, 255));
         credentialsPanel.setLayout(new GridLayout(2, 2, 10, 10));

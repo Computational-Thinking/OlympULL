@@ -1,10 +1,7 @@
 package interfaz.organizador;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.custom_components.Bordes;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fuentes;
-import interfaz.custom_components.Iconos;
+import interfaz.custom_components.*;
 import usuarios.Organizador;
 
 import javax.swing.*;
@@ -14,19 +11,19 @@ import java.sql.SQLException;
 
 public class VentanaNuevaAsignacionEjIt extends JFrame implements Bordes, Fuentes, Iconos {
     // Botones
-    JButton goBackButton;
-    JButton assignExercise;
+    CustomButton goBackButton;
+    CustomButton assignExercise;
 
     // Etiquetas
-    JLabel introduceData;
-    JLabel exerCode;
-    JLabel olympCode;
-    JLabel olympCodeField;
-    JLabel itinerarioCode;
+    CustomLabel title;
+    CustomLabel exerCode;
+    CustomLabel olympCode;
+    CustomLabel olympCodeField;
+    CustomLabel itinerarioCode;
 
     // Combo boxes
-    JComboBox<String> exerCodeField;
-    JComboBox<String> itinerarioCodeField;
+    CustomComboBox exerCodeField;
+    CustomComboBox itinerarioCodeField;
 
     // Paneles
     JPanel inputPanel;
@@ -44,39 +41,31 @@ public class VentanaNuevaAsignacionEjIt extends JFrame implements Bordes, Fuente
         // Icono de la ventana
         setIconImage(iconoVentana);
 
-        introduceData = new JLabel("Nueva asignación");
-        introduceData.setFont(fuenteTitulo);
+        title = new CustomTitleLabel("Nueva asignación");
 
-        goBackButton = new JButton("< Volver");
+        goBackButton = new CustomButton("< Volver");
         goBackButton.setFont(fuenteBotonesEtiquetas);
         goBackButton.setPreferredSize(new Dimension(90, 30));
 
         upperPanel = new JPanel();
         upperPanel.setLayout(new BorderLayout(5, 5));
-        upperPanel.add(introduceData, BorderLayout.CENTER);
+        upperPanel.add(title, BorderLayout.CENTER);
         upperPanel.add(goBackButton, BorderLayout.EAST);
         upperPanel.setBorder(borde);
 
-        exerCode = new JLabel("Ejercicio (*)");
-        exerCode.setFont(fuenteBotonesEtiquetas);
+        exerCode = new CustomFieldLabel("Ejercicio (*)");
 
-        olympCode = new JLabel("Olimpiada (*)");
-        olympCode.setFont(fuenteBotonesEtiquetas);
+        olympCode = new CustomFieldLabel("Olimpiada (*)");
 
-        itinerarioCode = new JLabel("Itinerario (*)");
-        itinerarioCode.setFont(fuenteBotonesEtiquetas);
+        itinerarioCode = new CustomFieldLabel("Itinerario (*)");
 
-        exerCodeField = new JComboBox<String>();
-        exerCodeField.setFont(fuenteCampoTexto);
+        exerCodeField = new CustomComboBox();
 
-        olympCodeField = new JLabel();
-        olympCodeField.setFont(fuenteCampoTexto);
+        olympCodeField = new CustomFieldLabel();
 
-        itinerarioCodeField = new JComboBox<>();
-        itinerarioCodeField.setFont(fuenteCampoTexto);
+        itinerarioCodeField = new CustomComboBox();
 
-        exerCodeField = new JComboBox<>();
-        exerCodeField.setFont(fuenteCampoTexto);
+        exerCodeField = new CustomComboBox();
 
         ResultSet codes = organizador.selectCol("T_EJERCICIOS", "CODIGO");
 
@@ -85,7 +74,7 @@ public class VentanaNuevaAsignacionEjIt extends JFrame implements Bordes, Fuente
             exerCodeField.addItem(registro);
         }
 
-        itinerarioCodeField = new JComboBox<>();
+        itinerarioCodeField = new CustomComboBox();
         itinerarioCodeField.setFont(fuenteCampoTexto);
 
         for (int i = 0; i < organizador.getItinerarios().size(); ++i) {
@@ -94,7 +83,7 @@ public class VentanaNuevaAsignacionEjIt extends JFrame implements Bordes, Fuente
 
         codes.close();
 
-        assignExercise = new JButton("Asignar");
+        assignExercise = new CustomButton("Asignar");
         assignExercise.setPreferredSize(new Dimension(100, 30));
         assignExercise.setFont(fuenteBotonesEtiquetas);
 

@@ -5,40 +5,27 @@ import interfaz.custom_components.Bordes;
 import interfaz.custom_components.ErrorJOptionPane;
 import interfaz.custom_components.Fuentes;
 import interfaz.custom_components.Iconos;
+import interfaz.template.VentanaUsuario;
 import usuarios.Monitor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 
-public class VentanaMonitor extends JFrame implements Bordes, Fuentes, Iconos {
+public class VentanaMonitor extends VentanaUsuario implements Bordes, Fuentes, Iconos {
     // Botones
     JButton punctuateExercise;
     JButton checkPunctuations;
     JButton cambioContrasea;
-    JButton goBackButton;
-
-    // Etiquetas
-    JLabel welcomeLabel;
 
     // Paneles
     JPanel punctuationsPanel;
     JPanel usuariosButtonsPanel;
-    JPanel upperBar;
     JPanel gestionItinerario;
     JPanel otrasGestiones;
 
     public VentanaMonitor(Monitor monitor) {
-        setSize(725, 375);
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Panel Monitor");
-        setLocationRelativeTo(null);
-        setIconImage(iconoVentana);
-
-        goBackButton = new JButton("< Desconectar");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(120, 30));
+        super(725, 375, "Panel Monitor", "¡Bienvenido al panel de monitor de OlympULL!");
 
         punctuateExercise = new JButton("Puntuar equipo");
         punctuateExercise.setPreferredSize(new Dimension(200, 30));
@@ -47,11 +34,6 @@ public class VentanaMonitor extends JFrame implements Bordes, Fuentes, Iconos {
         checkPunctuations = new JButton("Consultar puntuaciones realizadas");
         checkPunctuations.setPreferredSize(new Dimension(200, 30));
         checkPunctuations.setFont(fuenteBotonesEtiquetas);
-
-        upperBar = new JPanel();
-        upperBar.setLayout(new BorderLayout(5, 5));
-        upperBar.setBorder(borde);
-        upperBar.add(goBackButton, BorderLayout.EAST);
 
         punctuationsPanel = new JPanel();
         punctuationsPanel.setBorder(borde);
@@ -90,19 +72,8 @@ public class VentanaMonitor extends JFrame implements Bordes, Fuentes, Iconos {
         otrasGestiones.add(otrasGestionesLabel, BorderLayout.NORTH);
         otrasGestiones.add(usuariosButtonsPanel, BorderLayout.CENTER);
 
-        welcomeLabel = new JLabel("¡Bienvenido al panel de monitor de OlympULL!");
-        welcomeLabel.setFont(fuenteTitulo);
-        //welcomeLabel.setPreferredSize(new Dimension(200, 50));
-        upperBar.add(welcomeLabel, BorderLayout.CENTER);
-
-        add(upperBar, BorderLayout.NORTH);
         add(gestionItinerario, BorderLayout.CENTER);
         add(otrasGestiones, BorderLayout.SOUTH);
-
-        goBackButton.addActionListener(e -> {
-            new VentanaInicio();
-            dispose();
-        });
 
         punctuateExercise.addActionListener(e -> {
             try {

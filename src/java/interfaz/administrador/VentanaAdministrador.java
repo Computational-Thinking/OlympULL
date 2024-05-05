@@ -6,13 +6,14 @@ import interfaz.custom_components.Bordes;
 import interfaz.custom_components.ErrorJOptionPane;
 import interfaz.custom_components.Fuentes;
 import interfaz.custom_components.Iconos;
+import interfaz.template.VentanaUsuario;
 import usuarios.Administrador;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 
-public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Iconos {
+public class VentanaAdministrador extends VentanaUsuario implements Bordes, Fuentes, Iconos {
     // Botones
     JButton createOlympiad;
     JButton consultarOlimpiadas;
@@ -32,30 +33,16 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
     JButton consultarAsignacionEjerciciosMonitores;
     JButton asignarItinerarioAOrganizador;
     JButton consultarAsignacionItinerarioOrganizador;
-    JButton goBackButton;
     JButton changePassword;
-
-    // Etiquetas
-    JLabel welcomeLabel;
 
     // Paneles
     JPanel olimpiadaButtonsPanel;
     JPanel usuariosButtonsPanel;
-    JPanel upperBar;
     JPanel gestionOlimpiada;
     JPanel gestionUsuarios;
 
     public VentanaAdministrador(Administrador administrador) {
-        setSize(825, 690);
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Panel Administrador");
-        setLocationRelativeTo(null);
-        setIconImage(iconoVentana);
-
-        goBackButton = new JButton("< Desconectar");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(120, 30));
+        super(825, 690, "Panel Administrador", "¡Bienvenido al panel de administrador de OlympULL!");
 
         createOlympiad = new JButton("Crear nueva olimpiada");
         createOlympiad.setPreferredSize(new Dimension(200, 30));
@@ -133,11 +120,6 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
         changePassword.setPreferredSize(new Dimension(200, 30));
         changePassword.setFont(fuenteBotonesEtiquetas);
 
-        upperBar = new JPanel();
-        upperBar.setLayout(new BorderLayout(5, 5));
-        upperBar.setBorder(borde);
-        upperBar.add(goBackButton, BorderLayout.EAST);
-
         olimpiadaButtonsPanel = new JPanel();
         olimpiadaButtonsPanel.setBorder(borde);
         olimpiadaButtonsPanel.setLayout(new GridLayout(6, 2, 15, 15));
@@ -187,19 +169,8 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
         gestionUsuarios.add(gestionUsuariosLabel, BorderLayout.NORTH);
         gestionUsuarios.add(usuariosButtonsPanel, BorderLayout.CENTER);
 
-        welcomeLabel = new JLabel("¡Bienvenido al panel de administrador de OlympULL!");
-        welcomeLabel.setFont(fuenteTitulo);
-        //welcomeLabel.setPreferredSize(new Dimension(200, 50));
-        upperBar.add(welcomeLabel, BorderLayout.CENTER);
-
-        add(upperBar, BorderLayout.NORTH);
         add(gestionOlimpiada, BorderLayout.CENTER);
         add(gestionUsuarios, BorderLayout.SOUTH);
-
-        goBackButton.addActionListener(e -> {
-            new VentanaInicio();
-            dispose();
-        });
 
         createOlympiad.addActionListener(e -> {
             new VentanaNuevaOlimpiada(administrador);
@@ -390,7 +361,5 @@ public class VentanaAdministrador extends JFrame implements Bordes, Fuentes, Ico
             new VentanaCambioContrasea(administrador);
             dispose();
         });
-
-        this.setVisible(true);
     }
 }
