@@ -3,14 +3,14 @@ package interfaz.admin;
 import com.jcraft.jsch.JSchException;
 import interfaz.ChangePasswordFrame;
 import interfaz.custom_components.*;
-import interfaz.template.UserFrame;
+import interfaz.template.UserFrameTemplate;
 import users.Admin;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 
-public class AdminFrame extends UserFrame implements Borders, Fonts, Icons {
+public class AdminFrame extends UserFrameTemplate implements Borders, Fonts, Icons {
     // Botones
     CustomButton createOlympiad;
     CustomButton checkOlympiads;
@@ -37,13 +37,13 @@ public class AdminFrame extends UserFrame implements Borders, Fonts, Icons {
     CustomSubtitleLabel userManagementLabel;
 
     // Paneles
-    JPanel olympiadButtonsPanel;
-    JPanel userButtonsPanel;
-    JPanel olympiadManagementPanel;
-    JPanel userManagementPanel;
+    CustomPanel olympiadButtonsPanel;
+    CustomPanel userButtonsPanel;
+    CustomPanel olympiadManagementPanel;
+    CustomPanel userManagementPanel;
 
     public AdminFrame(Admin administrador) {
-        super(825, 690, "Panel Administrador", "¡Bienvenido al panel de administrador de OlympULL!", "< Desconectar");
+        super(690, "Panel Administrador", "¡Bienvenido al panel de administrador de OlympULL!");
         add(createCenterPanel(), BorderLayout.CENTER);
         add(createSouthPanel(), BorderLayout.SOUTH);
 
@@ -240,7 +240,7 @@ public class AdminFrame extends UserFrame implements Borders, Fonts, Icons {
     }
 
     @Override
-    protected JPanel createCenterPanel() {
+    protected CustomPanel createCenterPanel() {
         // Panel de gestión de olimpiadas
         createOlympiad = new CustomButton("Crear nueva olimpiada", 200, 30);
         checkOlympiads = new CustomButton("Consultar olimpiadas", 200, 30);
@@ -255,8 +255,7 @@ public class AdminFrame extends UserFrame implements Borders, Fonts, Icons {
         assignExerciseToOlympiad = new CustomButton("Asignar ejercicio a olimpiada", 200, 30);
         checkAssignationExOlymp = new CustomButton("Consultar asignaciones de ejercicios a olimpiadas", 200, 30);
 
-        olympiadButtonsPanel = new JPanel();
-        olympiadButtonsPanel.setBorder(borde);
+        olympiadButtonsPanel = new CustomPanel();
         olympiadButtonsPanel.setLayout(new GridLayout(6, 2, 15, 15));
         olympiadButtonsPanel.add(createOlympiad);
         olympiadButtonsPanel.add(checkOlympiads);
@@ -273,9 +272,8 @@ public class AdminFrame extends UserFrame implements Borders, Fonts, Icons {
 
         olympiadManagementLabel = new CustomSubtitleLabel("Gestión de olimpiadas");
 
-        olympiadManagementPanel = new JPanel();
+        olympiadManagementPanel = new CustomPanel();
         olympiadManagementPanel.setLayout(new BorderLayout(5, 5));
-        olympiadManagementPanel.setBorder(borde);
         olympiadManagementPanel.add(olympiadManagementLabel, BorderLayout.NORTH);
         olympiadManagementPanel.add(olympiadButtonsPanel, BorderLayout.CENTER);
 
@@ -283,7 +281,7 @@ public class AdminFrame extends UserFrame implements Borders, Fonts, Icons {
     }
 
     @Override
-    protected JPanel createSouthPanel() {
+    protected CustomPanel createSouthPanel() {
         // Panel de gestión de usuarios
         createUser = new CustomButton("Crear nuevo usuario", 200, 30);
         checkUsers = new CustomButton("Consultar usuarios", 200, 30);
@@ -293,8 +291,7 @@ public class AdminFrame extends UserFrame implements Borders, Fonts, Icons {
         checkAssignationItOrg = new CustomButton("Consultar asignaciones de itinerarios a organizadores", 200, 30);
         changePassword = new CustomButton("Cambiar contraseña", 200, 30);
 
-        userButtonsPanel = new JPanel();
-        userButtonsPanel.setBorder(borde);
+        userButtonsPanel = new CustomPanel();
         userButtonsPanel.setLayout(new GridLayout(4, 2, 15, 15));
         userButtonsPanel.add(createUser);
         userButtonsPanel.add(checkUsers);
@@ -306,9 +303,8 @@ public class AdminFrame extends UserFrame implements Borders, Fonts, Icons {
 
         userManagementLabel = new CustomSubtitleLabel("Gestión de usuarios");
 
-        userManagementPanel = new JPanel();
+        userManagementPanel = new CustomPanel();
         userManagementPanel.setLayout(new BorderLayout());
-        userManagementPanel.setBorder(borde);
         userManagementPanel.add(userManagementLabel, BorderLayout.NORTH);
         userManagementPanel.add(userButtonsPanel, BorderLayout.CENTER);
 

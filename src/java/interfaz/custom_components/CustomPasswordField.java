@@ -6,7 +6,7 @@ import java.awt.*;
 public class CustomPasswordField extends JPasswordField implements Borders, Fonts {
     public CustomPasswordField(String password) {
         this.setText(password);
-        this.setBackground(new Color(237, 237, 237));
+        this.setBackground(new Color(255, 255, 255));
         this.setBorder(bordeCampoTexto);
     }
 }

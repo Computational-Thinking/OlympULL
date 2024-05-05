@@ -3,14 +3,14 @@ package interfaz.organizer;
 import com.jcraft.jsch.JSchException;
 import interfaz.*;
 import interfaz.custom_components.*;
-import interfaz.template.UserFrame;
+import interfaz.template.UserFrameTemplate;
 import users.Organizer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 
-public class OrganizerFrame extends UserFrame implements Borders, Fonts, Icons {
+public class OrganizerFrame extends UserFrameTemplate implements Borders, Fonts, Icons {
     // Botones
     CustomButton assignExerciseToItinerary;
     CustomButton checkAssignationExIt;
@@ -21,13 +21,13 @@ public class OrganizerFrame extends UserFrame implements Borders, Fonts, Icons {
     CustomLabel otrasGestionesLabel;
 
     // Paneles
-    JPanel punctuationButtonsPanel;
-    JPanel usuariosButtonsPanel;
-    JPanel gestionItinerario;
-    JPanel otrasGestiones;
+    CustomPanel punctuationButtonsPanel;
+    CustomPanel usuariosButtonsPanel;
+    CustomPanel gestionItinerario;
+    CustomPanel otrasGestiones;
 
     public OrganizerFrame(Organizer organizador) {
-        super(725, 375, "Panel Organizador", "¡Bienvenido al panel de organizador de OlympULL!", "< Desconectar");
+        super(375, "Panel Organizador", "¡Bienvenido al panel de organizador de OlympULL!");
 
         add(createCenterPanel(), BorderLayout.CENTER);
         add(createSouthPanel(), BorderLayout.SOUTH);
@@ -64,20 +64,18 @@ public class OrganizerFrame extends UserFrame implements Borders, Fonts, Icons {
     }
 
     @Override
-    protected JPanel createCenterPanel() {
+    protected CustomPanel createCenterPanel() {
         gestionItinerarioLabel = new CustomSubtitleLabel("Gestión de itinerarios");
-        gestionItinerarioLabel.setBorder(borde);
 
         assignExerciseToItinerary = new CustomButton("Asignar ejercicio a itinerario");
         checkAssignationExIt = new CustomButton("Consultar asignaciones de ejercicios a itinerarios");
 
-        punctuationButtonsPanel = new JPanel();
-        punctuationButtonsPanel.setBorder(borde);
+        punctuationButtonsPanel = new CustomPanel();
         punctuationButtonsPanel.setLayout(new GridLayout(2, 1, 15, 15));
         punctuationButtonsPanel.add(assignExerciseToItinerary);
         punctuationButtonsPanel.add(checkAssignationExIt);
 
-        gestionItinerario = new JPanel();
+        gestionItinerario = new CustomPanel();
         gestionItinerario.setLayout(new BorderLayout());
         gestionItinerario.setBorder(borde);
         gestionItinerario.add(gestionItinerarioLabel, BorderLayout.NORTH);
@@ -87,20 +85,18 @@ public class OrganizerFrame extends UserFrame implements Borders, Fonts, Icons {
     }
 
     @Override
-    protected JPanel createSouthPanel() {
+    protected CustomPanel createSouthPanel() {
         otrasGestionesLabel = new CustomSubtitleLabel("Otras gestiones");
         otrasGestionesLabel.setBorder(borde);
 
         cambioContrasea = new CustomButton("Cambiar contraseña");
 
-        usuariosButtonsPanel = new JPanel();
-        usuariosButtonsPanel.setBorder(borde);
+        usuariosButtonsPanel = new CustomPanel();
         usuariosButtonsPanel.setLayout(new GridLayout(1, 1, 15, 15));
         usuariosButtonsPanel.add(cambioContrasea);
 
-        otrasGestiones = new JPanel();
+        otrasGestiones = new CustomPanel();
         otrasGestiones.setLayout(new BorderLayout());
-        otrasGestiones.setBorder(borde);
         otrasGestiones.add(otrasGestionesLabel, BorderLayout.NORTH);
         otrasGestiones.add(usuariosButtonsPanel, BorderLayout.CENTER);
 

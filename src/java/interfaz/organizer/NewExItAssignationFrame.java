@@ -2,6 +2,7 @@ package interfaz.organizer;
 
 import com.jcraft.jsch.JSchException;
 import interfaz.custom_components.*;
+import interfaz.template.NewRegistrationFrameTemplate;
 import users.Organizer;
 
 import javax.swing.*;
@@ -9,111 +10,43 @@ import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class NewExItAssignationFrame extends JFrame implements Borders, Fonts, Icons {
+public class NewExItAssignationFrame extends NewRegistrationFrameTemplate implements Borders, Fonts, Icons {
     // Botones
-    CustomButton goBackButton;
     CustomButton assignExercise;
 
     // Etiquetas
-    CustomLabel title;
     CustomLabel exerCode;
     CustomLabel olympCode;
     CustomLabel olympCodeField;
-    CustomLabel itinerarioCode;
+    CustomLabel itineraryCode;
 
     // Combo boxes
     CustomComboBox exerCodeField;
-    CustomComboBox itinerarioCodeField;
+    CustomComboBox itineraryCodeField;
 
     // Paneles
-    JPanel inputPanel;
-    JPanel upperPanel;
+    CustomPanel inputPanel;
+    CustomPanel createButtonPanel;
+    
+    // Otros
+    Organizer user;
 
     public NewExItAssignationFrame(Organizer organizador) throws JSchException, SQLException {
-        // Configuración de la ventana
-        setSize(500, 290);
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        this.setTitle("Nueva asignación");
-        this.setVisible(true);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        super(290, "Nueva asignación");
+        
+        user = organizador;
 
-        // Icono de la ventana
-        setIconImage(iconoVentana);
+        add(createCenterPanel(), BorderLayout.CENTER);
+        add(createSouthPanel(), BorderLayout.SOUTH);
 
-        title = new CustomTitleLabel("Nueva asignación");
-
-        goBackButton = new CustomButton("< Volver");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(90, 30));
-
-        upperPanel = new JPanel();
-        upperPanel.setLayout(new BorderLayout(5, 5));
-        upperPanel.add(title, BorderLayout.CENTER);
-        upperPanel.add(goBackButton, BorderLayout.EAST);
-        upperPanel.setBorder(borde);
-
-        exerCode = new CustomFieldLabel("Ejercicio (*)");
-
-        olympCode = new CustomFieldLabel("Olimpiada (*)");
-
-        itinerarioCode = new CustomFieldLabel("Itinerario (*)");
-
-        exerCodeField = new CustomComboBox();
-
-        olympCodeField = new CustomFieldLabel();
-
-        itinerarioCodeField = new CustomComboBox();
-
-        exerCodeField = new CustomComboBox();
-
-        ResultSet codes = organizador.selectCol("T_EJERCICIOS", "CODIGO");
-
-        while (codes.next()) {
-            String registro = codes.getString("CODIGO");
-            exerCodeField.addItem(registro);
-        }
-
-        itinerarioCodeField = new CustomComboBox();
-        itinerarioCodeField.setFont(fuenteCampoTexto);
-
-        for (int i = 0; i < organizador.getItinerarios().size(); ++i) {
-            itinerarioCodeField.addItem(organizador.getItinerarios().get(i));
-        }
-
-        codes.close();
-
-        assignExercise = new CustomButton("Asignar");
-        assignExercise.setPreferredSize(new Dimension(100, 30));
-        assignExercise.setFont(fuenteBotonesEtiquetas);
-
-        JPanel createButtonPanel = new JPanel();
-        createButtonPanel.setBorder(borde);
-        createButtonPanel.add(assignExercise);
-
-        inputPanel = new JPanel();
-        inputPanel.setBorder(borde);
-        inputPanel.setLayout(new GridLayout(3, 2, 10, 10));
-
-        inputPanel.add(exerCode);
-        inputPanel.add(exerCodeField);
-        inputPanel.add(itinerarioCode);
-        inputPanel.add(itinerarioCodeField);
-        inputPanel.add(olympCode);
-        inputPanel.add(olympCodeField);
-
-        add(upperPanel, BorderLayout.NORTH);
-        add(inputPanel, BorderLayout.CENTER);
-        add(createButtonPanel, BorderLayout.SOUTH);
-
-        goBackButton.addActionListener(e -> {
+        getGoBackButton().addActionListener(e -> {
             new OrganizerFrame(organizador);
             dispose();
         });
 
-        itinerarioCodeField.addActionListener(e -> {
+        itineraryCodeField.addActionListener(e -> {
             try {
-                String where = "WHERE CODIGO='" + itinerarioCodeField.getSelectedItem() + "'";
+                String where = "WHERE CODIGO='" + itineraryCodeField.getSelectedItem() + "'";
                 ResultSet codes1 = organizador.selectCol("T_ITINERARIOS", "OLIMPIADA", where);
 
                 if (codes1.next()) {
@@ -130,17 +63,17 @@ public class NewExItAssignationFrame extends JFrame implements Borders, Fonts, I
         });
 
         assignExercise.addActionListener(e -> {
-            if (itinerarioCodeField.getItemCount() == 0) {
-                new ErrorJOptionPane("Debe seleccionar un itinerario");
+            if (itineraryCodeField.getItemCount() == 0) {
+                new ErrorJOptionPane("Debe seleccionar un itinerary");
 
             } else {
                 String exercise = (String) exerCodeField.getSelectedItem();
                 String olympiad = olympCodeField.getText();
-                String itinerario = (String) itinerarioCodeField.getSelectedItem();
+                String itinerary = (String) itineraryCodeField.getSelectedItem();
 
-                if (organizador.createAssignationExIt(exercise, olympiad, itinerario) == 0) {
+                if (organizador.createAssignationExIt(exercise, olympiad, itinerary) == 0) {
                     exerCodeField.setSelectedItem(exerCodeField.getItemAt(0));
-                    itinerarioCodeField.setSelectedItem(itinerarioCodeField.getItemAt(0));
+                    itineraryCodeField.setSelectedItem(itineraryCodeField.getItemAt(0));
                     olympCodeField.setText("");
 
                 }
@@ -148,5 +81,59 @@ public class NewExItAssignationFrame extends JFrame implements Borders, Fonts, I
             }
         });
 
+    }
+
+    @Override
+    protected CustomPanel createCenterPanel() {
+        try {
+            exerCode = new CustomFieldLabel("Ejercicio (*)");
+            olympCode = new CustomFieldLabel("Olimpiada (*)");
+            itineraryCode = new CustomFieldLabel("Itinerario (*)");
+            exerCodeField = new CustomComboBox();
+            olympCodeField = new CustomFieldLabel();
+            itineraryCodeField = new CustomComboBox();
+
+            ResultSet codes = user.selectCol("T_EJERCICIOS", "CODIGO");
+
+            while (codes.next()) {
+                String registro = codes.getString("CODIGO");
+                exerCodeField.addItem(registro);
+            }
+
+            itineraryCodeField = new CustomComboBox();
+            itineraryCodeField.setFont(fuenteCampoTexto);
+
+            for (int i = 0; i < user.getItinerarios().size(); ++i) {
+                itineraryCodeField.addItem(user.getItinerarios().get(i));
+            }
+
+            codes.close();
+
+            inputPanel = new CustomPanel();
+            inputPanel.setLayout(new GridLayout(3, 2, 10, 10));
+
+            inputPanel.add(exerCode);
+            inputPanel.add(exerCodeField);
+            inputPanel.add(itineraryCode);
+            inputPanel.add(itineraryCodeField);
+            inputPanel.add(olympCode);
+            inputPanel.add(olympCodeField);
+
+        } catch (SQLException ex) {
+            new ErrorJOptionPane(ex.getMessage());
+
+        }
+
+        return inputPanel;
+    }
+
+    @Override
+    protected CustomPanel createSouthPanel() {
+        assignExercise = new CustomButton("Asignar", 120, 30);
+
+        createButtonPanel = new CustomPanel();
+        createButtonPanel.add(assignExercise);
+
+        return createButtonPanel;
     }
 }

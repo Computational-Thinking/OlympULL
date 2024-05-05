@@ -31,26 +31,24 @@ public class MainFrame extends CustomFrame implements Borders, Fonts, Icons, Ope
     CustomButton checkRanking;
 
     // Panels
-    JPanel logoPanel;
-    JPanel credentialsPanel;
-    JPanel loginPanel;
-    JPanel loginButtonPanel;
-    JPanel rankingPanel;
+    CustomPanel logoPanel;
+    CustomPanel credentialsPanel;
+    CustomPanel loginPanel;
+    CustomPanel loginButtonPanel;
+    CustomPanel rankingPanel;
 
     public MainFrame() {
-        this.setSize(500, 315);
+        this.setSize(500, 355);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         this.setTitle("OlympULL");
 
         // Panel de logo
-        logoPanel = new JPanel();
-        logoPanel.setBackground(new Color(255, 255, 255));
-
         ImageIcon logo = new ImageIcon("images/logo olympull v2.png");
         Image scalatedLogo = logo.getImage().getScaledInstance(268, 65, Image.SCALE_SMOOTH);
         logo = new ImageIcon(scalatedLogo);
         olympullLogo = new JLabel(logo);
+        logoPanel = new CustomPanel();
         logoPanel.add(olympullLogo);
 
         // Panel de inicio de sesión
@@ -60,35 +58,29 @@ public class MainFrame extends CustomFrame implements Borders, Fonts, Icons, Ope
         passwordField = new CustomPasswordField("");
         loginButton = new CustomButton("Iniciar sesión");
 
-        credentialsPanel = new JPanel();
-        credentialsPanel.setBackground(new Color(255, 255, 255));
+        credentialsPanel = new CustomPanel();
         credentialsPanel.setLayout(new GridLayout(2, 2, 10, 10));
-        credentialsPanel.setBorder(borde);
 
         credentialsPanel.add(userTag);
         credentialsPanel.add(userField);
         credentialsPanel.add(passwordTag);
         credentialsPanel.add(passwordField);
 
-        loginButtonPanel = new JPanel();
-        loginButtonPanel.setBackground(new Color(255, 255, 255));
+        loginButtonPanel = new CustomPanel();
         loginButtonPanel.setLayout(new FlowLayout());
         loginButtonPanel.add(loginButton);
 
-        loginPanel = new JPanel();
-        loginPanel.setBackground(new Color(255, 255, 255));
+        loginPanel = new CustomPanel();
         loginPanel.setLayout(new BorderLayout());
         loginPanel.add(credentialsPanel, BorderLayout.CENTER);
         loginPanel.add(loginButtonPanel, BorderLayout.SOUTH);
-        loginPanel.setBorder(borde);
 
         // Panel de ranking
         checkRanking = new CustomButton("Ver ranking");
 
-        rankingPanel = new JPanel();
+        rankingPanel = new CustomPanel();
         rankingPanel.setLayout(new FlowLayout());
         rankingPanel.add(checkRanking);
-        rankingPanel.setBorder(borde);
 
         // Se añaden los paneles a la ventana
         add(logoPanel, BorderLayout.NORTH);
