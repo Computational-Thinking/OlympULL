@@ -3,7 +3,7 @@ package interfaz.custom_components;
 import javax.swing.*;
 import java.awt.*;
 
-public class CustomTextField extends JTextField implements Bordes, Fuentes {
+public class CustomTextField extends JTextField implements Borders, Fonts {
 
     public CustomTextField(String text) {
         this.setText(text);

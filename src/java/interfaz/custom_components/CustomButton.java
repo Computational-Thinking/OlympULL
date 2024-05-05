@@ -3,7 +3,7 @@ package interfaz.custom_components;
 import javax.swing.*;
 import java.awt.*;
 
-public class CustomButton extends JButton implements Bordes, Fuentes {
+public class CustomButton extends JButton implements Borders, Fonts {
     // Botón sin tamaño
     public CustomButton(String text) {
         this.setText(text);

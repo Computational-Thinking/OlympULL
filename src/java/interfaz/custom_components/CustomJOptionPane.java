@@ -2,7 +2,7 @@ package interfaz.custom_components;
 
 import javax.swing.*;
 
-public abstract class CustomJOptionPane implements Fuentes {
+public abstract class CustomJOptionPane implements Fonts {
     JPanel panel;
     JLabel label;
     public CustomJOptionPane(String mensaje) {
