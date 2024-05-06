@@ -1,10 +1,7 @@
 package interfaz;
 
 import interfaz.admin.AdminFrame;
-import interfaz.custom_components.Borders;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fonts;
-import interfaz.custom_components.Icons;
+import interfaz.custom_components.*;
 import interfaz.monitor.MonitorFrame;
 import interfaz.organizer.OrganizerFrame;
 import users.Admin;
@@ -12,77 +9,49 @@ import users.Monitor;
 import users.Organizer;
 import users.User;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-public class ChangePasswordFrame extends JFrame implements Borders, Fonts, Icons {
+public class ChangePasswordFrame extends CustomFrame implements Borders, Fonts, Icons {
     // Etiquetas
-    JLabel usuarioLabel;
-    JLabel newPassLabel;
-    JLabel confirmNewPassLabel;
-    JLabel usuarioField;
-    JLabel titleLabel;
+    CustomFieldLabel usuarioLabel;
+    CustomFieldLabel newPassLabel;
+    CustomFieldLabel confirmNewPassLabel;
+    CustomPresetTextField usuarioField;
 
     // Password field
-    JPasswordField newPassField;
-    JPasswordField confirmNewPassField;
+    CustomPasswordField newPassField;
+    CustomPasswordField confirmNewPassField;
 
     // Botones
-    JButton confirmButton;
-    JButton goBackButton;
+    CustomButton confirmButton;
+    CustomButton goBackButton;
 
     // Paneles
-    JPanel fieldsPanel;
-    JPanel buttonPanel;
-    JPanel upperPanel;
+    CustomPanel fieldsPanel;
+    CustomPanel buttonPanel;
 
     public ChangePasswordFrame(User usuario) {
-        setSize(475, 275);
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Panel Administrador");
-        setLocationRelativeTo(null);
-        setIconImage(iconoVentana);
-        setVisible(true);
+        super();
+        this.setSize(475, 275);
+        this.setLocationRelativeTo(null);
+        this.setLayout(new BorderLayout());
+        this.setTitle("Cambio de contraseña");
 
         // Panel superior
-        goBackButton = new JButton("< Desconectar");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(120, 30));
-
-        titleLabel = new JLabel("Cambiar contraseña");
-        titleLabel.setFont(fuenteTitulo);
-
-        upperPanel = new JPanel();
-        upperPanel.setLayout(new BorderLayout(5, 5));
-        upperPanel.setBorder(borde);
-
-        upperPanel.add(titleLabel, BorderLayout.WEST);
-        upperPanel.add(goBackButton, BorderLayout.EAST);
+        goBackButton = new CustomButton("< Desconectar");
+        this.add(buildUpperBar("Cambiar contraseña", goBackButton), BorderLayout.NORTH);
 
         // Panel de inputs
-        usuarioLabel = new JLabel("Usuario");
-        usuarioLabel.setFont(fuenteBotonesEtiquetas);
+        usuarioLabel = new CustomFieldLabel("Usuario");
+        usuarioField = new CustomPresetTextField(usuario.getUserName());
+        newPassLabel = new CustomFieldLabel("Nueva contraseña");
+        newPassField = new CustomPasswordField("");
+        confirmNewPassLabel = new CustomFieldLabel("Confirmar nueva contraseña");
+        confirmNewPassField = new CustomPasswordField("");
 
-        usuarioField = new JLabel(usuario.getUserName());
-        usuarioField.setFont(fuenteCampoTexto);
-
-        newPassLabel = new JLabel("Nueva contraseña");
-        newPassLabel.setPreferredSize(new Dimension(200, 30));
-
-        newPassField = new JPasswordField();
-        newPassField.setPreferredSize(new Dimension(200, 30));
-
-        confirmNewPassLabel = new JLabel("Confirmar nueva contraseña");
-        confirmNewPassLabel.setPreferredSize(new Dimension(200, 30));
-
-        confirmNewPassField = new JPasswordField();
-        confirmNewPassField.setPreferredSize(new Dimension(200, 30));
-
-        fieldsPanel = new JPanel();
+        fieldsPanel = new CustomPanel();
         fieldsPanel.setLayout(new GridLayout(3, 2, 5, 5));
-        fieldsPanel.setBorder(borde);
 
         fieldsPanel.add(usuarioLabel);
         fieldsPanel.add(usuarioField);
@@ -92,17 +61,13 @@ public class ChangePasswordFrame extends JFrame implements Borders, Fonts, Icons
         fieldsPanel.add(confirmNewPassField);
 
         // Panel de botón
-        confirmButton = new JButton("Cambiar contraseña");
-        confirmButton.setPreferredSize(new Dimension(200, 30));
-        confirmButton.setFont(fuenteBotonesEtiquetas);
+        confirmButton = new CustomButton("Cambiar contraseña");
 
-        buttonPanel = new JPanel();
+        buttonPanel = new CustomPanel();
         buttonPanel.setLayout(new FlowLayout());
-        buttonPanel.setBorder(borde);
 
         buttonPanel.add(confirmButton);
 
-        add(upperPanel, BorderLayout.NORTH);
         add(fieldsPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
