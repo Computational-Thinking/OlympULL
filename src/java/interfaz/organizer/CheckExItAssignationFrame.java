@@ -43,6 +43,8 @@ public class CheckExItAssignationFrame extends CheckTableFrameTemplate implement
 
         add(createJScrollPane(), BorderLayout.CENTER);
 
+        this.setVisible(true);
+
         // Acción del botón de volver
         getGoBackButton().addActionListener(e -> {
             new OrganizerFrame(organizador);

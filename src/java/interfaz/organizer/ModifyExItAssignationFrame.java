@@ -42,6 +42,8 @@ public class ModifyExItAssignationFrame extends ModifyRegistrationFrameTemplate 
         add(createCenterPanel(), BorderLayout.CENTER);
         add(createSouthPanel(), BorderLayout.SOUTH);
 
+        this.setVisible(true);
+
         getGoBackButton().addActionListener(e -> {
             try {
                 new CheckExItAssignationFrame(organizador);

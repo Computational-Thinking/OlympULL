@@ -31,6 +31,8 @@ public class MonitorFrame extends UserFrameTemplate implements Borders, Fonts, I
         add(createCenterPanel(), BorderLayout.CENTER);
         add(createSouthPanel(), BorderLayout.SOUTH);
 
+        this.setVisible(true);
+
         punctuateExercise.addActionListener(e -> {
             try {
                 new PunctuateExerciseFrame(monitor);

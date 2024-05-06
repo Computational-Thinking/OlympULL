@@ -38,6 +38,8 @@ public class NewExItAssignationFrame extends NewRegistrationFrameTemplate implem
         add(createCenterPanel(), BorderLayout.CENTER);
         add(createSouthPanel(), BorderLayout.SOUTH);
 
+        this.setVisible(true);
+
         getGoBackButton().addActionListener(e -> {
             new OrganizerFrame(organizador);
             dispose();

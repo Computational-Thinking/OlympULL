@@ -1,9 +1,7 @@
 package interfaz.monitor;
 
-import interfaz.custom_components.Borders;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fonts;
-import interfaz.custom_components.Icons;
+import interfaz.custom_components.*;
+import interfaz.template.NewRegistrationFrameTemplate;
 import users.Monitor;
 
 import javax.swing.*;
@@ -12,112 +10,40 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class PunctuateExerciseFrame extends JFrame implements Borders, Fonts, Icons {
+public class PunctuateExerciseFrame extends NewRegistrationFrameTemplate implements Borders, Fonts, Icons {
     // Labels
-    JLabel exerciseSelectionLabel;
-    JLabel teamSelectionLabel;
-    JLabel punctuationSelectionLabel;
-    JLabel title;
+    CustomFieldLabel exerciseSelectionLabel;
+    CustomFieldLabel teamSelectionLabel;
+    CustomFieldLabel punctuationSelectionLabel;
 
     // ComboBoxes
-    JComboBox<String> exerciseSelectionComboBox;
-    JComboBox<String> teamSelectionComboBox;
-    JComboBox<String> punctuationComboBox;
+    CustomComboBox exerciseSelectionComboBox;
+    CustomComboBox teamSelectionComboBox;
+    CustomComboBox punctuationComboBox;
 
     // Paneles
-    JPanel upperPanel;
-    JPanel punctuationsPanel;
-    JPanel inputsPanel;
-    JPanel punctuateButtonPanel;
+    CustomPanel inputsPanel;
+    CustomPanel punctuateButtonPanel;
 
     // Botones
     JButton punctuateButton;
-    JButton goBackButton;
 
     int puntuacion;
     String itinerario;
+    Monitor user;
 
     public PunctuateExerciseFrame(Monitor monitor) throws SQLException {
-        // Configuración de ventana
-        setSize(725, 275);
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Puntuación de equipo");
-        setLocationRelativeTo(null);
-        setIconImage(iconoVentana);
-        setVisible(true);
+        super(275, "Puntuación de equipos");
+        
+        user = monitor;
 
-        // Definición del botón de volver
-        goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(90, 30));
+        add(createCenterPanel(), BorderLayout.CENTER);
+        add(createSouthPanel(), BorderLayout.SOUTH);
 
-        title = new JLabel("Puntuación de equipos");
-        title.setFont(fuenteTitulo);
-
-        upperPanel = new JPanel();
-        upperPanel.setBorder(borde);
-        upperPanel.setLayout(new BorderLayout());
-
-        exerciseSelectionLabel = new JLabel("Ejercicio (*)");
-        exerciseSelectionLabel.setFont(fuenteBotonesEtiquetas);
-
-        teamSelectionLabel = new JLabel("Equipo (*)");
-        teamSelectionLabel.setFont(fuenteBotonesEtiquetas);
-
-        punctuationSelectionLabel = new JLabel("Puntuación (*)");
-        punctuationSelectionLabel.setFont(fuenteBotonesEtiquetas);
-
-        exerciseSelectionComboBox = new JComboBox<>();
-        exerciseSelectionComboBox.setFont(fuenteCampoTexto);
-
-        for (int i = 0; i < monitor.getExerciseCode().size(); ++i) {
-            exerciseSelectionComboBox.addItem(monitor.getExerciseCode().get(i));
-        }
-
-        punctuationsPanel = new JPanel();
-
-        punctuateButton = new JButton("Puntuar");
-        punctuateButton.setFont(fuenteBotonesEtiquetas);
-
-        exerciseSelectionLabel.setFont(fuenteBotonesEtiquetas);
-
-        teamSelectionComboBox = new JComboBox<>();
-        teamSelectionComboBox.setFont(fuenteCampoTexto);
-
-        punctuationComboBox = new JComboBox<>();
-        punctuationComboBox.setFont(fuenteCampoTexto);
-
-        inputsPanel = new JPanel();
-        inputsPanel.setLayout(new GridLayout(3, 2, 5, 5));
-        inputsPanel.setBorder(borde);
-
-        punctuateButtonPanel = new JPanel();
-        punctuateButtonPanel.setBorder(borde);
-        punctuateButtonPanel.setLayout(new FlowLayout());
-
-        upperPanel.add(title, BorderLayout.WEST);
-        upperPanel.add(goBackButton, BorderLayout.EAST);
-
-        inputsPanel.add(exerciseSelectionLabel);
-        inputsPanel.add(exerciseSelectionComboBox);
-        inputsPanel.add(teamSelectionLabel);
-        inputsPanel.add(teamSelectionComboBox);
-        inputsPanel.add(punctuationSelectionLabel);
-        inputsPanel.add(punctuationComboBox);
-
-        punctuateButtonPanel.add(punctuateButton);
-
-        add(upperPanel, BorderLayout.NORTH);
-        add(inputsPanel, BorderLayout.CENTER);
-        add(punctuateButtonPanel, BorderLayout.SOUTH);
-
-        exerciseSelectionComboBox.addActionListener(e -> {
-
-        });
-
+        this.setVisible(true);
+        
         // Acción del botón de volver
-        goBackButton.addActionListener(e -> {
+        getGoBackButton().addActionListener(e -> {
             new MonitorFrame(monitor);
             dispose();
         });
@@ -200,5 +126,42 @@ public class PunctuateExerciseFrame extends JFrame implements Borders, Fonts, Ic
             }
 
         });
+    }
+
+    @Override
+    protected CustomPanel createCenterPanel() {
+        exerciseSelectionLabel = new CustomFieldLabel("Ejercicio (*)");
+        teamSelectionLabel = new CustomFieldLabel("Equipo (*)");
+        punctuationSelectionLabel = new CustomFieldLabel("Puntuación (*)");
+        exerciseSelectionComboBox = new CustomComboBox();
+        teamSelectionComboBox = new CustomComboBox();
+        punctuationComboBox = new CustomComboBox();
+
+        for (int i = 0; i < user.getExerciseCode().size(); ++i) {
+            exerciseSelectionComboBox.addItem(user.getExerciseCode().get(i));
+        }
+
+        inputsPanel = new CustomPanel();
+        inputsPanel.setLayout(new GridLayout(3, 2, 10, 10));
+        inputsPanel.add(exerciseSelectionLabel);
+        inputsPanel.add(exerciseSelectionComboBox);
+        inputsPanel.add(teamSelectionLabel);
+        inputsPanel.add(teamSelectionComboBox);
+        inputsPanel.add(punctuationSelectionLabel);
+        inputsPanel.add(punctuationComboBox);
+        
+        return inputsPanel;
+    }
+
+    @Override
+    protected CustomPanel createSouthPanel() {
+        punctuateButton = new JButton("Puntuar");
+        
+        punctuateButtonPanel = new CustomPanel();
+        punctuateButtonPanel.setLayout(new FlowLayout());
+        
+        punctuateButtonPanel.add(punctuateButton);
+        
+        return punctuateButtonPanel;
     }
 }

@@ -32,6 +32,8 @@ public class OrganizerFrame extends UserFrameTemplate implements Borders, Fonts,
         add(createCenterPanel(), BorderLayout.CENTER);
         add(createSouthPanel(), BorderLayout.SOUTH);
 
+        this.setVisible(true);
+
         assignExerciseToItinerary.addActionListener(e -> {
             try {
                 new NewExItAssignationFrame(organizador);
