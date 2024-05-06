@@ -5,7 +5,6 @@ import interfaz.custom_components.*;
 import interfaz.template.NewRegistrationFrameTemplate;
 import users.Organizer;
 
-import javax.swing.*;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +31,7 @@ public class NewExItAssignationFrame extends NewRegistrationFrameTemplate implem
     Organizer user;
 
     public NewExItAssignationFrame(Organizer organizador) throws JSchException, SQLException {
-        super(290, "Nueva asignación");
+        super(280, "Nueva asignación");
         
         user = organizador;
 

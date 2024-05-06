@@ -27,7 +27,7 @@ public class OrganizerFrame extends UserFrameTemplate implements Borders, Fonts,
     CustomPanel otrasGestiones;
 
     public OrganizerFrame(Organizer organizador) {
-        super(375, "Panel Organizador", "¡Bienvenido al panel de organizador de OlympULL!");
+        super(360, "Panel Organizador", "¡Bienvenido al panel de organizador de OlympULL!");
 
         add(createCenterPanel(), BorderLayout.CENTER);
         add(createSouthPanel(), BorderLayout.SOUTH);
