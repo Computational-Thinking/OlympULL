@@ -44,8 +44,11 @@ public class AdminFrame extends UserFrameTemplate implements Borders, Fonts, Ico
 
     public AdminFrame(Admin administrador) {
         super(690, "Panel Administrador", "¡Bienvenido al panel de administrador de OlympULL!");
+
         add(createCenterPanel(), BorderLayout.CENTER);
         add(createSouthPanel(), BorderLayout.SOUTH);
+
+        this.setVisible(true);
 
         // Action listeners
         createOlympiad.addActionListener(e -> {

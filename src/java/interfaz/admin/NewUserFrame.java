@@ -1,113 +1,48 @@
 package interfaz.admin;
 
-import interfaz.custom_components.Borders;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fonts;
-import interfaz.custom_components.Icons;
+import interfaz.custom_components.*;
+import interfaz.template.NewRegistrationFrameTemplate;
 import users.Admin;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class NewUserFrame extends JFrame implements Borders, Fonts, Icons {
+public class NewUserFrame extends NewRegistrationFrameTemplate implements Borders, Fonts, Icons {
     // Etiquetas
-    JLabel title;
-    JLabel userNameLabel;
-    JLabel userPasswordLabel;
-    JLabel userTypeLabel;
+    CustomFieldLabel userNameLabel;
+    CustomFieldLabel userPasswordLabel;
+    CustomFieldLabel userTypeLabel;
 
     // Campos de texto
-    JTextField userNameField;
-    JPasswordField userPasswordField;
+    CustomTextField userNameField;
+    CustomPasswordField userPasswordField;
 
     // Combo boxes
     JComboBox<String> userTypeComboBox;
 
     // Botones
-    JButton goBackButton;
-    JButton createUserButton;
+    CustomButton createUserButton;
 
     // Paneles
-    JPanel upperPanel;
-    JPanel inputPanel;
-    JPanel createButtonPanel;
+    CustomPanel inputPanel;
+    CustomPanel createButtonPanel;
+
+    Admin user;
 
     public NewUserFrame(Admin administrador) {
-        // Configuración de la ventana
-        setSize(500, 270);
-        getContentPane().setLayout(new BorderLayout());
-        setTitle("Nuevo usuario");
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setIconImage(iconoVentana);
-        setVisible(true);
+        super(270, "Nuevo usuario");
 
-        // Definición del botón de volver
-        goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(90, 30));
+        user = administrador;
 
-        // Definición de etiqueta de título
-        title = new JLabel("Nuevo usuario");
-        title.setFont(fuenteTitulo);
+        add(createCenterPanel(), BorderLayout.CENTER);
+        add(createSouthPanel(), BorderLayout.SOUTH);
 
-        // Configuración de panel superior
-        upperPanel = new JPanel();
-        upperPanel.setLayout(new BorderLayout(5, 5));
-        upperPanel.setBorder(borde);
+        this.setVisible(true);
 
-        upperPanel.add(title, BorderLayout.CENTER);
-        upperPanel.add(goBackButton, BorderLayout.EAST);
-
-        // Configuración de los componentes del panel de input del usuario
-        userNameLabel = new JLabel("Nombre de usuario (*)");
-        userNameLabel.setFont(fuenteBotonesEtiquetas);
-
-        userPasswordLabel = new JLabel("Contraseña (*)");
-        userPasswordLabel.setFont(fuenteBotonesEtiquetas);
-
-        userTypeLabel = new JLabel("Tipo de usuario (*)");
-        userTypeLabel.setFont(fuenteBotonesEtiquetas);
-
-        userNameField = new JTextField();
-        userNameField.setFont(fuenteCampoTexto);
-
-        userPasswordField = new JPasswordField();
-        userPasswordField.setFont(fuenteBotonesEtiquetas);
-
-        String[] userTypes = {"ADMINISTRADOR", "ORGANIZADOR", "MONITOR"};
-        userTypeComboBox = new JComboBox<>(userTypes);
-        userTypeComboBox.setFont(fuenteCampoTexto);
-
-        createUserButton = new JButton("Crear usuario");
-        createUserButton.setFont(fuenteBotonesEtiquetas);
-        createUserButton.setPreferredSize(new Dimension(175, 30));
-
-        // Configuración del panel de input del usuario
-        inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(3, 2, 5, 5));
-        inputPanel.setBorder(borde);
-
-        // COnfiguración del panel de botón de crear
-        createButtonPanel = new JPanel();
-        createButtonPanel.setLayout(new FlowLayout());
-        createButtonPanel.setBorder(borde);
-
-        inputPanel.add(userNameLabel);
-        inputPanel.add(userNameField);
-        inputPanel.add(userPasswordLabel);
-        inputPanel.add(userPasswordField);
-        inputPanel.add(userTypeLabel);
-        inputPanel.add(userTypeComboBox);
-
-        createButtonPanel.add(createUserButton);
-
-        // Se añaden los diferentes elementos a la ventana
-        add(upperPanel, BorderLayout.NORTH);
-        add(inputPanel, BorderLayout.CENTER);
-        add(createButtonPanel, BorderLayout.SOUTH);
-
-        goBackButton.addActionListener(e -> {
+        getGoBackButton().addActionListener(e -> {
             new AdminFrame(administrador);
             dispose();
         });
@@ -130,5 +65,41 @@ public class NewUserFrame extends JFrame implements Borders, Fonts, Icons {
 
             }
         });
+    }
+
+    @Override
+    protected JPanel createCenterPanel() {
+        userNameLabel = new CustomFieldLabel("Nombre de usuario (*)");
+        userPasswordLabel = new CustomFieldLabel("Contraseña (*)");
+        userTypeLabel = new CustomFieldLabel("Tipo de usuario (*)");
+        userNameField = new CustomTextField("");
+        userPasswordField = new CustomPasswordField("");
+
+        ArrayList<String> userTypes = new ArrayList<>(Arrays.asList("ADMINISTRADOR", "ORGANIZADOR", "MONITOR"));
+        userTypeComboBox = new CustomComboBox(userTypes);
+
+        // Configuración del panel de input del usuario
+        inputPanel = new CustomPanel();
+        inputPanel.setLayout(new GridLayout(3, 2, 10, 10));
+        inputPanel.add(userNameLabel);
+        inputPanel.add(userNameField);
+        inputPanel.add(userPasswordLabel);
+        inputPanel.add(userPasswordField);
+        inputPanel.add(userTypeLabel);
+        inputPanel.add(userTypeComboBox);
+
+        return inputPanel;
+    }
+
+    @Override
+    protected JPanel createSouthPanel() {
+        createUserButton = new CustomButton("Crear usuario", 175, 30);
+
+        createButtonPanel = new CustomPanel();
+        createButtonPanel.setLayout(new FlowLayout());
+
+        createButtonPanel.add(createUserButton);
+
+        return createButtonPanel;
     }
 }
