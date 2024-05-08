@@ -1,154 +1,127 @@
 package interfaz.admin;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.custom_components.Borders;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fonts;
-import interfaz.custom_components.Icons;
+import interfaz.custom_components.*;
+import interfaz.template.NewRegistrationFrameTemplate;
 import users.Admin;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.Objects;
 
-public class NewTeamFrame extends JFrame implements Borders, Fonts, Icons {
-    JButton goBackButton;
-    JLabel introduceData;
-    JLabel teamCode;
-    JLabel teamName;
-    JLabel teamSchool;
-    JLabel teamItinerario;
-    JTextField teamCodeField;
-    JTextField teamNameField;
-    JTextField teamSchoolField;
-    JComboBox<String> teamItinerarioField;
-    JButton createExerButton;
-    JPanel inputPanel;
-    JPanel upperPanel;
+public class NewTeamFrame extends NewRegistrationFrameTemplate implements Borders, Fonts, Icons {
+    // Botones
+    CustomButton createExerButton;
+
+    // Campos de texto
+    CustomFieldLabel teamCode;
+    CustomFieldLabel teamName;
+    CustomFieldLabel teamSchool;
+    CustomFieldLabel teamItinerario;
+    CustomTextField teamCodeField;
+    CustomTextField teamNameField;
+    CustomTextField teamSchoolField;
+
+    // Combo box
+    CustomComboBox teamItinerarioField;
+
+    // Paneles
+    CustomPanel inputPanel;
+    CustomPanel createButtonPanel;
+
+    // Otros
+    Admin admin;
 
     public NewTeamFrame(Admin administrador) throws JSchException, SQLException {
-        // Configuración de la ventana
-        setSize(500, 335);
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        setTitle("Nuevo equipo");
-        setVisible(true);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setIconImage(iconoVentana);
+        super(335, "Nuevo equipo");
 
-        // Panel superior
-        introduceData = new JLabel("Nuevo equipo");
-        introduceData.setFont(fuenteTitulo);
+        this.admin= administrador;
 
-        goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(90, 30));
+        this.add(createCenterPanel(), BorderLayout.CENTER);
+        this.add(createSouthPanel(), BorderLayout.SOUTH);
 
-        upperPanel = new JPanel();
-        upperPanel.setLayout(new BorderLayout(5, 5));
-        upperPanel.add(introduceData, BorderLayout.CENTER);
-        upperPanel.add(goBackButton, BorderLayout.EAST);
-        upperPanel.setBorder(borde);
+        this.setVisible(true);
 
-        // Panel de inputs
-        teamCode = new JLabel("Código (*)");
-        teamCode.setFont(fuenteBotonesEtiquetas);
-
-        teamName = new JLabel("Nombre (*)");
-        teamName.setFont(fuenteBotonesEtiquetas);
-
-        teamSchool = new JLabel("Centro educativo (*)");
-        teamSchool.setFont(fuenteBotonesEtiquetas);
-
-        teamItinerario = new JLabel("Itinerario (*)");
-        teamItinerario.setFont(fuenteBotonesEtiquetas);
-
-        teamCodeField = new JTextField();
-        teamCodeField.setFont(fuenteCampoTexto);
-
-        teamNameField = new JTextField();
-        teamNameField.setFont(fuenteCampoTexto);
-
-        teamSchoolField = new JTextField();
-        teamSchoolField.setFont(fuenteCampoTexto);
-
-        teamItinerarioField = new JComboBox<>();
-        teamItinerarioField.setFont(fuenteCampoTexto);
-
-        ResultSet itCodes = administrador.selectCol("T_ITINERARIOS", "CODIGO");
-
-        // Iterar sobre el resultado y añadir los registros al ArrayList
-        while (itCodes.next()) {
-            String registro = itCodes.getString("CODIGO");
-            teamItinerarioField.addItem(registro);
-        }
-
-        itCodes.close();
-
-        // Panel de creación de equipo
-        createExerButton = new JButton("Crear equipo");
-        createExerButton.setPreferredSize(new Dimension(150, 30));
-        createExerButton.setFont(fuenteBotonesEtiquetas);
-
-        JPanel createButtonPanel = new JPanel();
-        createButtonPanel.setBorder(borde);
-        createButtonPanel.add(createExerButton);
-
-        inputPanel = new JPanel();
-        inputPanel.setBorder(borde);
-        inputPanel.setLayout(new GridLayout(4, 2, 10, 10));
-
-        inputPanel.add(teamCode);
-        inputPanel.add(teamCodeField);
-        inputPanel.add(teamName);
-        inputPanel.add(teamNameField);
-        inputPanel.add(teamSchool);
-        inputPanel.add(teamSchoolField);
-        inputPanel.add(teamItinerario);
-        inputPanel.add(teamItinerarioField);
-
-        // Se añaden los paneles a la ventana
-        add(upperPanel, BorderLayout.NORTH);
-        add(inputPanel, BorderLayout.CENTER);
-        add(createButtonPanel, BorderLayout.SOUTH);
-
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AdminFrame(administrador);
-                dispose();
-            }
+        getGoBackButton().addActionListener(e -> {
+            new AdminFrame(administrador);
+            dispose();
         });
 
-        createExerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (teamCodeField.getText().matches("^\\s*$")
-                        || teamNameField.getText().matches("^\\s*$")
-                        || teamSchoolField.getText().matches("^\\s*$")
-                        || Objects.requireNonNull(teamItinerarioField.getSelectedItem()).toString().matches("^\\s*$")) {
-                    new ErrorJOptionPane("Todos los campos son obligatorios");
+        createExerButton.addActionListener(e -> {
+            if (teamCodeField.getText().matches("^\\s*$")
+                    || teamNameField.getText().matches("^\\s*$")
+                    || teamSchoolField.getText().matches("^\\s*$")
+                    || Objects.requireNonNull(teamItinerarioField.getSelectedItem()).toString().matches("^\\s*$")) {
+                new ErrorJOptionPane("Todos los campos son obligatorios");
 
-                } else {
-                    String code = teamCodeField.getText();
-                    String name = teamNameField.getText();
-                    String school = teamSchoolField.getText();
-                    String itinerary = (String) teamItinerarioField.getSelectedItem();
+            } else {
+                String code = teamCodeField.getText();
+                String name = teamNameField.getText();
+                String school = teamSchoolField.getText();
+                String itinerary = (String) teamItinerarioField.getSelectedItem();
 
-                    if (administrador.createTeam(code, name, school, itinerary) == 0) {
-                        teamCodeField.setText("");
-                        teamNameField.setText("");
-                        teamSchoolField.setText("");
-                        teamItinerarioField.setSelectedItem(teamItinerarioField.getItemAt(0));
-
-                    }
+                if (administrador.createTeam(code, name, school, itinerary) == 0) {
+                    teamCodeField.setText("");
+                    teamNameField.setText("");
+                    teamSchoolField.setText("");
+                    teamItinerarioField.setSelectedItem(teamItinerarioField.getItemAt(0));
 
                 }
+
             }
         });
 
+    }
+
+    @Override
+    protected JPanel createCenterPanel() {
+        try {
+            teamCode = new CustomFieldLabel("Código (*)");
+            teamName = new CustomFieldLabel("Nombre (*)");
+            teamSchool = new CustomFieldLabel("Centro educativo (*)");
+            teamItinerario = new CustomFieldLabel("Itinerario (*)");
+            teamCodeField = new CustomTextField("");
+            teamNameField = new CustomTextField("");
+            teamSchoolField = new CustomTextField("");
+            teamItinerarioField = new CustomComboBox();
+
+            ResultSet itCodes = admin.selectCol("T_ITINERARIOS", "CODIGO");
+
+            // Iterar sobre el resultado y añadir los registros al ArrayList
+            while (itCodes.next()) {
+                String registro = itCodes.getString("CODIGO");
+                teamItinerarioField.addItem(registro);
+            }
+
+            itCodes.close();
+
+            inputPanel = new CustomPanel();
+            inputPanel.setLayout(new GridLayout(4, 2, 10, 10));
+
+            inputPanel.add(teamCode);
+            inputPanel.add(teamCodeField);
+            inputPanel.add(teamName);
+            inputPanel.add(teamNameField);
+            inputPanel.add(teamSchool);
+            inputPanel.add(teamSchoolField);
+            inputPanel.add(teamItinerario);
+            inputPanel.add(teamItinerarioField);
+
+        } catch (SQLException ex) {
+            new ErrorJOptionPane(ex.getMessage());
+        }
+        
+        return inputPanel;
+    }
+
+    @Override
+    protected JPanel createSouthPanel() {
+        createExerButton = new CustomButton("Crear equipo", 150, 30);
+
+        createButtonPanel = new CustomPanel();
+        createButtonPanel.add(createExerButton);
+
+        return createButtonPanel;
     }
 }

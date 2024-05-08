@@ -1,9 +1,7 @@
 package interfaz.admin;
 
-import interfaz.custom_components.Borders;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fonts;
-import interfaz.custom_components.Icons;
+import interfaz.custom_components.*;
+import interfaz.template.NewRegistrationFrameTemplate;
 import users.Admin;
 
 import javax.swing.*;
@@ -11,30 +9,27 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.Vector;
 
-public class NewRubricFrame extends JFrame implements Borders, Fonts, Icons {
+public class NewRubricFrame extends NewRegistrationFrameTemplate implements Borders, Fonts, Icons {
     // Etiquetas
-    JLabel consultaRubricas; // Título de la ventana
-    JLabel codeLabel; // Etiqueta de código de la rúbrica
-    JLabel nameLabel; // Etiqueta de nombre de la rúbrica
-    JLabel descriptionLabel; // Etiqueta de la descripción de la rúbrica
-    JLabel minPunctuation; // Etiqueta de puntuación mínima de la rúbrica
-    JLabel maxPunctuation; // Etiqueta de la puntuación máxima de la rúbrica
+    CustomFieldLabel codeLabel; // Etiqueta de código de la rúbrica
+    CustomFieldLabel nameLabel; // Etiqueta de nombre de la rúbrica
+    CustomFieldLabel descriptionLabel; // Etiqueta de la descripción de la rúbrica
+    CustomFieldLabel minPunctuation; // Etiqueta de puntuación mínima de la rúbrica
+    CustomFieldLabel maxPunctuation; // Etiqueta de la puntuación máxima de la rúbrica
     
     // Campos de texto
-    JTextField codeField; // Campo de código de la rúbrica
-    JTextField nameField; // Campo de nombre de la rúbrica
-    JTextField descriptionField; // Campo de descripción de la rúbrica
-    JTextField minPunctuationTagField; // Campo de etiqueta de puntuación mínima de la rúbrica
-    JTextField maxPunctuationTagField; // Campo de etiqueta de puntuación máxima de la rúbrica
+    CustomTextField codeField; // Campo de código de la rúbrica
+    CustomTextField nameField; // Campo de nombre de la rúbrica
+    CustomTextField descriptionField; // Campo de descripción de la rúbrica
+    CustomTextField minPunctuationTagField; // Campo de etiqueta de puntuación mínima de la rúbrica
+    CustomTextField maxPunctuationTagField; // Campo de etiqueta de puntuación máxima de la rúbrica
     
     // Botones
-    JButton goBackButton; // Botón para volver atrás
-    JButton addNewPunctuationButton; // Botón para añadir nuevo valor a la rúbrica
-    JButton deletePunctuationButton; // Botón para eliminar valor de la rúbrica creado por el usuario
-    JButton crearRubrica; // Botón para crear rúbrica
+    CustomButton addNewPunctuationButton; // Botón para añadir nuevo valor a la rúbrica
+    CustomButton deletePunctuationButton; // Botón para eliminar valor de la rúbrica creado por el usuario
+    CustomButton crearRubrica; // Botón para crear rúbrica
     
     // Paneles
-    JPanel upperPanel; // Panel superior de título y botón de volver atrás (Panel 1)
     JPanel rubricDataPanel; // Panel de información de la rúbrica (Panel 2)
     JPanel basicInformationPanel; // Panel de código, nombre, descripción y valor mínimo de la rúbrica (Panel 3)
     JPanel customInformationPanel; // Panel que contendrá los valores personalizados del usuario, así como el valor máximo (Panel 6)
@@ -46,164 +41,42 @@ public class NewRubricFrame extends JFrame implements Borders, Fonts, Icons {
     
     // Otros
     int nScales;
+    Admin admin;
 
     // Constructor
     public NewRubricFrame(Admin administrador) {
-        // Configuración de la ventana
-        // setSize(500, 370);
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setIconImage(iconoVentana);
+        super("Nueva rúbrica");
+        
+        this.admin = administrador;
+        
+        add(createCenterPanel(), BorderLayout.CENTER);
+        add(createSouthPanel(), BorderLayout.SOUTH);
+
         setVisible(true);
-        setTitle("Crear nueva rúbrica");
 
-        // Botón de volver
-        goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(90, 30));
-
-        // Etiqueta de título
-        consultaRubricas = new JLabel("Nueva rúbrica");
-        consultaRubricas.setFont(fuenteTitulo);
-
-        // Configurar y añadir elementos a panel superior (Panel 1)
-        upperPanel = new JPanel();
-        upperPanel.setLayout(new BorderLayout(5, 5));
-        upperPanel.setBorder(borde);
-        upperPanel.add(consultaRubricas, BorderLayout.CENTER);
-        upperPanel.add(goBackButton, BorderLayout.EAST);
-
-        // Elementos de Panel 3
-        codeLabel = new JLabel("Código (*)"); // Campo obligatorio
-        codeField = new JTextField();
-        codeLabel.setFont(fuenteBotonesEtiquetas);
-        codeField.setFont(fuenteCampoTexto);
-
-        nameLabel = new JLabel("Nombre");
-        nameField = new JTextField();
-        nameLabel.setFont(fuenteBotonesEtiquetas);
-        nameField.setFont(fuenteCampoTexto);
-
-        descriptionLabel = new JLabel("Descripción");
-        descriptionField = new JTextField();
-        descriptionLabel.setFont(fuenteBotonesEtiquetas);
-        descriptionField.setFont(fuenteCampoTexto);
-
-        minPunctuation = new JLabel("0");
-        minPunctuation.setPreferredSize(new Dimension(20, 30));
-        minPunctuation.setFont(fuenteBotonesEtiquetas);
-        minPunctuationTagField = new JTextField();
-        minPunctuationTagField.setPreferredSize(new Dimension(175, 30));
-        minPunctuationTagField.setFont(fuenteCampoTexto);
-
-        // Configurar y añadir elementos a panel de información básica (Panel 3)
-        basicInformationPanel = new JPanel();
-        basicInformationPanel.setLayout(new GridLayout(4, 2, 5, 5));
-        basicInformationPanel.setBorder(bordeRubricBasicInfo);
-        basicInformationPanel.add(codeLabel);
-        basicInformationPanel.add(codeField);
-        basicInformationPanel.add(nameLabel);
-        basicInformationPanel.add(nameField);
-        basicInformationPanel.add(descriptionLabel);
-        basicInformationPanel.add(descriptionField);
-        basicInformationPanel.add(minPunctuation);
-        basicInformationPanel.add(minPunctuationTagField);
-
-        // Panel de campos personalizados (Panel 6.1)
-        newFields = new Vector<>();
-
-        // Valores intermedios introducidos por el usuario
-        customValuesPanel = new JPanel();
-        customValuesPanel.setLayout(new GridLayout(0, 1, 5, 5));
-        customValuesPanel.setMinimumSize(new Dimension(500, 0));
-        customValuesPanel.setMaximumSize(new Dimension(500, 300));
-
-        // Valor máximo por defecto (Panel 6.2)
-        maxPunctuation = new JLabel("10");
-        maxPunctuation.setFont(fuenteBotonesEtiquetas);
-        maxPunctuation.setPreferredSize(new Dimension(200, 30));
-        maxPunctuationTagField = new JTextField();
-        maxPunctuationTagField.setFont(fuenteCampoTexto);
-        maxPunctuationTagField.setPreferredSize(new Dimension(200, 30));
-
-        maxValuePanel = new JPanel();
-        maxValuePanel.setLayout(new GridLayout(1, 2, 5, 5));
-
-        maxValuePanel.add(maxPunctuation);
-        maxValuePanel.add(maxPunctuationTagField);
-
-        // Botones para añadir y eliminar filas personalizadas
-        addNewPunctuationButton = new JButton("+");
-        addNewPunctuationButton.setFont(fuenteBotonesEtiquetas);
-        addNewPunctuationButton.setPreferredSize(new Dimension(20, 30));
-
-        deletePunctuationButton = new JButton("-");
-        deletePunctuationButton.setFont(fuenteBotonesEtiquetas);
-        deletePunctuationButton.setPreferredSize(new Dimension(20, 30));
-
-        createDeletePanel = new JPanel();
-        createDeletePanel.setLayout(new GridLayout(1, 2, 5, 5));
-        createDeletePanel.setBorder(borde);
-
-        createDeletePanel.add(addNewPunctuationButton);
-        createDeletePanel.add(deletePunctuationButton);
-
-        // Panel 6
-        customInformationPanel = new JPanel();
-        customInformationPanel.setLayout(new BorderLayout(5, 5));
-        customInformationPanel.setBorder(bordeRubricMaxField);
-
-        customInformationPanel.add(customValuesPanel, BorderLayout.CENTER);
-        customInformationPanel.add(maxValuePanel, BorderLayout.SOUTH);
-
-        // Panel de información de la rúbrica en general (Panel 2)
-        rubricDataPanel = new JPanel();
-        rubricDataPanel.setLayout(new BorderLayout(5, 5));
-        rubricDataPanel.add(basicInformationPanel, BorderLayout.NORTH);
-        rubricDataPanel.add(customInformationPanel, BorderLayout.CENTER);
-
-        // Panel de botón para crear rúbrica (Panel 5)
-        // Elementos
-        crearRubrica = new JButton("Crear rúbrica");
-        crearRubrica.setFont(fuenteBotonesEtiquetas);
-
-        createRubricPanel = new JPanel();
-        createRubricPanel.setLayout(new FlowLayout());
-        createRubricPanel.setBorder(borde);
-
-        createRubricPanel.add(crearRubrica);
-
-        rubricDataPanel.add(createDeletePanel, BorderLayout.SOUTH);
-
-        // Se añaden los paneles a la ventana
-        add(upperPanel, BorderLayout.NORTH);
-        add(rubricDataPanel, BorderLayout.CENTER);
-        add(createRubricPanel, BorderLayout.SOUTH);
+        getGoBackButton().addActionListener(e -> {
+            new AdminFrame(administrador);
+            dispose();
+        });
 
         nScales = 2;
 
         pack();
         setLocationRelativeTo(null);
 
-        goBackButton.addActionListener(e -> {
-            new AdminFrame(administrador);
-            dispose();
-        });
-
         addNewPunctuationButton.addActionListener(e -> {
             if (nScales < 11) {
                 JPanel newMark = new JPanel();
-                newMark.setLayout(new GridLayout(1, 2, 5, 5));
+                newMark.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+                newMark.setLayout(new GridLayout(1, 2, 10, 0));
 
                 // Campo de puntos
-                JTextField newPunctuation = new JTextField();
+                CustomTextField newPunctuation = new CustomTextField("");
                 newPunctuation.setPreferredSize(new Dimension(200, 30));
-                newPunctuation.setFont(fuenteCampoTexto);
 
                 // Campo de etiqueta de puntos
-                JTextField newTag = new JTextField();
+                CustomTextField newTag = new CustomTextField("");
                 newTag.setPreferredSize(new Dimension(200, 30));
-                newTag.setFont(fuenteCampoTexto);
 
                 // Se añaden los campos nuevos al panel
                 newMark.add(newPunctuation);
@@ -263,8 +136,8 @@ public class NewRubricFrame extends JFrame implements Borders, Fonts, Icons {
             for (Component register : registers) {
                 JPanel dummy = (JPanel) register;
                 Component[] textFields = dummy.getComponents();
-                JTextField value = (JTextField) textFields[0];
-                JTextField tag = (JTextField) textFields[1];
+                CustomTextField value = (CustomTextField) textFields[0];
+                CustomTextField tag = (CustomTextField) textFields[1];
 
                 if (value.getText().matches("^[0-9]$")) {
                     if (Integer.parseInt(value.getText()) > 0) {
@@ -302,9 +175,10 @@ public class NewRubricFrame extends JFrame implements Borders, Fonts, Icons {
             }
 
             if (exit == 1) {
-                new ErrorJOptionPane("Los valores de la rúbrica introducidos no son válidos.\n" +
-                        "Los puntos deben ser números enteros entre 0 y 10.\n" +
-                        "Las etiquetas de puntos deben ser cadenas de caracteres sin comas.");
+                new ErrorJOptionPane("""
+                        Los valores de la rúbrica introducidos no son válidos.
+                        Los puntos deben ser números enteros entre 0 y 10.
+                        Las etiquetas de puntos deben ser cadenas de caracteres sin comas.""");
             } else {
                 // Se comprueba que el código no es vacío
                 if (codeField.getText().matches("^\\s*$")) {
@@ -333,5 +207,99 @@ public class NewRubricFrame extends JFrame implements Borders, Fonts, Icons {
                 }
             }
         });
+    }
+
+    @Override
+    protected JPanel createCenterPanel() {
+        // Elementos de Panel 3
+        codeLabel = new CustomFieldLabel("Código (*)"); // Campo obligatorio
+        codeField = new CustomTextField("");
+        nameLabel = new CustomFieldLabel("Nombre");
+        nameField = new CustomTextField("");
+        descriptionLabel = new CustomFieldLabel("Descripción");
+        descriptionField = new CustomTextField("");
+
+        minPunctuation = new CustomFieldLabel("0");
+        minPunctuation.setPreferredSize(new Dimension(20, 30));
+        minPunctuationTagField = new CustomTextField("");
+        minPunctuationTagField.setPreferredSize(new Dimension(175, 30));
+
+        // Configurar y añadir elementos a panel de información básica (Panel 3)
+        basicInformationPanel = new JPanel();
+        basicInformationPanel.setLayout(new GridLayout(4, 2, 10, 10));
+        basicInformationPanel.setBorder(bordeRubricBasicInfo);
+        basicInformationPanel.add(codeLabel);
+        basicInformationPanel.add(codeField);
+        basicInformationPanel.add(nameLabel);
+        basicInformationPanel.add(nameField);
+        basicInformationPanel.add(descriptionLabel);
+        basicInformationPanel.add(descriptionField);
+        basicInformationPanel.add(minPunctuation);
+        basicInformationPanel.add(minPunctuationTagField);
+
+        // Panel de campos personalizados (Panel 6.1)
+        newFields = new Vector<>();
+
+        // Valores intermedios introducidos por el usuario
+        customValuesPanel = new JPanel();
+        customValuesPanel.setLayout(new GridLayout(0, 1, 10, 5));
+        customValuesPanel.setMinimumSize(new Dimension(500, 0));
+        customValuesPanel.setMaximumSize(new Dimension(500, 300));
+
+        // Valor máximo por defecto (Panel 6.2)
+        maxPunctuation = new CustomFieldLabel("10");
+        maxPunctuation.setPreferredSize(new Dimension(200, 30));
+        maxPunctuationTagField = new CustomTextField("");
+        maxPunctuationTagField.setPreferredSize(new Dimension(200, 30));
+
+        maxValuePanel = new JPanel();
+        maxValuePanel.setLayout(new GridLayout(1, 2, 10, 0));
+        maxValuePanel.add(maxPunctuation);
+        maxValuePanel.add(maxPunctuationTagField);
+
+        // Botones para añadir y eliminar filas personalizadas
+        addNewPunctuationButton = new CustomButton("+");
+        addNewPunctuationButton.setPreferredSize(new Dimension(20, 30));
+
+        deletePunctuationButton = new CustomButton("-");
+        deletePunctuationButton.setPreferredSize(new Dimension(20, 30));
+
+        createDeletePanel = new JPanel();
+        createDeletePanel.setLayout(new GridLayout(1, 2, 10, 5));
+        createDeletePanel.setBorder(borde);
+
+        createDeletePanel.add(addNewPunctuationButton);
+        createDeletePanel.add(deletePunctuationButton);
+
+        // Panel 6
+        customInformationPanel = new JPanel();
+        customInformationPanel.setLayout(new BorderLayout(5, 5));
+        customInformationPanel.setBorder(bordeRubricBasicInfo);
+
+        customInformationPanel.add(customValuesPanel, BorderLayout.CENTER);
+        customInformationPanel.add(maxValuePanel, BorderLayout.SOUTH);
+
+        // Panel de información de la rúbrica en general (Panel 2)
+        rubricDataPanel = new JPanel();
+        rubricDataPanel.setLayout(new BorderLayout(5, 5));
+        rubricDataPanel.add(basicInformationPanel, BorderLayout.NORTH);
+        rubricDataPanel.add(customInformationPanel, BorderLayout.CENTER);
+        rubricDataPanel.add(createDeletePanel, BorderLayout.SOUTH);
+
+        return rubricDataPanel;
+    }
+
+    @Override
+    protected JPanel createSouthPanel() {
+        crearRubrica = new CustomButton("Crear rúbrica");
+        crearRubrica.setFont(fuenteBotonesEtiquetas);
+
+        createRubricPanel = new JPanel();
+        createRubricPanel.setLayout(new FlowLayout());
+        createRubricPanel.setBorder(borde);
+
+        createRubricPanel.add(crearRubrica);
+
+        return createRubricPanel;
     }
 }

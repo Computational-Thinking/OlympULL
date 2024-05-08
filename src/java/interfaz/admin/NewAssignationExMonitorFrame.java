@@ -1,158 +1,49 @@
 package interfaz.admin;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.custom_components.Borders;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fonts;
-import interfaz.custom_components.Icons;
+import interfaz.custom_components.*;
+import interfaz.template.NewRegistrationFrameTemplate;
 import users.Admin;
 
-import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 
-public class NewAssignationExMonitorFrame extends JFrame implements Borders, Fonts, Icons {
+public class NewAssignationExMonitorFrame extends NewRegistrationFrameTemplate implements Borders, Fonts, Icons {
     // Etiquetas
-    JLabel monitorLabel;
-    JLabel exerCodeLabel;
-    JLabel tituloEjercicioLabel;
-    JLabel tituloEjercicioField;
-    JLabel titleLabel;
-    JLabel olympLabel;
-    JLabel itineraryLabel;
-    JLabel itineraryField;
+    CustomFieldLabel monitorLabel;
+    CustomFieldLabel exerCodeLabel;
+    CustomFieldLabel tituloEjercicioLabel;
+    CustomPresetTextField tituloEjercicioField;
+    CustomFieldLabel olympLabel;
+    CustomFieldLabel itineraryLabel;
+    CustomPresetTextField itineraryField;
     
     // Comboboxes
-    JComboBox<String> monitorComboBox;
-    JComboBox<String> exerField;
-    JComboBox<String> olympField;
+    CustomComboBox monitorComboBox;
+    CustomComboBox exerField;
+    CustomComboBox olympField;
 
     // Botones
-    JButton okButton;
-    JButton goBackButton;
+    CustomButton okButton;
 
     // Paneles
-    JPanel upperPanel;
-    JPanel createAssignationPanel;
-    JPanel inputPanel;
+    CustomPanel createAssignationPanel;
+    CustomPanel inputPanel;
+
+    // Otros
+    Admin admin;
 
     public NewAssignationExMonitorFrame(Admin administrador) throws JSchException, SQLException {
-        // Configuración de la ventana
-        setSize(500, 335);
-        getContentPane().setLayout(new BorderLayout());
-        setTitle("Asignar ejercicio a monitor");
-        setIconImage(iconoVentana);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        super(335, "Nueva asignación");
+
+        this.admin = administrador;
+
+        add(createCenterPanel(), BorderLayout.CENTER);
+        add(createSouthPanel(), BorderLayout.SOUTH);
+
         setVisible(true);
 
-        // Panel superior
-        titleLabel = new JLabel("Nueva asignación");
-        titleLabel.setFont(fuenteTitulo);
-
-        goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(90, 30));
-
-        upperPanel = new JPanel();
-        upperPanel.setLayout(new BorderLayout(5, 5));
-        upperPanel.add(titleLabel, BorderLayout.CENTER);
-        upperPanel.add(goBackButton, BorderLayout.EAST);
-        upperPanel.setBorder(borde);
-        
-        // Input panel
-        monitorLabel = new JLabel("Monitor (*)");
-        monitorLabel.setFont(fuenteBotonesEtiquetas);
-        monitorLabel.setPreferredSize(new Dimension(100, 30));
-
-        exerCodeLabel = new JLabel("Ejercicio (*)");
-        exerCodeLabel.setFont(fuenteBotonesEtiquetas);
-        exerCodeLabel.setPreferredSize(new Dimension(100, 30));
-
-        monitorComboBox = new JComboBox<>();
-        monitorComboBox.setFont(fuenteCampoTexto);
-        monitorComboBox.setPreferredSize(new Dimension(100, 30));
-
-        exerField = new JComboBox<>();
-        exerField.setFont(fuenteCampoTexto);
-        exerField.setPreferredSize(new Dimension(100, 30));
-
-        tituloEjercicioLabel = new JLabel("Título del ejercicio");
-        tituloEjercicioLabel.setFont(fuenteBotonesEtiquetas);
-        tituloEjercicioLabel.setPreferredSize(new Dimension(100, 30));
-
-        tituloEjercicioField = new JLabel();
-        tituloEjercicioField.setFont(fuenteCampoTexto);
-        tituloEjercicioField.setPreferredSize(new Dimension(100, 30));
-
-        olympLabel = new JLabel("Olimpiada (*)");
-        olympLabel.setFont(fuenteBotonesEtiquetas);
-        olympLabel.setPreferredSize(new Dimension(100, 30));
-
-        olympField = new JComboBox<>();
-        olympField.setFont(fuenteCampoTexto);
-        olympField.setPreferredSize(new Dimension(100, 30));
-
-        itineraryLabel = new JLabel("Itinerario");
-        itineraryLabel.setFont(fuenteBotonesEtiquetas);
-        itineraryLabel.setPreferredSize(new Dimension(100, 30));
-
-        itineraryField = new JLabel("");
-        itineraryField.setFont(fuenteCampoTexto);
-        itineraryField.setPreferredSize(new Dimension(100, 30));
-
-        // Nombres de los monitores
-        String whereClause = "WHERE TIPO='MONITOR';";
-        ResultSet comboBoxesItems = administrador.selectCol("T_USUARIOS", "NOMBRE", whereClause);
-
-        while (comboBoxesItems.next()) {
-            String register = comboBoxesItems.getString("NOMBRE");
-            monitorComboBox.addItem(register);
-        }
-
-        // Códigos de los ejercicios
-        comboBoxesItems = administrador.selectCol("T_EJERCICIOS", "CODIGO");
-
-        while (comboBoxesItems.next()) {
-            String register = comboBoxesItems.getString("CODIGO");
-            exerField.addItem(register);
-        }
-
-        comboBoxesItems.close();
-
-        inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(5, 2, 5, 5));
-        inputPanel.setBorder(borde);
-
-        inputPanel.add(exerCodeLabel);
-        inputPanel.add(exerField);
-
-        inputPanel.add(tituloEjercicioLabel);
-        inputPanel.add(tituloEjercicioField);
-
-        inputPanel.add(olympLabel);
-        inputPanel.add(olympField);
-
-        inputPanel.add(itineraryLabel);
-        inputPanel.add(itineraryField);
-
-        inputPanel.add(monitorLabel);
-        inputPanel.add(monitorComboBox);
-
-        okButton = new JButton("Asignar");
-        okButton.setFont(fuenteBotonesEtiquetas);
-
-        createAssignationPanel = new JPanel();
-        createAssignationPanel.setLayout(new FlowLayout());
-        createAssignationPanel.setBorder(borde);
-
-        createAssignationPanel.add(okButton);
-
-        add(upperPanel, BorderLayout.NORTH);
-        add(inputPanel, BorderLayout.CENTER);
-        add(createAssignationPanel, BorderLayout.SOUTH);
-
-        goBackButton.addActionListener(e -> {
+        getGoBackButton().addActionListener(e -> {
             new AdminFrame(administrador);
             dispose();
 
@@ -232,5 +123,70 @@ public class NewAssignationExMonitorFrame extends JFrame implements Borders, Fon
             }
         });
 
+    }
+
+    @Override
+    protected CustomPanel createCenterPanel() {
+        try {
+            monitorLabel = new CustomFieldLabel("Monitor (*)");
+            exerCodeLabel = new CustomFieldLabel("Ejercicio (*)");
+            monitorComboBox = new CustomComboBox();
+            exerField = new CustomComboBox();
+            tituloEjercicioLabel = new CustomFieldLabel("Título del ejercicio");
+            tituloEjercicioField = new CustomPresetTextField("");
+            olympLabel = new CustomFieldLabel("Olimpiada (*)");
+            olympField = new CustomComboBox();
+            itineraryLabel = new CustomFieldLabel("Itinerario");
+            itineraryField = new CustomPresetTextField("");
+
+            // Nombres de los monitores
+            String whereClause = "WHERE TIPO='MONITOR';";
+            ResultSet comboBoxesItems = admin.selectCol("T_USUARIOS", "NOMBRE", whereClause);
+
+            while (comboBoxesItems.next()) {
+                String register = comboBoxesItems.getString("NOMBRE");
+                monitorComboBox.addItem(register);
+            }
+
+            // Códigos de los ejercicios
+            comboBoxesItems = admin.selectCol("T_EJERCICIOS", "CODIGO");
+
+            while (comboBoxesItems.next()) {
+                String register = comboBoxesItems.getString("CODIGO");
+                exerField.addItem(register);
+            }
+
+            comboBoxesItems.close();
+
+            inputPanel = new CustomPanel();
+            inputPanel.setLayout(new GridLayout(5, 2, 5, 5));
+            inputPanel.add(exerCodeLabel);
+            inputPanel.add(exerField);
+            inputPanel.add(tituloEjercicioLabel);
+            inputPanel.add(tituloEjercicioField);
+            inputPanel.add(olympLabel);
+            inputPanel.add(olympField);
+            inputPanel.add(itineraryLabel);
+            inputPanel.add(itineraryField);
+            inputPanel.add(monitorLabel);
+            inputPanel.add(monitorComboBox);
+
+        } catch (SQLException ex) {
+            new ErrorJOptionPane(ex.getMessage());
+        }
+
+        return inputPanel;
+    }
+
+    @Override
+    protected CustomPanel createSouthPanel() {
+        okButton = new CustomButton("Asignar");
+
+        createAssignationPanel = new CustomPanel();
+        createAssignationPanel.setLayout(new FlowLayout());
+
+        createAssignationPanel.add(okButton);
+
+        return createAssignationPanel;
     }
 }
