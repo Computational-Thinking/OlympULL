@@ -22,6 +22,16 @@ public abstract class ModifyRegistrationFrameTemplate extends CustomFrame implem
 
     }
 
+    public ModifyRegistrationFrameTemplate(String titleLabel) {
+        this.setLocationRelativeTo(null);
+        this.setLayout(new BorderLayout(5, 5));
+        this.setTitle("Modificar registro");
+
+        goBackButton = new CustomButton("< Volver");
+        this.add(buildUpperBar(titleLabel, goBackButton), BorderLayout.NORTH);
+
+    }
+
     protected CustomButton getGoBackButton() {
         return goBackButton;
     }

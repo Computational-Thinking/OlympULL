@@ -1,135 +1,54 @@
 package interfaz.admin;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.custom_components.Borders;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fonts;
-import interfaz.custom_components.Icons;
+import interfaz.custom_components.*;
+import interfaz.template.ModifyRegistrationFrameTemplate;
 import users.Admin;
 
-import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 import java.util.Objects;
 
-public class ModifyItineraryFrame extends JFrame implements Borders, Fonts, Icons {
+public class ModifyItineraryFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
     // Botones
-    JButton botonModificarItinerario;
-    JButton goBackButton;
+    CustomButton botonModificarItinerario;
 
     // Etiquetas
-    JLabel introduceData;
-    JLabel codigoItinerario;
-    JLabel nombreItinerario;
-    JLabel descripcionItinerario;
-    JLabel olimpiadaItinerario;
+    CustomFieldLabel codigoItinerario;
+    CustomFieldLabel nombreItinerario;
+    CustomFieldLabel descripcionItinerario;
+    CustomFieldLabel olimpiadaItinerario;
 
     // Campos de texto
-    JTextField campoCodigoItinerario;
-    JTextField campoNombreItinerario;
-    JTextField campoDescripcionItinerario;
-    JComboBox<String> campoOlimpiadaItinerario;
+    CustomTextField campoCodigoItinerario;
+    CustomTextField campoNombreItinerario;
+    CustomTextField campoDescripcionItinerario;
+    CustomComboBox campoOlimpiadaItinerario;
 
     // Paneles
-    JPanel upperPanel;
-    JPanel inputPanel;
+    CustomPanel inputPanel;
+    CustomPanel createButtonPanel;
 
     // Otros
-    String oldCode;
+    Admin admin;
+    String oldCode, oldTitle, oldDesc, oldOlymp;
 
     public ModifyItineraryFrame(Admin administrador, String codigo, String titulo, String descripcion, String olimpiada) throws JSchException, SQLException {
-        // Configuración de la ventana    
-        setSize(500, 335);
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Modificar itinerario");
-        setIconImage(iconoVentana);
-        setVisible(true);
-        setLocationRelativeTo(null);
-
+        super(335, "Modificar itinerario");
+        
+        admin = administrador;
         oldCode = codigo;
+        oldTitle = titulo;
+        oldDesc = descripcion;
+        oldOlymp = olimpiada;
 
-        // Panel superior
-        introduceData = new JLabel("Nuevo itinerario");
-        introduceData.setFont(fuenteTitulo);
+        add(createCenterPanel(), BorderLayout.CENTER);
+        add(createSouthPanel(), BorderLayout.SOUTH);
 
-        goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(90, 30));
-
-        upperPanel = new JPanel();
-        upperPanel.setLayout(new BorderLayout(5, 5));
-        upperPanel.add(introduceData, BorderLayout.CENTER);
-        upperPanel.add(goBackButton, BorderLayout.EAST);
-        upperPanel.setBorder(borde);
-
-        // Panel de inputs
-        codigoItinerario = new JLabel("Código (*)");
-        codigoItinerario.setFont(fuenteBotonesEtiquetas);
-        
-        nombreItinerario = new JLabel("Nombre (*)");
-        nombreItinerario.setFont(fuenteBotonesEtiquetas);
-        
-        descripcionItinerario = new JLabel("Descripción");
-        descripcionItinerario.setFont(fuenteBotonesEtiquetas);
-        
-        olimpiadaItinerario = new JLabel("Olimpiada (*)");
-        olimpiadaItinerario.setFont(fuenteBotonesEtiquetas);
-
-        campoCodigoItinerario = new JTextField(codigo);
-        campoCodigoItinerario.setFont(fuenteCampoTexto);
-
-        campoNombreItinerario = new JTextField(titulo);
-        campoNombreItinerario.setFont(fuenteCampoTexto);
-
-        campoDescripcionItinerario = new JTextField(descripcion);
-        campoDescripcionItinerario.setFont(fuenteCampoTexto);
-
-        campoOlimpiadaItinerario = new JComboBox<>();
-        campoOlimpiadaItinerario.setFont(fuenteCampoTexto);
-        
-        ResultSet olympCodes = administrador.selectCol("T_OLIMPIADAS", "CODIGO");
-
-        // Se añaden los códigos de olimpiada al combo box
-        while (olympCodes.next()) {
-            String registro = olympCodes.getString("CODIGO");
-            campoOlimpiadaItinerario.addItem(registro);
-        }
-        
-        olympCodes.close();
-
-        campoOlimpiadaItinerario.setSelectedItem(olimpiada);
-
-        inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(4, 2, 10, 10));
-        inputPanel.setBorder(borde);
-
-        inputPanel.add(codigoItinerario);
-        inputPanel.add(campoCodigoItinerario);
-        inputPanel.add(nombreItinerario);
-        inputPanel.add(campoNombreItinerario);
-        inputPanel.add(descripcionItinerario);
-        inputPanel.add(campoDescripcionItinerario);
-        inputPanel.add(olimpiadaItinerario);
-        inputPanel.add(campoOlimpiadaItinerario);
-        
-
-        // Panel de botón modificar
-        botonModificarItinerario = new JButton("Modificar itinerario");
-        botonModificarItinerario.setFont(fuenteBotonesEtiquetas);
-        botonModificarItinerario.setPreferredSize(new Dimension(175, 30));
-
-        JPanel createButtonPanel = new JPanel();
-        createButtonPanel.setBorder(borde);
-        createButtonPanel.add(botonModificarItinerario);
-        
-        // Se añaden los paneles a la ventana
-        add(upperPanel, BorderLayout.NORTH);
-        add(inputPanel, BorderLayout.CENTER);
-        add(createButtonPanel, BorderLayout.SOUTH);
+        this.setVisible(true);
 
         // Botón de volver
-        goBackButton.addActionListener(e -> {
+        getGoBackButton().addActionListener(e -> {
             try {
                 new CheckItinerariesFrame(administrador);
 
@@ -168,6 +87,57 @@ public class ModifyItineraryFrame extends JFrame implements Borders, Fonts, Icon
         });
     }
 
+    @Override
+    protected CustomPanel createCenterPanel() {
+        try {
+            codigoItinerario = new CustomFieldLabel("Código (*)");
+            nombreItinerario = new CustomFieldLabel("Nombre (*)");
+            descripcionItinerario = new CustomFieldLabel("Descripción");
+            olimpiadaItinerario = new CustomFieldLabel("Olimpiada (*)");
+            campoCodigoItinerario = new CustomTextField(oldCode);
+            campoNombreItinerario = new CustomTextField(oldTitle);
+            campoDescripcionItinerario = new CustomTextField(oldDesc);
+            campoOlimpiadaItinerario = new CustomComboBox();
+
+            ResultSet olympCodes = admin.selectCol("T_OLIMPIADAS", "CODIGO");
+
+            // Se añaden los códigos de olimpiada al combo box
+            while (olympCodes.next()) {
+                String registro = olympCodes.getString("CODIGO");
+                campoOlimpiadaItinerario.addItem(registro);
+            }
+
+            olympCodes.close();
+
+            campoOlimpiadaItinerario.setSelectedItem(oldOlymp);
+
+            inputPanel = new CustomPanel();
+            inputPanel.setLayout(new GridLayout(4, 2, 10, 10));
+            inputPanel.add(codigoItinerario);
+            inputPanel.add(campoCodigoItinerario);
+            inputPanel.add(nombreItinerario);
+            inputPanel.add(campoNombreItinerario);
+            inputPanel.add(descripcionItinerario);
+            inputPanel.add(campoDescripcionItinerario);
+            inputPanel.add(olimpiadaItinerario);
+            inputPanel.add(campoOlimpiadaItinerario);
+
+        } catch (SQLException ex) {
+            new ErrorJOptionPane(ex.getMessage());
+        }
+        
+        return inputPanel;
+    }
+
+    @Override
+    protected CustomPanel createSouthPanel() {
+        botonModificarItinerario = new CustomButton("Modificar itinerario", 175, 30);
+
+        createButtonPanel = new CustomPanel();
+        createButtonPanel.add(botonModificarItinerario);
+        
+        return createButtonPanel;
+    }
 }
 
 

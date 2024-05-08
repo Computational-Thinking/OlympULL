@@ -3,7 +3,6 @@ package interfaz.organizer;
 import com.jcraft.jsch.JSchException;
 import interfaz.custom_components.*;
 import interfaz.template.CheckTableFrameTemplate;
-import interfaz.template.ModifyRegistrationFrameTemplate;
 import users.Organizer;
 
 import javax.swing.*;
@@ -21,10 +20,6 @@ import java.util.Objects;
 public class CheckExItAssignationFrame extends CheckTableFrameTemplate implements Borders, Fonts, Icons, MouseListener {
     // Paneles
     JScrollPane tablaScrollPane;
-
-    // Etiquetas
-
-    // Botones
 
     // Modelo de tabla
     DefaultTableModel modeloTabla;
@@ -178,12 +173,12 @@ public class CheckExItAssignationFrame extends CheckTableFrameTemplate implement
 
             // Esto es para insertar los botones en la última columna de la tabla
             // Columna de editar
-            tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new CheckExItAssignationFrame.ButtonPanelRenderer(2));
+            tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new ButtonPanelRenderer(3));
             tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMinWidth(30);
             tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMaxWidth(30);
 
             // Columna de eliminar
-            tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new CheckExItAssignationFrame.ButtonPanelRenderer(1));
+            tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new ButtonPanelRenderer(1));
             tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMinWidth(30);
             tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMaxWidth(30);
 
@@ -194,31 +189,4 @@ public class CheckExItAssignationFrame extends CheckTableFrameTemplate implement
         return tablaScrollPane;
     }
 
-    // Esto es para añadir los botones a la última columna de la tabla
-    static class ButtonPanelRenderer extends JPanel implements TableCellRenderer {
-        private Image image;
-
-        public ButtonPanelRenderer(int columna) {
-            setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
-            switch (columna) {
-                case 2 -> image = iconoEditar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-                case 1 -> image = iconoEliminar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-                default -> {
-                }
-            }
-
-            ImageIcon buttonIcon = new ImageIcon(image);
-            JButton actionButton = new JButton(buttonIcon);
-            actionButton.setPreferredSize(new Dimension(25, 25));
-
-            // Se añaden estos botones al modelo de tabla
-            add(actionButton);
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(JTable tabla, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
-            return this;
-        }
-    }
 }

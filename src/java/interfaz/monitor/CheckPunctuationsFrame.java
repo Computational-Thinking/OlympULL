@@ -222,7 +222,7 @@ public class CheckPunctuationsFrame extends CheckTableFrameTemplate implements B
 
             // Esto es para insertar los botones en la última columna de la tabla
             // Columna de editar
-            tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new CheckPunctuationsFrame.ButtonPanelRenderer());
+            tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new ButtonPanelRenderer(3));
             tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMinWidth(30);
             tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMaxWidth(30);
 
@@ -233,22 +233,4 @@ public class CheckPunctuationsFrame extends CheckTableFrameTemplate implements B
         return tablaScrollPane;
     }
 
-    static class ButtonPanelRenderer extends CustomPanel implements TableCellRenderer {
-        public ButtonPanelRenderer() {
-            setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
-            Image image = iconoEditar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-            ImageIcon buttonIcon = new ImageIcon(image);
-            JButton actionButton = new JButton(buttonIcon);
-            actionButton.setPreferredSize(new Dimension(25, 25));
-
-            // Se añade el botón al modelo de tabla
-            add(actionButton);
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            return this;
-        }
-    }
 }

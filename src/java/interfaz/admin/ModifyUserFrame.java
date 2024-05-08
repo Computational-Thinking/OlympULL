@@ -1,129 +1,61 @@
 package interfaz.admin;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.custom_components.Borders;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fonts;
-import interfaz.custom_components.Icons;
+import interfaz.custom_components.*;
+import interfaz.template.ModifyRegistrationFrameTemplate;
 import users.Admin;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class ModifyUserFrame extends JFrame implements Borders, Fonts, Icons {
+public class ModifyUserFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
     // Etiquetas
-    JLabel title;
-    JLabel userNameLabel;
-    JLabel userPasswordLabel;
-    JLabel userTypeLabel;
+    CustomFieldLabel userNameLabel;
+    CustomFieldLabel userPasswordLabel;
+    CustomFieldLabel userTypeLabel;
 
     // Campos de texto
-    JTextField userNameField;
-    JPasswordField userPasswordField;
+    CustomTextField userNameField;
+    CustomPasswordField userPasswordField;
 
     // Combo boxes
-    JComboBox<String> userTypeComboBox;
+    CustomComboBox userTypeComboBox;
 
     // Botones
-    JButton goBackButton;
-    JButton modifyUserButton;
+    CustomButton modifyUserButton;
 
     // Paneles
-    JPanel upperPanel;
-    JPanel inputPanel;
-    JPanel createButtonPanel;
+    CustomPanel inputPanel;
+    CustomPanel createButtonPanel;
+    
+    // Otros
+    Admin admin;
+    String oldName;
+    String oldPassword;
+    String oldType;
 
     public ModifyUserFrame(Admin administrador, String nombre, String password, String tipo) {
-        // Configuración de la ventana
-        setSize(500, 270);
-        getContentPane().setLayout(new BorderLayout());
-        setTitle("Nuevo usuario");
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setIconImage(iconoVentana);
-        setVisible(true);
-        
-        String oldName = nombre;
+        super(270, "Modificar usuario");
 
-        // Definición del botón de volver
-        goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(90, 30));
+        admin = administrador;
+        oldName = nombre;
+        oldPassword = password;
+        oldType = tipo;
 
-        // Definición de etiqueta de título
-        title = new JLabel("Modificar usuario");
-        title.setFont(fuenteTitulo);
+        add(createCenterPanel(), BorderLayout.CENTER);
+        add(createSouthPanel(), BorderLayout.SOUTH);
 
-        // Configuración de panel superior
-        upperPanel = new JPanel();
-        upperPanel.setLayout(new BorderLayout(5, 5));
-        upperPanel.setBorder(borde);
+        this.setVisible(true);
 
-        upperPanel.add(title, BorderLayout.CENTER);
-        upperPanel.add(goBackButton, BorderLayout.EAST);
-
-        // Configuración de los componentes del panel de input del usuario
-        userNameLabel = new JLabel("Nombre de usuario (*)");
-        userNameLabel.setFont(fuenteBotonesEtiquetas);
-
-        userPasswordLabel = new JLabel("Contraseña (*)");
-        userPasswordLabel.setFont(fuenteBotonesEtiquetas);
-
-        userTypeLabel = new JLabel("Tipo de usuario (*)");
-        userTypeLabel.setFont(fuenteBotonesEtiquetas);
-
-        userNameField = new JTextField(nombre);
-        userNameField.setFont(fuenteCampoTexto);
-
-        userPasswordField = new JPasswordField(password);
-        userPasswordField.setFont(fuenteCampoTexto);
-
-        String[] userTypes = {"ADMINISTRADOR", "ORGANIZADOR", "MONITOR"};
-        userTypeComboBox = new JComboBox<>(userTypes);
-        userTypeComboBox.setFont(fuenteCampoTexto);
-        userTypeComboBox.setSelectedItem(tipo);
-
-        modifyUserButton = new JButton("Modificar usuario");
-        modifyUserButton.setFont(fuenteBotonesEtiquetas);
-        modifyUserButton.setPreferredSize(new Dimension(175, 30));
-
-        // Configuración del panel de input del usuario
-        inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(3, 2, 5, 5));
-        inputPanel.setBorder(borde);
-
-        // COnfiguración del panel de botón de crear
-        createButtonPanel = new JPanel();
-        createButtonPanel.setLayout(new FlowLayout());
-        createButtonPanel.setBorder(borde);
-
-        inputPanel.add(userNameLabel);
-        inputPanel.add(userNameField);
-        inputPanel.add(userPasswordLabel);
-        inputPanel.add(userPasswordField);
-        inputPanel.add(userTypeLabel);
-        inputPanel.add(userTypeComboBox);
-
-        createButtonPanel.add(modifyUserButton);
-
-        // Se añaden los diferentes elementos a la ventana
-        add(upperPanel, BorderLayout.NORTH);
-        add(inputPanel, BorderLayout.CENTER);
-        add(createButtonPanel, BorderLayout.SOUTH);
-
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new CheckUsersFrame(administrador);
-                } catch (JSchException | SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-                dispose();
+        getGoBackButton().addActionListener(e -> {
+            try {
+                new CheckUsersFrame(administrador);
+            } catch (JSchException | SQLException ex) {
+                throw new RuntimeException(ex);
             }
+            dispose();
         });
 
         modifyUserButton.addActionListener(e -> {
@@ -150,5 +82,40 @@ public class ModifyUserFrame extends JFrame implements Borders, Fonts, Icons {
             }
 
         });
+    }
+
+    @Override
+    protected CustomPanel createCenterPanel() {
+        userNameLabel = new CustomFieldLabel("Nombre de usuario (*)");
+        userPasswordLabel = new CustomFieldLabel("Contraseña (*)");
+        userTypeLabel = new CustomFieldLabel("Tipo de usuario (*)");
+        userNameField = new CustomTextField(oldName);
+        userPasswordField = new CustomPasswordField(oldPassword);
+
+        ArrayList<String> userTypes = new ArrayList<>(Arrays.asList("ADMINISTRADOR", "ORGANIZADOR", "MONITOR"));
+        userTypeComboBox = new CustomComboBox(userTypes);
+        userTypeComboBox.setSelectedItem(oldType);
+
+        inputPanel = new CustomPanel();
+        inputPanel.setLayout(new GridLayout(3, 2, 5, 5));
+        inputPanel.add(userNameLabel);
+        inputPanel.add(userNameField);
+        inputPanel.add(userPasswordLabel);
+        inputPanel.add(userPasswordField);
+        inputPanel.add(userTypeLabel);
+        inputPanel.add(userTypeComboBox);
+
+        return inputPanel;
+    }
+
+    @Override
+    protected CustomPanel createSouthPanel() {
+        modifyUserButton = new CustomButton("Modificar usuario", 175, 30);
+
+        createButtonPanel = new CustomPanel();
+        createButtonPanel.setLayout(new FlowLayout());
+        createButtonPanel.add(modifyUserButton);
+
+        return createButtonPanel;
     }
 }

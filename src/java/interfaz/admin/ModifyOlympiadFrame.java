@@ -1,131 +1,60 @@
 package interfaz.admin;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.custom_components.Borders;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fonts;
-import interfaz.custom_components.Icons;
+import interfaz.custom_components.*;
+import interfaz.template.ModifyRegistrationFrameTemplate;
 import users.Admin;
 
-import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 
-public class ModifyOlympiadFrame extends JFrame implements Borders, Fonts, Icons {
+public class ModifyOlympiadFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
     // Botones
-    JButton goBackButton;
-    JButton modifyOlympButton;
+    CustomButton modifyOlympButton;
     
     // Etiquetas
-    JLabel introduceData;
-    JLabel olympCode;
-    JLabel olympName;
-    JLabel olympDesc;
-    JLabel olympYear;
+    CustomFieldLabel olympCode;
+    CustomFieldLabel olympName;
+    CustomFieldLabel olympDesc;
+    CustomFieldLabel olympYear;
     
     // Campos de texto
-    JTextField olympCodeField;
-    JTextField olympNameField;
-    JTextField olympDescField;
-    JTextField olympYearField;
+    CustomTextField olympCodeField;
+    CustomTextField olympNameField;
+    CustomTextField olympDescField;
+    CustomTextField olympYearField;
     
     // Paneles
-    JPanel upperPanel;
-    JPanel inputPanel;
+    CustomPanel inputPanel;
+    CustomPanel modifyButtonPanel;
     
     // Otros
-    String oldCode;
-
+    Admin admin;
+    String oldCode, oldTitle, oldDesc, oldYear;
+    
     public ModifyOlympiadFrame(Admin administrador, String codigo, String titulo, String descripcion, String year) {
-        // Configuración de la ventana
-        setSize(500, 335);
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Modificar olimpiada");
-        this.setVisible(true);
-        setLocationRelativeTo(null);
-        setIconImage(iconoVentana);
-
+        super(335, "Modificar olimpiada");
+        
+        admin = administrador;
         oldCode = codigo;
+        oldTitle = titulo;
+        oldDesc = descripcion;
+        oldYear = year;
 
-        // Panel superior
-        introduceData = new JLabel("Modificar olimpiada");
-        introduceData.setFont(fuenteTitulo);
+        add(createCenterPanel(), BorderLayout.CENTER);
+        add(createSouthPanel(), BorderLayout.SOUTH);
 
-        goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(90, 30));
+        this.setVisible(true);
 
-        upperPanel = new JPanel();
-        upperPanel.setLayout(new BorderLayout(5, 5));
-        upperPanel.add(introduceData, BorderLayout.CENTER);
-        upperPanel.add(goBackButton, BorderLayout.EAST);
-        upperPanel.setBorder(borde);
-
-        // Elementos del panel de inputs
-        olympCode = new JLabel("Código (*)");
-        olympCode.setFont(fuenteBotonesEtiquetas);
-        
-        olympName = new JLabel("Nombre (*)");
-        olympName.setFont(fuenteBotonesEtiquetas);
-        
-        olympDesc = new JLabel("Descripción");
-        olympDesc.setFont(fuenteBotonesEtiquetas);
-        
-        olympYear = new JLabel("Año (*)");
-        olympYear.setFont(fuenteBotonesEtiquetas);
-
-        olympCodeField = new JTextField(codigo);
-        olympCodeField.setFont(fuenteCampoTexto);
-        
-        olympNameField = new JTextField(titulo);
-        olympNameField.setFont(fuenteCampoTexto);
-        
-        olympDescField = new JTextField(descripcion);
-        olympDescField.setFont(fuenteCampoTexto);
-        
-        olympYearField = new JTextField(year);
-        olympYearField.setFont(fuenteCampoTexto);
-        
-        modifyOlympButton = new JButton("Modificar olimpiada");
-        modifyOlympButton.setFont(fuenteBotonesEtiquetas);
-        modifyOlympButton.setPreferredSize(new Dimension(175, 30));
-
-        // Botón de modificar la olimpiada
-        JPanel modifyButtonPanel = new JPanel();
-        modifyButtonPanel.setBorder(borde);
-        modifyButtonPanel.add(modifyOlympButton);
-
-        // Se añaden los elementos del panel de inputs
-        inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(4, 2, 10, 10));
-        inputPanel.setBorder(borde);
-
-        inputPanel.add(olympCode);
-        inputPanel.add(olympCodeField);
-        inputPanel.add(olympName);
-        inputPanel.add(olympNameField);
-        inputPanel.add(olympDesc);
-        inputPanel.add(olympDescField);
-        inputPanel.add(olympYear);
-        inputPanel.add(olympYearField);
-
-        // Se añaden los elementos a la ventana
-        add(upperPanel, BorderLayout.NORTH);
-        add(inputPanel, BorderLayout.CENTER);
-        add(modifyButtonPanel, BorderLayout.SOUTH);
-
-        // Botón de volver
-        goBackButton.addActionListener(e -> {
+        getGoBackButton().addActionListener(e -> {
             try {
-                new CheckOlympiadsFrame(administrador);
+                new CheckOlympiadsFrame(admin);
+                dispose();
 
             } catch (JSchException | SQLException ex) {
-                new ErrorJOptionPane(ex.getMessage());
+                throw new RuntimeException(ex);
 
             }
-
-            dispose();
         });
 
         // Botón de modificar
@@ -139,11 +68,11 @@ public class ModifyOlympiadFrame extends JFrame implements Borders, Fonts, Icons
                 String code = olympCodeField.getText();
                 String name = olympNameField.getText();
                 String desc = olympDescField.getText();
-                String year1 = olympYearField.getText();
+                String yr = olympYearField.getText();
 
-                if (year1.matches("[0-9]*") && Integer.parseInt(year1) > 2000 && Integer.parseInt(year1) < 3000) {
+                if (yr.matches("[0-9]*") && Integer.parseInt(yr) > 2000 && Integer.parseInt(yr) < 3000) {
                     try {
-                        if (administrador.modifyOlympiad(oldCode, code, name, desc, Integer.parseInt(year1)) == 0) {
+                        if (administrador.modifyOlympiad(oldCode, code, name, desc, Integer.parseInt(yr)) == 0) {
                             new CheckOlympiadsFrame(administrador);
                             dispose();
 
@@ -160,5 +89,40 @@ public class ModifyOlympiadFrame extends JFrame implements Borders, Fonts, Icons
                 }
             }
         });
+    }
+
+    @Override
+    protected CustomPanel createCenterPanel() {
+        olympCode = new CustomFieldLabel("Código (*)");
+        olympName = new CustomFieldLabel("Nombre (*)");
+        olympDesc = new CustomFieldLabel("Descripción");
+        olympYear = new CustomFieldLabel("Año (*)");
+        olympCodeField = new CustomTextField(oldCode);
+        olympNameField = new CustomTextField(oldTitle);
+        olympDescField = new CustomTextField(oldDesc);
+        olympYearField = new CustomTextField(oldYear);
+
+        inputPanel = new CustomPanel();
+        inputPanel.setLayout(new GridLayout(4, 2, 10, 10));
+        inputPanel.add(olympCode);
+        inputPanel.add(olympCodeField);
+        inputPanel.add(olympName);
+        inputPanel.add(olympNameField);
+        inputPanel.add(olympDesc);
+        inputPanel.add(olympDescField);
+        inputPanel.add(olympYear);
+        inputPanel.add(olympYearField);
+        
+        return inputPanel;
+    }
+
+    @Override
+    protected CustomPanel createSouthPanel() {
+        modifyOlympButton = new CustomButton("Modificar olimpiada", 175, 30);
+
+        modifyButtonPanel = new CustomPanel();
+        modifyButtonPanel.add(modifyOlympButton);
+
+        return modifyButtonPanel;
     }
 }

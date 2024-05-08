@@ -1,181 +1,64 @@
 package interfaz.admin;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.custom_components.Borders;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fonts;
-import interfaz.custom_components.Icons;
+import interfaz.custom_components.*;
+import interfaz.template.ModifyRegistrationFrameTemplate;
 import users.Admin;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class ModifyExerciseFrame extends JFrame implements Borders, Fonts, Icons {
+public class ModifyExerciseFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
     // Botones
-    JButton modifyExerButton;
-    JButton goBackButton;
+    CustomButton modifyExerButton;
     
     // Etiquetas
-    JLabel introduceData;
-    JLabel exerCode;
-    JLabel exerName;
-    JLabel exerDesc;
-    JLabel exerConcept;
-    JLabel exerResources;
-    JLabel exerType;
-    JLabel exerRubrica;
+    CustomFieldLabel exerCode;
+    CustomFieldLabel exerName;
+    CustomFieldLabel exerDesc;
+    CustomFieldLabel exerConcept;
+    CustomFieldLabel exerResources;
+    CustomFieldLabel exerType;
+    CustomFieldLabel exerRubrica;
     
     // Campos de texto
-    JTextField exerCodeField;
-    JTextField exerNameField;
-    JTextField exerDescField;
+    CustomTextField exerCodeField;
+    CustomTextField exerNameField;
+    CustomTextField exerDescField;
     
     // Combo boxes
-    JComboBox<String> exerConceptField;
-    JComboBox<String> exerResourcesField;
-    JComboBox<String> exerTypeField;
-    JComboBox<String> exerRubricaField;
+    CustomComboBox exerConceptField;
+    CustomComboBox exerResourcesField;
+    CustomComboBox exerTypeField;
+    CustomComboBox exerRubricaField;
     
     // Paneles
-    JPanel inputPanel;
-    JPanel upperPanel;
+    CustomPanel inputPanel;
+    CustomPanel createButtonPanel;
+
+    // Otros
+    Admin admin;
+    String oldCode, oldTitle, oldDes, oldConcept, oldResource, oldType;
 
     public ModifyExerciseFrame(Admin administrador, String codigo, String titulo, String desc, String concepto, String recurso, String tipo) throws JSchException, SQLException {
-        // Configuración de la ventana
-        setSize(500, 475);
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        setTitle("Modificar ejercicio olímpico");
-        setTitle("Modificar ejercicio olímpico");
+        super(475, "Modificar ejercicio");
+
+        admin = administrador;
+        oldCode = codigo;
+        oldTitle = titulo;
+        oldDes = desc;
+        oldConcept = concepto;
+        oldResource = recurso;
+        oldType = tipo;
+        
+        add(createCenterPanel(), BorderLayout.CENTER);
+        add(createSouthPanel(), BorderLayout.SOUTH);
+
         setVisible(true);
-        setLocationRelativeTo(null);
-        setIconImage(iconoVentana);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        String oldCode = codigo;
-
-        // Panel superior
-        introduceData = new JLabel("Edición de ejercicio");
-        introduceData.setFont(fuenteTitulo);
-
-        goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(90, 30));
-
-        upperPanel = new JPanel();
-        upperPanel.setLayout(new BorderLayout(5, 5));
-        upperPanel.add(introduceData, BorderLayout.CENTER);
-        upperPanel.add(goBackButton, BorderLayout.EAST);
-        upperPanel.setBorder(borde);
-
-        // Panel de inputs
-        exerCode = new JLabel("Código (*)");
-        exerCode.setFont(fuenteBotonesEtiquetas);
-
-        exerName = new JLabel("Nombre (*)");
-        exerName.setFont(fuenteBotonesEtiquetas);
-
-        exerDesc = new JLabel("Descripción");
-        exerDesc.setFont(fuenteBotonesEtiquetas);
-
-        exerConcept = new JLabel("Categoría (*)");
-        exerConcept.setFont(fuenteBotonesEtiquetas);
-
-        exerResources = new JLabel("Recursos (*)");
-        exerResources.setFont(fuenteBotonesEtiquetas);
-
-        exerType = new JLabel("Tipo (*)");
-        exerType.setFont(fuenteBotonesEtiquetas);
-
-        exerRubrica = new JLabel("Rúbrica (*)");
-        exerRubrica.setFont(fuenteBotonesEtiquetas);
-
-        exerCodeField = new JTextField(codigo);
-        exerCodeField.setFont(fuenteCampoTexto);
-
-        exerNameField = new JTextField(titulo);
-        exerNameField.setFont(fuenteCampoTexto);
-
-        exerDescField = new JTextField(desc);
-        exerDescField.setFont(fuenteCampoTexto);
-
-        String[] exerConcepts = {"Abstracción", "Algoritmos", "Bucles", "Condicionales", "Descomposición", "Funciones",
-                "IA", "Reconocimiento de patrones", "Secuencias", "Secuencias y bucles", "Variables", "Variables y funciones", "Otro"};
-
-        exerConceptField = new JComboBox<>(exerConcepts);
-        exerConceptField.setFont(fuenteCampoTexto);
-        if (!concepto.equals("IA")) {
-            String substring = concepto.substring(1);
-            substring = substring.toLowerCase();
-            concepto = concepto.charAt(0) + substring;
-        }
-        exerConceptField.setSelectedItem(concepto);
-
-        String[] exerResource = {"INICIAL", "INTERMEDIO"};
-        exerResourcesField = new JComboBox<>(exerResource);
-        exerResourcesField.setFont(fuenteCampoTexto);
-        exerResourcesField.setSelectedItem(recurso);
-
-        String[] exerTypes = {"Desenchufada", "Enchufada"};
-        exerTypeField = new JComboBox<>(exerTypes);
-        exerTypeField.setFont(fuenteCampoTexto);
-
-        String substring = tipo.substring(1);
-        substring = substring.toLowerCase();
-        tipo = tipo.charAt(0) + substring;
-        exerTypeField.setSelectedItem(tipo);
-
-        exerRubricaField = new JComboBox<>();
-        exerRubricaField.setFont(fuenteCampoTexto);
-
-        ResultSet rubricCodes = administrador.selectCol("T_RUBRICAS", "CODIGO");
-
-        // Se añaden los registros al combo box
-        while (rubricCodes.next()) {
-            String registro = rubricCodes.getString("CODIGO");
-            exerRubricaField.addItem(registro);
-
-        }
-
-        rubricCodes.close();
-
-        // Panel de botón modificar
-        modifyExerButton = new JButton("Modificar ejercicio olímpico");
-        modifyExerButton.setPreferredSize(new Dimension(250, 30));
-        modifyExerButton.setFont(fuenteBotonesEtiquetas);
-
-        JPanel createButtonPanel = new JPanel();
-        createButtonPanel.setBorder(borde);
-        createButtonPanel.add(modifyExerButton);
-
-        inputPanel = new JPanel();
-        inputPanel.setBorder(borde);
-        inputPanel.setLayout(new GridLayout(7, 2, 10, 10));
-
-        inputPanel.add(exerCode);
-        inputPanel.add(exerCodeField);
-        inputPanel.add(exerName);
-        inputPanel.add(exerNameField);
-        inputPanel.add(exerDesc);
-        inputPanel.add(exerDescField);
-        inputPanel.add(exerConcept);
-        inputPanel.add(exerConceptField);
-        inputPanel.add(exerResources);
-        inputPanel.add(exerResourcesField);
-        inputPanel.add(exerType);
-        inputPanel.add(exerTypeField);
-        inputPanel.add(exerRubrica);
-        inputPanel.add(exerRubricaField);
-
-        // Se añaden los paneles a la ventana
-        add(upperPanel, BorderLayout.NORTH);
-        add(inputPanel, BorderLayout.CENTER);
-        add(createButtonPanel, BorderLayout.SOUTH);
-
-        // Botón de volver
-        goBackButton.addActionListener(e -> {
+        getGoBackButton().addActionListener(e -> {
             try {
                 new CheckExercisesFrame(administrador);
             } catch (JSchException | SQLException ex) {
@@ -185,35 +68,119 @@ public class ModifyExerciseFrame extends JFrame implements Borders, Fonts, Icons
         });
 
         // 
-        modifyExerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (exerCodeField.getText().matches("^\\s*$")
-                        || exerNameField.getText().matches("^\\s*$")) {
-                    new ErrorJOptionPane("Los campos Código, Nombre, Concepto, Recursos, Tipo y Rúbrica son obligatorios");
+        modifyExerButton.addActionListener(e -> {
+            if (exerCodeField.getText().matches("^\\s*$")
+                    || exerNameField.getText().matches("^\\s*$")) {
+                new ErrorJOptionPane("Los campos Código, Nombre, Concepto, Recursos, Tipo y Rúbrica son obligatorios");
 
-                } else {
-                    String code = exerCodeField.getText();
-                    String name = exerNameField.getText();
-                    String desc = exerDescField.getText();
-                    String concept = (String) exerConceptField.getSelectedItem();
-                    String resources = (String) exerResourcesField.getSelectedItem();
-                    String type = (String) exerTypeField.getSelectedItem();
-                    String rubric = (String) exerRubricaField.getSelectedItem();
+            } else {
+                String code = exerCodeField.getText();
+                String name = exerNameField.getText();
+                String desc1 = exerDescField.getText();
+                String concept = (String) exerConceptField.getSelectedItem();
+                String resources = (String) exerResourcesField.getSelectedItem();
+                String type = (String) exerTypeField.getSelectedItem();
+                String rubric = (String) exerRubricaField.getSelectedItem();
 
-                    try {
-                        if (administrador.modifyExercise(oldCode, code, name, desc, concept, resources, type, rubric) == 0) {
-                            new CheckExercisesFrame(administrador);
-                            dispose();
+                try {
+                    if (administrador.modifyExercise(oldCode, code, name, desc1, concept, resources, type, rubric) == 0) {
+                        new CheckExercisesFrame(administrador);
+                        dispose();
 
-                        }
-
-                    } catch (JSchException | SQLException ex) {
-                        new ErrorJOptionPane(ex.getMessage());
                     }
+
+                } catch (JSchException | SQLException ex) {
+                    new ErrorJOptionPane(ex.getMessage());
                 }
             }
         });
 
+    }
+
+    @Override
+    protected CustomPanel createCenterPanel() {
+        try {
+            exerCode = new CustomFieldLabel("Código (*)");
+            exerName = new CustomFieldLabel("Nombre (*)");
+            exerDesc = new CustomFieldLabel("Descripción");
+            exerConcept = new CustomFieldLabel("Categoría (*)");
+            exerResources = new CustomFieldLabel("Recursos (*)");
+            exerType = new CustomFieldLabel("Tipo (*)");
+            exerRubrica = new CustomFieldLabel("Rúbrica (*)");
+            exerCodeField = new CustomTextField(oldCode);
+            exerNameField = new CustomTextField(oldTitle);
+            exerDescField = new CustomTextField(oldDes);
+
+            ArrayList<String> exerConcepts = new ArrayList<>(new ArrayList<>(Arrays.asList("Abstracción", "Algoritmos",
+                    "Bucles", "Condicionales", "Descomposición", "Funciones", "IA", "Reconocimiento de patrones",
+                    "Secuencias", "Secuencias y bucles", "Variables", "Variables y funciones", "Otro")));
+
+            exerConceptField = new CustomComboBox(exerConcepts);
+
+            if (!oldConcept.equals("IA")) {
+                String substring = oldConcept.substring(1);
+                substring = substring.toLowerCase();
+                oldConcept = oldConcept.charAt(0) + substring;
+            }
+
+            exerConceptField.setSelectedItem(oldConcept);
+
+            ArrayList<String> exerResource = new ArrayList<>(new ArrayList<>(Arrays.asList("INICIAL", "INTERMEDIO")));
+            exerResourcesField = new CustomComboBox(exerResource);
+            exerResourcesField.setSelectedItem(oldResource);
+
+            ArrayList<String> exerTypes = new ArrayList<>(new ArrayList<>(Arrays.asList("Desenchufada", "Enchufada")));
+            exerTypeField = new CustomComboBox(exerTypes);
+
+            String substring = oldType.substring(1);
+            substring = substring.toLowerCase();
+            oldType = oldType.charAt(0) + substring;
+            exerTypeField.setSelectedItem(oldType);
+
+            exerRubricaField = new CustomComboBox();
+
+            ResultSet rubricCodes = admin.selectCol("T_RUBRICAS", "CODIGO");
+
+            // Se añaden los registros al combo box
+            while (rubricCodes.next()) {
+                String registro = rubricCodes.getString("CODIGO");
+                exerRubricaField.addItem(registro);
+
+            }
+
+            rubricCodes.close();
+
+            inputPanel = new CustomPanel();
+            inputPanel.setLayout(new GridLayout(7, 2, 10, 10));
+            inputPanel.add(exerCode);
+            inputPanel.add(exerCodeField);
+            inputPanel.add(exerName);
+            inputPanel.add(exerNameField);
+            inputPanel.add(exerDesc);
+            inputPanel.add(exerDescField);
+            inputPanel.add(exerConcept);
+            inputPanel.add(exerConceptField);
+            inputPanel.add(exerResources);
+            inputPanel.add(exerResourcesField);
+            inputPanel.add(exerType);
+            inputPanel.add(exerTypeField);
+            inputPanel.add(exerRubrica);
+            inputPanel.add(exerRubricaField);
+
+        } catch (SQLException ex) {
+            new ErrorJOptionPane(ex.getMessage());
+        }
+
+        return inputPanel;
+    }
+
+    @Override
+    protected CustomPanel createSouthPanel() {
+        modifyExerButton = new CustomButton("Modificar ejercicio", 150, 30);
+
+        createButtonPanel = new CustomPanel();
+        createButtonPanel.add(modifyExerButton);
+
+        return createButtonPanel;
     }
 }

@@ -1,150 +1,55 @@
 package interfaz.admin;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.custom_components.Borders;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fonts;
-import interfaz.custom_components.Icons;
+import interfaz.custom_components.*;
+import interfaz.template.ModifyRegistrationFrameTemplate;
 import users.Admin;
 
-import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 
-public class ModifyAssignationExOlympFrame extends JFrame implements Borders, Fonts, Icons {
+public class ModifyAssignationExOlympFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
     // Botones
-    JButton goBackButton;
-    JButton assignExercise;
+    CustomButton assignExercise;
 
     // Etiquetas
-    JLabel introduceData;
-    JLabel exerCode;
-    JLabel olympCode;
-    JLabel itinerarioCode;
+    CustomFieldLabel exerCode;
+    CustomFieldLabel olympCode;
+    CustomFieldLabel itinerarioCode;
 
     // Combo boxes
-    JComboBox<String> exerCodeField;
-    JComboBox<String> olympCodeField;
-    JComboBox<String> itinerarioCodeField;
+    CustomComboBox exerCodeField;
+    CustomComboBox olympCodeField;
+    CustomComboBox itinerarioCodeField;
 
     // Paneles
-    JPanel inputPanel;
-    JPanel upperPanel;
+    CustomPanel inputPanel;
+    CustomPanel createButtonPanel;
+
+    // Otros
+    Admin admin;
+    String oldEx, oldOlymp, oldIt;
 
     public ModifyAssignationExOlympFrame(Admin administrador, String oldEx, String oldOlymp, String oldIt) throws JSchException, SQLException {
-        // Configuración de la ventana
-        setSize(500, 290);
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        this.setTitle("Modificar asignación");
+        super(290, "Modificar asignación");
+
+        this.admin = administrador;
+        this.oldEx = oldEx;
+        this.oldOlymp = oldOlymp;
+        this.oldIt = oldIt;
+
+        add(createCenterPanel(), BorderLayout.CENTER);
+        add(createSouthPanel(), BorderLayout.SOUTH);
+
         this.setVisible(true);
-        setLocationRelativeTo(null);
-        setIconImage(iconoVentana);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        introduceData = new JLabel("Modificar asignación");
-        introduceData.setFont(fuenteTitulo);
-
-        goBackButton = new JButton("< Volver");
-        goBackButton.setFont(fuenteBotonesEtiquetas);
-        goBackButton.setPreferredSize(new Dimension(90, 30));
-
-        upperPanel = new JPanel();
-        upperPanel.setLayout(new BorderLayout(5, 5));
-        upperPanel.add(introduceData, BorderLayout.CENTER);
-        upperPanel.add(goBackButton, BorderLayout.EAST);
-        upperPanel.setBorder(borde);
-
-        exerCode = new JLabel("Ejercicio (*)");
-        exerCode.setFont(fuenteBotonesEtiquetas);
-
-        olympCode = new JLabel("Olimpiada (*)");
-        olympCode.setFont(fuenteBotonesEtiquetas);
-
-        itinerarioCode = new JLabel("Itinerario (*)");
-        itinerarioCode.setFont(fuenteBotonesEtiquetas);
-
-        exerCodeField = new JComboBox<String>();
-        exerCodeField.setFont(fuenteCampoTexto);
-
-        olympCodeField = new JComboBox<>();
-        olympCodeField.setFont(fuenteCampoTexto);
-
-        itinerarioCodeField = new JComboBox<>();
-        itinerarioCodeField.setFont(fuenteCampoTexto);
-
-        exerCodeField = new JComboBox<>();
-        exerCodeField.setFont(fuenteCampoTexto);
-
-        ResultSet codes = administrador.selectCol("T_EJERCICIOS", "CODIGO");
-        
-         // Iterar sobre el resultado y añadir los registros al ArrayList
-        while (codes.next()) {
-            String registro = codes.getString("CODIGO");
-            exerCodeField.addItem(registro);
-        }
-
-        exerCodeField.setSelectedItem(oldEx);
-
-        olympCodeField = new JComboBox<>();
-        olympCodeField.setFont(fuenteCampoTexto);
-
-        codes = administrador.selectCol("T_OLIMPIADAS", "CODIGO");
-
-        // Iterar sobre el resultado y añadir los registros al ArrayList
-        while (codes.next()) {
-            String registro = codes.getString("CODIGO");
-            olympCodeField.addItem(registro);
-        }
-        
-        olympCodeField.setSelectedItem(oldOlymp);
-        
-        itinerarioCodeField = new JComboBox<>();
-        itinerarioCodeField.setFont(fuenteCampoTexto);
-
-        String where = "WHERE OLIMPIADA='" + olympCodeField.getSelectedItem() + "'";
-        codes = administrador.selectCol("T_ITINERARIOS", "CODIGO", where);
-
-        // Iterar sobre el resultado y añadir los registros al ArrayList
-        while (codes.next()) {
-            String registro = codes.getString("CODIGO");
-            itinerarioCodeField.addItem(registro);
-        }
-
-        itinerarioCodeField.setSelectedItem(oldIt);
-        
-        codes.close();
-
-        assignExercise = new JButton("Modificar asignación");
-        assignExercise.setPreferredSize(new Dimension(175, 30));
-        assignExercise.setFont(fuenteBotonesEtiquetas);
-
-        JPanel createButtonPanel = new JPanel();
-        createButtonPanel.setBorder(borde);
-        createButtonPanel.add(assignExercise);
-
-        inputPanel = new JPanel();
-        inputPanel.setBorder(borde);
-        inputPanel.setLayout(new GridLayout(3, 2, 10, 10));
-
-        inputPanel.add(exerCode);
-        inputPanel.add(exerCodeField);
-        inputPanel.add(olympCode);
-        inputPanel.add(olympCodeField);
-        inputPanel.add(itinerarioCode);
-        inputPanel.add(itinerarioCodeField);
-
-        add(upperPanel, BorderLayout.NORTH);
-        add(inputPanel, BorderLayout.CENTER);
-        add(createButtonPanel, BorderLayout.SOUTH);
-
-        goBackButton.addActionListener(e -> {
+        getGoBackButton().addActionListener(e -> {
             try {
                 new CheckExOlympAssignationsFrame(administrador);
                 dispose();
 
             } catch (JSchException | SQLException ex) {
                 throw new RuntimeException(ex);
-
             }
         });
 
@@ -183,13 +88,84 @@ public class ModifyAssignationExOlympFrame extends JFrame implements Borders, Fo
                         new CheckExOlympAssignationsFrame(administrador);
                         dispose();
                     }
-
                 } catch (JSchException | SQLException ex) {
                     new ErrorJOptionPane(ex.getMessage());
-
                 }
             }
         });
+    }
 
+    @Override
+    protected CustomPanel createCenterPanel() {
+        try {
+            exerCode = new CustomFieldLabel("Ejercicio (*)");
+            olympCode = new CustomFieldLabel("Olimpiada (*)");
+            itinerarioCode = new CustomFieldLabel("Itinerario (*)");
+            exerCodeField = new CustomComboBox();
+            olympCodeField = new CustomComboBox();
+            itinerarioCodeField = new CustomComboBox();
+            exerCodeField = new CustomComboBox();
+
+            ResultSet codes = admin.selectCol("T_EJERCICIOS", "CODIGO");
+
+            // Iterar sobre el resultado y añadir los registros al ArrayList
+            while (codes.next()) {
+                String registro = codes.getString("CODIGO");
+                exerCodeField.addItem(registro);
+            }
+
+            exerCodeField.setSelectedItem(oldEx);
+
+            olympCodeField = new CustomComboBox();
+
+            codes = admin.selectCol("T_OLIMPIADAS", "CODIGO");
+
+            // Iterar sobre el resultado y añadir los registros al ArrayList
+            while (codes.next()) {
+                String registro = codes.getString("CODIGO");
+                olympCodeField.addItem(registro);
+            }
+
+            olympCodeField.setSelectedItem(oldOlymp);
+
+            itinerarioCodeField = new CustomComboBox();
+
+            String where = "WHERE OLIMPIADA='" + olympCodeField.getSelectedItem() + "'";
+            codes = admin.selectCol("T_ITINERARIOS", "CODIGO", where);
+
+            // Iterar sobre el resultado y añadir los registros al ArrayList
+            while (codes.next()) {
+                String registro = codes.getString("CODIGO");
+                itinerarioCodeField.addItem(registro);
+            }
+
+            itinerarioCodeField.setSelectedItem(oldIt);
+
+            codes.close();
+
+            inputPanel = new CustomPanel();
+            inputPanel.setLayout(new GridLayout(3, 2, 10, 10));
+            inputPanel.add(exerCode);
+            inputPanel.add(exerCodeField);
+            inputPanel.add(olympCode);
+            inputPanel.add(olympCodeField);
+            inputPanel.add(itinerarioCode);
+            inputPanel.add(itinerarioCodeField);
+
+        } catch (SQLException ex) {
+            new ErrorJOptionPane(ex.getMessage());
+        }
+
+        return inputPanel;
+    }
+
+    @Override
+    protected CustomPanel createSouthPanel() {
+        assignExercise = new CustomButton("Modificar asignación", 175, 30);
+
+        createButtonPanel = new CustomPanel();
+        createButtonPanel.add(assignExercise);
+
+        return createButtonPanel;
     }
 }
