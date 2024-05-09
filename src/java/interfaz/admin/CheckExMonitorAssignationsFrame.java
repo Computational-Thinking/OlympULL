@@ -27,7 +27,7 @@ public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate imp
 
     // Constructor
     public CheckExMonitorAssignationsFrame(Admin administrador) throws JSchException, SQLException {
-        super(465, "Consulta de tabla T_MONITORES");
+        super(administrador, 465, "Consulta de tabla T_MONITORES");
 
         this.administrador = administrador;
 

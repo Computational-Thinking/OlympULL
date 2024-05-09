@@ -27,7 +27,7 @@ public class CheckItOrgAssignationsFrame extends CheckTableFrameTemplate impleme
 
     // Constructor
     public CheckItOrgAssignationsFrame(Admin administrador) throws JSchException, SQLException {
-        super(465, "Consulta de tabla T_RUBRICAS");
+        super(administrador, 465, "Consulta de tabla T_RUBRICAS");
 
         this.administrador = administrador;
 

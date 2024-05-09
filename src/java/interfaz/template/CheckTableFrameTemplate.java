@@ -1,25 +1,43 @@
 package interfaz.template;
 
-import interfaz.custom_components.Borders;
-import interfaz.custom_components.CustomButton;
-import interfaz.custom_components.CustomFrame;
+import interfaz.custom_components.*;
+import users.Admin;
+import users.User;
 
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class CheckTableFrameTemplate extends CustomFrame implements Borders {
+public abstract class CheckTableFrameTemplate extends CustomFrame implements Borders, Icons {
     // Go back button
     CustomButton goBackButton;
+    CustomButton exportButton;
+    CustomButton importButton;
+    CustomPanel buttonsPanel;
 
-    public CheckTableFrameTemplate(int height, String titleLabel) {
+    public CheckTableFrameTemplate(User user, int height, String titleLabel) {
         this.setSize(875, height);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout(5, 5));
         this.setTitle("Consulta de tabla");
 
-        goBackButton = new CustomButton("< Volver");
-        this.add(buildUpperBar(titleLabel, goBackButton), BorderLayout.NORTH);
+        buttonsPanel = new CustomPanel();
 
+        if (user.getClass() == Admin.class) {
+            ImageIcon exportIcon = new ImageIcon(iconoExportar.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+            ImageIcon importIcon = new ImageIcon(iconoImportar.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+
+            exportButton = new CustomButton("Exportar datos", exportIcon);
+            importButton = new CustomButton("Importar datos", importIcon);
+
+            buttonsPanel.add(exportButton);
+            buttonsPanel.add(importButton);
+        }
+
+        goBackButton = new CustomButton("< Volver");
+
+        buttonsPanel.add(goBackButton);
+
+        this.add(buildUpperBar(titleLabel, buttonsPanel), BorderLayout.NORTH);
     }
 
     protected CustomButton getGoBackButton() {

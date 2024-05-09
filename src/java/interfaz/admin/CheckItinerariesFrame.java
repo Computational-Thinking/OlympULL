@@ -24,7 +24,7 @@ public class CheckItinerariesFrame extends CheckTableFrameTemplate implements Bo
 
     // Constructor
     public CheckItinerariesFrame(Admin administrador) throws JSchException, SQLException {
-        super(465, "Consulta de tabla T_ITINERARIOS");
+        super(administrador, 465, "Consulta de tabla T_ITINERARIOS");
 
         this.administrador = administrador;
 

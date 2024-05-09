@@ -24,7 +24,7 @@ public class CheckTeamsFrame extends CheckTableFrameTemplate implements Borders,
 
     // Constructor
     public CheckTeamsFrame(Admin administrador) throws JSchException, SQLException {
-        super(465, "Consulta de tabla T_EQUIPOS");
+        super(administrador, 465, "Consulta de tabla T_EQUIPOS");
 
         this.administrador = administrador;
 

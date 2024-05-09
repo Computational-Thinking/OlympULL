@@ -24,7 +24,7 @@ public class CheckExOlympAssignationsFrame extends CheckTableFrameTemplate imple
     Admin administrador;
 
     public CheckExOlympAssignationsFrame(Admin administrador) throws JSchException, SQLException {
-        super(465, "Consulta de tabla T_EJERCICIOS_OLIMPIADA_ITINERARIO");
+        super(administrador, 465, "Consulta de tabla");
 
         this.administrador = administrador;
 

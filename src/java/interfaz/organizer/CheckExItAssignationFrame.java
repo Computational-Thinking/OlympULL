@@ -32,7 +32,7 @@ public class CheckExItAssignationFrame extends CheckTableFrameTemplate implement
 
     // Constructor
     public CheckExItAssignationFrame(Organizer organizador) throws JSchException, SQLException {
-        super(465, "Consulta de tabla T_EJERCICIOS_OLIMPIADA_ITINERARIO");
+        super(organizador, 465, "Consulta de tabla T_EJERCICIOS_OLIMPIADA_ITINERARIO");
 
         this.organizador = organizador;
 

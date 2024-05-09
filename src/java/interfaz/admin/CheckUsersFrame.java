@@ -26,7 +26,7 @@ public class CheckUsersFrame extends CheckTableFrameTemplate implements Borders,
 
     // Constructor
     public CheckUsersFrame(Admin admin) throws JSchException, SQLException {
-        super(465, "Consulta de tabla T_USUARIOS");
+        super(admin, 465, "Consulta de tabla T_USUARIOS");
 
         this.admin = admin;
 

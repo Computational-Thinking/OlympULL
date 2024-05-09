@@ -34,7 +34,7 @@ public class CheckPunctuationsFrame extends CheckTableFrameTemplate implements B
     Monitor user;
 
     public CheckPunctuationsFrame(Monitor monitor, String ejercicio) throws SQLException {
-        super(600, "Consulta de tabla T_EQUIPOS");
+        super(monitor, 600, "Consulta de tabla T_EQUIPOS");
         
         user = monitor;
 
