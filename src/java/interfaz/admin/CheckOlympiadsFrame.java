@@ -25,7 +25,7 @@ public class CheckOlympiadsFrame extends CheckTableFrameTemplate implements Bord
 
     // Constructor
     public CheckOlympiadsFrame(Admin administrador) throws JSchException, SQLException {
-        super(465, "Consulta de tabla T_RUBRICAS");
+        super(465, "Consulta de tabla T_OLIMPIADAS");
 
         this.administrador = administrador;
 

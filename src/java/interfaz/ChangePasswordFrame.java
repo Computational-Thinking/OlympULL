@@ -33,13 +33,13 @@ public class ChangePasswordFrame extends CustomFrame implements Borders, Fonts, 
 
     public ChangePasswordFrame(User usuario) {
         super();
-        this.setSize(475, 275);
+        this.setSize(475, 265);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         this.setTitle("Cambio de contraseña");
 
         // Panel superior
-        goBackButton = new CustomButton("< Desconectar");
+        goBackButton = new CustomButton("< Volver");
         this.add(buildUpperBar("Cambiar contraseña", goBackButton), BorderLayout.NORTH);
 
         // Panel de inputs
@@ -51,7 +51,7 @@ public class ChangePasswordFrame extends CustomFrame implements Borders, Fonts, 
         confirmNewPassField = new CustomPasswordField("");
 
         fieldsPanel = new CustomPanel();
-        fieldsPanel.setLayout(new GridLayout(3, 2, 5, 5));
+        fieldsPanel.setLayout(new GridLayout(3, 2, 10, 10));
 
         fieldsPanel.add(usuarioLabel);
         fieldsPanel.add(usuarioField);
@@ -121,5 +121,7 @@ public class ChangePasswordFrame extends CustomFrame implements Borders, Fonts, 
             }
 
         });
+
+        setVisible(true);
     }
 }

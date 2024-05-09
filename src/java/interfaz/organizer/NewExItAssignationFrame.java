@@ -16,7 +16,7 @@ public class NewExItAssignationFrame extends NewRegistrationFrameTemplate implem
     // Etiquetas
     CustomLabel exerCode;
     CustomLabel olympCode;
-    CustomLabel olympCodeField;
+    CustomPresetTextField olympCodeField;
     CustomLabel itineraryCode;
 
     // Combo boxes
@@ -91,7 +91,7 @@ public class NewExItAssignationFrame extends NewRegistrationFrameTemplate implem
             olympCode = new CustomFieldLabel("Olimpiada (*)");
             itineraryCode = new CustomFieldLabel("Itinerario (*)");
             exerCodeField = new CustomComboBox();
-            olympCodeField = new CustomFieldLabel();
+            olympCodeField = new CustomPresetTextField();
             itineraryCodeField = new CustomComboBox();
 
             ResultSet codes = user.selectCol("T_EJERCICIOS", "CODIGO");

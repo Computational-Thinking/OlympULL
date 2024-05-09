@@ -29,7 +29,7 @@ public class NewOlympiadFrame extends NewRegistrationFrameTemplate implements Bo
     Admin admin;
 
     public NewOlympiadFrame(Admin administrador) {
-        super(335, "Nueva olimpiada");
+        super(325, "Nueva olimpiada");
         
         this.admin = administrador;
         

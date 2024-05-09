@@ -34,7 +34,7 @@ public class NewTeamFrame extends NewRegistrationFrameTemplate implements Border
     Admin admin;
 
     public NewTeamFrame(Admin administrador) throws JSchException, SQLException {
-        super(335, "Nuevo equipo");
+        super(325, "Nuevo equipo");
 
         this.admin= administrador;
 

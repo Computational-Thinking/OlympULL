@@ -37,7 +37,7 @@ public class NewItineraryFrame extends NewRegistrationFrameTemplate implements B
     Admin admin;
 
     public NewItineraryFrame(Admin administrador) throws JSchException, SQLException {
-        super(335, "Nuevo itinerario");
+        super(325, "Nuevo itinerario");
         
         this.admin = administrador;
 

@@ -30,9 +30,12 @@ public class NewAssignationExOlympFrame extends NewRegistrationFrameTemplate imp
     Admin admin;
 
     public NewAssignationExOlympFrame(Admin administrador) throws JSchException, SQLException {
-        super(290, "Nueva asignación");
+        super(280, "Nueva asignación");
 
         this.admin = administrador;
+
+        add(createCenterPanel(), BorderLayout.CENTER);
+        add(createSouthPanel(), BorderLayout.SOUTH);
 
         this.setVisible(true);
 

@@ -14,7 +14,7 @@ public class NewAssignationItOrgFrame extends NewRegistrationFrameTemplate imple
     CustomFieldLabel organizerLabel;
     CustomFieldLabel itineraryLabel;
     CustomFieldLabel olympLabel;
-    CustomFieldLabel olympField;
+    CustomPresetTextField olympField;
 
     // Comboboxes
     CustomComboBox organizerComboBox;
@@ -90,7 +90,7 @@ public class NewAssignationItOrgFrame extends NewRegistrationFrameTemplate imple
             olympLabel = new CustomFieldLabel("Olimpiada");
             organizerComboBox = new CustomComboBox();
             itineraryField = new CustomComboBox();
-            olympField = new CustomFieldLabel("");
+            olympField = new CustomPresetTextField("");
 
             // Nombres de los organizadores
             String whereClause = "WHERE TIPO='ORGANIZADOR';";

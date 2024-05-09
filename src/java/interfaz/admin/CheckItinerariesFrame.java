@@ -189,6 +189,6 @@ public class CheckItinerariesFrame extends CheckTableFrameTemplate implements Bo
             new ErrorJOptionPane(ex.getMessage());
         }
 
-        return null;
+        return tablaScrollPane;
     }
 }

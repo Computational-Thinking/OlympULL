@@ -33,7 +33,7 @@ public class ModifyOlympiadFrame extends ModifyRegistrationFrameTemplate impleme
     String oldCode, oldTitle, oldDesc, oldYear;
     
     public ModifyOlympiadFrame(Admin administrador, String codigo, String titulo, String descripcion, String year) {
-        super(335, "Modificar olimpiada");
+        super(325, "Modificar olimpiada");
         
         admin = administrador;
         oldCode = codigo;

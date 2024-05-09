@@ -48,16 +48,31 @@ public class CheckUsersFrame extends CheckTableFrameTemplate implements Borders,
         int columna = tabla.columnAtPoint(e.getPoint());
 
         String nombre = (String) modeloTabla.getValueAt(row, 0);
-        String password = (String) modeloTabla.getValueAt(row, 1);
-        String type = (String) modeloTabla.getValueAt(row, 2);
+        String type = (String) modeloTabla.getValueAt(row, 1);
+        String pass = "";
+
+        try {
+            String where = "WHERE NOMBRE='" + nombre + "'";
+            ResultSet password = admin.selectRows("T_USUARIOS", "PASSWORD", "PASSWORD", where);
+
+            if (password.next()) {
+                pass = password.getString("PASSWORD");
+            }
+
+            password.close();
+
+        } catch (SQLException ex) {
+            new ErrorJOptionPane(ex.getMessage());
+            dispose();
+        }
 
         if (columna == tabla.getColumnCount() - 3) {
-            new ModifyUserFrame(admin, nombre, password, type);
+            new ModifyUserFrame(admin, nombre, pass, type);
             dispose();
         } else if (columna == tabla.getColumnCount() - 2) {
             nombre = "Copia de " + modeloTabla.getValueAt(row, 0);
             try {
-                admin.createUser(nombre, password, type);
+                admin.createUser(nombre, pass, type);
                 new CheckUsersFrame(admin);
                 dispose();
             } catch (JSchException | SQLException ex) {
@@ -111,7 +126,7 @@ public class CheckUsersFrame extends CheckTableFrameTemplate implements Borders,
 
             tablaScrollPane = new JScrollPane(tabla);
 
-            ResultSet data = admin.selectRows("T_USUARIOS", "TIPO");
+            ResultSet data = admin.selectRows("T_USUARIOS", "NOMBRE, TIPO", "TIPO", "");
             ResultSetMetaData metaData = data.getMetaData();
             int numeroColumnas = metaData.getColumnCount();
 

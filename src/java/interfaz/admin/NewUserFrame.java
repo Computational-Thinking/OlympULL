@@ -33,7 +33,7 @@ public class NewUserFrame extends NewRegistrationFrameTemplate implements Border
     Admin user;
 
     public NewUserFrame(Admin administrador) {
-        super(270, "Nuevo usuario");
+        super(280, "Nuevo usuario");
 
         user = administrador;
 

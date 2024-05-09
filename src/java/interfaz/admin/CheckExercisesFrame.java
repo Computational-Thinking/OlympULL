@@ -199,6 +199,7 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate implements Bord
         } catch (SQLException ex) {
             new ErrorJOptionPane(ex.getMessage());
         }
-        return null;
+
+        return tablaScrollPane;
     }
 }

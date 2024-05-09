@@ -1,10 +1,7 @@
 package interfaz.admin;
 
 import com.jcraft.jsch.JSchException;
-import interfaz.custom_components.Borders;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.Fonts;
-import interfaz.custom_components.Icons;
+import interfaz.custom_components.*;
 import interfaz.template.CheckTableFrameTemplate;
 import users.Admin;
 
@@ -162,12 +159,12 @@ public class CheckItOrgAssignationsFrame extends CheckTableFrameTemplate impleme
 
             // Esto es para insertar los botones en la última columna de la tabla
             // Columna de editar
-            tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new CheckExOlympAssignationsFrame.ButtonPanelRenderer(3));
+            tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new ButtonPanelRenderer(3));
             tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMinWidth(30);
             tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMaxWidth(30);
 
             // Columna de eliminar
-            tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new CheckExOlympAssignationsFrame.ButtonPanelRenderer(1));
+            tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setCellRenderer(new ButtonPanelRenderer(1));
             tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMinWidth(30);
             tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 1).setMaxWidth(30);
 

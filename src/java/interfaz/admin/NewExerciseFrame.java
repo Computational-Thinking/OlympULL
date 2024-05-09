@@ -42,7 +42,7 @@ public class NewExerciseFrame extends NewRegistrationFrameTemplate {
     Admin admin;
 
     public NewExerciseFrame(Admin administrador) throws JSchException, SQLException {
-        super(475, "Nuevo ejercicio");
+        super(445, "Nuevo ejercicio");
 
         this.admin = administrador;
 
