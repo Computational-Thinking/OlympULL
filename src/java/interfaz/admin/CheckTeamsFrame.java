@@ -34,7 +34,7 @@ public class CheckTeamsFrame extends CheckTableFrameTemplate implements Borders,
         setVisible(true);
 
         // Acción del botón de volver
-            getGoBackButton().addActionListener(e -> {
+        getGoBackButton().addActionListener(e -> {
             new AdminFrame(administrador);
             dispose();
         });
