@@ -1,0 +1,9 @@
+T_RUBRICAS
+('RB-001', '', '', '[0, 5, 10]', '[Ningún estudiante resuelve el ejercicio, Algún estudiante resuelve el ejercicio, Todos los estudiantes resuelven el ejercicio]')
+('RB-001-PRUEBA1', '', '', '[0, 2, 5, 8, 10]', '[NINGUNO, 2, 5, 8, TODOS]')
+('RB-002', 'Rúbrica 2', 'Rúbrica simple.', '[0, 10]', '[Ningún estudiante resuelve el ejercicio, Todos los estudiantes resuelven el ejercicio]')
+('RB-003', '', '', '[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]', '[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]')
+('RB-004', '', '', '[0, 3, 5, 7, 10]', '[0, 3, 5, 7, 10]')
+('RB-010', 'null', 'null', '[0, 2, 5, 8, 10]', '[Ningún estudiante resuelve el ejercicio, 2, 5, 8, Todos los estudiantes resuelven el ejercicio]')
+('RB-CERO-A-DIEZ', '', '', '[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]', '[NADA, HDHG, DGDF, DFGD, GFDG, DFGDF, GD, GDG, FDG, D, TODOS]')
+('RB-PRUEBA1', 'PRUEBA1', 'null', '[0, 5, 10]', '[Ningún estudiante resuelve el ejercicio, null, Todos los estudiantes resuelven el ejercicio]')

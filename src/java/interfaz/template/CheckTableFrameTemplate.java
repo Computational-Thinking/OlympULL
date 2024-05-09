@@ -44,5 +44,13 @@ public abstract class CheckTableFrameTemplate extends CustomFrame implements Bor
         return goBackButton;
     }
 
+    protected CustomButton getExportButton() {
+        return exportButton;
+    }
+
+    protected CustomButton getImportButton() {
+        return importButton;
+    }
+
     protected abstract JScrollPane createJScrollPane();
 }

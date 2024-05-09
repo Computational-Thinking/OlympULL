@@ -11,7 +11,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class CheckOlympiadsFrame extends CheckTableFrameTemplate implements Borders, Fonts, Icons, MouseListener {
     // Panel de tabla
@@ -37,6 +39,33 @@ public class CheckOlympiadsFrame extends CheckTableFrameTemplate implements Bord
         getGoBackButton().addActionListener(e -> {
             new AdminFrame(administrador);
             dispose();
+        });
+
+        getExportButton().addActionListener(e -> {
+            try {
+                String fileName = "data_files/olympiads.olympull";
+                ArrayList<String> data = new ArrayList<>();
+
+                ResultSet dataSet = administrador.selectRows("T_OLIMPIADAS", "CODIGO");
+
+                while(dataSet.next()) {
+                    String code = "'" + dataSet.getString(1) + "'";
+                    String title = "'" + dataSet.getString(2) + "'";
+                    String desc = "'" + dataSet.getString(3) + "'";
+                    int year = Integer.parseInt(dataSet.getString(4));
+
+                    data.add("(" + code + ", " + title + ", " + desc + ", " + year + ")");
+                }
+
+                FileWriter writer = new FileWriter(fileName, "T_OLIMPIADAS", data);
+
+                new MessageJOptionPane("Se han guardado los registros en " + fileName);
+
+                dataSet.close();
+                writer.close();
+            } catch (IOException | SQLException ex) {
+                new ErrorJOptionPane(ex.getMessage());
+            }
         });
     }
 

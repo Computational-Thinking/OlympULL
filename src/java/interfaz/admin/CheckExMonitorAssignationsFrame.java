@@ -11,9 +11,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate implements Borders, Fonts, Icons, MouseListener {
     // Panel de tabla
@@ -39,6 +41,33 @@ public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate imp
         getGoBackButton().addActionListener(e -> {
             new AdminFrame(administrador);
             dispose();
+        });
+
+        getExportButton().addActionListener(e -> {
+            try {
+                String fileName = "data_files/monitores.olympull";
+                ArrayList<String> data = new ArrayList<>();
+
+                ResultSet dataSet = administrador.selectRows("T_MONITORES", "NOMBRE");
+
+                while(dataSet.next()) {
+                    String name = "'" + dataSet.getString(1) + "'";
+                    String exercise = "'" + dataSet.getString(2) + "'";
+                    String olymp = "'" + dataSet.getString(3) + "'";
+                    String it = "'" + dataSet.getString(4) + "'";
+
+                    data.add("(" + name + ", " + exercise + ", " + olymp + ", " + it + ")");
+                }
+
+                FileWriter writer = new FileWriter(fileName, "T_MONITORES", data);
+
+                new MessageJOptionPane("Se han guardado los registros en " + fileName);
+
+                dataSet.close();
+                writer.close();
+            } catch (IOException | SQLException ex) {
+                new ErrorJOptionPane(ex.getMessage());
+            }
         });
     }
 

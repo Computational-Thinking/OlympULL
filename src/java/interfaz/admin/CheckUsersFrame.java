@@ -11,7 +11,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class CheckUsersFrame extends CheckTableFrameTemplate implements Borders, Fonts, Icons, MouseListener {
     // Panel de tabla
@@ -38,6 +40,32 @@ public class CheckUsersFrame extends CheckTableFrameTemplate implements Borders,
         getGoBackButton().addActionListener(e -> {
             new AdminFrame(admin);
             dispose();
+        });
+
+        getExportButton().addActionListener(e -> {
+            try {
+                String fileName = "data_files/users.olympull";
+                ArrayList<String> data = new ArrayList<>();
+
+                ResultSet dataSet = admin.selectRows("T_USUARIOS", "NOMBRE");
+
+                while(dataSet.next()) {
+                    String name = "'" + dataSet.getString(1) + "'";
+                    String password = "'" + dataSet.getString(2) + "'";
+                    String type = "'" + dataSet.getString(3) + "'";
+
+                    data.add("(" + name + ", " + password + ", " + type + ")");
+                }
+
+                FileWriter writer = new FileWriter(fileName, "T_EQUIPOS", data);
+
+                new MessageJOptionPane("Se han guardado los registros en " + fileName);
+
+                dataSet.close();
+                writer.close();
+            } catch (IOException | SQLException ex) {
+                new ErrorJOptionPane(ex.getMessage());
+            }
         });
     }
 

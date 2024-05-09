@@ -11,9 +11,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CheckItOrgAssignationsFrame extends CheckTableFrameTemplate implements Borders, Fonts, Icons, MouseListener {
     // Panel de tabla
@@ -39,6 +41,31 @@ public class CheckItOrgAssignationsFrame extends CheckTableFrameTemplate impleme
         getGoBackButton().addActionListener(e -> {
             new AdminFrame(administrador);
             dispose();
+        });
+
+        getExportButton().addActionListener(e -> {
+            try {
+                String fileName = "data_files/organizers-itineraries.olympull";
+                ArrayList<String> data = new ArrayList<>();
+
+                ResultSet dataSet = administrador.selectRows("T_ORGANIZADORES", "ORGANIZADOR");
+
+                while(dataSet.next()) {
+                    String org = "'" + dataSet.getString(1) + "'";
+                    String it = "'" + dataSet.getString(2) + "'";
+
+                    data.add("(" + org + ", " + it + ")");
+                }
+
+                FileWriter writer = new FileWriter(fileName, "T_ORGANIZADORES", data);
+
+                new MessageJOptionPane("Se han guardado los registros en " + fileName);
+
+                dataSet.close();
+                writer.close();
+            } catch (IOException | SQLException ex) {
+                new ErrorJOptionPane(ex.getMessage());
+            }
         });
     }
 

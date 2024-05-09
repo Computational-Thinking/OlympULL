@@ -11,7 +11,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class CheckItinerariesFrame extends CheckTableFrameTemplate implements Borders, Fonts, Icons, MouseListener {
     // Panel de tabla
@@ -36,6 +38,33 @@ public class CheckItinerariesFrame extends CheckTableFrameTemplate implements Bo
         getGoBackButton().addActionListener(e -> {
             new AdminFrame(administrador);
             dispose();
+        });
+
+        getExportButton().addActionListener(e -> {
+            try {
+                String fileName = "data_files/itineraries.olympull";
+                ArrayList<String> data = new ArrayList<>();
+
+                ResultSet dataSet = administrador.selectRows("T_ITINERARIOS", "CODIGO");
+
+                while(dataSet.next()) {
+                    String code = "'" + dataSet.getString(1) + "'";
+                    String title = "'" + dataSet.getString(2) + "'";
+                    String desc = "'" + dataSet.getString(3) + "'";
+                    String olymp = "'" + dataSet.getString(3) + "'";
+
+                    data.add("(" + code + ", " + title + ", " + desc + ", " + olymp + ")");
+                }
+
+                FileWriter writer = new FileWriter(fileName, "T_ITINERARIOS", data);
+
+                new MessageJOptionPane("Se han guardado los registros en " + fileName);
+
+                dataSet.close();
+                writer.close();
+            } catch (IOException | SQLException ex) {
+                new ErrorJOptionPane(ex.getMessage());
+            }
         });
     }
 

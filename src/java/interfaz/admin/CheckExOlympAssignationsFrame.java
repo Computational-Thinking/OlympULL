@@ -11,7 +11,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class CheckExOlympAssignationsFrame extends CheckTableFrameTemplate implements Borders, Fonts, Icons, MouseListener {
     // Panel de tabla
@@ -36,6 +38,32 @@ public class CheckExOlympAssignationsFrame extends CheckTableFrameTemplate imple
         getGoBackButton().addActionListener(e -> {
             new AdminFrame(administrador);
             dispose();
+        });
+
+        getExportButton().addActionListener(e -> {
+            try {
+                String fileName = "data_files/exercises-olympiads.olympull";
+                ArrayList<String> data = new ArrayList<>();
+
+                ResultSet dataSet = administrador.selectRows("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "EJERCICIO");
+
+                while(dataSet.next()) {
+                    String exercise = "'" + dataSet.getString(1) + "'";
+                    String olymp = "'" + dataSet.getString(2) + "'";
+                    String it = "'" + dataSet.getString(3) + "'";
+
+                    data.add("(" + exercise + ", " + olymp + ", " + it + ")");
+                }
+
+                FileWriter writer = new FileWriter(fileName, "T_EJERCICIOS_OLIMPIADA_ITINERARIO", data);
+
+                new MessageJOptionPane("Se han guardado los registros en " + fileName);
+
+                dataSet.close();
+                writer.close();
+            } catch (IOException | SQLException ex) {
+                new ErrorJOptionPane(ex.getMessage());
+            }
         });
     }
 

@@ -7,10 +7,10 @@ public class FileWriter extends java.io.FileWriter {
     public FileWriter(String fileName, String tableName, ArrayList<String> data) throws IOException {
         super(fileName);
 
-        this.write(tableName);
+        this.write(tableName + '\n');
 
         for (String datum : data) {
-            this.write(datum);
+            this.write(datum + '\n');
         }
     }
 }

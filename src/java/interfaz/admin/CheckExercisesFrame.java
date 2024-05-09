@@ -11,7 +11,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class CheckExercisesFrame extends CheckTableFrameTemplate implements Borders, Fonts, Icons, MouseListener {
     // Panel de tabla
@@ -38,6 +40,40 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate implements Bord
         getGoBackButton().addActionListener(e -> {
             new AdminFrame(administrador);
             dispose();
+        });
+
+        getExportButton().addActionListener(e -> {
+            try {
+                String fileName = "data_files/ejercicios.olympull";
+                ArrayList<String> data = new ArrayList<>();
+
+                ResultSet dataSet = administrador.selectRows("T_EJERCICIOS", "CODIGO");
+
+                while(dataSet.next()) {
+                    String code = "'" + dataSet.getString(1) + "'";
+                    String title = "'" + dataSet.getString(2) + "'";
+                    String desc = "'" + dataSet.getString(3) + "'";
+                    String concept = "'" + dataSet.getString(4) + "'";
+                    String resources = "'" + dataSet.getString(5) + "'";
+                    String type = "'" + dataSet.getString(6) + "'";
+                    String rubric = "'" + dataSet.getString(7) + "'";
+
+                    data.add("(" + code + ", " + title + ", " + desc + ", " + concept  + ", " + resources  + ", " + type  + ", " + rubric + ")");
+                }
+
+                FileWriter writer = new FileWriter(fileName, "T_EJERCICIOS", data);
+
+                new MessageJOptionPane("Se han guardado los registros en " + fileName);
+
+                dataSet.close();
+                writer.close();
+            } catch (IOException | SQLException ex) {
+                new ErrorJOptionPane(ex.getMessage());
+            }
+        });
+
+        getImportButton().addActionListener(e -> {
+
         });
     }
 
