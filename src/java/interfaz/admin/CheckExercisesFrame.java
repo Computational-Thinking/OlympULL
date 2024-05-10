@@ -11,11 +11,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class CheckExercisesFrame extends CheckTableFrameTemplate implements Borders, Fonts, Icons, MouseListener {
+public class CheckExercisesFrame extends CheckTableFrameTemplate implements Borders, ConfigReader, Fonts, Icons, MouseListener {
     // Panel de tabla
     JScrollPane tablaScrollPane;
     // Modelo de tabla
@@ -24,6 +25,8 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate implements Bord
     JTable tabla;
     // Administrador
     Admin administrador;
+    // File path
+    String fileName = ConfigReader.getDataFilesPath() + "/" + ConfigReader.getExercisesFileName();
 
 
     // Constructor
@@ -44,7 +47,6 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate implements Bord
 
         getExportButton().addActionListener(e -> {
             try {
-                String fileName = "data_files/ejercicios.olympull";
                 ArrayList<String> data = new ArrayList<>();
 
                 ResultSet dataSet = administrador.selectRows("T_EJERCICIOS", "CODIGO");
@@ -58,7 +60,7 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate implements Bord
                     String type = "'" + dataSet.getString(6) + "'";
                     String rubric = "'" + dataSet.getString(7) + "'";
 
-                    data.add("(" + code + ", " + title + ", " + desc + ", " + concept  + ", " + resources  + ", " + type  + ", " + rubric + ")");
+                    data.add(code + ", " + title + ", " + desc + ", " + concept  + ", " + resources  + ", " + type  + ", " + rubric);
                 }
 
                 FileWriter writer = new FileWriter(fileName, "T_EJERCICIOS", data);
@@ -73,7 +75,38 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate implements Bord
         });
 
         getImportButton().addActionListener(e -> {
+            try {
+                FileReader reader = new FileReader(fileName);
 
+                String tableName = reader.readTableName();
+
+                boolean duplicates = false;
+
+                ArrayList<String> tableTuples = reader.readTableRegisters();
+                for (String tableTuple : tableTuples) {
+                    if (administrador.insert(tableName, tableTuple) == 1) {
+                        new ErrorJOptionPane("Ya existe un registro con esta(s) clave(s) en la tabla");
+                        duplicates = true;
+                        break;
+                    }
+                }
+
+                if (!duplicates) {
+                    new MessageJOptionPane("Se han importado los datos a la tabla");
+                    new CheckExercisesFrame(administrador);
+                    dispose();
+                    reader.close();
+                }
+
+                reader.close();
+
+            } catch (FileNotFoundException ex) {
+                new ErrorJOptionPane("No se ha encontrado ningún archivo " + fileName);
+            } catch (IOException ex) {
+                new ErrorJOptionPane(ex.getMessage());
+            } catch (Exception ex) {
+                new ErrorJOptionPane("El formato de alguna línea del archivo de datos no es válido");
+            }
         });
     }
 

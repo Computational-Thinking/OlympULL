@@ -1,17 +1,18 @@
 package interfaz.custom_components;
 
 import javax.swing.*;
+import java.awt.*;
 
 public abstract class CustomJOptionPane implements Fonts {
     JPanel panel;
-    JLabel label;
+    CustomPresetTextField label;
     public CustomJOptionPane(String mensaje) {
         panel = new JPanel();
-        label = new JLabel(mensaje);
-        label.setFont(fuenteJOptionPanes);
+        label = new CustomPresetTextField(mensaje);
         panel.add(label);
 
         // Crear un JOptionPane con el JPanel
         JOptionPane.showMessageDialog(null, panel);
     }
+
 }

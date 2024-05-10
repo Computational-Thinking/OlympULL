@@ -45,7 +45,7 @@ public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate imp
 
         getExportButton().addActionListener(e -> {
             try {
-                String fileName = "data_files/monitores.olympull";
+                String fileName = "data_files/monitors.olympull";
                 ArrayList<String> data = new ArrayList<>();
 
                 ResultSet dataSet = administrador.selectRows("T_MONITORES", "NOMBRE");

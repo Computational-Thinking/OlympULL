@@ -46,7 +46,8 @@ public class CheckTeamsFrame extends CheckTableFrameTemplate implements Borders,
                 String fileName = "data_files/teams.olympull";
                 ArrayList<String> data = new ArrayList<>();
 
-                ResultSet dataSet = administrador.selectRows("T_EQUIPOS", "CODIGO, NOMBRE, CENTRO_EDUCATIVO, ITINERARIO", "CODIGO", "");
+                String cols = "CODIGO, NOMBRE, CENTRO_EDUCATIVO, ITINERARIO";
+                ResultSet dataSet = administrador.selectRows("T_EQUIPOS", cols, "CODIGO", "");
 
                 while(dataSet.next()) {
                     String code = "'" + dataSet.getString(1) + "'";
@@ -57,7 +58,7 @@ public class CheckTeamsFrame extends CheckTableFrameTemplate implements Borders,
                     data.add("(" + code + ", " + name + ", " + school + ", " + itinerary + ")");
                 }
 
-                FileWriter writer = new FileWriter(fileName, "T_EQUIPOS", data);
+                FileWriter writer = new FileWriter(fileName, "T_EQUIPOS(" + cols + ")", data);
 
                 new MessageJOptionPane("Se han guardado los registros en " + fileName);
 

@@ -28,7 +28,7 @@ public abstract class CustomFrame extends JFrame implements Borders, Icons {
         return upperBar;
     }
 
-    protected JPanel buildUpperBar(String title, CustomPanel panel) {
+    protected JPanel buildUpperBar(String title, JPanel panel) {
         CustomTitleLabel frameTitle = new CustomTitleLabel(title);
 
         upperBar = new CustomPanel();

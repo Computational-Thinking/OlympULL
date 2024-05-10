@@ -12,7 +12,7 @@ public abstract class CheckTableFrameTemplate extends CustomFrame implements Bor
     CustomButton goBackButton;
     CustomButton exportButton;
     CustomButton importButton;
-    CustomPanel buttonsPanel;
+    JPanel buttonsPanel;
 
     public CheckTableFrameTemplate(User user, int height, String titleLabel) {
         this.setSize(875, height);

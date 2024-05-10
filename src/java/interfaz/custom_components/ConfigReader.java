@@ -128,5 +128,125 @@ public interface ConfigReader {
 
         return properties.getProperty("db_name");
     }
+
+    static String getDataFilesPath() {
+        try {
+            properties.load(new FileInputStream("config.properties"));
+
+        } catch (IOException e) {
+            new ErrorJOptionPane("No se ha podido recuperar la ruta de los archivos de datos de config.properties");
+
+        }
+
+        return properties.getProperty("data_file_path");
+    }
+
+    static String getOlympiadsFileName() {
+        try {
+            properties.load(new FileInputStream("config.properties"));
+
+        } catch (IOException e) {
+            new ErrorJOptionPane("No se ha podido recuperar de config.properties");
+
+        }
+
+        return properties.getProperty("olympiads_file");
+    }
+
+    static String getItinerariesFileName() {
+        try {
+            properties.load(new FileInputStream("config.properties"));
+
+        } catch (IOException e) {
+            new ErrorJOptionPane("No se ha podido recuperar de config.properties");
+
+        }
+
+        return properties.getProperty("itineraries_file");
+    }
+
+    static String getExercisesFileName() {
+        try {
+            properties.load(new FileInputStream("config.properties"));
+
+        } catch (IOException e) {
+            new ErrorJOptionPane("No se ha podido recuperar de config.properties");
+
+        }
+
+        return properties.getProperty("exercises_file");
+    }
+
+    static String getRubricsFileName() {
+        try {
+            properties.load(new FileInputStream("config.properties"));
+
+        } catch (IOException e) {
+            new ErrorJOptionPane("No se ha podido recuperar de config.properties");
+
+        }
+
+        return properties.getProperty("rubrics_file");
+    }
+
+    static String getTeamsFileName() {
+        try {
+            properties.load(new FileInputStream("config.properties"));
+
+        } catch (IOException e) {
+            new ErrorJOptionPane("No se ha podido recuperar de config.properties");
+
+        }
+
+        return properties.getProperty("teams_file");
+    }
+
+    static String getExOlympAssignationsFileName() {
+        try {
+            properties.load(new FileInputStream("config.properties"));
+
+        } catch (IOException e) {
+            new ErrorJOptionPane("No se ha podido recuperar de config.properties");
+
+        }
+
+        return properties.getProperty("ex_olymp_file");
+    }
+
+    static String getUsersFileName() {
+        try {
+            properties.load(new FileInputStream("config.properties"));
+
+        } catch (IOException e) {
+            new ErrorJOptionPane("No se ha podido recuperar de config.properties");
+
+        }
+
+        return properties.getProperty("users_file");
+    }
+
+    static String getExMonitorAssignationsFileName() {
+        try {
+            properties.load(new FileInputStream("config.properties"));
+
+        } catch (IOException e) {
+            new ErrorJOptionPane("No se ha podido recuperar de config.properties");
+
+        }
+
+        return properties.getProperty("ex_monitor_file");
+    }
+
+    static String getItOrganizerAssignationsFileName() {
+        try {
+            properties.load(new FileInputStream("config.properties"));
+
+        } catch (IOException e) {
+            new ErrorJOptionPane("No se ha podido recuperar de config.properties");
+
+        }
+
+        return properties.getProperty("it_org_file");
+    }
 }
 
