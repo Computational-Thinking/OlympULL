@@ -30,7 +30,7 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate implements Bord
 
     // Constructor
     public CheckExercisesFrame(Admin administrador) throws JSchException, SQLException {
-        super(administrador, 650, "Consulta de tabla T_EJERCICIOS");
+        super(administrador, "Consulta de tabla T_EJERCICIOS");
 
         this.administrador = administrador;
 

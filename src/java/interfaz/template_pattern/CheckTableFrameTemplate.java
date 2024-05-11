@@ -14,13 +14,13 @@ public abstract class CheckTableFrameTemplate extends CustomFrame implements Bor
     CustomButton importButton;
     JPanel buttonsPanel;
 
-    public CheckTableFrameTemplate(User user, int height, String titleLabel) {
-        this.setSize(875, height);
+    public CheckTableFrameTemplate(User user, String titleLabel) {
+        this.setSize(875, 650);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout(5, 5));
         this.setTitle("Consulta de tabla");
 
-        buttonsPanel = new CustomPanel();
+        buttonsPanel = new JPanel();
 
         if (user.getClass() == Admin.class) {
             ImageIcon exportIcon = new ImageIcon(iconoExportar.getScaledInstance(15, 15, Image.SCALE_SMOOTH));

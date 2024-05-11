@@ -29,7 +29,7 @@ public class CheckRubricsFrame extends CheckTableFrameTemplate implements Border
 
     // Constructor
     public CheckRubricsFrame(Admin administrador) throws JSchException, SQLException {
-        super(administrador, 465, "Consulta de tabla T_RUBRICAS");
+        super(administrador, "Consulta de tabla T_RUBRICAS");
 
         this.administrador = administrador;
 

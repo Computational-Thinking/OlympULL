@@ -29,7 +29,7 @@ public class CheckExOlympAssignationsFrame extends CheckTableFrameTemplate imple
     String fileName = ConfigReader.getDataFilesPath() + "/" + ConfigReader.getExOlympAssignationsFileName();
 
     public CheckExOlympAssignationsFrame(Admin administrador) throws JSchException, SQLException {
-        super(administrador, 465, "Consulta de tabla");
+        super(administrador, "Consulta de tabla");
 
         this.administrador = administrador;
 

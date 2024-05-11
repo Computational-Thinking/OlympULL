@@ -80,7 +80,8 @@ public class ModifyRubricFrame extends ModifyRegistrationFrameTemplate implement
         addNewPunctuationButton.addActionListener(e -> {
             if (nScales < 11) {
                 JPanel newMark = new JPanel();
-                newMark.setLayout(new GridLayout(1, 2, 5, 5));
+                newMark.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+                newMark.setLayout(new GridLayout(1, 2, 10, 0));
 
                 // Campo de puntos
                 CustomTextField newPunctuation = new CustomTextField("");
@@ -263,7 +264,8 @@ public class ModifyRubricFrame extends ModifyRegistrationFrameTemplate implement
         for (int i = 1; i < oldPoints.length - 1; ++i) {
             // Panel auxiliar
             JPanel newMark = new JPanel();
-            newMark.setLayout(new GridLayout(1, 2, 5, 5));
+            newMark.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+            newMark.setLayout(new GridLayout(1, 2, 10, 0));
 
             // Campo de puntos
             CustomTextField newPunctuation = new CustomTextField(String.valueOf(oldPoints[i]));
@@ -311,7 +313,7 @@ public class ModifyRubricFrame extends ModifyRegistrationFrameTemplate implement
         // Panel 6
         customInformationPanel = new JPanel();
         customInformationPanel.setLayout(new BorderLayout(5, 5));
-        customInformationPanel.setBorder(bordeRubricMaxField);
+        customInformationPanel.setBorder(bordeRubricBasicInfo);
 
         customInformationPanel.add(customValuesPanel, BorderLayout.CENTER);
         customInformationPanel.add(maxValuePanel, BorderLayout.SOUTH);
