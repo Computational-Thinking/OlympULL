@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class CheckOlympiadsFrame extends CheckTableFrameTemplate implements Bord
     JTable tabla;
     // Administrador
     Admin administrador;
+    // Archivo de datos
+    String fileName = ConfigReader.getDataFilesPath() + "/" + ConfigReader.getOlympiadsFileName();
 
     // Constructor
     public CheckOlympiadsFrame(Admin administrador) throws JSchException, SQLException {
@@ -43,7 +46,6 @@ public class CheckOlympiadsFrame extends CheckTableFrameTemplate implements Bord
 
         getExportButton().addActionListener(e -> {
             try {
-                String fileName = "data_files/olympiads.olympull";
                 ArrayList<String> data = new ArrayList<>();
 
                 ResultSet dataSet = administrador.selectRows("T_OLIMPIADAS", "CODIGO");
@@ -54,7 +56,7 @@ public class CheckOlympiadsFrame extends CheckTableFrameTemplate implements Bord
                     String desc = "'" + dataSet.getString(3) + "'";
                     int year = Integer.parseInt(dataSet.getString(4));
 
-                    data.add("(" + code + ", " + title + ", " + desc + ", " + year + ")");
+                    data.add(code + ", " + title + ", " + desc + ", " + year);
                 }
 
                 FileWriter writer = new FileWriter(fileName, "T_OLIMPIADAS", data);
@@ -65,6 +67,37 @@ public class CheckOlympiadsFrame extends CheckTableFrameTemplate implements Bord
                 writer.close();
             } catch (IOException | SQLException ex) {
                 new ErrorJOptionPane(ex.getMessage());
+            }
+        });
+
+        getImportButton().addActionListener(e -> {
+            try {
+                FileReader reader = new FileReader(fileName);
+                String tableName = reader.readTableName();
+                ArrayList<String> tableTuples = reader.readTableRegisters();
+                int insertions = 0;
+
+                for (String tableTuple : tableTuples) {
+                    String[] values = tableTuple.split(", ");
+                    String where = "WHERE CODIGO=" + values[0];
+                    if (administrador.importData(tableName, tableTuple, where) == 0) ++insertions;
+                }
+
+                reader.close();
+
+                new MessageJOptionPane("Se han insertado " + insertions + " registros nuevos en " + tableName);
+
+                if (insertions > 0) {
+                    new CheckOlympiadsFrame(administrador);
+                    dispose();
+                }
+
+            } catch (FileNotFoundException ex) {
+                new ErrorJOptionPane("No se ha encontrado ningún archivo " + fileName);
+            } catch (IOException ex) {
+                new ErrorJOptionPane(ex.getMessage());
+            } catch (Exception ex) {
+                new ErrorJOptionPane("El formato de alguna línea del archivo de datos no es válido");
             }
         });
     }

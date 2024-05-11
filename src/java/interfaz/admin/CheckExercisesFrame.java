@@ -28,10 +28,9 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate implements Bord
     // File path
     String fileName = ConfigReader.getDataFilesPath() + "/" + ConfigReader.getExercisesFileName();
 
-
     // Constructor
     public CheckExercisesFrame(Admin administrador) throws JSchException, SQLException {
-        super(administrador, 465, "Consulta de tabla T_EJERCICIOS");
+        super(administrador, 650, "Consulta de tabla T_EJERCICIOS");
 
         this.administrador = administrador;
 
@@ -77,28 +76,25 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate implements Bord
         getImportButton().addActionListener(e -> {
             try {
                 FileReader reader = new FileReader(fileName);
-
                 String tableName = reader.readTableName();
-
-                boolean duplicates = false;
-
                 ArrayList<String> tableTuples = reader.readTableRegisters();
+                int insertions = 0;
+
                 for (String tableTuple : tableTuples) {
-                    if (administrador.insert(tableName, tableTuple) == 1) {
-                        new ErrorJOptionPane("Ya existe un registro con esta(s) clave(s) en la tabla");
-                        duplicates = true;
-                        break;
-                    }
+                    String[] values = tableTuple.split(", ");
+                    String where = "WHERE CODIGO=" + values[0];
+                    if (administrador.importData(tableName, tableTuple, where) == 0) ++insertions;
                 }
 
-                if (!duplicates) {
-                    new MessageJOptionPane("Se han importado los datos a la tabla");
-                    new CheckExercisesFrame(administrador);
-                    dispose();
-                    reader.close();
-                }
 
                 reader.close();
+
+                new MessageJOptionPane("Se han insertado " + insertions + " registros nuevos en " + tableName);
+
+                if (insertions > 0) {
+                    new CheckExercisesFrame(administrador);
+                    dispose();
+                }
 
             } catch (FileNotFoundException ex) {
                 new ErrorJOptionPane("No se ha encontrado ningún archivo " + fileName);

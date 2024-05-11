@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class CheckItinerariesFrame extends CheckTableFrameTemplate implements Bo
     // Tabla
     JTable tabla;
     Admin administrador;
+    // Archivo de datos
+    String fileName = ConfigReader.getDataFilesPath() + "/" + ConfigReader.getExOlympAssignationsFileName();
 
     // Constructor
     public CheckItinerariesFrame(Admin administrador) throws JSchException, SQLException {
@@ -42,7 +45,6 @@ public class CheckItinerariesFrame extends CheckTableFrameTemplate implements Bo
 
         getExportButton().addActionListener(e -> {
             try {
-                String fileName = "data_files/itineraries.olympull";
                 ArrayList<String> data = new ArrayList<>();
 
                 ResultSet dataSet = administrador.selectRows("T_ITINERARIOS", "CODIGO");
@@ -53,7 +55,7 @@ public class CheckItinerariesFrame extends CheckTableFrameTemplate implements Bo
                     String desc = "'" + dataSet.getString(3) + "'";
                     String olymp = "'" + dataSet.getString(3) + "'";
 
-                    data.add("(" + code + ", " + title + ", " + desc + ", " + olymp + ")");
+                    data.add(code + ", " + title + ", " + desc + ", " + olymp);
                 }
 
                 FileWriter writer = new FileWriter(fileName, "T_ITINERARIOS", data);
@@ -64,6 +66,37 @@ public class CheckItinerariesFrame extends CheckTableFrameTemplate implements Bo
                 writer.close();
             } catch (IOException | SQLException ex) {
                 new ErrorJOptionPane(ex.getMessage());
+            }
+        });
+
+        getImportButton().addActionListener(e -> {
+            try {
+                FileReader reader = new FileReader(fileName);
+                String tableName = reader.readTableName();
+                ArrayList<String> tableTuples = reader.readTableRegisters();
+                int insertions = 0;
+
+                for (String tableTuple : tableTuples) {
+                    String[] values = tableTuple.split(", ");
+                    String where = "WHERE CODIGO=" + values[0];
+                    if (administrador.importData(tableName, tableTuple, where) == 0) ++insertions;
+                }
+
+                reader.close();
+
+                new MessageJOptionPane("Se han insertado " + insertions + " registros nuevos en " + tableName);
+
+                if (insertions > 0) {
+                    new CheckItinerariesFrame(administrador);
+                    dispose();
+                }
+
+            } catch (FileNotFoundException ex) {
+                new ErrorJOptionPane("No se ha encontrado ningún archivo " + fileName);
+            } catch (IOException ex) {
+                new ErrorJOptionPane(ex.getMessage());
+            } catch (Exception ex) {
+                new ErrorJOptionPane("El formato de alguna línea del archivo de datos no es válido");
             }
         });
     }

@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class CheckExOlympAssignationsFrame extends CheckTableFrameTemplate imple
     JTable tabla;
     // Administrador
     Admin administrador;
+    // Archivo de datos
+    String fileName = ConfigReader.getDataFilesPath() + "/" + ConfigReader.getExOlympAssignationsFileName();
 
     public CheckExOlympAssignationsFrame(Admin administrador) throws JSchException, SQLException {
         super(administrador, 465, "Consulta de tabla");
@@ -42,7 +45,6 @@ public class CheckExOlympAssignationsFrame extends CheckTableFrameTemplate imple
 
         getExportButton().addActionListener(e -> {
             try {
-                String fileName = "data_files/exercises-olympiads.olympull";
                 ArrayList<String> data = new ArrayList<>();
 
                 ResultSet dataSet = administrador.selectRows("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "EJERCICIO");
@@ -52,7 +54,7 @@ public class CheckExOlympAssignationsFrame extends CheckTableFrameTemplate imple
                     String olymp = "'" + dataSet.getString(2) + "'";
                     String it = "'" + dataSet.getString(3) + "'";
 
-                    data.add("(" + exercise + ", " + olymp + ", " + it + ")");
+                    data.add(exercise + ", " + olymp + ", " + it);
                 }
 
                 FileWriter writer = new FileWriter(fileName, "T_EJERCICIOS_OLIMPIADA_ITINERARIO", data);
@@ -63,6 +65,37 @@ public class CheckExOlympAssignationsFrame extends CheckTableFrameTemplate imple
                 writer.close();
             } catch (IOException | SQLException ex) {
                 new ErrorJOptionPane(ex.getMessage());
+            }
+        });
+
+        getImportButton().addActionListener(e -> {
+            try {
+                FileReader reader = new FileReader(fileName);
+                String tableName = reader.readTableName();
+                ArrayList<String> tableTuples = reader.readTableRegisters();
+                int insertions = 0;
+
+                for (String tableTuple : tableTuples) {
+                    String[] values = tableTuple.split(", ");
+                    String where = "WHERE EJERCICIO=" + values[0] + " AND OLIMPIADA=" + values[1] + " AND ITINERARIO=" + values[2];
+                    if (administrador.importData(tableName, tableTuple, where) == 0) ++insertions;
+                }
+
+                reader.close();
+
+                new MessageJOptionPane("Se han insertado " + insertions + " registros nuevos en " + tableName);
+
+                if (insertions > 0) {
+                    new CheckExOlympAssignationsFrame(administrador);
+                    dispose();
+                }
+
+            } catch (FileNotFoundException ex) {
+                new ErrorJOptionPane("No se ha encontrado ningún archivo " + fileName);
+            } catch (IOException ex) {
+                new ErrorJOptionPane(ex.getMessage());
+            } catch (Exception ex) {
+                new ErrorJOptionPane("El formato de alguna línea del archivo de datos no es válido");
             }
         });
     }

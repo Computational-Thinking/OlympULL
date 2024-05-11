@@ -361,4 +361,11 @@ public class Admin extends User implements OperacionesBD {
             return 1;
         }
     }
+
+    public int importData(String tableName, String tableTuple, String where) throws SQLException {
+        if (!selectCol(tableName, tableTuple, where).next()) {
+            return insert(tableName, tableTuple);
+        }
+        return 1;
+    }
 }
