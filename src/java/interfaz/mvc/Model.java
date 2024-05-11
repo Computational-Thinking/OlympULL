@@ -26,8 +26,6 @@ public class Model implements OperacionesBD {
         String whereOlympiad = "OLIMPIADA=(SELECT CODIGO FROM T_OLIMPIADAS WHERE TITULO='" + olymp + "')";
         String whereItinerary = "ITINERARIO=(SELECT CODIGO FROM T_ITINERARIOS WHERE TITULO='" + it + "')";
         return selectCol(table, columns, "WHERE " + whereOlympiad + " AND " + whereItinerary);
-
-        //SELECT TITULO, CONCEPTO FROM T_EJERCICIOS_OLIMPIADA_ITINERARIO JOIN T_EJERCICIOS ON EJERCICIO=CODIGO WHERE OLIMPIADA=(SELECT CODIGO FROM T_OLIMPIADAS WHERE CODIGO='OLYMP-2023') AND ITINERARIO=(SELECT CODIGO FROM T_ITINERARIOS WHERE CODIGO='IT-001-2023')
     }
 
     public ResultSet selectTeams(String it) {

@@ -4,8 +4,6 @@ import interfaz.MainFrame;
 import interfaz.custom_components.*;
 
 import java.awt.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class View extends CustomFrame {
     // Labels
@@ -15,22 +13,16 @@ public class View extends CustomFrame {
     CustomFieldLabel itineraryLabel;
     CustomFieldLabel conceptLabel;
 
-    // Custom Combo boxes
-    CustomComboBox olympiadsComboBox;
-    CustomComboBox itineraryComboBox;
-    CustomComboBox conceptComboBox;
-
     // Buttons
     CustomButton goBackButton;
-    CustomButton viewRanking;
 
     // Panels
     CustomPanel upperPanel;
     CustomPanel filtersPanel;
     CustomPanel rankingPanel;
 
-    // Model
-    Model model;
+    // Controller
+    Controller controller;
 
     public View() {
         this.setSize(1200, 700);
@@ -38,7 +30,7 @@ public class View extends CustomFrame {
         this.setLayout(new BorderLayout());
         this.setTitle("OlympULL");
 
-        model = new Model();
+        controller = new Controller();
 
         // Se añaden los paneles a la ventana
         add(createUpperPanel(), BorderLayout.NORTH);
@@ -73,70 +65,23 @@ public class View extends CustomFrame {
         itineraryLabel = new CustomFieldLabel("Itinerario (*)");
         conceptLabel = new CustomFieldLabel("Concepto");
 
-        olympiadsComboBox = new CustomComboBox();
-        olympiadsComboBox.addItem("");
-        itineraryComboBox = new CustomComboBox();
-        itineraryComboBox.addItem("");
-        conceptComboBox = new CustomComboBox();
-        conceptComboBox.addItem("");
-
-        viewRanking = new CustomButton("Ver ranking(s)");
-
-        try {
-            ResultSet data = model.selectOlympiads();
-            while (data.next()) {
-                olympiadsComboBox.addItem(data.getString("TITULO"));
-            }
-            data.close();
-
-        } catch (SQLException ex) {
-            new ErrorJOptionPane(ex.getMessage());
-        }
-
-        olympiadsComboBox.addActionListener(e -> {
-            try {
-                ResultSet data = model.selectItineraries((String) olympiadsComboBox.getSelectedItem());
-                while (data.next()) {
-                    itineraryComboBox.addItem(data.getString("TITULO"));
-                }
-                data.close();
-
-            } catch (SQLException ex) {
-                new ErrorJOptionPane(ex.getMessage());
-            }
-        });
-
-        itineraryComboBox.addActionListener(e -> {
-            try {
-                String selectedOlymp = (String) olympiadsComboBox.getSelectedItem();
-                String selectedIt = (String) itineraryComboBox.getSelectedItem();
-                ResultSet data = model.selectExercises(selectedOlymp, selectedIt);
-                while (data.next()) {
-                    conceptComboBox.addItem(data.getString("CONCEPTO"));
-                }
-                data.close();
-
-            } catch (SQLException ex) {
-                new ErrorJOptionPane(ex.getMessage());
-            }
-        });
-
         filtersPanel = new CustomPanel();
-        filtersPanel.setLayout(new GridLayout(8, 1));
+        filtersPanel.setLayout(new GridLayout(8, 1, 10, 10));
         filtersPanel.add(filtersTitle);
         filtersPanel.add(olympiadLabel);
-        filtersPanel.add(olympiadsComboBox);
+        filtersPanel.add(controller.getOlympiadComboBox());
         filtersPanel.add(itineraryLabel);
-        filtersPanel.add(itineraryComboBox);
+        filtersPanel.add(controller.getItineraryComboBox());
         filtersPanel.add(conceptLabel);
-        filtersPanel.add(conceptComboBox);
-        filtersPanel.add(viewRanking);
+        filtersPanel.add(controller.getConceptComboBox());
+        filtersPanel.add(controller.getViewRanking());
 
         return filtersPanel;
     }
 
     public CustomPanel createRankingPanel() {
         rankingPanel = new CustomPanel();
+        rankingPanel.setLayout(new GridLayout(2, 2));
 
         return rankingPanel;
     }
