@@ -1,4 +1,4 @@
-package interfaz.template;
+package interfaz.template_pattern;
 
 import interfaz.custom_components.Borders;
 import interfaz.custom_components.CustomButton;

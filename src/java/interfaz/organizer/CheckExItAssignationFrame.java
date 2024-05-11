@@ -2,13 +2,12 @@ package interfaz.organizer;
 
 import com.jcraft.jsch.JSchException;
 import interfaz.custom_components.*;
-import interfaz.template.CheckTableFrameTemplate;
+import interfaz.template_pattern.CheckTableFrameTemplate;
 import users.Organizer;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

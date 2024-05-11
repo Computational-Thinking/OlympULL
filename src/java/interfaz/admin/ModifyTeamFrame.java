@@ -2,7 +2,7 @@ package interfaz.admin;
 
 import com.jcraft.jsch.JSchException;
 import interfaz.custom_components.*;
-import interfaz.template.ModifyRegistrationFrameTemplate;
+import interfaz.template_pattern.ModifyRegistrationFrameTemplate;
 import users.Admin;
 
 import javax.swing.*;

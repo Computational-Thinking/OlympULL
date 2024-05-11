@@ -3,10 +3,9 @@ package interfaz.admin;
 import com.jcraft.jsch.JSchException;
 import interfaz.ChangePasswordFrame;
 import interfaz.custom_components.*;
-import interfaz.template.UserFrameTemplate;
+import interfaz.template_pattern.UserFrameTemplate;
 import users.Admin;
 
-import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 

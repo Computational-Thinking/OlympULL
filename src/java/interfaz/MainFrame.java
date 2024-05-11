@@ -3,6 +3,7 @@ package interfaz;
 import interfaz.admin.AdminFrame;
 import interfaz.custom_components.*;
 import interfaz.monitor.MonitorFrame;
+import interfaz.mvc.View;
 import interfaz.organizer.OrganizerFrame;
 import users.Admin;
 import users.Monitor;
@@ -163,13 +164,13 @@ public class MainFrame extends CustomFrame implements Borders, Fonts, Icons, Ope
                 } catch (SQLException i) {
                     new ErrorJOptionPane(i.getMessage());
                     dispose();
-
                 }
             }
         });
 
         checkRanking.addActionListener(e -> {
-            new MessageJOptionPane("Funcionalidad en obras. Disculpe las molestias.");
+            new View();
+            dispose();
         });
 
         this.setVisible(true);

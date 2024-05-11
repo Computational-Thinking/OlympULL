@@ -1,4 +1,4 @@
-package interfaz.template;
+package interfaz.template_pattern;
 
 import interfaz.MainFrame;
 import interfaz.custom_components.Borders;

@@ -2,10 +2,9 @@ package interfaz.monitor;
 
 import interfaz.*;
 import interfaz.custom_components.*;
-import interfaz.template.UserFrameTemplate;
+import interfaz.template_pattern.UserFrameTemplate;
 import users.Monitor;
 
-import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 

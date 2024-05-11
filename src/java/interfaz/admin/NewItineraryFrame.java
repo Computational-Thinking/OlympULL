@@ -2,13 +2,10 @@ package interfaz.admin;
 
 import com.jcraft.jsch.JSchException;
 import interfaz.custom_components.*;
-import interfaz.template.NewRegistrationFrameTemplate;
+import interfaz.template_pattern.NewRegistrationFrameTemplate;
 import users.Admin;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;

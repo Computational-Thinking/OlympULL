@@ -1,7 +1,7 @@
 package interfaz.monitor;
 
 import interfaz.custom_components.*;
-import interfaz.template.ModifyRegistrationFrameTemplate;
+import interfaz.template_pattern.ModifyRegistrationFrameTemplate;
 import users.Monitor;
 
 import javax.swing.*;
