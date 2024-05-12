@@ -19,11 +19,12 @@ OlympULL requiere de las siguientes tecnologías:
 * MySQL 8.0.36 o superior.
 
 ## Guía de inicio rápido
-A continuación, se describen los pasos a seguir para la utilización de este software.
+A continuación, se describen los pasos a seguir para poder utilizar este software.
 
 1. **Instalación**:
    - Descargue este repositorio en su máquina local.
-   - 
+   - Instale la versión de Java requerida en su máquina local (si no se tiene).
+   - Instale la versión de MySQL requerida en su máquina remota (si no se tiene)
 
 2. **Configuración**:
    - El archivo [config.properties] contiene la información de conexión de las máquinas local y remota. Establezca 
