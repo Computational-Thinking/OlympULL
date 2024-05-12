@@ -1,8 +1,8 @@
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import interfaz.OperacionesBD;
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.MessageJOptionPane;
+import gui.OperacionesBD;
+import gui.custom_components.ErrorJOptionPane;
+import gui.custom_components.MessageJOptionPane;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

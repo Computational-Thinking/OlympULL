@@ -1,8 +1,8 @@
 package users;
 
-import interfaz.custom_components.ErrorJOptionPane;
-import interfaz.custom_components.MessageJOptionPane;
-import interfaz.OperacionesBD;
+import gui.custom_components.ErrorJOptionPane;
+import gui.custom_components.MessageJOptionPane;
+import gui.OperacionesBD;
 
 import java.sql.*;
 import java.util.ArrayList;

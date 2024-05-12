@@ -1,7 +1,7 @@
 package users;
 
-import interfaz.custom_components.MessageJOptionPane;
-import interfaz.OperacionesBD;
+import gui.custom_components.MessageJOptionPane;
+import gui.OperacionesBD;
 
 public abstract class User implements OperacionesBD {
     String userName;
