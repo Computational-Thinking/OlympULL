@@ -14,8 +14,8 @@ Los torneos de la Olimpiada de Pensamiento Computacional están compuestos por i
 Con OlympULL, la gestión de la gestión de estos elementos, las relaciones entre ellos y el recuento de puntos es mucho más sencilla e intuitiva.
 Se consideran tres tipos de usuarios:
 * **Administradores.** Son los usuarios que más funcionalidades pueden realizar dentro de la aplicación. Estos pueden realizar dos tipos de gestiones:
--    **Gestión de olimpiadas.** Se trata de la creación y gestión de las olimpiadas, los itinerarios, los ejercicios y sus rúbricas, los equipos y las relaciones entre ellos.
--    **Gestión de usuarios.** Se refiere a la creación y gsetión de los usuarios de la aplicación, así como las relaciones entre ellos y los diferentes elementos de las olimpiadas.
+  - **Gestión de olimpiadas.** Se trata de la creación y gestión de las olimpiadas, los itinerarios, los ejercicios y sus rúbricas, los equipos y las relaciones entre ellos.
+  - **Gestión de usuarios.** Se refiere a la creación y gsetión de los usuarios de la aplicación, así como las relaciones entre ellos y los diferentes elementos de las olimpiadas.
 
 * **Organizadores.** Son las personas encargadas de cada itinerario. Pueden añadir ejercicios a los itinerarios que tengan asignados.
  
