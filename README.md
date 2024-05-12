@@ -55,7 +55,7 @@ Posteriormente, podrás cambiar estas credenciales, o incluso crear otro usuario
 * Se recomienda instalar la fuente de texto Argentum, que es la que se ha establecido para los elementos de la interfaz gráfica. Puedes encontrarla en el directorio [/fonts](/fonts) de este repositorio.
 * El archivo [data.properties](src/main/resources/data.properties) contiene la ruta y los nombres de los archivos de datos de *back-up*. Ya se han establecido unos nombres por defecto, pero puedes cambiarlos por otros que te gusten más, si así lo prefieres.
 
-### **Distribución a organizadores monitores**
+### **Distribución a organizadores y monitores**
 Una vez dados de alta, la distribución de la aplicación a los usuarios organizadores y monitores se hará mediante un archivo JAR.
 
 ## Licencia
