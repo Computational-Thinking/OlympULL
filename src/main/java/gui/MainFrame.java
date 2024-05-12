@@ -45,7 +45,7 @@ public class MainFrame extends CustomFrame implements Borders, Fonts, Icons, Ope
         this.setTitle("OlympULL");
 
         // Panel de logo
-        ImageIcon logo = new ImageIcon("images/logo_olympull_v2.png");
+        ImageIcon logo = new ImageIcon("src/main/resources/images/logo_olympull_v2.png");
         Image scalatedLogo = logo.getImage().getScaledInstance(268, 65, Image.SCALE_SMOOTH);
         logo = new ImageIcon(scalatedLogo);
         olympullLogo = new JLabel(logo);
