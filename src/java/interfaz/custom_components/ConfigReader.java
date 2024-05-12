@@ -131,7 +131,7 @@ public interface ConfigReader {
 
     static String getDataFilesPath() {
         try {
-            properties.load(new FileInputStream("config.properties"));
+            properties.load(new FileInputStream("data.properties"));
 
         } catch (IOException e) {
             new ErrorJOptionPane("No se ha podido recuperar la ruta de los archivos de datos de config.properties");
@@ -143,7 +143,7 @@ public interface ConfigReader {
 
     static String getOlympiadsFileName() {
         try {
-            properties.load(new FileInputStream("config.properties"));
+            properties.load(new FileInputStream("data.properties"));
 
         } catch (IOException e) {
             new ErrorJOptionPane("No se ha podido recuperar de config.properties");
@@ -155,7 +155,7 @@ public interface ConfigReader {
 
     static String getItinerariesFileName() {
         try {
-            properties.load(new FileInputStream("config.properties"));
+            properties.load(new FileInputStream("data.properties"));
 
         } catch (IOException e) {
             new ErrorJOptionPane("No se ha podido recuperar de config.properties");
@@ -167,7 +167,7 @@ public interface ConfigReader {
 
     static String getExercisesFileName() {
         try {
-            properties.load(new FileInputStream("config.properties"));
+            properties.load(new FileInputStream("data.properties"));
 
         } catch (IOException e) {
             new ErrorJOptionPane("No se ha podido recuperar de config.properties");
@@ -179,7 +179,7 @@ public interface ConfigReader {
 
     static String getRubricsFileName() {
         try {
-            properties.load(new FileInputStream("config.properties"));
+            properties.load(new FileInputStream("data.properties"));
 
         } catch (IOException e) {
             new ErrorJOptionPane("No se ha podido recuperar de config.properties");
@@ -191,7 +191,7 @@ public interface ConfigReader {
 
     static String getTeamsFileName() {
         try {
-            properties.load(new FileInputStream("config.properties"));
+            properties.load(new FileInputStream("data.properties"));
 
         } catch (IOException e) {
             new ErrorJOptionPane("No se ha podido recuperar de config.properties");
@@ -203,7 +203,7 @@ public interface ConfigReader {
 
     static String getExOlympAssignationsFileName() {
         try {
-            properties.load(new FileInputStream("config.properties"));
+            properties.load(new FileInputStream("data.properties"));
 
         } catch (IOException e) {
             new ErrorJOptionPane("No se ha podido recuperar de config.properties");
@@ -215,7 +215,7 @@ public interface ConfigReader {
 
     static String getUsersFileName() {
         try {
-            properties.load(new FileInputStream("config.properties"));
+            properties.load(new FileInputStream("data.properties"));
 
         } catch (IOException e) {
             new ErrorJOptionPane("No se ha podido recuperar de config.properties");
@@ -227,7 +227,7 @@ public interface ConfigReader {
 
     static String getExMonitorAssignationsFileName() {
         try {
-            properties.load(new FileInputStream("config.properties"));
+            properties.load(new FileInputStream("data.properties"));
 
         } catch (IOException e) {
             new ErrorJOptionPane("No se ha podido recuperar de config.properties");
@@ -239,7 +239,7 @@ public interface ConfigReader {
 
     static String getItOrganizerAssignationsFileName() {
         try {
-            properties.load(new FileInputStream("config.properties"));
+            properties.load(new FileInputStream("data.properties"));
 
         } catch (IOException e) {
             new ErrorJOptionPane("No se ha podido recuperar de config.properties");
