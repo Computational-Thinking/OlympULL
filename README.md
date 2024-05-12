@@ -1,6 +1,4 @@
-(https://github.com/rrrguez/OlympULL/blob/master/images/logo%20olympull%20v2.png)[<img src="(https://github.com/rrrguez/OlympULL/blob/master/images/logo%20olympull%20v2.png)" width="20" height="12">]
-
-<span>![</span><span>Logo de OlympULL</span><span>]</span><span>(</span><span>[https://raw.githubusercontent.com/parzibyte/WaterPy/master/assets/ImagenV1.png](https://github.com/rrrguez/OlympULL/blob/master/images/logo%20olympull%20v2.png)</span><span>)</span>
+![Texto Alternativo](/images/logo olympull v2.png)
 
 # OlympULL: Aplicación de gestión de torneos
 
