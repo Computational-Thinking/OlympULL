@@ -34,10 +34,6 @@ A continuación, se describen los pasos a seguir para la utilización de este so
 4. **Recursos Adicionales**:
    - Fuente de texto Argentum (opcional). Puedes encontrarla en el directorio [/fonts] de este repositorio.
 
-## Contribución
-
-Si desea contribuir al desarrollo de este proyecto, consulte [CONTRIBUTING.md](CONTRIBUTING.md) para obtener más información sobre cómo comenzar.
-
 ## Licencia
 
 Este proyecto está licenciado bajo la [Licencia XYZ](LICENSE.md).
