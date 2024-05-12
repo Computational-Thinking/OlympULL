@@ -65,7 +65,7 @@ public class NewExItAssignationFrame extends NewRegistrationFrameTemplate implem
 
         assignExercise.addActionListener(e -> {
             if (itineraryCodeField.getItemCount() == 0) {
-                new ErrorJOptionPane("Debe seleccionar un itinerary");
+                new ErrorJOptionPane("Debe seleccionar un itinerario");
 
             } else {
                 String exercise = (String) exerCodeField.getSelectedItem();

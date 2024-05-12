@@ -68,6 +68,9 @@ public class PunctuateExerciseFrame extends NewRegistrationFrameTemplate impleme
         });
 
         exerciseSelectionComboBox.addActionListener(e -> {
+            teamSelectionComboBox.removeAllItems();
+            punctuationComboBox.removeAllItems();
+
             try {
                 itinerario = "";
 

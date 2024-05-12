@@ -60,8 +60,6 @@ public class Monitor extends User implements OperacionesBD {
                 }
             }
         }
-
-
     }
 
     public void modificarPuntuacion(int puntuacion, String concepto, String equipo, String itinerario) throws SQLException {

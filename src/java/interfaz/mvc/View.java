@@ -2,6 +2,8 @@ package interfaz.mvc;
 
 import interfaz.MainFrame;
 import interfaz.custom_components.*;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
 
 import java.awt.*;
 
@@ -15,11 +17,12 @@ public class View extends CustomFrame {
 
     // Buttons
     CustomButton goBackButton;
+    CustomButton rankingButton;
 
     // Panels
     CustomPanel upperPanel;
     CustomPanel filtersPanel;
-    CustomPanel rankingPanel;
+    ChartPanel rankingPanel;
 
     // Controller
     Controller controller;
@@ -35,7 +38,6 @@ public class View extends CustomFrame {
         // Se añaden los paneles a la ventana
         add(createUpperPanel(), BorderLayout.NORTH);
         add(createFilterPanel(), BorderLayout.WEST);
-        add(createRankingPanel(), BorderLayout.CENTER);
 
         this.setVisible(true);
 
@@ -63,7 +65,8 @@ public class View extends CustomFrame {
         filtersTitle = new CustomSubtitleLabel("Criterios de selección");
         olympiadLabel = new CustomFieldLabel("Olimpiada (*)");
         itineraryLabel = new CustomFieldLabel("Itinerario (*)");
-        conceptLabel = new CustomFieldLabel("Concepto");
+        conceptLabel = new CustomFieldLabel("Concepto(*)");
+        rankingButton = new CustomButton("Ver ranking");
 
         filtersPanel = new CustomPanel();
         filtersPanel.setLayout(new GridLayout(8, 1, 10, 10));
@@ -74,15 +77,30 @@ public class View extends CustomFrame {
         filtersPanel.add(controller.getItineraryComboBox());
         filtersPanel.add(conceptLabel);
         filtersPanel.add(controller.getConceptComboBox());
-        filtersPanel.add(controller.getViewRanking());
+        filtersPanel.add(rankingButton);
+
+        rankingButton.addActionListener(e -> {
+            if (controller.getOlympiadComboBox().getSelectedItem() == "" ||
+                    controller.getItineraryComboBox().getSelectedItem() == "" ||
+                    controller.getConceptComboBox().getSelectedItem() == "") {
+                new ErrorJOptionPane("Los campos Olimpiada, Itinerario y Concepto son obligatorios");
+            } else {
+                createRankingPanel();
+            }
+        });
 
         return filtersPanel;
     }
 
-    public CustomPanel createRankingPanel() {
-        rankingPanel = new CustomPanel();
-        rankingPanel.setLayout(new GridLayout(2, 2));
+    public void createRankingPanel() {
+        JFreeChart ranking = controller.generateRanking();
 
-        return rankingPanel;
+        rankingPanel = new ChartPanel(ranking);
+        rankingPanel.setPreferredSize(new Dimension(500, 500));
+        rankingPanel.setBorder(borde);
+        add(rankingPanel, BorderLayout.CENTER);
+
+        revalidate();
+        repaint();
     }
 }

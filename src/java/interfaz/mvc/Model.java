@@ -15,7 +15,7 @@ public class Model implements OperacionesBD {
 
     public ResultSet selectItineraries(String olymp) {
         String table = "T_ITINERARIOS JOIN T_OLIMPIADAS ON T_OLIMPIADAS.CODIGO=OLIMPIADA";
-        String column = "T_ITINERARIOS.TITULO";
+        String column = "T_ITINERARIOS.CODIGO, T_ITINERARIOS.TITULO";
         String where = "WHERE T_OLIMPIADAS.TITULO='" + olymp + "'";
         return selectCol(table, column, where);
     }
@@ -28,8 +28,8 @@ public class Model implements OperacionesBD {
         return selectCol(table, columns, "WHERE " + whereOlympiad + " AND " + whereItinerary);
     }
 
-    public ResultSet selectTeams(String it) {
+    public ResultSet selectTeams(String it, String punctColumn) {
         String where = "WHERE ITINERARIO='" + it + "'";
-        return selectCol("T_EQUIPOS", "", where);
+        return selectCol("T_EQUIPOS", "NOMBRE, " + punctColumn, where);
     }
 }
