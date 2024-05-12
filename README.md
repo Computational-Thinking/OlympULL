@@ -1,4 +1,4 @@
-![Logo OlympULL](images/logo olympull v2.png)
+![Logo OlympULL](images/logo_olympull_v2.png)
 
 # OlympULL: Aplicación de gestión de torneos
 
