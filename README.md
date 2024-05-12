@@ -54,13 +54,8 @@ La primera vez que inicies sesión, deberás introducir las siguientes credencia
 
 Posteriormente, podrás cambiar estas credenciales, o incluso crear otro usuario administrador diferente.
 
-<<<<<<< HEAD
-5. **Recursos Adicionales**:
-* Se recomienda instalar la fuente de texto Argentum, que es la que se ha establecido para los elementos de la gui gráfica. Puedes encontrarla en el directorio [/fonts](/fonts) de este repositorio.
-=======
 ### **Recursos Adicionales**
 * Se recomienda instalar la fuente de texto Argentum, que es la que se ha establecido para los elementos de la interfaz gráfica. Puedes encontrarla en el directorio [/fonts](/fonts) de este repositorio.
->>>>>>> a63ee5f2bd131c9b59aba351c1e971190c11bb7c
 * El archivo [data.properties](src/main/resources/data.properties) contiene la ruta y los nombres de los archivos de datos de *back-up*. Ya se han establecido unos nombres por defecto, pero puedes cambiarlos por otros que te gusten más, si así lo prefieres.
 
 ### **Distribución a organizadores y monitores**
