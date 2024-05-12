@@ -15,12 +15,13 @@ Con OlympULL, la gestión de la gestión de estos elementos, las relaciones entr
 Se consideran tres tipos de usuarios:
 * **Administradores.** Son los usuarios que más funcionalidades pueden realizar dentro de la aplicación. Estos pueden realizar dos tipos de gestiones:
   - **Gestión de olimpiadas.** Se trata de la creación y gestión de las olimpiadas, los itinerarios, los ejercicios y sus rúbricas, los equipos y las relaciones entre ellos.
-  - **Gestión de usuarios.** Se refiere a la creación y gsetión de los usuarios de la aplicación, así como las relaciones entre ellos y los diferentes elementos de las olimpiadas.
+  - **Gestión de usuarios.** Se refiere a la creación y gestión de los usuarios de la aplicación, así como las relaciones entre ellos y los diferentes elementos de las olimpiadas.
 
 * **Organizadores.** Son las personas encargadas de cada itinerario. Pueden añadir ejercicios a los itinerarios que tengan asignados.
  
 * **Monitores.** Son las personas encargadas de cada ejercicio. Pueden puntuar a cada equipo participante en los ejercicios que tengan asignados.
 
+Además, independientemente del tipo de usuario que seas, incluso si no estás dado de alta en la aplicación, puedes consultar el ranking de equipos para cada ejercicio.
 
 ### ¿Qué necesito para utilizar OlympULL?
 OlympULL requiere de las siguientes tecnologías:
@@ -39,7 +40,7 @@ A continuación, se describen los pasos a seguir para poder utilizar este softwa
 * Instala la versión de MySQL requerida en su máquina remota (si no la tienes).
 
 2. **Configuración**:
-* El archivo [create-database.sql](create-database.sql) contiene las sentencias SQL necesarias para crear las tablas correspondientes en la base de datos de tu máquina remota. [ScriptRunner.java](/src/java/ScriptRunner.java) te permitirá ejecutar este script de forma automática. 
+* El archivo [create-database.sql](create-database.sql) contiene las sentencias SQL necesarias para crear las tablas correspondientes en la base de datos de tu máquina remota. [ScriptRunner.java](/src/main/java/ScriptRunner.java) te permitirá ejecutar este script de forma automática. 
 * El archivo [config.properties](config.properties) contiene la información necesaria para poder establecer la conexión entre la máquina local y la base de datos de la máquina remota. Define los valores precisos para poder realizar esta conexión entre tus máquinas.
 
 3. **Uso Básico**:
@@ -52,6 +53,9 @@ Posteriormente, podrás cambiar estas credenciales, o incluso crear otro usuario
 5. **Recursos Adicionales**:
 * Se recomienda instalar la fuente de texto Argentum, que es la que se ha establecido para los elementos de la interfaz gráfica. Puedes encontrarla en el directorio [/fonts](/fonts) de este repositorio.
 * El archivo [data.properties](data.properties) contiene la ruta y los nombres de los archivos de datos de *back-up*. Ya se han establecido unos nombres por defecto, pero puedes cambiarlos por otros que te gusten más, si así lo prefieres.
+
+6. **Distribución a organizadores monitores**:
+Una vez dados de alta, la distribución de la aplicación a los usuarios organizadores y monitores se hará mediante un archivo JAR.
 
 ## Licencia
 
