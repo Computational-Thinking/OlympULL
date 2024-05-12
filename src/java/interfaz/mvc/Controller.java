@@ -14,6 +14,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import interfaz.custom_components.CustomComboBox;
 import interfaz.custom_components.ErrorJOptionPane;
 
+import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -161,13 +162,13 @@ public class Controller implements CustomQuickSort, Fonts {
         // Se crea el conjunto de datos
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (int i = 0; i < teams.size(); i++) {
-            dataset.addValue(punctuations.get(i), teams.get(i), "");
+            dataset.addValue(punctuations.get(i), "", teams.get(i));
         }
 
         // Se crea la gráfica
         JFreeChart chart = ChartFactory.createBarChart(exerciseTitles.get(conceptComboBox.getSelectedIndex() - 1),
                 "Equipo", "Puntos", dataset,
-                PlotOrientation.VERTICAL, false, false, false);
+                PlotOrientation.VERTICAL, false, true, false);
 
         // Se establecen los números mínimo y máximo del eje Y y que no haya decimales
         CategoryPlot plot = (CategoryPlot) chart.getPlot();
@@ -176,21 +177,27 @@ public class Controller implements CustomQuickSort, Fonts {
         chart.getCategoryPlot().getRangeAxis().setLowerBound(0);
         chart.getCategoryPlot().getRangeAxis().setUpperBound(10.5);
 
+        // Color de las barras
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setSeriesPaint(0, new Color(87, 6, 140));
+
         // Fuentes de texto
         // Título
         chart.getTitle().setFont(fuenteSubtitulo);
         // Etiquetas de las categorías del eje X
         CategoryAxis domainAxis = plot.getDomainAxis();
-        domainAxis.setTickLabelFont(fuenteBotonesEtiquetas);
+        domainAxis.setTickLabelFont(fuenteEtiquetasBarras);
+        domainAxis.setLabelFont(fuenteBotonesEtiquetas);
         domainAxis.setTickLabelsVisible(true);
         // Etiquetas de las categorías del eje Y
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setTickLabelFont(fuenteCampoTexto);
+        rangeAxis.setLabelFont(fuenteBotonesEtiquetas);
         rangeAxis.setTickLabelsVisible(true);
         // Fuente de etiquetas de barras y leyenda
-        BarRenderer renderer = (BarRenderer) plot.getRenderer();
         renderer.setDefaultItemLabelFont(fuenteCampoTexto);
         renderer.setLegendTextFont(0, fuenteCampoTexto);
+        renderer.setDefaultItemLabelsVisible(true);
 
         return chart;
     }

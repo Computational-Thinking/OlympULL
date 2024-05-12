@@ -28,7 +28,7 @@ public class View extends CustomFrame {
     Controller controller;
 
     public View() {
-        this.setSize(1200, 700);
+        this.setSize(1350, 800);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         this.setTitle("OlympULL");
@@ -62,15 +62,13 @@ public class View extends CustomFrame {
     }
 
     public CustomPanel createFilterPanel() {
-        filtersTitle = new CustomSubtitleLabel("Criterios de selección");
         olympiadLabel = new CustomFieldLabel("Olimpiada (*)");
         itineraryLabel = new CustomFieldLabel("Itinerario (*)");
         conceptLabel = new CustomFieldLabel("Concepto(*)");
         rankingButton = new CustomButton("Ver ranking");
 
         filtersPanel = new CustomPanel();
-        filtersPanel.setLayout(new GridLayout(8, 1, 10, 10));
-        filtersPanel.add(filtersTitle);
+        filtersPanel.setLayout(new GridLayout(17, 1, 10, 10));
         filtersPanel.add(olympiadLabel);
         filtersPanel.add(controller.getOlympiadComboBox());
         filtersPanel.add(itineraryLabel);
@@ -93,10 +91,11 @@ public class View extends CustomFrame {
     }
 
     public void createRankingPanel() {
+        if (rankingPanel != null) remove(rankingPanel);
+
         JFreeChart ranking = controller.generateRanking();
 
         rankingPanel = new ChartPanel(ranking);
-        rankingPanel.setPreferredSize(new Dimension(500, 500));
         rankingPanel.setBorder(borde);
         add(rankingPanel, BorderLayout.CENTER);
 
