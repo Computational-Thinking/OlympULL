@@ -45,6 +45,7 @@ A continuación, se describen los pasos a seguir para poder utilizar este softwa
 
 ### **Uso básico**
 ¡Ya puedes comenzar a usar OlympULL!
+
 La primera vez que inicies sesión, deberás introducir las siguientes credenciales:
 - Usuario: ADMIN1
 - Contraseña: ADMIN1
