@@ -27,8 +27,8 @@ A continuación, se describen los pasos a seguir para poder utilizar este softwa
 * Instala la versión de MySQL requerida en su máquina remota (si no la tienes).
 
 2. **Configuración**:
-* El archivo [config.properties](config.properties) contiene la información necesaria para poder establecer la conexión entre la máquina local y la base de datos de la máquina remota. Define los valores precisos para poder realizar esta conexión entre tus máquinas.
-* El archivo [create-database.sql](create-database.sql) contiene las sentencias SQL necesarias para crear las tablas correspondientes en la base de datos de tu máquina remota. [ScriptRunner.java](/src/java/ScriptRunner.java) te permitirá ejecutar este script de forma automática. 
+* El archivo [config.properties](src/main/resources/config.properties) contiene la información necesaria para poder establecer la conexión entre la máquina local y la base de datos de la máquina remota. Define los valores precisos para poder realizar esta conexión entre tus máquinas.
+* El archivo [create-database.sql](src/main/resources/create-database.sql) contiene las sentencias SQL necesarias para crear las tablas correspondientes en la base de datos de tu máquina remota. [ScriptRunner.java](/src/java/ScriptRunner.java) te permitirá ejecutar este script de forma automática. 
 
 
 3. **Uso Básico**:
@@ -36,7 +36,7 @@ A continuación, se describen los pasos a seguir para poder utilizar este softwa
 
 4. **Recursos Adicionales**:
 * Se recomienda instalar la fuente de texto Argentum, que es la que se ha establecido para los elementos de la interfaz gráfica. Puedes encontrarla en el directorio [/fonts](/fonts) de este repositorio.
-* El archivo [data.properties](data.properties) contiene la ruta y los nombres de los archivos de datos de *back-up*. Ya se han establecido unos nombres por defecto, pero puedes cambiarlos por otros que te gusten más, si así lo prefieres.
+* El archivo [data.properties](src/main/resources/data.properties) contiene la ruta y los nombres de los archivos de datos de *back-up*. Ya se han establecido unos nombres por defecto, pero puedes cambiarlos por otros que te gusten más, si así lo prefieres.
 
 ## Licencia
 
