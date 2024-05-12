@@ -40,14 +40,11 @@ A continuación, se describen los pasos a seguir para poder utilizar este softwa
 * Instala la versión de MySQL requerida en su máquina remota (si no la tienes).
 
 2. **Configuración**:
-<<<<<<< HEAD
 * El archivo [config.properties](src/main/resources/config.properties) contiene la información necesaria para poder establecer la conexión entre la máquina local y la base de datos de la máquina remota. Define los valores precisos para poder realizar esta conexión entre tus máquinas.
 * El archivo [create-database.sql](src/main/resources/create-database.sql) contiene las sentencias SQL necesarias para crear las tablas correspondientes en la base de datos de tu máquina remota. [ScriptRunner.java](/src/java/ScriptRunner.java) te permitirá ejecutar este script de forma automática. 
 
-=======
 * El archivo [create-database.sql](create-database.sql) contiene las sentencias SQL necesarias para crear las tablas correspondientes en la base de datos de tu máquina remota. [ScriptRunner.java](/src/main/java/ScriptRunner.java) te permitirá ejecutar este script de forma automática. 
 * El archivo [config.properties](config.properties) contiene la información necesaria para poder establecer la conexión entre la máquina local y la base de datos de la máquina remota. Define los valores precisos para poder realizar esta conexión entre tus máquinas.
->>>>>>> afc0ba5fed042804e4c4f2e0f647ec6020efd44b
 
 3. **Uso Básico**:
 ¡Ya puedes comenzar a usar OlympULL!
