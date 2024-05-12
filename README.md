@@ -1,4 +1,4 @@
-[image](/images/logo olympull v2.png)
+([/images/logo olympull v2.png](https://github.com/rrrguez/OlympULL/blob/master/images/logo%20olympull%20v2.png))
 
 # OlympULL: Aplicación de gestión de torneos
 
