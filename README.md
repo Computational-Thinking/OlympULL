@@ -40,4 +40,4 @@ A continuación, se describen los pasos a seguir para poder utilizar este softwa
 
 ## Licencia
 
-Este proyecto está licenciado bajo la [Licencia XYZ](LICENSE.md).
+Este proyecto está licenciado bajo la [Licencia Creative Commons Atribución-NoComercial-SinDerivadas 4.0 Internacional](LICENSE.md).
