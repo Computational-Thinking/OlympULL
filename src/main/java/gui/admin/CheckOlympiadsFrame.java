@@ -26,7 +26,7 @@ public class CheckOlympiadsFrame extends CheckTableFrameTemplate implements Bord
     // Administrador
     Admin administrador;
     // Archivo de datos
-    String fileName = ConfigReader.getDataFilesPath() + "/" + ConfigReader.getOlympiadsFileName();
+    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getOlympiadsFileName();
 
     // Constructor
     public CheckOlympiadsFrame(Admin administrador) throws JSchException, SQLException {

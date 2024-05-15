@@ -28,7 +28,7 @@ public class CheckItOrgAssignationsFrame extends CheckTableFrameTemplate impleme
     // Administrador
     Admin administrador;
     // Archivo de datos
-    String fileName = ConfigReader.getDataFilesPath() + "/" + ConfigReader.getItOrganizerAssignationsFileName();
+    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getItOrganizerAssignationsFileName();
 
     // Constructor
     public CheckItOrgAssignationsFrame(Admin administrador) throws JSchException, SQLException {

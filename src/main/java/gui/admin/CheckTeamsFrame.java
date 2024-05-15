@@ -25,7 +25,7 @@ public class CheckTeamsFrame extends CheckTableFrameTemplate implements Borders,
     JTable tabla;
     Admin administrador;
     // File path
-    String fileName = ConfigReader.getDataFilesPath() + "/" + ConfigReader.getTeamsFileName();
+    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getTeamsFileName();
 
     // Constructor
     public CheckTeamsFrame(Admin administrador) throws JSchException, SQLException {

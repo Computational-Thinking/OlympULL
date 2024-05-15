@@ -25,7 +25,7 @@ public class CheckItinerariesFrame extends CheckTableFrameTemplate implements Bo
     JTable tabla;
     Admin administrador;
     // Archivo de datos
-    String fileName = ConfigReader.getDataFilesPath() + "/" + ConfigReader.getItinerariesFileName();
+    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getItinerariesFileName();
 
     // Constructor
     public CheckItinerariesFrame(Admin administrador) throws JSchException, SQLException {

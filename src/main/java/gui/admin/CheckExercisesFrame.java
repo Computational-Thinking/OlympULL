@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class CheckExercisesFrame extends CheckTableFrameTemplate implements Borders, ConfigReader, Fonts, Icons, MouseListener {
+public class CheckExercisesFrame extends CheckTableFrameTemplate implements Borders, PropertiesReader, Fonts, Icons, MouseListener {
     // Panel de tabla
     JScrollPane tablaScrollPane;
     // Modelo de tabla
@@ -26,7 +26,7 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate implements Bord
     // Administrador
     Admin administrador;
     // File path
-    String fileName = ConfigReader.getDataFilesPath() + "/" + ConfigReader.getExercisesFileName();
+    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getExercisesFileName();
 
     // Constructor
     public CheckExercisesFrame(Admin administrador) throws JSchException, SQLException {

@@ -3,25 +3,25 @@ package gui;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import gui.custom_components.ConfigReader;
+import gui.custom_components.PropertiesReader;
 import gui.custom_components.ErrorJOptionPane;
 
 import java.sql.*;
 
-public interface OperacionesBD extends ConfigReader {
+public interface OperacionesBD extends PropertiesReader {
     // Información de la máquina local
-    String sshHost = ConfigReader.getSshHost();
-    String sshUser = ConfigReader.getSshUser();
-    String sshPassword = ConfigReader.getSshPassword();
-    int sshPort = ConfigReader.getSshPort(); // Puerto SSH por defecto
-    int localPort = ConfigReader.getLocalPort(); // Puerto local para el túnel SSH
+    String sshHost = PropertiesReader.getSshHost();
+    String sshUser = PropertiesReader.getSshUser();
+    String sshPassword = PropertiesReader.getSshPassword();
+    int sshPort = PropertiesReader.getSshPort(); // Puerto SSH por defecto
+    int localPort = PropertiesReader.getLocalPort(); // Puerto local para el túnel SSH
 
     // Información de la máquina remota
-    String remoteHost = ConfigReader.getRemoteHost(); // La conexión MySQL se hará desde la máquina remota
-    int remotePort = ConfigReader.getRemotePort(); // Puerto MySQL en la máquina remota
-    String dbUser = ConfigReader.getRemoteUser();
-    String dbPassword = ConfigReader.getRemotePassword();
-    String databaseName = ConfigReader.getDatabaseName();
+    String remoteHost = PropertiesReader.getRemoteHost(); // La conexión MySQL se hará desde la máquina remota
+    int remotePort = PropertiesReader.getRemotePort(); // Puerto MySQL en la máquina remota
+    String dbUser = PropertiesReader.getRemoteUser();
+    String dbPassword = PropertiesReader.getRemotePassword();
+    String databaseName = PropertiesReader.getDatabaseName();
 
     // Conexión a MySQL por SSH
     String dbUrl = "jdbc:mysql://" + remoteHost + ":" + localPort + "/" + databaseName;

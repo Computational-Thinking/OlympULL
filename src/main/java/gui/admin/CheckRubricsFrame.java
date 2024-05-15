@@ -25,7 +25,7 @@ public class CheckRubricsFrame extends CheckTableFrameTemplate implements Border
     JTable tabla;
     Admin administrador;
     // File path
-    String fileName = ConfigReader.getDataFilesPath() + "/" + ConfigReader.getRubricsFileName();
+    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getRubricsFileName();
 
     // Constructor
     public CheckRubricsFrame(Admin administrador) throws JSchException, SQLException {

@@ -27,7 +27,7 @@ public class CheckUsersFrame extends CheckTableFrameTemplate implements Borders,
     JTable tabla;
     Admin admin;
     // File path
-    String fileName = ConfigReader.getDataFilesPath() + "/" + ConfigReader.getUsersFileName();
+    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getUsersFileName();
 
     // Constructor
     public CheckUsersFrame(Admin admin) throws JSchException, SQLException {

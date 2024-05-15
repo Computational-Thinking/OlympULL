@@ -3,13 +3,57 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>my-project</artifactId>
+    <artifactId>OlympULL</artifactId>
     <version>1.0.0</version>
 
     <properties>
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <!-- Aquí estableces la clase principal -->
+                            <mainClass>Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                        <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <resources>
+                <resource>
+                    <targetPath>META-INF/resources</targetPath>
+                    <filtering>false</filtering>
+                    <directory>src/main/resources</directory>
+                    <includes>
+                        <include>*</include>
+                        <include>*/*</include>
+                    </includes>
+                </resource>
+        </resources>
+    </build>
 
     <dependencies>
         <dependency>
