@@ -13,7 +13,7 @@ En concreto, este programa ha nacido ante la necesidad de un software de gestió
 
 ### ¿Qué puedo hacer con OlympULL?
 Los torneos de la Olimpiada de Pensamiento Computacional están compuestos por itinerarios, que son los diferentes conjuntos o circuitos de ejercicios a los que se van a enfrentar los equipos de participantes.
-Con OlympULL, la gestión de estos elementos, las relaciones entre ellos y el recuento de puntos será mucho más sencilla e intuitiva.
+Con OlympULL, la gestión de estos elementos, las relaciones entre ellos y el recuento de puntos serán tareas mucho más sencillas.
 Se consideran tres tipos de usuarios:
 * **Administradores.** Son los usuarios que más funcionalidades pueden realizar dentro de la aplicación. Estos pueden realizar dos tipos de gestiones:
   - **Gestión de olimpiadas.** Se trata de la creación y gestión de las olimpiadas, los itinerarios, los ejercicios y sus rúbricas, los equipos y las relaciones entre ellos.
