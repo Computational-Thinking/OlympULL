@@ -36,6 +36,7 @@ Para poder utilizar OlympULL, necesitas las siguientes tecnologías:
 #### En mi máquina remota
 * MySQL 8.0.36 o superior.
 
+
 ## Guía de inicio rápido
 A continuación, se describen los pasos a seguir para poder utilizar este software, desde su instalación hasta la ejecución del mismo.
 
@@ -69,6 +70,7 @@ Estas credenciales te permitirán iniciar sesión como administrador. Posteriorm
 La distribución de la aplicación a los usuarios organizadores y monitores se hará mediante un archivo JAR. Una vez hayan sido dados de alta en la aplicación, podrán iniciar sesión y comenzar a utilizar OlympULL tras haberles facilitado sus credenciales.
 
 Las credenciales establecidas en las propiedades <code>ssh_user</code>, <code>ssh_password</code>, <code>db_user</code> y <code>db_password</code> de [config.properties](src/main/resources/config.properties) representan el usuario y la contraseña necesarios para acceder a la máquina remota y a la base de datos MySQL de la misma, respectivamente. Para asegurar que no se hagan modificaciones maliciosas o indeseadas sobre cualquiera de ellas, mientras que los administradores deberían poder tener el control absoluto de ambas, se recomienda encarecidamente la creación de usuarios con permisos limitados y la incorporación de las credenciales de estos nuevos usuarios en [config.properties](src/main/resources/config.properties) antes de distribuir un ejecutable de OlympULL a los organizaodres y monitores, puesto que toda la información de inicio de sesión puede ser fácilmente accesible si se inspeccionan los contenidos del JAR.
+
 
 ## Licencia
 Este proyecto está licenciado bajo la [Licencia Creative Commons Atribución-NoComercial-SinDerivadas 4.0 Internacional](LICENSE.md).
