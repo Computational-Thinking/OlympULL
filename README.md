@@ -36,6 +36,8 @@ Para poder utilizar OlympULL, necesitas las siguientes tecnologías:
 #### En mi máquina remota
 * MySQL 8.0.36 o superior.
 
+---
+
 ## Guía de inicio rápido
 A continuación, se describen los pasos a seguir para poder utilizar este software, desde su instalación hasta la ejecución del mismo.
 
