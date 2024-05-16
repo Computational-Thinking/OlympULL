@@ -42,12 +42,12 @@ A continuación, se describen los pasos a seguir para poder utilizar este softwa
 * Descarga este repositorio en su máquina local.
 
 ### **Configuración**
-* El archivo [<code>config.properties</code>](src/main/resources/config.properties) contiene la información necesaria para poder establecer la conexión entre la máquina local y la base de datos de la máquina remota. Define los valores precisos para poder realizar esta conexión entre tus máquinas.
+* El archivo [config.properties](src/main/resources/config.properties) contiene la información necesaria para poder establecer la conexión entre la máquina local y la base de datos de la máquina remota. Define los valores precisos para poder realizar esta conexión entre tus máquinas.
 * El archivo [create-database.sql](src/main/resources/create-database.sql) contiene las sentencias SQL necesarias para crear las tablas correspondientes en la base de datos de tu máquina remota. [ScriptRunner.java](/src/java/ScriptRunner.java) te permitirá ejecutar este script de forma automática para montar la base de datos fácilmente. 
 
 ### **Uso básico**
 Una vez descargado y configurado, puedes ejecutar el programa tanto desde tu IDE favorito como mediante un archivo JAR.
-Para crear el JAR, simplemente utiliza el comando <code>mvn package<code> desde el directorio raíz del proyecto. Cuando termine el proceso, el ejecutable aparecerá en el directorio <code>target/<code>.
+Para crear el JAR, simplemente utiliza el comando <code>mvn package</code> desde el directorio raíz del proyecto. Cuando termine el proceso, el ejecutable aparecerá en <code>/target</code>.
 ¡Ya puedes comenzar a usar OlympULL!
 
 La primera vez que inicies sesión, deberás introducir las siguientes credenciales:
