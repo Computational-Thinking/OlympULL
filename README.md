@@ -2,8 +2,6 @@
 
 # OlympULL: Aplicación de gestión de torneos
 
----
-
 ## Introducción
 
 ### ¿Qué es OlympULL?
