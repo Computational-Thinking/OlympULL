@@ -1,5 +1,7 @@
 ![Logo OlympULL](src/main/resources/images/logo_olympull_v2.png)
 
+<p style="text-align: justify;">
+
 # OlympULL: Aplicación de gestión de torneos
 
 ## Introducción
@@ -76,3 +78,5 @@ Las credenciales establecidas en las propiedades <code>ssh_user</code>, <code>ss
 
 ## Licencia
 Este proyecto está licenciado bajo la [Licencia Creative Commons Atribución-NoComercial-SinDerivadas 4.0 Internacional](LICENSE.md).
+
+</p>
