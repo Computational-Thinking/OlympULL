@@ -12,7 +12,7 @@ Este programa sirve para la gestión de torneos por puntos, en los que los parti
 En concreto, este programa ha nacido ante la necesidad de un software de gestión para la Olimpiada de Pensamiento Computacional, un evento celebrado cada año en la Escuela Superior de Ingeniería y Tecnología de la Universidad de La Laguna, que tiene como objetivo incentivar las vocaciones científicas entre niños y niñas de centros de Primaria y Secundaria de la isla de Tenerife.
 
 ### ¿Qué puedo hacer con OlympULL?
-Los torneos de la Olimpiada de Pensamiento Computacional están compuestos por itinerarios, que son los diferentes conjuntos de ejercicios a los que se van a enfrentar los equipos de participantes.
+Los torneos de la Olimpiada de Pensamiento Computacional están compuestos por itinerarios, que son los diferentes conjuntos o circuitos de ejercicios a los que se van a enfrentar los equipos de participantes.
 Con OlympULL, la gestión de estos elementos, las relaciones entre ellos y el recuento de puntos será mucho más sencilla e intuitiva.
 Se consideran tres tipos de usuarios:
 * **Administradores.** Son los usuarios que más funcionalidades pueden realizar dentro de la aplicación. Estos pueden realizar dos tipos de gestiones:
