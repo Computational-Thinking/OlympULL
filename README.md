@@ -50,7 +50,7 @@ A continuación, se describen los pasos a seguir para poder utilizar este softwa
 * El archivo [config.properties](src/main/resources/config.properties) contiene la información necesaria para poder establecer la conexión entre la máquina local y la base de datos de la máquina remota. Define las propiedades (como la información de puertos, direcciones IP y credenciales) requeridas para poder interconectar tus máquinas.
 * El archivo [create-database.sql](src/main/resources/create-database.sql) contiene las sentencias SQL necesarias para crear las tablas correspondientes en la base de datos de tu máquina remota. [ScriptRunner.java](/src/java/ScriptRunner.java) te permitirá ejecutar este script de forma automática para montar la base de datos fácilmente y sin tener que realizar ningún trabajo manual. 
 
-### **Uso básico**
+### **Primeros pasos**
 Una vez descargado y configurado, puedes ejecutar el programa tanto desde tu IDE favorito como mediante un archivo ejecutable JAR.
 
 Para generar el JAR, simplemente utiliza el comando <code>mvn package</code> en el directorio raíz del proyecto. Cuando termine el proceso, el ejecutable aparecerá en el subdirectorio <code>/target</code>.
