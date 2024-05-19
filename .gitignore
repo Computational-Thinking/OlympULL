@@ -1,10 +1,12 @@
 ### IntelliJ IDEA ###
 out/
+target/
 !**/src/main/**/out/
 !**/src/test/**/out/
 !**/target/
 !**/out/
-!**/.idea/
+dependency-reduced-pom.xml
+*.iml
 
 ### Eclipse ###
 .apt_generated
@@ -17,13 +19,6 @@ out/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-
-dependency-reduced-pom.xml
-
-
-target/
-
-*.iml
 
 ### NetBeans ###
 /nbproject/private/

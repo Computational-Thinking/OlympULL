@@ -10,7 +10,6 @@ import gui.custom_components.predefined_elements.Icons;
 import gui.template_pattern.NewRegistrationFrameTemplate;
 import users.Monitor;
 
-import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -67,6 +66,8 @@ public class PunctuateExerciseFrame extends NewRegistrationFrameTemplate impleme
 
                 // Se puntúa al equipo
                 monitor.puntuarEquipo(puntuacion, concepto, (String) teamSelectionComboBox.getSelectedItem(), itinerario);
+
+                data.close();
 
             } catch (SQLException ex) {
                 new ErrorJOptionPane(ex.getMessage());
@@ -129,6 +130,8 @@ public class PunctuateExerciseFrame extends NewRegistrationFrameTemplate impleme
                 for (String s : scale) {
                     punctuationComboBox.addItem(s);
                 }
+
+                data.close();
 
             } catch (SQLException ex) {
                 new ErrorJOptionPane(ex.getMessage());
