@@ -64,7 +64,7 @@ La primera vez que inicies sesión en la aplicación, deberás introducir las si
 Estas credenciales te permitirán iniciar sesión como administrador. Posteriormente, podrás cambiarlas, o incluso crear otros usuarios de tipo administrador para gestionar la Olimpiada.
 
 ### **Recursos Adicionales**
-* Se recomienda instalar la fuente de texto Argentum, que es la que se ha establecido en el programa para los elementos de la interfaz gráfica. Puedes encontrarla en el directorio [/fonts](/fonts) de este repositorio.
+* Se recomienda instalar la fuente de texto Argentum Sans, que es la que se ha establecido en el programa para los elementos de la interfaz gráfica. Puedes encontrarla en el directorio [/fonts](/fonts) de este repositorio.
 * El archivo [data.properties](src/main/resources/data.properties) contiene la ruta y los nombres de los archivos de *back-up* donde se van a exportar los datos de la base de datos, y de los que se pueden extraer datos para insertar en ella. Ya se han establecido unos nombres por defecto, pero puedes cambiarlos por otros que te gusten más, si así lo prefieres.
 
 ### **Distribución a organizadores y monitores**
