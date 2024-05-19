@@ -29,7 +29,7 @@ public class FileReader extends java.io.FileReader {
 
     public ArrayList<String> readTableRegisters() throws Exception {
         String regexTuple = "^'[A-Za-z0-9À-ÿÑñ.()¡!:_ -]*'(, '[A-Za-z0-9À-ÿÑñ:.()¡!_ -]*')*$";
-        String regexOlympTuple = "^\\('[A-Za-z0-9_ -]*'(, '[A-Za-z0-9_ -]*')*\\)$";
+        String regexOlympTuple = "^'[A-Za-z0-9À-ÿÑñ.()¡!:_ -]*'(, '[A-Za-z0-9À-ÿÑñ:.()¡!_ -]*')*(, [0-9]+)$";
 
         ArrayList<String> registers = new ArrayList<>();
 
@@ -38,7 +38,7 @@ public class FileReader extends java.io.FileReader {
         while ((currentChar = this.read()) != -1) {
             if (currentChar == '\n') {
                 String line = lineBuilder.toString();
-                if (line.matches(regexTuple)) {
+                if (line.matches(regexTuple) || line.matches(regexOlympTuple)) {
                     registers.add(line);
                 } else {
                     throw new Exception();

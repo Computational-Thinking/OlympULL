@@ -13,7 +13,7 @@ public interface PropertiesReader {
     
     private static void loadConfiguration() {
         try {
-            properties.load(new FileInputStream("config.properties"));
+            properties.load(new FileInputStream("src/main/resources/config.properties"));
 
         } catch (IOException e) {
             new ErrorJOptionPane(e.getMessage());
@@ -23,7 +23,7 @@ public interface PropertiesReader {
 
     private static void loadData() {
         try {
-            properties.load(new FileInputStream("data.properties"));
+            properties.load(new FileInputStream("src/main/resources/data.properties"));
 
         } catch (IOException e) {
             new ErrorJOptionPane(e.getMessage());
