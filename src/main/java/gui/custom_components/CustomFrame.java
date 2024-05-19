@@ -1,5 +1,10 @@
 package gui.custom_components;
 
+import gui.custom_components.buttons.CustomButton;
+import gui.custom_components.labels.CustomTitleLabel;
+import gui.custom_components.predefined_elements.Borders;
+import gui.custom_components.predefined_elements.Icons;
+
 import javax.swing.*;
 import java.awt.*;
 

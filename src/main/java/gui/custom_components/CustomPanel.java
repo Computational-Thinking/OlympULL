@@ -1,5 +1,7 @@
 package gui.custom_components;
 
+import gui.custom_components.predefined_elements.Borders;
+
 import javax.swing.*;
 import java.awt.*;
 

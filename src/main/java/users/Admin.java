@@ -1,12 +1,12 @@
 package users;
 
 import com.jcraft.jsch.JSchException;
-import gui.custom_components.MessageJOptionPane;
-import gui.OperacionesBD;
+import gui.custom_components.option_panes.MessageJOptionPane;
+import operations.DBOperations;
 
 import java.sql.*;
 
-public class Admin extends User implements OperacionesBD {
+public class Admin extends User implements DBOperations {
     public Admin(String nombre, String password) {
         this.userName = nombre;
         this.password = password;

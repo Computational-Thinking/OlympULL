@@ -1,6 +1,9 @@
 package gui.template_pattern;
 
 import gui.custom_components.*;
+import gui.custom_components.buttons.CustomButton;
+import gui.custom_components.predefined_elements.Borders;
+import gui.custom_components.predefined_elements.Icons;
 import users.Admin;
 import users.User;
 

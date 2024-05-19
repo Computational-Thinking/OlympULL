@@ -1,10 +1,21 @@
 package gui;
 
-import gui.admin.AdminFrame;
+import gui.user_frames.admin.AdminFrame;
 import gui.custom_components.*;
-import gui.monitor.MonitorFrame;
-import gui.mvc.View;
-import gui.organizer.OrganizerFrame;
+import gui.custom_components.buttons.CustomButton;
+import gui.custom_components.labels.CustomFieldLabel;
+import gui.custom_components.labels.CustomLabel;
+import gui.custom_components.option_panes.ErrorJOptionPane;
+import gui.custom_components.option_panes.MessageJOptionPane;
+import gui.custom_components.predefined_elements.Borders;
+import gui.custom_components.predefined_elements.Fonts;
+import gui.custom_components.predefined_elements.Icons;
+import gui.custom_components.text_fields.CustomPasswordField;
+import gui.custom_components.text_fields.CustomTextField;
+import gui.user_frames.monitor.MonitorFrame;
+import gui.mvc_pattern.View;
+import gui.user_frames.organizer.OrganizerFrame;
+import operations.DBOperations;
 import users.Admin;
 import users.Monitor;
 import users.Organizer;
@@ -17,7 +28,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
-public class MainFrame extends CustomFrame implements Borders, Fonts, Icons, OperacionesBD {
+public class MainFrame extends CustomFrame implements Borders, Fonts, Icons, DBOperations {
     // Labels
     CustomLabel userTag;
     CustomLabel passwordTag;

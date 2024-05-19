@@ -1,14 +1,14 @@
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import gui.OperacionesBD;
-import gui.custom_components.ErrorJOptionPane;
-import gui.custom_components.MessageJOptionPane;
+import operations.DBOperations;
+import gui.custom_components.option_panes.ErrorJOptionPane;
+import gui.custom_components.option_panes.MessageJOptionPane;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.*;
 
-public class ScriptRunner implements OperacionesBD {
+public class ScriptRunner implements DBOperations {
     private final Connection connection;
 
     public ScriptRunner() throws SQLException, JSchException {

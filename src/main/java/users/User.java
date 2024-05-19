@@ -1,9 +1,9 @@
 package users;
 
-import gui.custom_components.MessageJOptionPane;
-import gui.OperacionesBD;
+import gui.custom_components.option_panes.MessageJOptionPane;
+import operations.DBOperations;
 
-public abstract class User implements OperacionesBD {
+public abstract class User implements DBOperations {
     String userName;
     String password;
     String userType;

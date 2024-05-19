@@ -1,7 +1,7 @@
 package gui.template_pattern;
 
-import gui.custom_components.Borders;
-import gui.custom_components.CustomButton;
+import gui.custom_components.predefined_elements.Borders;
+import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.CustomFrame;
 
 import javax.swing.*;

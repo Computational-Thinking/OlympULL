@@ -1,11 +1,11 @@
 package users;
 
-import gui.custom_components.MessageJOptionPane;
-import gui.OperacionesBD;
+import gui.custom_components.option_panes.MessageJOptionPane;
+import operations.DBOperations;
 
 import java.util.ArrayList;
 
-public class Organizer extends User implements OperacionesBD {
+public class Organizer extends User implements DBOperations {
     ArrayList<String> itinerarios;
 
     public Organizer(String name, String password, ArrayList<String> itinerarios) {

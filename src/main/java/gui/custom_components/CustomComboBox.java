@@ -1,5 +1,9 @@
 package gui.custom_components;
 
+import gui.custom_components.predefined_elements.Borders;
+import gui.custom_components.predefined_elements.Fonts;
+import gui.custom_components.predefined_elements.Icons;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;

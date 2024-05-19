@@ -1,13 +1,13 @@
 package users;
 
-import gui.custom_components.ErrorJOptionPane;
-import gui.custom_components.MessageJOptionPane;
-import gui.OperacionesBD;
+import gui.custom_components.option_panes.ErrorJOptionPane;
+import gui.custom_components.option_panes.MessageJOptionPane;
+import operations.DBOperations;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Monitor extends User implements OperacionesBD {
+public class Monitor extends User implements DBOperations {
     ArrayList<String> exercises; // Código del ejercicio asociado a este monitor
 
     public Monitor(String nombreUsuario, String password, ArrayList<String> exercises) {
