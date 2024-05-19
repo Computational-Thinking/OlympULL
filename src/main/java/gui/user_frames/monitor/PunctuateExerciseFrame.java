@@ -1,6 +1,7 @@
 package gui.user_frames.monitor;
 
 import gui.custom_components.*;
+import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
 import gui.custom_components.predefined_elements.Borders;
@@ -31,7 +32,7 @@ public class PunctuateExerciseFrame extends NewRegistrationFrameTemplate impleme
     CustomPanel punctuateButtonPanel;
 
     // Botones
-    JButton punctuateButton;
+    CustomButton punctuateButton;
 
     int puntuacion;
     String itinerario;
@@ -163,7 +164,7 @@ public class PunctuateExerciseFrame extends NewRegistrationFrameTemplate impleme
 
     @Override
     protected CustomPanel createSouthPanel() {
-        punctuateButton = new JButton("Puntuar");
+        punctuateButton = new CustomButton("Puntuar");
         
         punctuateButtonPanel = new CustomPanel();
         punctuateButtonPanel.setLayout(new FlowLayout());

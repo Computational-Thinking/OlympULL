@@ -2,7 +2,6 @@ package gui.user_frames.admin;
 
 import com.jcraft.jsch.JSchException;
 import gui.ChangePasswordFrame;
-import gui.admin.assignations.*;
 import gui.user_frames.admin.assignations.*;
 import gui.user_frames.admin.exercises.CheckExercisesFrame;
 import gui.user_frames.admin.exercises.NewExerciseFrame;

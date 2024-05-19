@@ -6,7 +6,7 @@ import gui.custom_components.predefined_elements.Fonts;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class CustomTextField extends JTextField implements Borders, Fonts {
+public class CustomTextField extends JTextField implements Borders, Fonts {
 
     public CustomTextField(String text) {
         this.setText(text);
