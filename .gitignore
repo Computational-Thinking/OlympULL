@@ -20,10 +20,10 @@ bin/
 
 dependency-reduced-pom.xml
 
-target/
-.idea/
 
-!**.iml
+target/
+
+*.iml
 
 ### NetBeans ###
 /nbproject/private/
