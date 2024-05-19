@@ -9,24 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38422757-9ea9-4183-bab7-725af236f800" name="Changes" comment="Admins can now delete users.">
-      <change beforePath="$PROJECT_DIR$/config.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/file_management/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/file_management/FileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/file_management/PropertiesReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/file_management/PropertiesReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data_files/itineraries.olympull" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data_files/itineraries.olympull" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data_files/olympiads.olympull" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data_files/olympiads.olympull" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ScriptRunner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ScriptRunner.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/ChangePasswordFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/ChangePasswordFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/MainFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MainFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/CustomComboBox$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/CustomComboBox$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/CustomComboBox$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/CustomComboBox$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/template_pattern/UserFrameTemplate.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/template_pattern/UserFrameTemplate.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/users/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/users/Admin.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/users/Monitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/users/Monitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/users/Organizer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/users/Organizer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/users/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/users/User.class" afterDir="false" />
-    </list>
+    <list default="true" id="38422757-9ea9-4183-bab7-725af236f800" name="Changes" comment="Admins can now delete users." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
