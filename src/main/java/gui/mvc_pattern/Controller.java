@@ -2,6 +2,7 @@ package gui.mvc_pattern;
 
 import operations.CustomQuickSort;
 import gui.custom_components.predefined_elements.Fonts;
+import operations.TransformPunctuationColumnName;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
@@ -19,7 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Controller implements CustomQuickSort, Fonts {
+public class Controller implements CustomQuickSort, Fonts, TransformPunctuationColumnName {
     // Filters
     CustomComboBox olympiadComboBox;
     CustomComboBox itineraryComboBox;
@@ -102,24 +103,7 @@ public class Controller implements CustomQuickSort, Fonts {
             if (itineraryComboBox.getSelectedItem() != null && itineraryComboBox.getSelectedItem() != "" &&
                     conceptComboBox.getSelectedItem() != null && conceptComboBox.getSelectedItem() != "") {
                 String concept = (String) conceptComboBox.getSelectedItem();
-                String punctuationColumn = null;
-
-                switch (concept) {
-                    case "ABSTRACCION" -> punctuationColumn = "P_ABSTRACCION";
-                    case "ALGORITMOS" -> punctuationColumn = "P_ALGORITMOS";
-                    case "BUCLES" -> punctuationColumn = "P_BUCLES";
-                    case "CONDICIONALES" -> punctuationColumn = "P_CONDICIONALES";
-                    case "DESCOMPOSICION" -> punctuationColumn = "P_DESCOMPOSICION";
-                    case "FUNCIONES" -> punctuationColumn = "P_FUNCIONES";
-                    case "IA" -> punctuationColumn = "P_IA";
-                    case "RECONOCIMIENTO DE PATRONES" -> punctuationColumn = "P_REC_PATRONES";
-                    case "SECUENCIAS" -> punctuationColumn = "P_SECUENCIAS";
-                    case "SECUENCIAS Y BUCLES" -> punctuationColumn = "P_SECUENCIAS_Y_BUCLES";
-                    case "VARIABLES" -> punctuationColumn = "P_VARIABLES";
-                    case "VARIABLES Y FUNCIONES" -> punctuationColumn = "P_VARIABLES_Y_FUNC";
-                    case "OTROS" -> punctuationColumn = "P_OTROS";
-                }
-
+                String punctuationColumn = transformColumnName(concept);
                 String itineraryCode = itineraryCodes.get(itineraryComboBox.getSelectedIndex() - 1);
                 ResultSet data = model.selectTeams(itineraryCode, punctuationColumn);
 
