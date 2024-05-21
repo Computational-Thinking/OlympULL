@@ -27,7 +27,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate implements Borders, Fonts, Icons, MouseListener {
+public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate {
     // Panel de tabla
     JScrollPane tablaScrollPane;
     // Modelo de tabla

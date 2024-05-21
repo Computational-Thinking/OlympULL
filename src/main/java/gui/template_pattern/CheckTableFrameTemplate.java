@@ -9,8 +9,9 @@ import users.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
 
-public abstract class CheckTableFrameTemplate extends CustomFrame implements Borders, Icons {
+public abstract class CheckTableFrameTemplate extends CustomFrame implements MouseListener {
     // Go back button
     CustomButton goBackButton;
     CustomButton exportButton;

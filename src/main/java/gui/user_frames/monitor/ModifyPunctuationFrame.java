@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ModifyPunctuationFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class ModifyPunctuationFrame extends ModifyRegistrationFrameTemplate {
     // Labels
     CustomFieldLabel exerciseSelectionLabel;
     CustomFieldLabel teamSelectionLabel;

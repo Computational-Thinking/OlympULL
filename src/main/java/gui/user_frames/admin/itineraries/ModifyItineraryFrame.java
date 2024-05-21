@@ -16,7 +16,7 @@ import java.awt.*;
 import java.sql.*;
 import java.util.Objects;
 
-public class ModifyItineraryFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class ModifyItineraryFrame extends ModifyRegistrationFrameTemplate {
     // Botones
     CustomButton botonModificarItinerario;
 

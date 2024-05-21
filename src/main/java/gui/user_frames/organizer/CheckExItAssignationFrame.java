@@ -20,7 +20,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class CheckExItAssignationFrame extends CheckTableFrameTemplate implements Borders, Fonts, Icons, MouseListener {
+public class CheckExItAssignationFrame extends CheckTableFrameTemplate {
     // Paneles
     JScrollPane tablaScrollPane;
 

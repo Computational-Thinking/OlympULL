@@ -16,7 +16,7 @@ import users.Admin;
 import java.awt.*;
 import java.sql.*;
 
-public class NewAssignationExMonitorFrame extends NewRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class NewAssignationExMonitorFrame extends NewRegistrationFrameTemplate {
     // Etiquetas
     CustomFieldLabel monitorLabel;
     CustomFieldLabel exerCodeLabel;

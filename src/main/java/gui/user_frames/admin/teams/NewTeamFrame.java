@@ -18,7 +18,7 @@ import java.awt.*;
 import java.sql.*;
 import java.util.Objects;
 
-public class NewTeamFrame extends NewRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class NewTeamFrame extends NewRegistrationFrameTemplate {
     // Botones
     CustomButton createExerButton;
 

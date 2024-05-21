@@ -6,7 +6,7 @@ import operations.DBOperations;
 
 import java.sql.*;
 
-public class Admin extends User implements DBOperations {
+public class Admin extends User {
     public Admin(String nombre, String password) {
         this.userName = nombre;
         this.password = password;

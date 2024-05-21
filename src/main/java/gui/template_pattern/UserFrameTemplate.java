@@ -8,7 +8,7 @@ import gui.custom_components.CustomFrame;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class UserFrameTemplate extends CustomFrame implements Borders {
+public abstract class UserFrameTemplate extends CustomFrame {
     // Go back button
     CustomButton goBackButton;
 

@@ -14,7 +14,7 @@ import users.Admin;
 import java.awt.*;
 import java.sql.*;
 
-public class ModifyAssignationExOlympFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class ModifyAssignationExOlympFrame extends ModifyRegistrationFrameTemplate {
     // Botones
     CustomButton assignExercise;
 

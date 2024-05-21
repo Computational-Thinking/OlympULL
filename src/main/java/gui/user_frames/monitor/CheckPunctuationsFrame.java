@@ -20,7 +20,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-public class CheckPunctuationsFrame extends CheckTableFrameTemplate implements Borders, Fonts, Icons, MouseListener {
+public class CheckPunctuationsFrame extends CheckTableFrameTemplate {
     // Labels
     CustomFieldLabel filterLabel;
 

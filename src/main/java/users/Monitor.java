@@ -7,7 +7,7 @@ import operations.DBOperations;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Monitor extends User implements DBOperations {
+public class Monitor extends User {
     ArrayList<String> exercises; // Código del ejercicio asociado a este monitor
 
     public Monitor(String nombreUsuario, String password, ArrayList<String> exercises) {

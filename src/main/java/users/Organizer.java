@@ -5,7 +5,7 @@ import operations.DBOperations;
 
 import java.util.ArrayList;
 
-public class Organizer extends User implements DBOperations {
+public class Organizer extends User {
     ArrayList<String> itinerarios;
 
     public Organizer(String name, String password, ArrayList<String> itinerarios) {

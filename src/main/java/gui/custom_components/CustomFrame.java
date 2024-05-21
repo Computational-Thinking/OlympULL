@@ -3,12 +3,13 @@ package gui.custom_components;
 import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomTitleLabel;
 import gui.custom_components.predefined_elements.Borders;
+import gui.custom_components.predefined_elements.Fonts;
 import gui.custom_components.predefined_elements.Icons;
 
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class CustomFrame extends JFrame implements Borders, Icons {
+public abstract class CustomFrame extends JFrame implements Borders, Fonts, Icons {
     CustomPanel upperBar;
 
     public CustomFrame() {

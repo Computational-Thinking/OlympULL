@@ -16,7 +16,7 @@ import users.Organizer;
 import java.awt.*;
 import java.sql.SQLException;
 
-public class OrganizerFrame extends UserFrameTemplate implements Borders, Fonts, Icons {
+public class OrganizerFrame extends UserFrameTemplate {
     // Botones
     CustomButton assignExerciseToItinerary;
     CustomButton checkAssignationExIt;

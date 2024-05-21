@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class CheckUsersFrame extends CheckTableFrameTemplate implements Borders, Fonts, Icons, MouseListener {
+public class CheckUsersFrame extends CheckTableFrameTemplate {
     // Panel de tabla
     JScrollPane tablaScrollPane;
 

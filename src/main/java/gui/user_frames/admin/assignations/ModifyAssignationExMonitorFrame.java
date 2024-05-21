@@ -17,7 +17,7 @@ import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ModifyAssignationExMonitorFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class ModifyAssignationExMonitorFrame extends ModifyRegistrationFrameTemplate {
     // Etiquetas
     CustomFieldLabel monitorLabel;
     CustomFieldLabel exerCodeLabel;

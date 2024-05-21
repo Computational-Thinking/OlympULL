@@ -17,7 +17,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ModifyExerciseFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class ModifyExerciseFrame extends ModifyRegistrationFrameTemplate {
     // Botones
     CustomButton modifyExerButton;
     

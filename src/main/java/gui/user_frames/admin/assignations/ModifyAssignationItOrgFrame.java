@@ -17,7 +17,7 @@ import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ModifyAssignationItOrgFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class ModifyAssignationItOrgFrame extends ModifyRegistrationFrameTemplate {
     // Etiquetas
     CustomFieldLabel organizerLabel;
     CustomFieldLabel itineraryLabel;

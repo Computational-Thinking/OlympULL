@@ -14,7 +14,7 @@ import users.Admin;
 
 import java.awt.*;
 
-public class NewOlympiadFrame extends NewRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class NewOlympiadFrame extends NewRegistrationFrameTemplate {
     // Botones
     CustomButton createOlympButton;
     

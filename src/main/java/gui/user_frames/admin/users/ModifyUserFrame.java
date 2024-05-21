@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ModifyUserFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class ModifyUserFrame extends ModifyRegistrationFrameTemplate {
     // Etiquetas
     CustomFieldLabel userNameLabel;
     CustomFieldLabel userPasswordLabel;

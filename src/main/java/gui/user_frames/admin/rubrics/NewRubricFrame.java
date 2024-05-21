@@ -16,7 +16,7 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.Vector;
 
-public class NewRubricFrame extends NewRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class NewRubricFrame extends NewRegistrationFrameTemplate {
     // Etiquetas
     CustomFieldLabel codeLabel; // Etiqueta de código de la rúbrica
     CustomFieldLabel nameLabel; // Etiqueta de nombre de la rúbrica

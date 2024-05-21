@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Vector;
 
-public class ModifyRubricFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class ModifyRubricFrame extends ModifyRegistrationFrameTemplate {
     // Etiquetas
     CustomFieldLabel codeLabel; // Etiqueta de código de la rúbrica
     CustomFieldLabel nameLabel; // Etiqueta de nombre de la rúbrica

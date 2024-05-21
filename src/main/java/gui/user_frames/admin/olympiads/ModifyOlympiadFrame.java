@@ -15,7 +15,7 @@ import users.Admin;
 import java.awt.*;
 import java.sql.SQLException;
 
-public class ModifyOlympiadFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class ModifyOlympiadFrame extends ModifyRegistrationFrameTemplate {
     // Botones
     CustomButton modifyOlympButton;
     

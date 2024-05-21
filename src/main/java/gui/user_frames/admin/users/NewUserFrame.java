@@ -18,7 +18,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class NewUserFrame extends NewRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class NewUserFrame extends NewRegistrationFrameTemplate {
     // Etiquetas
     CustomFieldLabel userNameLabel;
     CustomFieldLabel userPasswordLabel;

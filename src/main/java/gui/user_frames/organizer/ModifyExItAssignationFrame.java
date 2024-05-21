@@ -16,7 +16,7 @@ import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ModifyExItAssignationFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class ModifyExItAssignationFrame extends ModifyRegistrationFrameTemplate {
     // Botones
     CustomButton assignExercise;
 

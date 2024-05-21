@@ -28,7 +28,7 @@ import users.Admin;
 import java.awt.*;
 import java.sql.SQLException;
 
-public class AdminFrame extends UserFrameTemplate implements Borders, Fonts, Icons {
+public class AdminFrame extends UserFrameTemplate {
     // Botones
     CustomButton createOlympiad;
     CustomButton checkOlympiads;

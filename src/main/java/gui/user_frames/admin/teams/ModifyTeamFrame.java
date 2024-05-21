@@ -18,7 +18,7 @@ import java.awt.*;
 import java.sql.*;
 import java.util.Objects;
 
-public class ModifyTeamFrame extends ModifyRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class ModifyTeamFrame extends ModifyRegistrationFrameTemplate {
     CustomFieldLabel teamCode;
     CustomFieldLabel teamName;
     CustomFieldLabel teamSchool;

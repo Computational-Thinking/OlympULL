@@ -18,7 +18,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class NewItineraryFrame extends NewRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class NewItineraryFrame extends NewRegistrationFrameTemplate {
     // Botones
     CustomButton botonCrearItinerario;
 
