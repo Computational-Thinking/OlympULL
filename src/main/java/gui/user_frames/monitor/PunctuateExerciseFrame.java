@@ -4,10 +4,8 @@ import gui.custom_components.*;
 import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.template_pattern.NewRegistrationFrameTemplate;
+import operations.TransformPunctuationColumnName;
 import users.Monitor;
 
 import java.awt.*;
@@ -15,7 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class PunctuateExerciseFrame extends NewRegistrationFrameTemplate implements Borders, Fonts, Icons {
+public class PunctuateExerciseFrame extends NewRegistrationFrameTemplate implements TransformPunctuationColumnName {
     // Labels
     CustomFieldLabel exerciseSelectionLabel;
     CustomFieldLabel teamSelectionLabel;
@@ -33,8 +31,8 @@ public class PunctuateExerciseFrame extends NewRegistrationFrameTemplate impleme
     // Botones
     CustomButton punctuateButton;
 
-    int puntuacion;
-    String itinerario;
+    int punctuation;
+    String itinerary;
     Monitor user;
 
     public PunctuateExerciseFrame(Monitor monitor) throws SQLException {
@@ -56,7 +54,7 @@ public class PunctuateExerciseFrame extends NewRegistrationFrameTemplate impleme
         punctuateButton.addActionListener(e -> {
             try {
                 String concepto = "";
-                puntuacion = Integer.parseInt(Objects.requireNonNull(punctuationComboBox.getSelectedItem()).toString().substring(0, 2).trim());
+                punctuation = Integer.parseInt(Objects.requireNonNull(punctuationComboBox.getSelectedItem()).toString().substring(0, 2).trim());
 
                 ResultSet data = monitor.selectCol("T_EJERCICIOS", "CONCEPTO", "WHERE CODIGO='" + exerciseSelectionComboBox.getSelectedItem() + "'");
 
@@ -64,8 +62,24 @@ public class PunctuateExerciseFrame extends NewRegistrationFrameTemplate impleme
                     concepto = data.getString("CONCEPTO");
                 }
 
-                // Se puntúa al equipo
-                monitor.puntuarEquipo(puntuacion, concepto, (String) teamSelectionComboBox.getSelectedItem(), itinerario);
+                String punctuationColumn = transformColumnName(concepto);
+                
+                // Se comprueba que no se ha puntuado ya al equipo
+                String wherePrueba = "WHERE NOMBRE='" + teamSelectionComboBox.getSelectedItem() + "' AND ITINERARIO='" + itinerary + "'";
+                ResultSet prueba = monitor.selectCol("T_EQUIPOS", punctuationColumn, wherePrueba);
+
+                if (prueba.next()) {
+                    if (prueba.getString(punctuationColumn) != null) {
+                        new ErrorJOptionPane("Este equipo ya ha recibido una puntuación para el ejercicio seleccionado");
+                    } else {
+                        String table = "T_EQUIPOS";
+                        String tuple = "SET " + punctuationColumn + "=" + punctuation;
+                        String where = "WHERE NOMBRE='" + teamSelectionComboBox.getSelectedItem() + "' AND ITINERARIO='" + itinerary + "'";
+
+                        // Se puntúa al equipo
+                        monitor.modifyRegister(table, tuple, where, "Se ha puntuado al equipo");
+                    }
+                }
 
                 data.close();
 
@@ -79,16 +93,24 @@ public class PunctuateExerciseFrame extends NewRegistrationFrameTemplate impleme
             punctuationComboBox.removeAllItems();
 
             try {
-                itinerario = "";
+                String olympiad = "";
 
-                String whereClause = "WHERE EJERCICIO='" + exerciseSelectionComboBox.getSelectedItem() + "'";
-                ResultSet data = monitor.selectCol("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "ITINERARIO", whereClause);
+                ResultSet data = monitor.selectCol("T_MONITORES", "OLIMPIADA", "WHERE NOMBRE='" + monitor.getUserName() + "'");
 
                 if (data.next()) {
-                    itinerario = data.getString("ITINERARIO");
+                    olympiad = data.getString("OLIMPIADA");
                 }
 
-                data = monitor.selectCol("T_EQUIPOS", "NOMBRE", "WHERE ITINERARIO='" + itinerario + "'");
+                itinerary = "";
+
+                String whereClause = "WHERE EJERCICIO='" + exerciseSelectionComboBox.getSelectedItem() + "' AND OLIMPIADA='" + olympiad + "'";
+                data = monitor.selectCol("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "ITINERARIO", whereClause);
+
+                if (data.next()) {
+                    itinerary = data.getString("ITINERARIO");
+                }
+
+                data = monitor.selectCol("T_EQUIPOS", "NOMBRE", "WHERE ITINERARIO='" + itinerary + "'");
 
                 while (data.next()) {
                     teamSelectionComboBox.addItem(data.getString("NOMBRE"));

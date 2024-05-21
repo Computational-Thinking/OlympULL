@@ -1,4 +1,4 @@
-package gui.user_frames.admin.assignations;
+package gui.user_frames.admin.assignations.it_org;
 
 import com.jcraft.jsch.JSchException;
 import gui.user_frames.admin.AdminFrame;
@@ -6,18 +6,15 @@ import gui.custom_components.*;
 import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.custom_components.text_fields.CustomPresetTextField;
-import gui.template_pattern.NewRegistrationFrameTemplate;
+import gui.template_pattern.ModifyRegistrationFrameTemplate;
 import users.Admin;
 
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class NewAssignationItOrgFrame extends NewRegistrationFrameTemplate {
+public class ModifyAssignationItOrgFrame extends ModifyRegistrationFrameTemplate {
     // Etiquetas
     CustomFieldLabel organizerLabel;
     CustomFieldLabel itineraryLabel;
@@ -37,20 +34,26 @@ public class NewAssignationItOrgFrame extends NewRegistrationFrameTemplate {
 
     // Otros
     Admin admin;
+    String oldOrg, oldIt;
 
-    public NewAssignationItOrgFrame(Admin administrador) throws JSchException, SQLException {
-        super(265, "Nueva asignación");
+    public ModifyAssignationItOrgFrame(Admin administrador, String oldOrganizador, String oldItinerario) throws SQLException {
+        super(265, "Modificar asignación");
 
-        this.admin = administrador;
-        
+        admin = administrador;
+        oldOrg = oldOrganizador;
+        oldIt = oldItinerario;
+
         add(createCenterPanel(), BorderLayout.CENTER);
         add(createSouthPanel(), BorderLayout.SOUTH);
 
-        setVisible(true);
-
         getGoBackButton().addActionListener(e -> {
-            new AdminFrame(administrador);
-            dispose();
+            try {
+                new CheckItOrgAssignationsFrame(administrador);
+                dispose();
+
+            } catch (JSchException | SQLException ex) {
+                new ErrorJOptionPane(ex.getMessage());
+            }
 
         });
 
@@ -80,10 +83,18 @@ public class NewAssignationItOrgFrame extends NewRegistrationFrameTemplate {
             String organizador = (String) organizerComboBox.getSelectedItem();
             String itineraryCode = (String) itineraryField.getSelectedItem();
 
-            if (administrador.assignItineraryToOrganiser(organizador, itineraryCode) == 0) {
-                organizerComboBox.setSelectedItem(organizerComboBox.getItemAt(0));
-                itineraryField.setSelectedItem(itineraryField.getItemAt(0));
-                olympField.setText("");
+            String table = "T_ORGANIZADORES";
+            String setClause = "SET ORGANIZADOR='" + organizador + "', ITINERARIO='" + itineraryCode + "'";
+            String whereClause = "WHERE ORGANIZADOR='" + oldOrg + "' AND ITINERARIO='" + oldIt + "'";
+
+            if (administrador.modifyRegister(table, setClause, whereClause) == 0) {
+                try {
+                    new CheckItOrgAssignationsFrame(administrador);
+                    dispose();
+
+                } catch (JSchException | SQLException ex) {
+                    new ErrorJOptionPane(ex.getMessage());
+                }
 
             }
         });
@@ -109,12 +120,24 @@ public class NewAssignationItOrgFrame extends NewRegistrationFrameTemplate {
                 organizerComboBox.addItem(register);
             }
 
+            organizerComboBox.setSelectedItem(oldOrg);
+
             // Códigos de los itinerarios
             comboBoxesItems = admin.selectCol("T_ITINERARIOS", "CODIGO");
 
             while (comboBoxesItems.next()) {
                 String register = comboBoxesItems.getString("CODIGO");
                 itineraryField.addItem(register);
+            }
+
+            itineraryField.setSelectedItem(oldIt);
+
+            // Códigos de los itinerarios
+            whereClause = "WHERE CODIGO='" + oldIt + "'";
+            comboBoxesItems = admin.selectCol("T_ITINERARIOS", "OLIMPIADA", whereClause);
+
+            if (comboBoxesItems.next()) {
+                olympField.setText(comboBoxesItems.getString("OLIMPIADA"));
             }
 
             comboBoxesItems.close();
@@ -137,7 +160,7 @@ public class NewAssignationItOrgFrame extends NewRegistrationFrameTemplate {
 
     @Override
     protected CustomPanel createSouthPanel() {
-        assignButton = new CustomButton("Asignar");
+        assignButton = new CustomButton("Modificar");
 
         createAssignationPanel = new CustomPanel();
         createAssignationPanel.setLayout(new FlowLayout());
@@ -147,3 +170,4 @@ public class NewAssignationItOrgFrame extends NewRegistrationFrameTemplate {
         return createAssignationPanel;
     }
 }
+

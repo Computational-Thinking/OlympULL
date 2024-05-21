@@ -198,7 +198,10 @@ public class NewRubricFrame extends NewRegistrationFrameTemplate {
                     String values = Arrays.toString(scalePoints);
                     String tags = Arrays.toString(scaleTags);
 
-                    if (administrador.createRubric(code, name, desc, values, tags) == 0) {
+                    String table = "T_RUBRICAS";
+                    String data = "'" + code + "', '" + name + "', '" + desc + "', '" + values + "', '" + tags + "'";
+
+                    if (administrador.createRegister(table, data) == 0) {
                         System.out.println("creada");
                         codeField.setText("");
                         nameField.setText("");

@@ -4,10 +4,8 @@ import gui.custom_components.*;
 import gui.custom_components.buttons.ButtonPanelRenderer;
 import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.template_pattern.CheckTableFrameTemplate;
+import operations.TransformPunctuationColumnName;
 import users.Monitor;
 
 import javax.swing.*;
@@ -15,12 +13,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-public class CheckPunctuationsFrame extends CheckTableFrameTemplate {
+public class CheckPunctuationsFrame extends CheckTableFrameTemplate implements TransformPunctuationColumnName {
     // Labels
     CustomFieldLabel filterLabel;
 
@@ -140,8 +137,6 @@ public class CheckPunctuationsFrame extends CheckTableFrameTemplate {
 
             tablaScrollPane = new JScrollPane(tabla);
 
-            String columnaPuntuacion = null;
-
             String concepto = null;
 
             String where = "WHERE CODIGO='" + exerciseComboBox.getSelectedItem() + "'";
@@ -154,25 +149,20 @@ public class CheckPunctuationsFrame extends CheckTableFrameTemplate {
                 dispose();
             }
 
-            switch(concepto) {
-                case "ABSTRACCION" -> columnaPuntuacion = "P_ABSTRACCION";
-                case "ALGORITMOS" -> columnaPuntuacion = "P_ALGORITMOS";
-                case "BUCLES" -> columnaPuntuacion = "P_BUCLES";
-                case "CONDICIONALES" -> columnaPuntuacion = "P_CONDICIONALES";
-                case "DESCOMPOSICION" -> columnaPuntuacion = "P_DESCOMPOSICION";
-                case "FUNCIONES" -> columnaPuntuacion = "P_FUNCIONES";
-                case "IA" -> columnaPuntuacion = "P_IA";
-                case "RECONOCIMIENTO DE PATRONES" -> columnaPuntuacion = "P_REC_PATRONES";
-                case "SECUENCIAS" -> columnaPuntuacion = "P_SECUENCIAS";
-                case "SECUENCIAS Y BUCLES" -> columnaPuntuacion = "P_SECUENCIAS_Y_BUCLES";
-                case "VARIABLES" -> columnaPuntuacion = "P_VARIABLES";
-                case "VARIABLES Y FUNCIONES" -> columnaPuntuacion = "P_VARIABLES_Y_FUNC";
-                case "OTROS" -> columnaPuntuacion = "P_OTROS";
-            }
+            assert concepto != null;
+            String columnaPuntuacion = transformColumnName(concepto);
 
             String itinerario = null;
 
-            ResultSet itinerarioCheck = user.selectCol("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "ITINERARIO", "WHERE EJERCICIO='" + exerciseComboBox.getSelectedItem() + "'");
+            String olymp = null;
+
+            ResultSet monitorOlympiad = user.selectCol("T_MONITORES", "OLIMPIADA", "WHERE NOMBRE='" + user.getUserName() + "'");
+
+            if (monitorOlympiad.next()) {
+                olymp = monitorOlympiad.getString("OLIMPIADA");
+            }
+
+            ResultSet itinerarioCheck = user.selectCol("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "ITINERARIO", "WHERE EJERCICIO='" + exerciseComboBox.getSelectedItem() + "' AND OLIMPIADA='" + olymp + "'");
 
             if (itinerarioCheck.next()) {
                 itinerario = itinerarioCheck.getString("ITINERARIO");

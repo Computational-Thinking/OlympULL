@@ -1,4 +1,4 @@
-package gui.user_frames.admin.assignations;
+package gui.user_frames.admin.assignations.it_org;
 
 import com.jcraft.jsch.JSchException;
 import gui.user_frames.admin.AdminFrame;
@@ -10,14 +10,14 @@ import gui.custom_components.predefined_elements.Borders;
 import gui.custom_components.predefined_elements.Fonts;
 import gui.custom_components.predefined_elements.Icons;
 import gui.custom_components.text_fields.CustomPresetTextField;
-import gui.template_pattern.ModifyRegistrationFrameTemplate;
+import gui.template_pattern.NewRegistrationFrameTemplate;
 import users.Admin;
 
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ModifyAssignationItOrgFrame extends ModifyRegistrationFrameTemplate {
+public class NewAssignationItOrgFrame extends NewRegistrationFrameTemplate {
     // Etiquetas
     CustomFieldLabel organizerLabel;
     CustomFieldLabel itineraryLabel;
@@ -37,26 +37,20 @@ public class ModifyAssignationItOrgFrame extends ModifyRegistrationFrameTemplate
 
     // Otros
     Admin admin;
-    String oldOrg, oldIt;
 
-    public ModifyAssignationItOrgFrame(Admin administrador, String oldOrganizador, String oldItinerario) throws SQLException {
-        super(265, "Modificar asignación");
+    public NewAssignationItOrgFrame(Admin administrador) throws JSchException, SQLException {
+        super(265, "Nueva asignación");
 
-        admin = administrador;
-        oldOrg = oldOrganizador;
-        oldIt = oldItinerario;
-
+        this.admin = administrador;
+        
         add(createCenterPanel(), BorderLayout.CENTER);
         add(createSouthPanel(), BorderLayout.SOUTH);
 
-        getGoBackButton().addActionListener(e -> {
-            try {
-                new CheckItOrgAssignationsFrame(administrador);
-                dispose();
+        setVisible(true);
 
-            } catch (JSchException | SQLException ex) {
-                new ErrorJOptionPane(ex.getMessage());
-            }
+        getGoBackButton().addActionListener(e -> {
+            new AdminFrame(administrador);
+            dispose();
 
         });
 
@@ -86,15 +80,13 @@ public class ModifyAssignationItOrgFrame extends ModifyRegistrationFrameTemplate
             String organizador = (String) organizerComboBox.getSelectedItem();
             String itineraryCode = (String) itineraryField.getSelectedItem();
 
-            if (administrador.modifyAssignationItOrg(oldOrganizador, oldItinerario, organizador, itineraryCode) == 0) {
-                try {
-                    new CheckItOrgAssignationsFrame(administrador);
-                    dispose();
+            String table = "T_ORGANIZADORES";
+            String data = "'" + organizador + "', '" + itineraryCode + "'";
 
-                } catch (JSchException | SQLException ex) {
-                    new ErrorJOptionPane(ex.getMessage());
-                }
-
+            if (administrador.createRegister(table, data) == 0) {
+                organizerComboBox.setSelectedItem(organizerComboBox.getItemAt(0));
+                itineraryField.setSelectedItem(itineraryField.getItemAt(0));
+                olympField.setText("");
             }
         });
 
@@ -119,24 +111,12 @@ public class ModifyAssignationItOrgFrame extends ModifyRegistrationFrameTemplate
                 organizerComboBox.addItem(register);
             }
 
-            organizerComboBox.setSelectedItem(oldOrg);
-
             // Códigos de los itinerarios
             comboBoxesItems = admin.selectCol("T_ITINERARIOS", "CODIGO");
 
             while (comboBoxesItems.next()) {
                 String register = comboBoxesItems.getString("CODIGO");
                 itineraryField.addItem(register);
-            }
-
-            itineraryField.setSelectedItem(oldIt);
-
-            // Códigos de los itinerarios
-            whereClause = "WHERE CODIGO='" + oldIt + "'";
-            comboBoxesItems = admin.selectCol("T_ITINERARIOS", "OLIMPIADA", whereClause);
-
-            if (comboBoxesItems.next()) {
-                olympField.setText(comboBoxesItems.getString("OLIMPIADA"));
             }
 
             comboBoxesItems.close();
@@ -159,7 +139,7 @@ public class ModifyAssignationItOrgFrame extends ModifyRegistrationFrameTemplate
 
     @Override
     protected CustomPanel createSouthPanel() {
-        assignButton = new CustomButton("Modificar");
+        assignButton = new CustomButton("Asignar");
 
         createAssignationPanel = new CustomPanel();
         createAssignationPanel.setLayout(new FlowLayout());
@@ -169,4 +149,3 @@ public class ModifyAssignationItOrgFrame extends ModifyRegistrationFrameTemplate
         return createAssignationPanel;
     }
 }
-

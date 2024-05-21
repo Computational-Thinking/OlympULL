@@ -70,8 +70,13 @@ public class ModifyTeamFrame extends ModifyRegistrationFrameTemplate {
                 String school1 = teamSchoolField.getText();
                 String itinerary = (String) teamItinerarioField.getSelectedItem();
 
+                String table = "T_EQUIPOS";
+                String setClause = "SET CODIGO='" + code1 + "', NOMBRE='" + name1 + "', CENTRO_EDUCATIVO='" + school1 +
+                        "', ITINERARIO='" + itinerary + "'";
+                String whereClause = "WHERE CODIGO='" + oldCode + "';";
+
                 try {
-                    if (administrador.modifyTeam(oldCode, code1, name1, school1, itinerary) == 0) {
+                    if (administrador.modifyRegister(table, setClause, whereClause) == 0) {
                         new CheckTeamsFrame(administrador);
                         dispose();
                     }

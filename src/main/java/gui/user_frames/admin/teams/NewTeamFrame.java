@@ -69,7 +69,11 @@ public class NewTeamFrame extends NewRegistrationFrameTemplate {
                 String school = teamSchoolField.getText();
                 String itinerary = (String) teamItinerarioField.getSelectedItem();
 
-                if (administrador.createTeam(code, name, school, itinerary) == 0) {
+                String table = "T_EQUIPOS";
+                String data = "'" + code + "', '" + name + "', '" + school + "', '" + itinerary + "'";
+                String selection = "(CODIGO, NOMBRE, CENTRO_EDUCATIVO, ITINERARIO)";
+
+                if (administrador.createRegister(table, data, selection) == 0) {
                     teamCodeField.setText("");
                     teamNameField.setText("");
                     teamSchoolField.setText("");

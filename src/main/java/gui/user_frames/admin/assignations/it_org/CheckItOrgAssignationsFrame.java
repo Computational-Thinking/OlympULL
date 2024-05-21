@@ -1,4 +1,4 @@
-package gui.user_frames.admin.assignations;
+package gui.user_frames.admin.assignations.it_org;
 
 import com.jcraft.jsch.JSchException;
 import file_management.FileReader;
@@ -8,9 +8,6 @@ import gui.user_frames.admin.AdminFrame;
 import gui.custom_components.buttons.ButtonPanelRenderer;
 import gui.custom_components.option_panes.ErrorJOptionPane;
 import gui.custom_components.option_panes.MessageJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.template_pattern.CheckTableFrameTemplate;
 import users.Admin;
 
@@ -19,7 +16,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -131,8 +127,11 @@ public class CheckItOrgAssignationsFrame extends CheckTableFrameTemplate {
             }
 
         } else if (columna == tabla.getColumnCount() - 1) {
+            String table = "T_ORGANIZADORES";
+            String whereClause = "WHERE ORGANIZADOR='" + organizador +  "' AND ITINERARIO='" + itinerario + "';";
+
             try {
-                if (administrador.deleteAssignationItOrg(organizador, itinerario) == 0) {
+                if (administrador.deleteRegister(table, whereClause) == 0) {
                     new CheckItOrgAssignationsFrame(administrador);
                     dispose();
 

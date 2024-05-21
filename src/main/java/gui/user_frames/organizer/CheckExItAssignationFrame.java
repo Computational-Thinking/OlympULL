@@ -3,9 +3,6 @@ package gui.user_frames.organizer;
 import com.jcraft.jsch.JSchException;
 import gui.custom_components.buttons.ButtonPanelRenderer;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.template_pattern.CheckTableFrameTemplate;
 import users.Organizer;
 
@@ -14,7 +11,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -58,13 +54,16 @@ public class CheckExItAssignationFrame extends CheckTableFrameTemplate {
         int row = tabla.rowAtPoint(e.getPoint());
         int columna = tabla.columnAtPoint(e.getPoint());
 
-        String ejercicio = (String) modeloTabla.getValueAt(row, 0);
-        String olimpiada = (String) modeloTabla.getValueAt(row, 1);
-        String itinerario = (String) modeloTabla.getValueAt(row, 2);
+        String exercise = (String) modeloTabla.getValueAt(row, 0);
+        String olympiad = (String) modeloTabla.getValueAt(row, 1);
+        String itinerary = (String) modeloTabla.getValueAt(row, 2);
+
+        String table = "T_EJERCICIOS_OLIMPIADA_ITINERARIO";
+        String where = "WHERE EJERCICIO='" + exercise +  "' AND OLIMPIADA='" + olympiad + "' AND ITINERARIO='" + itinerary + "';";
 
         if (columna == tabla.getColumnCount() - 2) {
             try {
-                new ModifyExItAssignationFrame(organizador, ejercicio, olimpiada, itinerario);
+                new ModifyExItAssignationFrame(organizador, exercise, olympiad, itinerary);
                 dispose();
 
             } catch (JSchException | SQLException ex) {
@@ -74,10 +73,9 @@ public class CheckExItAssignationFrame extends CheckTableFrameTemplate {
 
         } else if (columna == tabla.getColumnCount() - 1) {
             try {
-                if (organizador.deleteAssignationEjIt(ejercicio, olimpiada, itinerario) == 0) {
+                if (organizador.deleteRegister(table, where) == 0) {
                     new CheckExItAssignationFrame(organizador);
                     dispose();
-
                 }
 
             } catch (JSchException | SQLException ex) {
@@ -140,8 +138,8 @@ public class CheckExItAssignationFrame extends CheckTableFrameTemplate {
                     fila[i - 1] = tableContent.getObject(i);
                 }
 
-                for (int j = 0; j < organizador.getItinerarios().size(); ++j) {
-                    if (Objects.equals(organizador.getItinerarios().get(j), fila[2].toString())) {
+                for (int j = 0; j < organizador.getItineraries().size(); ++j) {
+                    if (Objects.equals(organizador.getItineraries().get(j), fila[2].toString())) {
                         modeloTabla.addRow(fila);
 
                     }

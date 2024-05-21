@@ -5,9 +5,6 @@ import gui.custom_components.*;
 import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.custom_components.text_fields.CustomTextField;
 import gui.template_pattern.ModifyRegistrationFrameTemplate;
 import users.Admin;
@@ -78,8 +75,12 @@ public class ModifyItineraryFrame extends ModifyRegistrationFrameTemplate {
                 String desc = campoDescripcionItinerario.getText();
                 String olymp = (String) campoOlimpiadaItinerario.getSelectedItem();
 
+                String table = "T_ITINERARIOS";
+                String setClause = "SET CODIGO='" + code + "', TITULO='" + name + "', DESCRIPCION='" + desc + "', OLIMPIADA='" + olymp + "'";
+                String whereClause = "WHERE CODIGO='" + oldCode + "';";
+
                 try {
-                    if (administrador.modifyItinerario(oldCode, code, name, desc, olymp) == 0) {
+                    if (administrador.modifyRegister(table, setClause, whereClause) == 0) {
                         new CheckItinerariesFrame(administrador);
                         dispose();
 

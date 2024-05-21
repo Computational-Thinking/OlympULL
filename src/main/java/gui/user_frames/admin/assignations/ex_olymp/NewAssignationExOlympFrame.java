@@ -1,4 +1,4 @@
-package gui.user_frames.admin.assignations;
+package gui.user_frames.admin.assignations.ex_olymp;
 
 import com.jcraft.jsch.JSchException;
 import gui.user_frames.admin.AdminFrame;
@@ -77,9 +77,12 @@ public class NewAssignationExOlympFrame extends NewRegistrationFrameTemplate {
             } else {
                 String exercise = (String) exerCodeField.getSelectedItem();
                 String olympiad = (String) olympCodeField.getSelectedItem();
-                String itinerario = (String) itinerarioCodeField.getSelectedItem();
+                String itinerary = (String) itinerarioCodeField.getSelectedItem();
 
-                if (administrador.assignExerciseToOlympiad(exercise, olympiad, itinerario) == 0) {
+                String table = "T_EJERCICIOS_OLIMPIADA_ITINERARIO";
+                String data = "'" + exercise + "', '" + olympiad + "', '" + itinerary + "'";
+
+                if (administrador.createRegister(table, data) == 0) {
                     exerCodeField.setSelectedItem(exerCodeField.getItemAt(0));
                     olympCodeField.setSelectedItem(olympCodeField.getItemAt(0));
                     itinerarioCodeField.removeAllItems();

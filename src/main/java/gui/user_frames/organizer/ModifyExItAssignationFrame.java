@@ -5,9 +5,6 @@ import gui.custom_components.*;
 import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.custom_components.text_fields.CustomPresetTextField;
 import gui.template_pattern.ModifyRegistrationFrameTemplate;
 import users.Organizer;
@@ -90,8 +87,12 @@ public class ModifyExItAssignationFrame extends ModifyRegistrationFrameTemplate 
                 String olympiad = olympCodeField.getText();
                 String itinerary = (String) itCodeField.getSelectedItem();
 
+                String table = "T_EJERCICIOS_OLIMPIADA_ITINERARIO";
+                String set = "SET EJERCICIO='" + exercise + "', OLIMPIADA='" + olympiad + "', ITINERARIO='" + itinerary + "'";
+                String where = "WHERE EJERCICIO='" + oldEx + "' AND OLIMPIADA='" + oldOlymp + "' AND ITINERARIO='" + oldIt + "'";
+
                 try {
-                    if (organizador.modifyAssignationExIt(oldEx, oldOlymp, oldIt, exercise, olympiad, itinerary) == 0) {
+                    if (organizador.modifyRegister(table, set, where) == 0) {
                         new CheckExItAssignationFrame(organizador);
                         dispose();
                     }
@@ -126,8 +127,8 @@ public class ModifyExItAssignationFrame extends ModifyRegistrationFrameTemplate 
 
             exerCodeField.setSelectedItem(oldEx);
 
-            for (int i = 0; i < user.getItinerarios().size(); ++i) {
-                itCodeField.addItem(user.getItinerarios().get(i));
+            for (int i = 0; i < user.getItineraries().size(); ++i) {
+                itCodeField.addItem(user.getItineraries().get(i));
             }
 
             inputPanel = new CustomPanel();

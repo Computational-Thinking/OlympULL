@@ -80,16 +80,16 @@ public class NewExItAssignationFrame extends NewRegistrationFrameTemplate {
                 String olympiad = olympCodeField.getText();
                 String itinerary = (String) itineraryCodeField.getSelectedItem();
 
-                if (organizador.createAssignationExIt(exercise, olympiad, itinerary) == 0) {
+                String table = "T_EJERCICIOS_OLIMPIADA_ITINERARIO";
+                String data = "'" + exercise + "', '" + olympiad + "', '" + itinerary + "'";
+
+                if (organizador.createRegister(table, data) == 0) {
                     exerCodeField.setSelectedItem(exerCodeField.getItemAt(0));
                     itineraryCodeField.setSelectedItem(itineraryCodeField.getItemAt(0));
                     olympCodeField.setText("");
-
                 }
-
             }
         });
-
     }
 
     @Override
@@ -112,8 +112,8 @@ public class NewExItAssignationFrame extends NewRegistrationFrameTemplate {
             itineraryCodeField = new CustomComboBox();
             itineraryCodeField.setFont(fuenteCampoTexto);
 
-            for (int i = 0; i < user.getItinerarios().size(); ++i) {
-                itineraryCodeField.addItem(user.getItinerarios().get(i));
+            for (int i = 0; i < user.getItineraries().size(); ++i) {
+                itineraryCodeField.addItem(user.getItineraries().get(i));
             }
 
             codes.close();
@@ -130,7 +130,6 @@ public class NewExItAssignationFrame extends NewRegistrationFrameTemplate {
 
         } catch (SQLException ex) {
             new ErrorJOptionPane(ex.getMessage());
-
         }
 
         return inputPanel;

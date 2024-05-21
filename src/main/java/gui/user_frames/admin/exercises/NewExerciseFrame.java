@@ -77,7 +77,10 @@ public class NewExerciseFrame extends NewRegistrationFrameTemplate {
                 String type = (String) exerTypeField.getSelectedItem();
                 String rubric = (String) exerRubrica.getSelectedItem();
 
-                if (administrador.createExercise(code, name, desc, concept, resources, type, rubric) == 0) {
+                String table = "T_EJERCICIOS";
+                String data = "'" + code + "', '" + name + "', '" + desc + "', '" + concept + "', '" + resources + "', '" + type + "', '" + rubric + "'";
+
+                if (administrador.createRegister(table, data) == 0) {
                     exerCodeField.setText("");
                     exerNameField.setText("");
                     exerDescField.setText("");
@@ -85,7 +88,6 @@ public class NewExerciseFrame extends NewRegistrationFrameTemplate {
                     exerResourcesField.setSelectedItem(exerResourcesField.getItemAt(0));
                     exerTypeField.setSelectedItem(exerTypeField.getItemAt(0));
                     exerRubrica.setSelectedItem(exerRubrica.getItemAt(0));
-
                 }
 
             }

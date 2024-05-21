@@ -47,7 +47,7 @@ public class ModifyExerciseFrame extends ModifyRegistrationFrameTemplate {
 
     // Otros
     Admin admin;
-    String oldCode, oldTitle, oldDes, oldConcept, oldResource, oldType;
+    String oldCode, oldTitle, oldDes, oldConcept, oldResource, oldType, oldRubric;
 
     public ModifyExerciseFrame(Admin administrador, String codigo, String titulo, String desc, String concepto, String recurso, String tipo) throws JSchException, SQLException {
         super(475, "Modificar ejercicio");
@@ -89,11 +89,16 @@ public class ModifyExerciseFrame extends ModifyRegistrationFrameTemplate {
                 String type = (String) exerTypeField.getSelectedItem();
                 String rubric = (String) exerRubricaField.getSelectedItem();
 
+                String table = "T_EJERCICIOS";
+                String setClause = "SET CODIGO='" + code + "', TITULO='" + name + "', DESCRIPCION='" + desc1 +
+                        "', CONCEPTO='" + concept + "', RECURSOS='" + resources + "', TIPO='" + type +
+                        "', RUBRICA='" + rubric + "'";
+                String whereClause = "WHERE CODIGO='" + oldCode + "';";
+
                 try {
-                    if (administrador.modifyExercise(oldCode, code, name, desc1, concept, resources, type, rubric) == 0) {
+                    if (administrador.modifyRegister(table, setClause, whereClause) == 0) {
                         new CheckExercisesFrame(administrador);
                         dispose();
-
                     }
 
                 } catch (JSchException | SQLException ex) {
@@ -101,7 +106,6 @@ public class ModifyExerciseFrame extends ModifyRegistrationFrameTemplate {
                 }
             }
         });
-
     }
 
     @Override

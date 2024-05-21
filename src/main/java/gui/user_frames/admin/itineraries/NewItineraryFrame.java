@@ -69,17 +69,16 @@ public class NewItineraryFrame extends NewRegistrationFrameTemplate {
                 String desc = campoDescripcionItinerario.getText();
                 String olymp = (String) campoOlimpiadaItinerario.getSelectedItem();
 
-                try {
-                    if (administrador.createItinerario(code, name, desc, olymp) == 0) {
-                        campoCodigoItinerario.setText("");
-                        campoNombreItinerario.setText("");
-                        campoDescripcionItinerario.setText("");
-                        campoOlimpiadaItinerario.setSelectedItem(campoOlimpiadaItinerario.getItemAt(0));
-                    }
+                String table = "T_ITINERARIOS";
+                String data = "'" + code + "', '" + name + "', '" + desc + "', '" + olymp + "'";
 
-                } catch (JSchException | SQLException exc) {
-                    new ErrorJOptionPane("Ha ocurrido un error inesperado");
+                if (administrador.createRegister(table, data) == 0) {
+                    campoCodigoItinerario.setText("");
+                    campoNombreItinerario.setText("");
+                    campoDescripcionItinerario.setText("");
+                    campoOlimpiadaItinerario.setSelectedItem(campoOlimpiadaItinerario.getItemAt(0));
                 }
+
             }
         });
     }

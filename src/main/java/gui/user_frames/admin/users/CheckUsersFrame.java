@@ -141,16 +141,23 @@ public class CheckUsersFrame extends CheckTableFrameTemplate {
             dispose();
         } else if (columna == tabla.getColumnCount() - 2) {
             nombre = "Copia de " + modeloTabla.getValueAt(row, 0);
+
+            String table = "T_USUARIOS";
+            String data = "'" + nombre + "', '" + pass + "', '" + type + "'";
+
             try {
-                admin.createUser(nombre, pass, type);
+                admin.createRegister(table, data);
                 new CheckUsersFrame(admin);
                 dispose();
             } catch (JSchException | SQLException ex) {
                 throw new RuntimeException(ex);
             }
         } else if (columna == tabla.getColumnCount() - 1) {
+            String table = "T_USUARIOS";
+            String whereClause = "WHERE NOMBRE='" + nombre + "';";
+
             try {
-                if (admin.deleteUser(nombre) == 0) {
+                if (admin.deleteRegister(table, whereClause) == 0) {
                     new CheckUsersFrame(admin);
                     dispose();
                 }

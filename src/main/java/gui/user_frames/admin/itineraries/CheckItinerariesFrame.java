@@ -8,9 +8,6 @@ import gui.user_frames.admin.AdminFrame;
 import gui.custom_components.buttons.ButtonPanelRenderer;
 import gui.custom_components.option_panes.ErrorJOptionPane;
 import gui.custom_components.option_panes.MessageJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.template_pattern.CheckTableFrameTemplate;
 import users.Admin;
 
@@ -19,7 +16,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
@@ -133,9 +129,13 @@ public class CheckItinerariesFrame extends CheckTableFrameTemplate {
 
         } else if (col == tabla.getColumnCount() - 2) {
             codigo = "Copia de " + modeloTabla.getValueAt(row, 0);
+            titulo = "Copia de " + modeloTabla.getValueAt(row, 1);
+
+            String table = "T_ITINERARIOS";
+            String data = "'" + codigo + "', '" + titulo + "', '" + descripcion + "', '" + olimpiada + "'";
 
             try {
-                administrador.createItinerario(codigo, titulo, descripcion, olimpiada);
+                administrador.createRegister(table, data);
                 new CheckItinerariesFrame(administrador);
                 dispose();
 
@@ -145,8 +145,11 @@ public class CheckItinerariesFrame extends CheckTableFrameTemplate {
             }
 
         } else if (col == tabla.getColumnCount() - 1) {
+            String table = "T_ITINERARIOS";
+            String whereClause = "WHERE CODIGO='" + codigo + "';";
+
             try {
-                if (administrador.deleteItinerario((String) modeloTabla.getValueAt(row, 0)) == 0) {
+                if (administrador.deleteRegister(table, whereClause) == 0) {
                     new CheckItinerariesFrame(administrador);
                     dispose();
                 }

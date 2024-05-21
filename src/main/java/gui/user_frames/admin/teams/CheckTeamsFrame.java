@@ -137,8 +137,12 @@ public class CheckTeamsFrame extends CheckTableFrameTemplate {
             codigo = "Copia de " + codigo;
             name = "Copia de " + name;
 
+            String table = "T_EQUIPOS";
+            String data = "'" + codigo + "', '" + name + "', '" + school + "', '" + itinerario + "'";
+            String selection = "(CODIGO, NOMBRE, CENTRO_EDUCATIVO, ITINERARIO)";
+
             try {
-                administrador.createTeam(codigo, name, school, itinerario);
+                administrador.createRegister(table, data, selection);
                 new CheckTeamsFrame(administrador);
                 dispose();
 
@@ -148,8 +152,11 @@ public class CheckTeamsFrame extends CheckTableFrameTemplate {
             }
 
         } else if (columna == tabla.getColumnCount() - 1) {
+            String table = "T_EQUIPOS";
+            String whereClause = "WHERE CODIGO='" + codigo + "';";
+
             try {
-                if (administrador.deleteTeam(codigo) == 0) {
+                if (administrador.deleteRegister(table, whereClause) == 0) {
                     new CheckTeamsFrame(administrador);
                     dispose();
                 }

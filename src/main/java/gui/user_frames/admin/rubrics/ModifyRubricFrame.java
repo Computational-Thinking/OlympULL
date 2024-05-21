@@ -4,9 +4,6 @@ import com.jcraft.jsch.JSchException;
 import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.custom_components.text_fields.CustomTextField;
 import gui.template_pattern.ModifyRegistrationFrameTemplate;
 import users.Admin;
@@ -161,27 +158,19 @@ public class ModifyRubricFrame extends ModifyRegistrationFrameTemplate {
                 if (value.getText().matches("^[0-9]$")) {
                     if (Integer.parseInt(value.getText()) > 0) {
                         scalePoints[counter] = Integer.parseInt(value.getText());
-
                     } else {
                         exit = 1;
-
                     }
-
                 } else {
                     exit = 1;
                     break;
-
                 }
-
                 if (tag.getText().matches(".*[,].*")) {
                     exit = 1;
                     break;
-
                 } else {
                     scaleTags[counter] = tag.getText();
-
                 }
-
                 ++counter;
             }
 
@@ -211,8 +200,13 @@ public class ModifyRubricFrame extends ModifyRegistrationFrameTemplate {
                     String values = Arrays.toString(scalePoints);
                     String tags1 = Arrays.toString(scaleTags);
 
+                    String table = "T_RUBRICAS";
+                    String setClause = "SET CODIGO='" + code1 + "', NOMBRE='" + name1 + "', DESCRIPCION='" + desc1 +
+                            "', PUNTOS_RUBRICA='" + values + "', ETIQUETAS_RUBRICA='" + tags1 + "'";
+                    String whereClause = "WHERE CODIGO='" + oldCode + "';";
+
                     try {
-                        if (administrador.modifyRubric(oldCode, code1, name1, desc1, values, tags1) == 0) {
+                        if (administrador.modifyRegister(table, setClause, whereClause) == 0) {
                             new CheckRubricsFrame(administrador);
                             dispose();
 

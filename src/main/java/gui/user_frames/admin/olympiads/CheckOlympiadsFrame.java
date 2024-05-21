@@ -8,9 +8,6 @@ import gui.user_frames.admin.AdminFrame;
 import gui.custom_components.buttons.ButtonPanelRenderer;
 import gui.custom_components.option_panes.ErrorJOptionPane;
 import gui.custom_components.option_panes.MessageJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.template_pattern.CheckTableFrameTemplate;
 import users.Admin;
 
@@ -19,7 +16,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
@@ -128,10 +124,14 @@ public class CheckOlympiadsFrame extends CheckTableFrameTemplate {
 
         } else if (column == tabla.getColumnCount() - 2) {
             code = "Copia de " + modeloTabla.getValueAt(row, 0);
+            title = "Copia de " + modeloTabla.getValueAt(row, 1);
+
+            String table = "T_OLIMPIADAS";
+            String data = "'" + code + "', '" + title + "', '" + desc + "', " + year;
 
             if (year.matches("[0-9]*") && Integer.parseInt(year) > 1999 && Integer.parseInt(year) < 3001) {
                 try {
-                    if (administrador.createOlympiad(code, title, desc, Integer.parseInt(year)) == 0) {
+                    if (administrador.createRegister(table, data) == 0) {
                         new CheckOlympiadsFrame(administrador);
                         dispose();
                     }
@@ -145,8 +145,11 @@ public class CheckOlympiadsFrame extends CheckTableFrameTemplate {
             }
 
         } else if (column == tabla.getColumnCount() - 1) {
+            String table = "T_OLIMPIADAS";
+            String whereClause = "WHERE CODIGO='" + code + "';";
+
             try {
-                if (administrador.deleteOlympiad((String) modeloTabla.getValueAt(row, 0)) == 0) {
+                if (administrador.deleteRegister(table, whereClause) == 0) {
                     new CheckOlympiadsFrame(administrador);
                     dispose();
                 }

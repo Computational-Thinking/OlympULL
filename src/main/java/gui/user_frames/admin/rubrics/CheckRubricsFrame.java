@@ -117,9 +117,9 @@ public class CheckRubricsFrame extends CheckTableFrameTemplate {
         int row = tabla.rowAtPoint(e.getPoint());
         int columna = tabla.columnAtPoint(e.getPoint());
 
-        String codigo = (String) modeloTabla.getValueAt(row, 0);
-        String titulo = (String) modeloTabla.getValueAt(row, 1);
-        String descripcion = (String) modeloTabla.getValueAt(row, 2);
+        String code = (String) modeloTabla.getValueAt(row, 0);
+        String title = (String) modeloTabla.getValueAt(row, 1);
+        String description = (String) modeloTabla.getValueAt(row, 2);
         String values = (String) modeloTabla.getValueAt(row, 3);
         String tags = (String) modeloTabla.getValueAt(row, 4);
 
@@ -139,13 +139,17 @@ public class CheckRubricsFrame extends CheckTableFrameTemplate {
         }
 
         if (columna == tabla.getColumnCount() - 3) {
-            new ModifyRubricFrame(administrador, codigo, titulo, descripcion, separatedValuesInt, separatedTags);
+            new ModifyRubricFrame(administrador, code, title, description, separatedValuesInt, separatedTags);
             dispose();
 
         } else if (columna == tabla.getColumnCount() - 2) {
-            codigo = "Copia de " + modeloTabla.getValueAt(row, 0);
+            code = "Copia de " + modeloTabla.getValueAt(row, 0);
+
+            String table = "T_RUBRICAS";
+            String data = "'" + code + "', '" + title + "', '" + description + "', '" + values + "', '" + tags + "'";
+
             try {
-                administrador.createRubric(codigo, titulo, descripcion, values, tags);
+                administrador.createRegister(table, data);
                 new CheckRubricsFrame(administrador);
                 dispose();
 
@@ -155,8 +159,11 @@ public class CheckRubricsFrame extends CheckTableFrameTemplate {
             }
 
         } else if (columna == tabla.getColumnCount() - 1) {
+            String table = "T_RUBRICAS";
+            String whereClause = "WHERE CODIGO='" + code + "';";
+
             try {
-                if (administrador.deleteRubric(codigo) == 0) {
+                if (administrador.deleteRegister(table, whereClause) == 0) {
                     new CheckRubricsFrame(administrador);
                     dispose();
                 }

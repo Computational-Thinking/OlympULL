@@ -8,9 +8,6 @@ import gui.user_frames.admin.AdminFrame;
 import gui.custom_components.buttons.ButtonPanelRenderer;
 import gui.custom_components.option_panes.ErrorJOptionPane;
 import gui.custom_components.option_panes.MessageJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.template_pattern.CheckTableFrameTemplate;
 import users.Admin;
 
@@ -19,7 +16,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
@@ -121,17 +117,17 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate {
         int row = tabla.rowAtPoint(e.getPoint());
         int columna = tabla.columnAtPoint(e.getPoint());
 
-        String codigo = (String) modeloTabla.getValueAt(row, 0);
-        String titulo = (String) modeloTabla.getValueAt(row, 1);
-        String descripcion = (String) modeloTabla.getValueAt(row, 2);
-        String concepto = (String) modeloTabla.getValueAt(row, 3);
-        String recursos = (String) modeloTabla.getValueAt(row, 4);
-        String tipo = (String) modeloTabla.getValueAt(row, 5);
-        String rubrica = (String) modeloTabla.getValueAt(row, 6);
+        String code = (String) modeloTabla.getValueAt(row, 0);
+        String title = (String) modeloTabla.getValueAt(row, 1);
+        String description = (String) modeloTabla.getValueAt(row, 2);
+        String concept = (String) modeloTabla.getValueAt(row, 3);
+        String resources = (String) modeloTabla.getValueAt(row, 4);
+        String type = (String) modeloTabla.getValueAt(row, 5);
+        String rubric = (String) modeloTabla.getValueAt(row, 6);
 
         if (columna == tabla.getColumnCount() - 3) {
             try {
-                new ModifyExerciseFrame(administrador, codigo, titulo, descripcion, concepto, recursos, tipo);
+                new ModifyExerciseFrame(administrador, code, title, description, concept, resources, type);
 
             } catch (JSchException | SQLException ex) {
                 new ErrorJOptionPane(ex.getMessage());
@@ -141,10 +137,14 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate {
             dispose();
 
         } else if (columna == tabla.getColumnCount() - 2) {
-            codigo = "Copia de " + codigo;
+            code = "Copia de " + code;
+
+            String table = "T_EJERCICIOS";
+            String data = "'" + code + "', '" + title + "', '" + description + "', '"
+                              + concept + "', '" + resources + "', '" + type + "', '" + rubric + "'";
 
             try {
-                if (administrador.createExercise(codigo, titulo, descripcion, concepto, recursos, tipo, rubrica) == 0) {
+                if (administrador.createRegister(table, data) == 0) {
                     new CheckExercisesFrame(administrador);
                     dispose();
                 }
@@ -155,8 +155,11 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate {
             }
 
         } else if (columna == tabla.getColumnCount() - 1) {
+            String table = "T_EJERCICIOS";
+            String whereClause = "WHERE CODIGO='" + code + "';";
+
             try {
-                if (administrador.deleteEjercicio((String) modeloTabla.getValueAt(row, 0)) == 0) {
+                if (administrador.deleteRegister(table, whereClause) == 0) {
                     new CheckExercisesFrame(administrador);
                     dispose();
                 }

@@ -76,8 +76,12 @@ public class ModifyUserFrame extends ModifyRegistrationFrameTemplate {
                 String password1 = userPasswordField.getText();
                 String type = String.valueOf(userTypeComboBox.getSelectedItem());
 
+                String table = "T_USUARIOS";
+                String setClause = "SET NOMBRE='" + name + "', PASSWORD='" + password + "', TIPO='" + type + "'";
+                String whereClause = "WHERE NOMBRE='" + oldName + "';";
+
                 try {
-                    if (administrador.modifyUser(oldName, name, password1, type) == 0) {
+                    if (administrador.modifyRegister(table, setClause, whereClause) == 0) {
                         new CheckUsersFrame(administrador);
                         dispose();
 

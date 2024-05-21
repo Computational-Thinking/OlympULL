@@ -64,8 +64,11 @@ public class NewOlympiadFrame extends NewRegistrationFrameTemplate {
                 String desc = olympDescField.getText();
                 String year = olympYearField.getText();
 
+                String table = "T_OLIMPIADAS";
+                String data = "'" + code + "', '" + name + "', '" + desc + "', " + year;
+
                 if (year.matches("[0-9]*") && Integer.parseInt(year) > 2000 && Integer.parseInt(year) < 3000) {
-                    if (administrador.createOlympiad(code, name, desc, Integer.parseInt(year)) == 0) {
+                    if (administrador.createRegister(table, data) == 0) {
                         olympCodeField.setText("");
                         olympNameField.setText("");
                         olympDescField.setText("");

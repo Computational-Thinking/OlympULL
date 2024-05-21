@@ -65,7 +65,10 @@ public class NewUserFrame extends NewRegistrationFrameTemplate {
                 String password = userPasswordField.getText();
                 String type = String.valueOf(userTypeComboBox.getSelectedItem());
 
-                if (administrador.createUser(name, password, type) == 0) {
+                String table = "T_USUARIOS";
+                String data = "'" + name + "', '" + password + "', '" + type + "'";
+
+                if (administrador.createRegister(table, data) == 0) {
                     userNameField.setText("");
                     userPasswordField.setText("");
                     userTypeComboBox.setSelectedItem(userTypeComboBox.getItemAt(0));

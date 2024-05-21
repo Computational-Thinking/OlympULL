@@ -1,4 +1,4 @@
-package gui.user_frames.admin.assignations;
+package gui.user_frames.admin.assignations.ex_monitor;
 
 import com.jcraft.jsch.JSchException;
 import gui.user_frames.admin.AdminFrame;
@@ -10,14 +10,13 @@ import gui.custom_components.predefined_elements.Borders;
 import gui.custom_components.predefined_elements.Fonts;
 import gui.custom_components.predefined_elements.Icons;
 import gui.custom_components.text_fields.CustomPresetTextField;
-import gui.template_pattern.ModifyRegistrationFrameTemplate;
+import gui.template_pattern.NewRegistrationFrameTemplate;
 import users.Admin;
 
 import java.awt.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
-public class ModifyAssignationExMonitorFrame extends ModifyRegistrationFrameTemplate {
+public class NewAssignationExMonitorFrame extends NewRegistrationFrameTemplate {
     // Etiquetas
     CustomFieldLabel monitorLabel;
     CustomFieldLabel exerCodeLabel;
@@ -26,7 +25,7 @@ public class ModifyAssignationExMonitorFrame extends ModifyRegistrationFrameTemp
     CustomFieldLabel olympLabel;
     CustomFieldLabel itineraryLabel;
     CustomPresetTextField itineraryField;
-
+    
     // Comboboxes
     CustomComboBox monitorComboBox;
     CustomComboBox exerField;
@@ -41,16 +40,11 @@ public class ModifyAssignationExMonitorFrame extends ModifyRegistrationFrameTemp
 
     // Otros
     Admin admin;
-    String oldName, oldExer, oldOlymp, oldIt;
 
-    public ModifyAssignationExMonitorFrame(Admin administrador, String name, String exer, String olymp, String itinerary) throws JSchException, SQLException {
-        super(335, "Modificar asignación");
+    public NewAssignationExMonitorFrame(Admin administrador) throws JSchException, SQLException {
+        super(335, "Nueva asignación");
 
-        admin = administrador;
-        oldName = name;
-        oldExer = exer;
-        oldOlymp = olymp;
-        oldIt = itinerary;
+        this.admin = administrador;
 
         add(createCenterPanel(), BorderLayout.CENTER);
         add(createSouthPanel(), BorderLayout.SOUTH);
@@ -58,12 +52,9 @@ public class ModifyAssignationExMonitorFrame extends ModifyRegistrationFrameTemp
         setVisible(true);
 
         getGoBackButton().addActionListener(e -> {
-            try {
-                new CheckExMonitorAssignationsFrame(administrador);
-                dispose();
-            } catch (JSchException | SQLException ex){
-                new ErrorJOptionPane(ex.getMessage());
-            }
+            new AdminFrame(administrador);
+            dispose();
+
         });
 
         exerField.addActionListener(e -> {
@@ -129,17 +120,16 @@ public class ModifyAssignationExMonitorFrame extends ModifyRegistrationFrameTemp
             String monitor = (String) monitorComboBox.getSelectedItem();
             String exerCode = (String) exerField.getSelectedItem();
             String olympCode = (String) olympField.getSelectedItem();
-            String itCode = itineraryField.getText();
+            String itineraryCode = itineraryField.getText();
 
-            if (administrador.modifyAssignationExUser(name, exer, olymp, monitor, exerCode, olympCode, itCode) == 0) {
-                try {
-                    new CheckExMonitorAssignationsFrame(administrador);
-                    dispose();
+            String table = "T_MONITORES";
+            String data = "'" + monitor + "', '" + exerCode + "', '" + olympCode + "', '" + itineraryCode + "'";
 
-                } catch (JSchException | SQLException ex) {
-                    new ErrorJOptionPane(ex.getMessage());
-                }
-
+            if (administrador.createRegister(table, data) == 0) {
+                monitorComboBox.setSelectedItem(monitorComboBox.getItemAt(0));
+                exerField.setSelectedItem(exerField.getItemAt(0));
+                tituloEjercicioField.setText("");
+                itineraryField.setText("");
             }
         });
 
@@ -151,16 +141,13 @@ public class ModifyAssignationExMonitorFrame extends ModifyRegistrationFrameTemp
             monitorLabel = new CustomFieldLabel("Monitor (*)");
             exerCodeLabel = new CustomFieldLabel("Ejercicio (*)");
             monitorComboBox = new CustomComboBox();
-
             exerField = new CustomComboBox();
-            exerField.setSelectedItem(oldExer);
-
             tituloEjercicioLabel = new CustomFieldLabel("Título del ejercicio");
-            tituloEjercicioField = new CustomPresetTextField();
+            tituloEjercicioField = new CustomPresetTextField("");
             olympLabel = new CustomFieldLabel("Olimpiada (*)");
             olympField = new CustomComboBox();
             itineraryLabel = new CustomFieldLabel("Itinerario");
-            itineraryField = new CustomPresetTextField(oldIt);
+            itineraryField = new CustomPresetTextField("");
 
             // Nombres de los monitores
             String whereClause = "WHERE TIPO='MONITOR';";
@@ -171,8 +158,6 @@ public class ModifyAssignationExMonitorFrame extends ModifyRegistrationFrameTemp
                 monitorComboBox.addItem(register);
             }
 
-            monitorComboBox.setSelectedItem(oldName);
-
             // Códigos de los ejercicios
             comboBoxesItems = admin.selectCol("T_EJERCICIOS", "CODIGO");
 
@@ -180,25 +165,6 @@ public class ModifyAssignationExMonitorFrame extends ModifyRegistrationFrameTemp
                 String register = comboBoxesItems.getString("CODIGO");
                 exerField.addItem(register);
             }
-
-            exerField.setSelectedItem(oldExer);
-
-            // Título del ejercicio
-            comboBoxesItems = admin.selectCol("T_EJERCICIOS", "TITULO", "WHERE CODIGO='" + oldExer + "'");
-
-            if (comboBoxesItems.next()) {
-                tituloEjercicioField.setText(comboBoxesItems.getString("TITULO"));
-            }
-
-            // Olimpiadas
-            String where = "WHERE EJERCICIO='" + oldExer + "'";
-            comboBoxesItems = admin.selectCol("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "OLIMPIADA", where);
-
-            while (comboBoxesItems.next()) {
-                olympField.addItem(comboBoxesItems.getString("OLIMPIADA"));
-            }
-
-            olympField.setSelectedItem(oldOlymp);
 
             comboBoxesItems.close();
 
@@ -224,7 +190,7 @@ public class ModifyAssignationExMonitorFrame extends ModifyRegistrationFrameTemp
 
     @Override
     protected CustomPanel createSouthPanel() {
-        okButton = new CustomButton("Modificar asignación");
+        okButton = new CustomButton("Asignar");
 
         createAssignationPanel = new CustomPanel();
         createAssignationPanel.setLayout(new FlowLayout());

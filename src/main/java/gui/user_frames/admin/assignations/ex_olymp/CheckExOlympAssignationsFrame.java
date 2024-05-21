@@ -1,4 +1,4 @@
-package gui.user_frames.admin.assignations;
+package gui.user_frames.admin.assignations.ex_olymp;
 
 import com.jcraft.jsch.JSchException;
 import file_management.FileReader;
@@ -8,9 +8,6 @@ import gui.user_frames.admin.AdminFrame;
 import gui.custom_components.buttons.ButtonPanelRenderer;
 import gui.custom_components.option_panes.ErrorJOptionPane;
 import gui.custom_components.option_panes.MessageJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.template_pattern.CheckTableFrameTemplate;
 import users.Admin;
 
@@ -19,15 +16,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
-public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate {
+public class CheckExOlympAssignationsFrame extends CheckTableFrameTemplate {
     // Panel de tabla
     JScrollPane tablaScrollPane;
     // Modelo de tabla
@@ -37,11 +31,10 @@ public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate {
     // Administrador
     Admin administrador;
     // Archivo de datos
-    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getExMonitorAssignationsFileName();
+    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getExOlympAssignationsFileName();
 
-    // Constructor
-    public CheckExMonitorAssignationsFrame(Admin administrador) throws JSchException, SQLException {
-        super(administrador, "Consulta de tabla T_MONITORES");
+    public CheckExOlympAssignationsFrame(Admin administrador) throws JSchException, SQLException {
+        super(administrador, "Consulta de tabla");
 
         this.administrador = administrador;
 
@@ -59,18 +52,17 @@ public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate {
             try {
                 ArrayList<String> data = new ArrayList<>();
 
-                ResultSet dataSet = administrador.selectRows("T_MONITORES", "NOMBRE");
+                ResultSet dataSet = administrador.selectRows("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "EJERCICIO");
 
                 while(dataSet.next()) {
-                    String name = "'" + dataSet.getString(1) + "'";
-                    String exercise = "'" + dataSet.getString(2) + "'";
-                    String olymp = "'" + dataSet.getString(3) + "'";
-                    String it = "'" + dataSet.getString(4) + "'";
+                    String exercise = "'" + dataSet.getString(1) + "'";
+                    String olymp = "'" + dataSet.getString(2) + "'";
+                    String it = "'" + dataSet.getString(3) + "'";
 
-                    data.add(name + ", " + exercise + ", " + olymp + ", " + it);
+                    data.add(exercise + ", " + olymp + ", " + it);
                 }
 
-                FileWriter writer = new FileWriter(fileName, "T_MONITORES", data);
+                FileWriter writer = new FileWriter(fileName, "T_EJERCICIOS_OLIMPIADA_ITINERARIO", data);
 
                 new MessageJOptionPane("Se han guardado los registros en " + fileName);
 
@@ -90,7 +82,7 @@ public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate {
 
                 for (String tableTuple : tableTuples) {
                     String[] values = tableTuple.split(", ");
-                    String where = "WHERE EJERCICIO=" + values[1] + " AND OLIMPIADA=" + values[2];
+                    String where = "WHERE EJERCICIO=" + values[0] + " AND OLIMPIADA=" + values[1] + " AND ITINERARIO=" + values[2];
                     if (administrador.importData(tableName, tableTuple, where) == 0) ++insertions;
                 }
 
@@ -99,7 +91,7 @@ public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate {
                 new MessageJOptionPane("Se han insertado " + insertions + " registros nuevos en " + tableName);
 
                 if (insertions > 0) {
-                    new CheckExMonitorAssignationsFrame(administrador);
+                    new CheckExOlympAssignationsFrame(administrador);
                     dispose();
                 }
 
@@ -119,32 +111,29 @@ public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate {
         int row = tabla.rowAtPoint(e.getPoint());
         int columna = tabla.columnAtPoint(e.getPoint());
 
-        String name = (String) modeloTabla.getValueAt(row, 0);
-        String exercise = (String) modeloTabla.getValueAt(row, 1);
-        String olympiad = (String) modeloTabla.getValueAt(row, 2);
-        String itinerary = (String) modeloTabla.getValueAt(row, 3);
+        String ejercicio = (String) modeloTabla.getValueAt(row, 0);
+        String olimpiada = (String) modeloTabla.getValueAt(row, 1);
+        String itinerario = (String) modeloTabla.getValueAt(row, 2);
 
         if (columna == tabla.getColumnCount() - 2) {
             try {
-                new ModifyAssignationExMonitorFrame(administrador, name, exercise, olympiad, itinerary);
+                new ModifyAssignationExOlympFrame(administrador, ejercicio, olimpiada, itinerario);
+                dispose();
 
             } catch (JSchException | SQLException ex) {
                 new ErrorJOptionPane(ex.getMessage());
-
             }
-
-            dispose();
-
         } else if (columna == tabla.getColumnCount() - 1) {
+            String table = "T_EJERCICIOS_OLIMPIADA_ITINERARIO";
+            String whereClause = "WHERE EJERCICIO='" + ejercicio +  "' AND OLIMPIADA='" + olimpiada + "';";
+
             try {
-                if (administrador.deleteAssignationExUser(name, exercise, olympiad) == 0) {
-                    new CheckExMonitorAssignationsFrame(administrador);
+                if (administrador.deleteRegister(table, whereClause) == 0) {
+                    new CheckExOlympAssignationsFrame(administrador);
                     dispose();
                 }
-
             } catch (JSchException | SQLException ex) {
                 new ErrorJOptionPane(ex.getMessage());
-
             }
         }
     }
@@ -185,30 +174,27 @@ public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate {
 
             tablaScrollPane = new JScrollPane(tabla);
 
-            ResultSet tableContents = administrador.selectRows("T_MONITORES", "OLIMPIADA");
-            ResultSetMetaData data = tableContents.getMetaData();
+            ResultSet tableContent = administrador.selectRows("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "EJERCICIO");
+            ResultSetMetaData data = tableContent.getMetaData();
             int nCols = data.getColumnCount();
 
+            // Se insertan las filas traídas de la MV en la tabla de la ventana
             for (int i = 1; i <= nCols; ++i) {
                 modeloTabla.addColumn(data.getColumnName(i));
             }
 
-            // Se añaden las columnas de botones
             modeloTabla.addColumn(""); // Columna de editar
             modeloTabla.addColumn(""); // Columna de eliminar
 
-            // Se añaden las filas a la tabla de la ventana
-            while (tableContents.next()) {
+            while (tableContent.next()) {
                 Object[] fila = new Object[nCols];
-
                 for (int i = 1; i <= nCols; ++i) {
-                    fila [i - 1] = tableContents.getObject(i);
+                    fila [i - 1] = tableContent.getObject(i);
                 }
-
                 modeloTabla.addRow(fila);
             }
 
-            tableContents.close();
+            tableContent.close();
 
             // Esto es para establecer la fuente del contenido de la tabla
             DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) tabla.getTableHeader().getDefaultRenderer();
@@ -234,7 +220,7 @@ public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate {
             // Esto es para que se pueda pulsar los botones
             tabla.addMouseListener(this);
 
-            // Esto es para insertar los botones en la última columna de la tabla (cambiar por tres columnas distintas)
+            // Esto es para insertar los botones en la última columna de la tabla
             // Columna de editar
             tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setCellRenderer(new ButtonPanelRenderer(3));
             tabla.getColumnModel().getColumn(modeloTabla.getColumnCount() - 2).setMinWidth(30);

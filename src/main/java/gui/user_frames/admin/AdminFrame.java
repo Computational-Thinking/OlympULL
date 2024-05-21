@@ -2,7 +2,12 @@ package gui.user_frames.admin;
 
 import com.jcraft.jsch.JSchException;
 import gui.ChangePasswordFrame;
-import gui.user_frames.admin.assignations.*;
+import gui.user_frames.admin.assignations.ex_monitor.CheckExMonitorAssignationsFrame;
+import gui.user_frames.admin.assignations.ex_monitor.NewAssignationExMonitorFrame;
+import gui.user_frames.admin.assignations.ex_olymp.CheckExOlympAssignationsFrame;
+import gui.user_frames.admin.assignations.ex_olymp.NewAssignationExOlympFrame;
+import gui.user_frames.admin.assignations.it_org.CheckItOrgAssignationsFrame;
+import gui.user_frames.admin.assignations.it_org.NewAssignationItOrgFrame;
 import gui.user_frames.admin.exercises.CheckExercisesFrame;
 import gui.user_frames.admin.exercises.NewExerciseFrame;
 import gui.user_frames.admin.itineraries.CheckItinerariesFrame;
@@ -19,9 +24,6 @@ import gui.custom_components.*;
 import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomSubtitleLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.template_pattern.UserFrameTemplate;
 import users.Admin;
 

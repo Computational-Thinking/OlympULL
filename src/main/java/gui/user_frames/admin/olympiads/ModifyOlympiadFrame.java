@@ -5,9 +5,6 @@ import gui.custom_components.*;
 import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.custom_components.text_fields.CustomTextField;
 import gui.template_pattern.ModifyRegistrationFrameTemplate;
 import users.Admin;
@@ -77,9 +74,13 @@ public class ModifyOlympiadFrame extends ModifyRegistrationFrameTemplate {
                 String desc = olympDescField.getText();
                 String yr = olympYearField.getText();
 
+                String table = "T_OLIMPIADAS";
+                String setClause = "SET CODIGO='" + code + "', TITULO='" + name + "', DESCRIPCION='" + desc + "', YEAR=" + yr;
+                String whereClause = "WHERE CODIGO='" + oldCode + "';";
+
                 if (yr.matches("[0-9]*") && Integer.parseInt(yr) > 2000 && Integer.parseInt(yr) < 3000) {
                     try {
-                        if (administrador.modifyOlympiad(oldCode, code, name, desc, Integer.parseInt(yr)) == 0) {
+                        if (administrador.modifyRegister(table, setClause, whereClause) == 0) {
                             new CheckOlympiadsFrame(administrador);
                             dispose();
 

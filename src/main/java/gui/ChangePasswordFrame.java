@@ -5,9 +5,6 @@ import gui.custom_components.*;
 import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.custom_components.text_fields.CustomPasswordField;
 import gui.custom_components.text_fields.CustomPresetTextField;
 import gui.user_frames.monitor.MonitorFrame;
@@ -20,7 +17,7 @@ import users.User;
 import java.awt.*;
 import java.util.Objects;
 
-public class ChangePasswordFrame extends CustomFrame implements Borders, Fonts, Icons {
+public class ChangePasswordFrame extends CustomFrame {
     // Etiquetas
     CustomFieldLabel usuarioLabel;
     CustomFieldLabel newPassLabel;

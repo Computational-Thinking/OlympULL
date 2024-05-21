@@ -1,13 +1,10 @@
-package gui.user_frames.admin.assignations;
+package gui.user_frames.admin.assignations.ex_olymp;
 
 import com.jcraft.jsch.JSchException;
 import gui.custom_components.*;
 import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.template_pattern.ModifyRegistrationFrameTemplate;
 import users.Admin;
 
@@ -89,8 +86,12 @@ public class ModifyAssignationExOlympFrame extends ModifyRegistrationFrameTempla
                 String olympiad = (String) olympCodeField.getSelectedItem();
                 String itinerary = (String) itinerarioCodeField.getSelectedItem();
 
+                String table = "T_EJERCICIOS_OLIMPIADA_ITINERARIO";
+                String setClause = "SET EJERCICIO='" + exercise + "', OLIMPIADA='" + olympiad + "', ITINERARIO='" + itinerary + "'";
+                String whereClause = "WHERE EJERCICIO='" + oldEx + "' AND OLIMPIADA='" + oldOlymp + "' AND ITINERARIO='" + oldIt + "'";
+
                 try {
-                    if (administrador.modifyAssignationExOlymp(oldEx, oldOlymp, oldIt, exercise, olympiad, itinerary) == 0) {
+                    if (administrador.modifyRegister(table, setClause, whereClause) == 0) {
                         new CheckExOlympAssignationsFrame(administrador);
                         dispose();
                     }

@@ -4,11 +4,9 @@ import gui.custom_components.*;
 import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.custom_components.text_fields.CustomPresetTextField;
 import gui.template_pattern.ModifyRegistrationFrameTemplate;
+import operations.TransformPunctuationColumnName;
 import users.Monitor;
 
 import javax.swing.*;
@@ -18,7 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ModifyPunctuationFrame extends ModifyRegistrationFrameTemplate {
+public class ModifyPunctuationFrame extends ModifyRegistrationFrameTemplate implements TransformPunctuationColumnName {
     // Labels
     CustomFieldLabel exerciseSelectionLabel;
     CustomFieldLabel teamSelectionLabel;
@@ -68,7 +66,15 @@ public class ModifyPunctuationFrame extends ModifyRegistrationFrameTemplate {
             try {
                 itinerary = "";
 
-                String where = "WHERE EJERCICIO='" + exerciseSelectionField.getText() + "'";
+                String olympiad = null;
+
+                ResultSet monitorOlympiad = monitor.selectCol("T_MONITORES", "OLIMPIADA", "WHERE NOMBRE='" + monitor.getUserName() + "'");
+
+                if (monitorOlympiad.next()) {
+                    olympiad = monitorOlympiad.getString("OLIMPIADA");
+                }
+
+                String where = "WHERE EJERCICIO='" + exerciseSelectionField.getText() + "' AND OLIMPIADA='" + olympiad + "'";
                 ResultSet newData = monitor.selectCol("T_EJERCICIOS_OLIMPIADA_ITINERARIO", "ITINERARIO", where);
 
                 if (newData.next()) {
@@ -85,13 +91,19 @@ public class ModifyPunctuationFrame extends ModifyRegistrationFrameTemplate {
                     concepto = newData.getString("CONCEPTO");
                 }
 
-                System.out.println(punct + " " + concepto + " " + teamSelectionField.getText() + " " + itinerary);
+                String punctuationColumn = transformColumnName(concepto);
+
+                String table = "T_EQUIPOS";
+                String data = "SET " + punctuationColumn + "=" + punct;
+                where = "WHERE NOMBRE='" + teamSelectionField.getText() + "' AND ITINERARIO='" + itinerary + "'";
 
                 // Se puntúa al equipo
-                monitor.modificarPuntuacion(punct, concepto, teamSelectionField.getText(), itinerary);
+                monitor.modifyRegister(table, data, where);
 
                 new CheckPunctuationsFrame(monitor, oldEx);
                 dispose();
+
+                newData.close();
 
             } catch (SQLException ex) {
                 new ErrorJOptionPane(ex.getMessage());
@@ -159,6 +171,8 @@ public class ModifyPunctuationFrame extends ModifyRegistrationFrameTemplate {
             inputsPanel.add(teamSelectionField);
             inputsPanel.add(punctuationSelectionLabel);
             inputsPanel.add(punctComboBox);
+
+            data.close();
 
         } catch (SQLException ex) {
             new ErrorJOptionPane(ex.getMessage());
