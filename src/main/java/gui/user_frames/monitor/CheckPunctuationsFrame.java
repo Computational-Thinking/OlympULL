@@ -41,7 +41,7 @@ public class CheckPunctuationsFrame extends CheckTableFrameTemplate implements T
         user = monitor;
 
         filterLabel = new CustomFieldLabel("Seleccionar ejercicio ");
-        filterLabel.setFont(fuenteBotonesEtiquetas);
+        filterLabel.setFont(buttonAndLabelFont);
 
         exerciseComboBox = new CustomComboBox();
         for (int i = 0; i < monitor.getExerciseCode().size(); ++i) {
@@ -194,13 +194,13 @@ public class CheckPunctuationsFrame extends CheckTableFrameTemplate implements T
             // Esto es para establecer la fuente del contenido de la tabla
             DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) tabla.getTableHeader().getDefaultRenderer();
             headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-            tabla.getTableHeader().setFont(fuenteBotonesEtiquetas);
+            tabla.getTableHeader().setFont(buttonAndLabelFont);
 
             DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
                 @Override
                 public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                     super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                    setFont(fuenteCampoTexto);
+                    setFont(textFieldFont);
                     return this;
                 }
             };

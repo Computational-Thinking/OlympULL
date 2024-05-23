@@ -11,8 +11,8 @@ public class CustomTextField extends JTextField implements Borders, Fonts {
     public CustomTextField(String text) {
         this.setText(text);
         this.setBackground(new Color(255, 255, 255));
-        this.setBorder(bordeCampoTexto);
-        this.setFont(fuenteCampoTexto);
+        this.setBorder(textFieldBorder);
+        this.setFont(textFieldFont);
 
     }
 

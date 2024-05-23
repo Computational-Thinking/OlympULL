@@ -167,20 +167,20 @@ public class Controller implements CustomQuickSort, Fonts, TransformPunctuationC
 
         // Fuentes de texto
         // Título
-        chart.getTitle().setFont(fuenteSubtitulo);
+        chart.getTitle().setFont(subtitleFont);
         // Etiquetas de las categorías del eje X
         CategoryAxis domainAxis = plot.getDomainAxis();
-        domainAxis.setTickLabelFont(fuenteEtiquetasBarras);
-        domainAxis.setLabelFont(fuenteBotonesEtiquetas);
+        domainAxis.setTickLabelFont(barLabelFont);
+        domainAxis.setLabelFont(buttonAndLabelFont);
         domainAxis.setTickLabelsVisible(true);
         // Etiquetas de las categorías del eje Y
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setTickLabelFont(fuenteCampoTexto);
-        rangeAxis.setLabelFont(fuenteBotonesEtiquetas);
+        rangeAxis.setTickLabelFont(textFieldFont);
+        rangeAxis.setLabelFont(buttonAndLabelFont);
         rangeAxis.setTickLabelsVisible(true);
         // Fuente de etiquetas de barras y leyenda
-        renderer.setDefaultItemLabelFont(fuenteCampoTexto);
-        renderer.setLegendTextFont(0, fuenteCampoTexto);
+        renderer.setDefaultItemLabelFont(textFieldFont);
+        renderer.setLegendTextFont(0, textFieldFont);
         renderer.setDefaultItemLabelsVisible(true);
 
         return chart;

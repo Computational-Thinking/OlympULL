@@ -1,5 +1,6 @@
 package gui;
 
+import gui.custom_components.predefined_elements.Icons;
 import gui.user_frames.admin.AdminFrame;
 import gui.custom_components.*;
 import gui.custom_components.buttons.CustomButton;
@@ -23,6 +24,7 @@ import java.awt.*;
 import java.awt.Image;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import javax.swing.ImageIcon;
 
 public class MainFrame extends CustomFrame implements DBOperations {
@@ -53,7 +55,8 @@ public class MainFrame extends CustomFrame implements DBOperations {
         this.setTitle("OlympULL");
 
         // Panel de logo
-        ImageIcon logo = new ImageIcon("src/main/resources/images/logo_olympull_v2.png");
+        ImageIcon logo = new ImageIcon(Objects.requireNonNull(Icons.class.getClassLoader().
+                getResource("src/main/resources/images/logo_olympull_v2.png")));
         Image scalatedLogo = logo.getImage().getScaledInstance(268, 65, Image.SCALE_SMOOTH);
         logo = new ImageIcon(scalatedLogo);
         olympullLogo = new JLabel(logo);

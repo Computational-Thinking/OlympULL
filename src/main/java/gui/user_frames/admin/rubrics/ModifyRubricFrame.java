@@ -89,12 +89,12 @@ public class ModifyRubricFrame extends ModifyRegistrationFrameTemplate {
                 // Campo de puntos
                 CustomTextField newPunctuation = new CustomTextField("");
                 newPunctuation.setPreferredSize(new Dimension(200, 30));
-                newPunctuation.setFont(fuenteCampoTexto);
+                newPunctuation.setFont(textFieldFont);
 
                 // Campo de etiqueta de puntos
                 CustomTextField newTag = new CustomTextField("");
                 newTag.setPreferredSize(new Dimension(200, 30));
-                newTag.setFont(fuenteCampoTexto);
+                newTag.setFont(textFieldFont);
 
                 // Se añaden los campos nuevos al panel
                 newMark.add(newPunctuation);
@@ -236,12 +236,12 @@ public class ModifyRubricFrame extends ModifyRegistrationFrameTemplate {
 
         minPunctuationTagField = new CustomTextField(oldTags[0].substring(1));
         minPunctuationTagField.setPreferredSize(new Dimension(175, 30));
-        minPunctuationTagField.setFont(fuenteCampoTexto);
+        minPunctuationTagField.setFont(textFieldFont);
 
         // Configurar y añadir elementos a panel de información básica (Panel 3)
         basicInformationPanel = new JPanel();
         basicInformationPanel.setLayout(new GridLayout(4, 2, 10, 10));
-        basicInformationPanel.setBorder(bordeRubricBasicInfo);
+        basicInformationPanel.setBorder(rubricBorder);
         basicInformationPanel.add(codeLabel);
         basicInformationPanel.add(codeField);
         basicInformationPanel.add(nameLabel);
@@ -306,14 +306,14 @@ public class ModifyRubricFrame extends ModifyRegistrationFrameTemplate {
 
         createDeletePanel = new JPanel();
         createDeletePanel.setLayout(new GridLayout(1, 2, 10, 5));
-        createDeletePanel.setBorder(borde);
+        createDeletePanel.setBorder(border);
         createDeletePanel.add(addNewPunctuationButton);
         createDeletePanel.add(deletePunctuationButton);
 
         // Panel 6
         customInformationPanel = new JPanel();
         customInformationPanel.setLayout(new BorderLayout(5, 5));
-        customInformationPanel.setBorder(bordeRubricBasicInfo);
+        customInformationPanel.setBorder(rubricBorder);
 
         customInformationPanel.add(customValuesPanel, BorderLayout.CENTER);
         customInformationPanel.add(maxValuePanel, BorderLayout.SOUTH);
@@ -334,7 +334,7 @@ public class ModifyRubricFrame extends ModifyRegistrationFrameTemplate {
 
         createRubricPanel = new JPanel();
         createRubricPanel.setLayout(new FlowLayout());
-        createRubricPanel.setBorder(borde);
+        createRubricPanel.setBorder(border);
 
         createRubricPanel.add(modificarRubrica);
 

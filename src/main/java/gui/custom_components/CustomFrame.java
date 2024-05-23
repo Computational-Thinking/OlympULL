@@ -15,7 +15,7 @@ public abstract class CustomFrame extends JFrame implements Borders, Fonts, Icon
     public CustomFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setIconImage(iconoVentana);
+        setIconImage(frameIcon);
     }
 
     protected CustomPanel getUpperBar() {

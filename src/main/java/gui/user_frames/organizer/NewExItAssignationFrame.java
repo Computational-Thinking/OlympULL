@@ -6,9 +6,6 @@ import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.labels.CustomLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.custom_components.text_fields.CustomPresetTextField;
 import gui.template_pattern.NewRegistrationFrameTemplate;
 import users.Organizer;
@@ -110,7 +107,7 @@ public class NewExItAssignationFrame extends NewRegistrationFrameTemplate {
             }
 
             itineraryCodeField = new CustomComboBox();
-            itineraryCodeField.setFont(fuenteCampoTexto);
+            itineraryCodeField.setFont(textFieldFont);
 
             for (int i = 0; i < user.getItineraries().size(); ++i) {
                 itineraryCodeField.addItem(user.getItineraries().get(i));

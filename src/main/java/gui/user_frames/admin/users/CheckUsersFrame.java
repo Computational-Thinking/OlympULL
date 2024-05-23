@@ -8,9 +8,6 @@ import gui.user_frames.admin.AdminFrame;
 import gui.custom_components.buttons.ButtonPanelRenderer;
 import gui.custom_components.option_panes.ErrorJOptionPane;
 import gui.custom_components.option_panes.MessageJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.template_pattern.CheckTableFrameTemplate;
 import users.Admin;
 
@@ -19,7 +16,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
@@ -229,13 +225,13 @@ public class CheckUsersFrame extends CheckTableFrameTemplate {
             // Esto es para establecer la fuente del contenido de la tabla
             DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) tabla.getTableHeader().getDefaultRenderer();
             headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-            tabla.getTableHeader().setFont(fuenteBotonesEtiquetas);
+            tabla.getTableHeader().setFont(buttonAndLabelFont);
 
             DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
                 @Override
                 public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                     super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                    setFont(fuenteCampoTexto);
+                    setFont(textFieldFont);
                     return this;
                 }
             };

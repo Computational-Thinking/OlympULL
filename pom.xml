@@ -45,7 +45,7 @@
 
         <resources>
                 <resource>
-                    <targetPath>META-INF/resources</targetPath>
+                    <targetPath>src/main/resources</targetPath>
                     <filtering>false</filtering>
                     <directory>src/main/resources</directory>
                     <includes>
@@ -76,7 +76,5 @@
         </dependency>
 
     </dependencies>
-
-    <!-- Otras configuraciones de Maven -->
 
 </project>

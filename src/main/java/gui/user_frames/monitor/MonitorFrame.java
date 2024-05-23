@@ -90,7 +90,7 @@ public class MonitorFrame extends UserFrameTemplate implements Borders, Fonts, I
         otherManagementsLabel = new CustomSubtitleLabel("Otras gestiones");
 
         changePassword = new CustomButton("Cambiar contraseña");
-        changePassword.setFont(fuenteBotonesEtiquetas);
+        changePassword.setFont(buttonAndLabelFont);
         changePassword.setPreferredSize(new Dimension(120, 30));
 
         userButtonsPanel = new CustomPanel();

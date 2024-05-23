@@ -11,10 +11,118 @@
   <component name="ChangeListManager">
     <list default="true" id="38422757-9ea9-4183-bab7-725af236f800" name="Changes" comment="Admins can now delete users.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/file_management/PropertiesReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/file_management/PropertiesReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/MainFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/CustomComboBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/CustomComboBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/CustomFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/CustomFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/CustomPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/CustomPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/buttons/ButtonPanelRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/buttons/ButtonPanelRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/buttons/CustomButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/buttons/CustomButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/labels/CustomFieldLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/labels/CustomFieldLabel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/labels/CustomSubtitleLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/labels/CustomSubtitleLabel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/labels/CustomTitleLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/labels/CustomTitleLabel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/predefined_elements/Borders.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/predefined_elements/Borders.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/predefined_elements/Fonts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/predefined_elements/Fonts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/predefined_elements/Icons.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/predefined_elements/Icons.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/text_fields/CustomPasswordField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/text_fields/CustomPasswordField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/text_fields/CustomPresetTextField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/text_fields/CustomPresetTextField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/custom_components/text_fields/CustomTextField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/custom_components/text_fields/CustomTextField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/mvc_pattern/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/mvc_pattern/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/mvc_pattern/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/mvc_pattern/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/template_pattern/CheckTableFrameTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/template_pattern/CheckTableFrameTemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/assignations/ex_monitor/CheckExMonitorAssignationsFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/assignations/ex_monitor/CheckExMonitorAssignationsFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/assignations/it_org/ModifyAssignationItOrgFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/assignations/it_org/ModifyAssignationItOrgFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/users/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/users/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/assignations/it_org/CheckItOrgAssignationsFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/assignations/it_org/CheckItOrgAssignationsFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/exercises/CheckExercisesFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/exercises/CheckExercisesFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/itineraries/CheckItinerariesFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/itineraries/CheckItinerariesFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/olympiads/CheckOlympiadsFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/olympiads/CheckOlympiadsFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/rubrics/CheckRubricsFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/rubrics/CheckRubricsFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/rubrics/ModifyRubricFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/rubrics/ModifyRubricFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/rubrics/NewRubricFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/rubrics/NewRubricFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/teams/CheckTeamsFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/teams/CheckTeamsFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/users/CheckUsersFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/users/CheckUsersFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/monitor/CheckPunctuationsFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/monitor/CheckPunctuationsFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/monitor/MonitorFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/monitor/MonitorFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/organizer/CheckExItAssignationFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/organizer/CheckExItAssignationFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/organizer/NewExItAssignationFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/organizer/NewExItAssignationFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/organizer/OrganizerFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/organizer/OrganizerFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/OlympULL-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/OlympULL-1.0.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/config.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/create-database.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/data.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/data_files/exercises-olympiads.olympull" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/data_files/exercises.olympull" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/data_files/itineraries.olympull" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/data_files/monitors.olympull" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/data_files/olympiads.olympull" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/data_files/organizers-itineraries.olympull" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/data_files/rubrics.olympull" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/data_files/teams.olympull" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/data_files/users.olympull" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/images/delete icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/images/duplicate icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/images/edit icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/images/exportIcon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/images/icono-ull-original.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/images/importIcon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/images/logo olympull.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/images/logo_olympull_v2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/file_management/PropertiesReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/file_management/PropertiesReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/MainFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MainFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/CustomComboBox.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/CustomComboBox.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/CustomFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/CustomFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/CustomPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/CustomPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/buttons/ButtonPanelRenderer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/buttons/ButtonPanelRenderer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/buttons/CustomButton.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/buttons/CustomButton.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/labels/CustomFieldLabel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/labels/CustomFieldLabel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/labels/CustomSubtitleLabel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/labels/CustomSubtitleLabel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/labels/CustomTitleLabel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/labels/CustomTitleLabel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/predefined_elements/Borders.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/predefined_elements/Borders.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/predefined_elements/Fonts.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/predefined_elements/Fonts.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/predefined_elements/Icons.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/predefined_elements/Icons.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/text_fields/CustomPasswordField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/text_fields/CustomPasswordField.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/text_fields/CustomPresetTextField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/text_fields/CustomPresetTextField.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/custom_components/text_fields/CustomTextField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/custom_components/text_fields/CustomTextField.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/mvc_pattern/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/mvc_pattern/Controller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/mvc_pattern/View.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/mvc_pattern/View.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/template_pattern/CheckTableFrameTemplate.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/template_pattern/CheckTableFrameTemplate.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/template_pattern/UserFrameTemplate.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/template_pattern/UserFrameTemplate.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/CheckExMonitorAssignationsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/CheckExMonitorAssignationsFrame$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/CheckExMonitorAssignationsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/CheckExMonitorAssignationsFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/CheckItOrgAssignationsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/CheckItOrgAssignationsFrame$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/CheckItOrgAssignationsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/CheckItOrgAssignationsFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/ModifyAssignationItOrgFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/ModifyAssignationItOrgFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/CheckExercisesFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/CheckExercisesFrame$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/CheckExercisesFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/CheckExercisesFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/CheckItinerariesFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/CheckItinerariesFrame$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/CheckItinerariesFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/CheckItinerariesFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/CheckOlympiadsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/CheckOlympiadsFrame$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/CheckOlympiadsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/CheckOlympiadsFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/CheckRubricsFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/CheckRubricsFrame$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/CheckRubricsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/CheckRubricsFrame$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/CheckRubricsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/CheckRubricsFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/ModifyRubricFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/ModifyRubricFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/NewRubricFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/NewRubricFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/CheckTeamsFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/CheckTeamsFrame$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/CheckTeamsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/CheckTeamsFrame$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/CheckTeamsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/CheckTeamsFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/CheckUsersFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/CheckUsersFrame$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/CheckUsersFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/CheckUsersFrame$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/CheckUsersFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/CheckUsersFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/CheckPunctuationsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/CheckPunctuationsFrame$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/CheckPunctuationsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/CheckPunctuationsFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/MonitorFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/MonitorFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/CheckExItAssignationFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/CheckExItAssignationFrame$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/CheckExItAssignationFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/CheckExItAssignationFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/NewExItAssignationFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/NewExItAssignationFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/OrganizerFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/OrganizerFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/users/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/users/Admin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/original-OlympULL-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-OlympULL-1.0.0.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,20 +153,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Rebeca/Desktop/TFG",
-    "onboarding.tips.debug.path": "C:/Users/Rebeca/Downloads/OlympULL/src/Main.java",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.14941406",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.fileTypes"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Rebeca/Desktop/TFG&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/Rebeca/Downloads/OlympULL/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.14941406&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.fileTypes&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Rebeca\Downloads\OlympULL" />

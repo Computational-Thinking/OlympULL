@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class CustomComboBox extends JComboBox<String> implements Borders, Fonts, Icons {
     public CustomComboBox() {
-        this.setFont(fuenteCampoTexto);
+        this.setFont(textFieldFont);
         this.setBackground(new Color(255, 255, 255));
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
 
@@ -27,7 +27,7 @@ public class CustomComboBox extends JComboBox<String> implements Borders, Fonts,
         });
     }
     public CustomComboBox(ArrayList<String> items) {
-        this.setFont(fuenteCampoTexto);
+        this.setFont(textFieldFont);
         this.setBackground(new Color(255, 255, 255));
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
 

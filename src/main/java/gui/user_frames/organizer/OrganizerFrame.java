@@ -7,9 +7,6 @@ import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomLabel;
 import gui.custom_components.labels.CustomSubtitleLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.template_pattern.UserFrameTemplate;
 import users.Organizer;
 
@@ -85,7 +82,7 @@ public class OrganizerFrame extends UserFrameTemplate {
 
         gestionItinerario = new CustomPanel();
         gestionItinerario.setLayout(new BorderLayout());
-        gestionItinerario.setBorder(borde);
+        gestionItinerario.setBorder(border);
         gestionItinerario.add(gestionItinerarioLabel, BorderLayout.NORTH);
         gestionItinerario.add(punctuationButtonsPanel, BorderLayout.CENTER);
 
@@ -95,7 +92,7 @@ public class OrganizerFrame extends UserFrameTemplate {
     @Override
     protected CustomPanel createSouthPanel() {
         otrasGestionesLabel = new CustomSubtitleLabel("Otras gestiones");
-        otrasGestionesLabel.setBorder(borde);
+        otrasGestionesLabel.setBorder(border);
 
         cambioContrasea = new CustomButton("Cambiar contraseña");
 

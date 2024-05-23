@@ -2,7 +2,6 @@ package gui.template_pattern;
 
 import gui.custom_components.*;
 import gui.custom_components.buttons.CustomButton;
-import gui.custom_components.predefined_elements.Borders;
 import gui.custom_components.predefined_elements.Icons;
 import users.Admin;
 import users.User;
@@ -27,8 +26,8 @@ public abstract class CheckTableFrameTemplate extends CustomFrame implements Mou
         buttonsPanel = new JPanel();
 
         if (user.getClass() == Admin.class) {
-            ImageIcon exportIcon = new ImageIcon(iconoExportar.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-            ImageIcon importIcon = new ImageIcon(iconoImportar.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+            ImageIcon exportIcon = new ImageIcon(Icons.exportIcon.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+            ImageIcon importIcon = new ImageIcon(Icons.importIcon.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
 
             exportButton = new CustomButton("Exportar datos", exportIcon);
             importButton = new CustomButton("Importar datos", importIcon);

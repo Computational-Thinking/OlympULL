@@ -101,7 +101,7 @@ public class View extends CustomFrame {
         JFreeChart ranking = controller.generateRanking();
 
         rankingPanel = new ChartPanel(ranking);
-        rankingPanel.setBorder(borde);
+        rankingPanel.setBorder(border);
         add(rankingPanel, BorderLayout.CENTER);
 
         revalidate();

@@ -4,9 +4,6 @@ import gui.user_frames.admin.AdminFrame;
 import gui.custom_components.buttons.CustomButton;
 import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.custom_components.text_fields.CustomTextField;
 import gui.template_pattern.NewRegistrationFrameTemplate;
 import users.Admin;
@@ -237,7 +234,7 @@ public class NewRubricFrame extends NewRegistrationFrameTemplate {
         // Configurar y añadir elementos a panel de información básica (Panel 3)
         basicInformationPanel = new JPanel();
         basicInformationPanel.setLayout(new GridLayout(4, 2, 10, 10));
-        basicInformationPanel.setBorder(bordeRubricBasicInfo);
+        basicInformationPanel.setBorder(rubricBorder);
         basicInformationPanel.add(codeLabel);
         basicInformationPanel.add(codeField);
         basicInformationPanel.add(nameLabel);
@@ -276,7 +273,7 @@ public class NewRubricFrame extends NewRegistrationFrameTemplate {
 
         createDeletePanel = new JPanel();
         createDeletePanel.setLayout(new GridLayout(1, 2, 10, 5));
-        createDeletePanel.setBorder(borde);
+        createDeletePanel.setBorder(border);
 
         createDeletePanel.add(addNewPunctuationButton);
         createDeletePanel.add(deletePunctuationButton);
@@ -284,7 +281,7 @@ public class NewRubricFrame extends NewRegistrationFrameTemplate {
         // Panel 6
         customInformationPanel = new JPanel();
         customInformationPanel.setLayout(new BorderLayout(5, 5));
-        customInformationPanel.setBorder(bordeRubricBasicInfo);
+        customInformationPanel.setBorder(rubricBorder);
 
         customInformationPanel.add(customValuesPanel, BorderLayout.CENTER);
         customInformationPanel.add(maxValuePanel, BorderLayout.SOUTH);
@@ -302,11 +299,11 @@ public class NewRubricFrame extends NewRegistrationFrameTemplate {
     @Override
     protected JPanel createSouthPanel() {
         crearRubrica = new CustomButton("Crear rúbrica");
-        crearRubrica.setFont(fuenteBotonesEtiquetas);
+        crearRubrica.setFont(buttonAndLabelFont);
 
         createRubricPanel = new JPanel();
         createRubricPanel.setLayout(new FlowLayout());
-        createRubricPanel.setBorder(borde);
+        createRubricPanel.setBorder(border);
 
         createRubricPanel.add(crearRubrica);
 

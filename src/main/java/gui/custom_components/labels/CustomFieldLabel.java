@@ -4,9 +4,9 @@ import gui.custom_components.predefined_elements.Fonts;
 
 public class CustomFieldLabel extends CustomLabel implements Fonts {
     public CustomFieldLabel() {
-        super(fuenteBotonesEtiquetas);
+        super(buttonAndLabelFont);
     }
     public CustomFieldLabel(String text) {
-        super(text, fuenteBotonesEtiquetas);
+        super(text, buttonAndLabelFont);
     }
 }

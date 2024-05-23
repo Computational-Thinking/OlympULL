@@ -5,7 +5,7 @@ import gui.custom_components.predefined_elements.Fonts;
 
 public class CustomSubtitleLabel extends CustomLabel implements Borders, Fonts {
     public CustomSubtitleLabel(String text) {
-        super(text, fuenteSubtitulo);
-        this.setBorder(borde);
+        super(text, subtitleFont);
+        this.setBorder(border);
     }
 }

@@ -13,9 +13,9 @@ public class ButtonPanelRenderer extends JPanel implements Icons, TableCellRende
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
         switch (columna) {
-            case 3 -> image = iconoEditar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-            case 2 -> image = iconoDuplicar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-            case 1 -> image = iconoEliminar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            case 3 -> image = editIcon.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            case 2 -> image = duplicateIcon.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            case 1 -> image = deleteIcon.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
             default -> {
             }
         }

@@ -10,6 +10,6 @@ public class CustomPasswordField extends JPasswordField implements Borders, Font
     public CustomPasswordField(String password) {
         this.setText(password);
         this.setBackground(new Color(255, 255, 255));
-        this.setBorder(bordeCampoTexto);
+        this.setBorder(textFieldBorder);
     }
 }

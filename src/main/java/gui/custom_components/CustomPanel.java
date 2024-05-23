@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class CustomPanel extends JPanel implements Borders {
     public CustomPanel() {
-        this.setBorder(borde);
+        this.setBorder(border);
         this.setBackground(new Color(237, 237, 237));
     }
 }

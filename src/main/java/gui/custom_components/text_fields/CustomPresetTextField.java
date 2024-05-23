@@ -5,9 +5,9 @@ import gui.custom_components.predefined_elements.Fonts;
 
 public class CustomPresetTextField extends CustomLabel implements Fonts {
     public CustomPresetTextField() {
-        super(fuenteCampoTexto);
+        super(textFieldFont);
     }
     public CustomPresetTextField(String text) {
-        super(text, fuenteCampoTexto);
+        super(text, textFieldFont);
     }
 }
