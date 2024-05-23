@@ -34,7 +34,7 @@ public class CheckExOlympAssignationsFrame extends CheckTableFrameTemplate {
     String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getExOlympAssignationsFileName();
 
     public CheckExOlympAssignationsFrame(Admin administrador) throws JSchException, SQLException {
-        super(administrador, "Consulta de tabla");
+        super(administrador, "Consulta de tabla de asignaciones");
 
         this.administrador = administrador;
 

@@ -7,9 +7,6 @@ import gui.custom_components.labels.CustomFieldLabel;
 import gui.custom_components.labels.CustomLabel;
 import gui.custom_components.option_panes.ErrorJOptionPane;
 import gui.custom_components.option_panes.MessageJOptionPane;
-import gui.custom_components.predefined_elements.Borders;
-import gui.custom_components.predefined_elements.Fonts;
-import gui.custom_components.predefined_elements.Icons;
 import gui.custom_components.text_fields.CustomPasswordField;
 import gui.custom_components.text_fields.CustomTextField;
 import gui.user_frames.monitor.MonitorFrame;
@@ -28,7 +25,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
-public class MainFrame extends CustomFrame implements Borders, Fonts, Icons, DBOperations {
+public class MainFrame extends CustomFrame implements DBOperations {
     // Labels
     CustomLabel userTag;
     CustomLabel passwordTag;

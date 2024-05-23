@@ -11,72 +11,10 @@
   <component name="ChangeListManager">
     <list default="true" id="38422757-9ea9-4183-bab7-725af236f800" name="Changes" comment="Admins can now delete users.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/OlympULL-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/OlympULL-1.0.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/ChangePasswordFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/ChangePasswordFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/MainFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MainFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/mvc_pattern/View.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/mvc_pattern/View.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/template_pattern/UserFrameTemplate.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/template_pattern/UserFrameTemplate.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/AdminFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/AdminFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/CheckExMonitorAssignationsFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/CheckExMonitorAssignationsFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/CheckExMonitorAssignationsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/CheckExMonitorAssignationsFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/CheckExMonitorAssignationsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/CheckExMonitorAssignationsFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/ModifyAssignationExMonitorFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/ModifyAssignationExMonitorFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/NewAssignationExMonitorFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_monitor/NewAssignationExMonitorFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/ModifyAssignationExOlympFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/ModifyAssignationExOlympFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/NewAssignationExOlympFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/ex_olymp/NewAssignationExOlympFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/CheckItOrgAssignationsFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/CheckItOrgAssignationsFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/CheckItOrgAssignationsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/CheckItOrgAssignationsFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/CheckItOrgAssignationsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/CheckItOrgAssignationsFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/ModifyAssignationItOrgFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/ModifyAssignationItOrgFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/NewAssignationItOrgFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/assignations/it_org/NewAssignationItOrgFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/CheckExercisesFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/CheckExercisesFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/CheckExercisesFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/CheckExercisesFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/CheckExercisesFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/CheckExercisesFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/ModifyExerciseFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/ModifyExerciseFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/NewExerciseFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/exercises/NewExerciseFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/CheckItinerariesFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/CheckItinerariesFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/CheckItinerariesFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/CheckItinerariesFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/CheckItinerariesFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/CheckItinerariesFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/ModifyItineraryFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/ModifyItineraryFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/NewItineraryFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/itineraries/NewItineraryFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/CheckOlympiadsFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/CheckOlympiadsFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/CheckOlympiadsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/CheckOlympiadsFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/CheckOlympiadsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/CheckOlympiadsFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/ModifyOlympiadFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/ModifyOlympiadFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/NewOlympiadFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/olympiads/NewOlympiadFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/CheckRubricsFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/CheckRubricsFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/CheckRubricsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/CheckRubricsFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/CheckRubricsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/CheckRubricsFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/ModifyRubricFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/ModifyRubricFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/NewRubricFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/rubrics/NewRubricFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/CheckTeamsFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/CheckTeamsFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/CheckTeamsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/CheckTeamsFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/CheckTeamsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/CheckTeamsFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/ModifyTeamFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/ModifyTeamFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/NewTeamFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/teams/NewTeamFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/CheckUsersFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/CheckUsersFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/CheckUsersFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/CheckUsersFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/CheckUsersFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/CheckUsersFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/ModifyUserFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/ModifyUserFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/NewUserFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/admin/users/NewUserFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/CheckPunctuationsFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/CheckPunctuationsFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/CheckPunctuationsFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/CheckPunctuationsFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/CheckPunctuationsFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/CheckPunctuationsFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/ModifyPunctuationFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/ModifyPunctuationFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/MonitorFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/MonitorFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/PunctuateExerciseFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/monitor/PunctuateExerciseFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/CheckExItAssignationFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/CheckExItAssignationFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/CheckExItAssignationFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/CheckExItAssignationFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/CheckExItAssignationFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/CheckExItAssignationFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/ModifyExItAssignationFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/ModifyExItAssignationFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/NewExItAssignationFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/NewExItAssignationFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/OrganizerFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/user_frames/organizer/OrganizerFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/users/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/users/Admin.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/users/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/users/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/original-OlympULL-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-OlympULL-1.0.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/MainFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/assignations/ex_olymp/CheckExOlympAssignationsFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/assignations/it_org/ModifyAssignationItOrgFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/user_frames/admin/assignations/it_org/ModifyAssignationItOrgFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/users/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/users/Admin.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +51,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Rebeca/Downloads/OlympULL",
+    "last_opened_file_path": "C:/Users/Rebeca/Desktop/TFG",
     "onboarding.tips.debug.path": "C:/Users/Rebeca/Downloads/OlympULL/src/Main.java",
     "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.14941406",
@@ -244,11 +182,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/operations/DBOperations.java</url>
           <line>158</line>
           <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/users/Admin.java</url>
-          <line>14</line>
-          <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

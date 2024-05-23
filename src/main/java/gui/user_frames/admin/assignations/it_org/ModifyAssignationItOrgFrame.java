@@ -98,7 +98,7 @@ public class ModifyAssignationItOrgFrame extends ModifyRegistrationFrameTemplate
 
             }
         });
-
+        setVisible(true);
     }
 
     @Override
