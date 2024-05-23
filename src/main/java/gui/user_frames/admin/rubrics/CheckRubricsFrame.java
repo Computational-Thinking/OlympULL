@@ -30,7 +30,7 @@ public class CheckRubricsFrame extends CheckTableFrameTemplate {
     JTable tabla;
     Admin administrador;
     // File path
-    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getRubricsFileName();
+    String fileName = "./" + PropertiesReader.getRubricsFileName();
 
     // Constructor
     public CheckRubricsFrame(Admin administrador) throws JSchException, SQLException {

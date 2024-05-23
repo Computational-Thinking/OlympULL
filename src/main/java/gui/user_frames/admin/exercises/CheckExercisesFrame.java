@@ -31,7 +31,7 @@ public class CheckExercisesFrame extends CheckTableFrameTemplate {
     // Administrador
     Admin administrador;
     // File path
-    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getExercisesFileName();
+    String fileName = "./" + PropertiesReader.getExercisesFileName();
 
     // Constructor
     public CheckExercisesFrame(Admin administrador) throws JSchException, SQLException {

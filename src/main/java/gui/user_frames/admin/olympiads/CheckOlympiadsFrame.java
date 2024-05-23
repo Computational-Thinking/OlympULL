@@ -31,7 +31,7 @@ public class CheckOlympiadsFrame extends CheckTableFrameTemplate {
     // Administrador
     Admin administrador;
     // Archivo de datos
-    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getOlympiadsFileName();
+    String fileName = "./" + PropertiesReader.getOlympiadsFileName();
 
     // Constructor
     public CheckOlympiadsFrame(Admin administrador) throws JSchException, SQLException {
@@ -85,6 +85,7 @@ public class CheckOlympiadsFrame extends CheckTableFrameTemplate {
                 for (String tableTuple : tableTuples) {
                     String[] values = tableTuple.split(", ");
                     String where = "WHERE CODIGO=" + values[0];
+                    System.out.println(tableTuple);
                     if (administrador.importData(tableName, tableTuple, where) == 0) ++insertions;
                 }
 

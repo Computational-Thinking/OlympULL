@@ -12,5 +12,6 @@ public class FileWriter extends java.io.FileWriter {
         for (String datum : data) {
             this.write(datum + '\n');
         }
+
     }
 }

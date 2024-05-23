@@ -33,7 +33,7 @@ public class CheckExMonitorAssignationsFrame extends CheckTableFrameTemplate {
     // Administrador
     Admin administrador;
     // Archivo de datos
-    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getExMonitorAssignationsFileName();
+    String fileName = "./" + PropertiesReader.getExMonitorAssignationsFileName();
 
     // Constructor
     public CheckExMonitorAssignationsFrame(Admin administrador) throws JSchException, SQLException {

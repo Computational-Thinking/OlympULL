@@ -32,7 +32,7 @@ public class CheckUsersFrame extends CheckTableFrameTemplate {
     JTable tabla;
     Admin admin;
     // File path
-    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getUsersFileName();
+    String fileName = "./" + PropertiesReader.getUsersFileName();
 
     // Constructor
     public CheckUsersFrame(Admin admin) throws JSchException, SQLException {

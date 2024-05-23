@@ -30,7 +30,7 @@ public class CheckItinerariesFrame extends CheckTableFrameTemplate {
     JTable tabla;
     Admin administrador;
     // Archivo de datos
-    String fileName = PropertiesReader.getDataFilesPath() + "/" + PropertiesReader.getItinerariesFileName();
+    String fileName = "./" + PropertiesReader.getItinerariesFileName();
 
     // Constructor
     public CheckItinerariesFrame(Admin administrador) throws JSchException, SQLException {
@@ -58,7 +58,7 @@ public class CheckItinerariesFrame extends CheckTableFrameTemplate {
                     String code = "'" + dataSet.getString(1) + "'";
                     String title = "'" + dataSet.getString(2) + "'";
                     String desc = "'" + dataSet.getString(3) + "'";
-                    String olymp = "'" + dataSet.getString(3) + "'";
+                    String olymp = "'" + dataSet.getString(4) + "'";
 
                     data.add(code + ", " + title + ", " + desc + ", " + olymp);
                 }
