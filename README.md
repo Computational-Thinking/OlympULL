@@ -31,7 +31,7 @@ Además, independientemente del tipo de usuario que seas, incluso si no estás d
 Para poder utilizar OlympULL, necesitas las siguientes tecnologías:
 
 #### En mi máquina local
-* Java 17.0.8 o superior.
+* Java 15 o superior.
 
 #### En mi máquina remota
 * MySQL 8.0.36 o superior.
